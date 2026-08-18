@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configuration des Tarifs - Fotall-Ma PRO</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d9d9e2",
+                        "on-tertiary-fixed": "#360f00",
+                        "inverse-surface": "#2e3037",
+                        "tenant-accent": "var(--primary-color, #003c90)",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e7e7f1",
+                        "on-background": "#191b22",
+                        "on-surface-variant": "#434653",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "background": "#faf8ff",
+                        "on-surface": "#191b22",
+                        "status-ready": "#10B981",
+                        "surface-bright": "#faf8ff",
+                        "primary-fixed-dim": "#b0c6ff",
+                        "on-error": "#ffffff",
+                        "outline": "#737784",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#993900",
+                        "surface-container-low": "#f3f3fc",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "on-primary-fixed": "#001945",
+                        "on-primary-container": "#bcceff",
+                        "surface": "#faf8ff",
+                        "outline-variant": "#c3c6d5",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container-highest": "#e1e2eb",
+                        "secondary-fixed": "#d3e4fe",
+                        "primary": "#003c90",
+                        "tertiary": "#732900",
+                        "inverse-on-surface": "#f0f0f9",
+                        "on-primary-fixed-variant": "#00419c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#ffc0a7",
+                        "status-delivered": "#6366F1",
+                        "error": "#ba1a1a",
+                        "surface-ticket": "#F8FAFC",
+                        "inverse-primary": "#b0c6ff",
+                        "surface-variant": "#e1e2eb",
+                        "surface-container": "#ededf6",
+                        "surface-tint": "#1d59c1",
+                        "error-container": "#ffdad6",
+                        "status-pending": "#F59E0B",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#505f76",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-secondary-fixed": "#0b1c30",
+                        "alert-critical": "#EF4444",
+                        "status-progress": "#3B82F6",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary-container": "#54647a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-container": "#0f52ba"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "24px",
+                        "container-max": "1440px",
+                        "gutter": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "ticket-body": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "kpi-display": ["Inter"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom Utility Classes for Layout */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- TopNavBar (Mobile Only) -->
+<nav class="md:hidden flex justify-between items-center px-margin-mobile w-full sticky top-0 z-40 bg-surface-container-lowest h-16 border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<span class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 bg-surface-container-low py-base px-4 border-r border-outline-variant z-50">
+<div class="mb-8 mt-4 px-2">
+<h1 class="font-headline-md text-headline-md font-black text-primary">Fotall-Ma PRO</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Gestion Pressing</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Tableau de bord
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">local_laundry_service</span>
+                Commandes
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">groups</span>
+                Clients
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">payments</span>
+                Finances
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+                Paramètres
+            </a>
+</nav>
+<div class="mt-auto mb-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-error hover:bg-error-container transition-all rounded-lg font-label-caps text-label-caps cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined">logout</span>
+                Déconnexion
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col md:ml-64 w-full h-screen overflow-y-auto bg-surface-ticket relative">
+<!-- Abstract Background Shape for Visual Interest -->
+<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none z-0"></div>
+<!-- Top Header Area -->
+<header class="px-margin-mobile md:px-margin-desktop py-6 z-10 sticky top-0 bg-surface-ticket/80 backdrop-blur-md border-b border-outline-variant/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant mb-1">
+<span class="material-symbols-outlined text-sm">settings</span>
+<span class="font-label-caps text-label-caps">Configuration / Tarification</span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Gestion des Tarifs</h2>
+</div>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-surface-container-high hover:bg-surface-variant text-on-surface px-4 py-2 rounded-lg font-body-md text-body-md font-medium transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-sm">download</span>
+                    Exporter
+                </button>
+<button class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-primary hover:bg-primary-container text-on-primary px-4 py-2 rounded-lg font-body-md text-body-md font-medium transition-colors shadow-sm">
+<span class="material-symbols-outlined text-sm">add</span>
+                    Ajouter un Service
+                </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-margin-mobile md:p-margin-desktop z-10 max-w-container-max mx-auto w-full flex flex-col gap-6">
+<!-- Bento Box Strategy: KPI Summary Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- KPI Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-sm flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Services Actifs</span>
+<span class="material-symbols-outlined text-primary bg-primary-container/20 p-1.5 rounded-md">check_circle</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-kpi-display text-kpi-display text-on-background">124</span>
+<span class="text-status-ready font-body-md text-sm mb-2 flex items-center"><span class="material-symbols-outlined text-xs">arrow_upward</span> +3 ce mois</span>
+</div>
+</div>
+<!-- KPI Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-sm flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Catégories</span>
+<span class="material-symbols-outlined text-secondary bg-secondary-container/20 p-1.5 rounded-md">category</span>
+</div>
+<div class="flex items-end gap-2">
+<span class="font-kpi-display text-kpi-display text-on-background">8</span>
+</div>
+</div>
+<!-- KPI Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant shadow-sm flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Dernière Mise à Jour</span>
+<span class="material-symbols-outlined text-tertiary bg-tertiary-container/20 p-1.5 rounded-md">update</span>
+</div>
+<div class="flex flex-col mt-auto">
+<span class="font-data-mono text-data-mono text-on-background">Aujourd'hui, 09:42</span>
+<span class="font-ticket-body text-ticket-body text-on-surface-variant text-xs mt-1">Par: Admin System</span>
+</div>
+</div>
+</div>
+<!-- Main Data Table Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm flex flex-col flex-1 overflow-hidden">
+<!-- Toolbar/Filters -->
+<div class="p-4 border-b border-outline-variant flex flex-col lg:flex-row gap-4 justify-between items-center bg-surface-container-lowest">
+<!-- Search -->
+<div class="relative w-full lg:w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-10 py-2 bg-surface-container-low border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Rechercher un service, article..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant cursor-pointer md:hidden">document_scanner</span>
+</div>
+<!-- Filters -->
+<div class="flex gap-2 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0 scrollbar-hide">
+<button class="whitespace-nowrap px-4 py-1.5 bg-primary-container text-on-primary-container rounded-full font-label-caps text-label-caps border border-primary-container">Tous</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps border border-outline-variant transition-colors">Vêtements</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps border border-outline-variant transition-colors">Linge de maison</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps border border-outline-variant transition-colors">Pressing Spécial</button>
+<button class="whitespace-nowrap px-4 py-1.5 bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest rounded-full font-label-caps text-label-caps border border-outline-variant transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">filter_list</span> Plus
+                        </button>
+</div>
+</div>
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 bg-surface-container-low border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider sticky top-0 z-20">
+<div class="col-span-5 md:col-span-4">Article / Service</div>
+<div class="col-span-3 hidden md:block">Catégorie</div>
+<div class="col-span-2 hidden md:block">Type de Facturation</div>
+<div class="col-span-4 md:col-span-2 text-right">Tarif (FCFA)</div>
+<div class="col-span-3 md:col-span-1 text-right">Actions</div>
+</div>
+<!-- Table Body -->
+<div class="overflow-y-auto flex-1 bg-surface-container-lowest min-h-[400px]">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-outline-variant items-center hover:bg-surface-container-low transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-secondary-container/30 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary">styler</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface font-semibold">Costume 2 Pièces</p>
+<p class="font-body-md text-sm text-on-surface-variant md:hidden">Pressing • Par Unité</p>
+</div>
+</div>
+<div class="col-span-3 hidden md:flex items-center">
+<span class="px-2.5 py-1 rounded-full bg-secondary-container/40 text-on-secondary-container font-label-caps text-[10px]">Pressing</span>
+</div>
+<div class="col-span-2 hidden md:flex items-center">
+<span class="font-body-md text-sm text-on-surface-variant">Par Unité</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end">
+<div class="relative w-24">
+<input class="w-full text-right bg-transparent border-b border-outline border-dashed py-1 font-data-mono text-data-mono text-on-background focus:border-primary focus:border-solid focus:outline-none transition-all group-hover:bg-white group-hover:border-solid rounded-t px-2" type="text" value="3500"/>
+</div>
+</div>
+<div class="col-span-3 md:col-span-1 flex justify-end items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-outline-variant items-center hover:bg-surface-container-low transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-secondary-container/30 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary">apparel</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface font-semibold">Chemise (Lavage + Repassage)</p>
+<p class="font-body-md text-sm text-on-surface-variant md:hidden">Vêtements • Par Unité</p>
+</div>
+</div>
+<div class="col-span-3 hidden md:flex items-center">
+<span class="px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-[10px]">Vêtements</span>
+</div>
+<div class="col-span-2 hidden md:flex items-center">
+<span class="font-body-md text-sm text-on-surface-variant">Par Unité</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end">
+<div class="relative w-24">
+<input class="w-full text-right bg-transparent border-b border-outline border-dashed py-1 font-data-mono text-data-mono text-on-background focus:border-primary focus:border-solid focus:outline-none transition-all group-hover:bg-white group-hover:border-solid rounded-t px-2" type="text" value="1000"/>
+</div>
+</div>
+<div class="col-span-3 md:col-span-1 flex justify-end items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<!-- Row 3 (Weight Based) -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-outline-variant items-center hover:bg-surface-container-low transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary">scale</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface font-semibold">Linge au Kilo (Lavage Simple)</p>
+<p class="font-body-md text-sm text-on-surface-variant md:hidden">Mixte • Par Kg</p>
+</div>
+</div>
+<div class="col-span-3 hidden md:flex items-center">
+<span class="px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-[10px]">Mixte</span>
+</div>
+<div class="col-span-2 hidden md:flex items-center">
+<span class="font-body-md text-sm text-on-surface-variant bg-surface-container p-1 rounded">Par Kg</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end">
+<div class="relative w-24">
+<input class="w-full text-right bg-transparent border-b border-outline border-dashed py-1 font-data-mono text-data-mono text-on-background focus:border-primary focus:border-solid focus:outline-none transition-all group-hover:bg-white group-hover:border-solid rounded-t px-2" type="text" value="1500"/>
+</div>
+</div>
+<div class="col-span-3 md:col-span-1 flex justify-end items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 border-b border-outline-variant items-center hover:bg-surface-container-low transition-colors group">
+<div class="col-span-5 md:col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-tertiary-container/20 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-tertiary">bed</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface font-semibold">Couverture / Couette (Double)</p>
+<p class="font-body-md text-sm text-on-surface-variant md:hidden">Linge de maison • Par Unité</p>
+</div>
+</div>
+<div class="col-span-3 hidden md:flex items-center">
+<span class="px-2.5 py-1 rounded-full bg-tertiary-container/30 text-on-tertiary-container font-label-caps text-[10px]">Linge de maison</span>
+</div>
+<div class="col-span-2 hidden md:flex items-center">
+<span class="font-body-md text-sm text-on-surface-variant">Par Unité</span>
+</div>
+<div class="col-span-4 md:col-span-2 flex justify-end">
+<div class="relative w-24">
+<input class="w-full text-right bg-transparent border-b border-outline border-dashed py-1 font-data-mono text-data-mono text-on-background focus:border-primary focus:border-solid focus:outline-none transition-all group-hover:bg-white group-hover:border-solid rounded-t px-2" type="text" value="6000"/>
+</div>
+</div>
+<div class="col-span-3 md:col-span-1 flex justify-end items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:text-error hover:bg-error-container/20 rounded"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+<!-- Footer / Bulk Action -->
+<div class="p-4 bg-surface-container border-t border-outline-variant flex justify-between items-center sticky bottom-0">
+<span class="font-body-md text-sm text-on-surface-variant">Affichage de 1-4 sur 124 services</span>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-caps text-label-caps font-bold tracking-wide shadow-md hover:shadow-lg hover:bg-primary-fixed-variant transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">save</span>
+                        Mettre à jour les Tarifs
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

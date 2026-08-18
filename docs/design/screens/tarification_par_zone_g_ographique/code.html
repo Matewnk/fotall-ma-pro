@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fotall-Ma PRO - Configuration des tarifs</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#d9e2ff",
+                      "on-secondary": "#ffffff",
+                      "surface-container": "#ededf6",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-surface-variant": "#434653",
+                      "tenant-accent": "var(--primary-color, #003c90)",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#bcceff",
+                      "surface-container-low": "#f3f3fc",
+                      "primary-container": "#0f52ba",
+                      "secondary": "#505f76",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "status-pending": "#F59E0B",
+                      "on-secondary-container": "#54647a",
+                      "primary": "#003c90",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "surface-ticket": "#F8FAFC",
+                      "surface-container-high": "#e7e7f1",
+                      "on-tertiary-container": "#ffc0a7",
+                      "outline-variant": "#c3c6d5",
+                      "on-primary-fixed-variant": "#00419c",
+                      "background": "#faf8ff",
+                      "on-background": "#191b22",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-primary-fixed": "#001945",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "tertiary-container": "#993900",
+                      "inverse-primary": "#b0c6ff",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#191b22",
+                      "inverse-on-surface": "#f0f0f9",
+                      "status-ready": "#10B981",
+                      "on-tertiary": "#ffffff",
+                      "surface": "#faf8ff",
+                      "status-progress": "#3B82F6",
+                      "surface-tint": "#1d59c1",
+                      "on-error": "#ffffff",
+                      "surface-dim": "#d9d9e2",
+                      "on-tertiary-fixed": "#360f00",
+                      "tertiary": "#732900",
+                      "inverse-surface": "#2e3037",
+                      "status-delivered": "#6366F1",
+                      "secondary-fixed": "#d3e4fe",
+                      "surface-bright": "#faf8ff",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "surface-container-highest": "#e1e2eb",
+                      "outline": "#737784",
+                      "surface-variant": "#e1e2eb",
+                      "alert-critical": "#EF4444",
+                      "secondary-container": "#d0e1fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "margin-desktop": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "data-mono": ["JetBrains Mono"],
+                      "headline-md": ["Inter"],
+                      "kpi-display": ["Inter"],
+                      "body-md": ["Inter"],
+                      "ticket-body": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "kpi-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "ticket-body": ["14px", {"lineHeight": "18px", "fontWeight": "500"}],
+                      "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-x-hidden min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-base px-4 border-r border-outline-variant bg-surface-container-low z-50">
+<div class="mb-8 flex items-center gap-3 px-2 mt-4">
+<div class="w-10 h-10 bg-primary-container text-on-primary-container rounded-lg flex items-center justify-center font-headline-md font-bold text-headline-md">
+                F
+            </div>
+<div>
+<h1 class="font-headline-md text-headline-md font-black text-tenant-accent">Fotall-Ma PRO</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Gestion Pressing</p>
+</div>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-caps text-label-caps">Tableau de bord</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="local_laundry_service">local_laundry_service</span>
+<span class="font-label-caps text-label-caps">Commandes</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-caps text-label-caps">Clients</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-caps text-label-caps">Finances</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-secondary-container text-on-secondary-container transition-transform duration-200 active:scale-95" href="#">
+<span class="material-symbols-outlined icon-filled" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps">Paramètres</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto border-t border-outline-variant pt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-caps text-label-caps">Déconnexion</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar (Mobile mainly, but structured for responsiveness if needed) -->
+<header class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-40 bg-surface-container-lowest h-16 md:hidden shadow-sm">
+<h1 class="font-headline-md text-headline-md font-bold text-tenant-accent">Fotall-Ma PRO</h1>
+<div class="flex gap-4">
+<button class="text-primary cursor-pointer active:opacity-80 hover:bg-surface-container-high p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-primary cursor-pointer active:opacity-80 hover:bg-surface-container-high p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop flex-1 max-w-container-max mx-auto w-full flex flex-col gap-6">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background">Configuration des Tarifs Zonal</h2>
+<p class="text-on-surface-variant font-body-md mt-1">Gérez vos grilles tarifaires en fonction des localisations de vos boutiques.</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    NOUVELLE ZONE
+                </button>
+</div>
+<!-- Bento Grid Layout for Settings -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Zone Selection & Summary (Col span 4) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Zone Selector -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm">
+<h3 class="font-headline-md text-[18px] font-semibold mb-4 text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">map</span>
+                            Zones Actives
+                        </h3>
+<div class="flex flex-col gap-3">
+<label class="flex items-center justify-between p-3 border border-primary bg-primary-fixed-dim bg-opacity-20 rounded-lg cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<input checked="" class="text-primary focus:ring-primary w-4 h-4 border-outline" name="zone" type="radio"/>
+<span class="font-body-md font-medium text-on-background">Centre-Ville</span>
+</div>
+<span class="bg-status-ready bg-opacity-10 text-status-ready font-label-caps text-[10px] px-2 py-1 rounded-full">STANDARD</span>
+</label>
+<label class="flex items-center justify-between p-3 border border-outline-variant hover:bg-surface-container-low rounded-lg cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<input class="text-primary focus:ring-primary w-4 h-4 border-outline" name="zone" type="radio"/>
+<span class="font-body-md text-on-background">Périphérie Nord</span>
+</div>
+<span class="bg-status-pending bg-opacity-10 text-status-pending font-label-caps text-[10px] px-2 py-1 rounded-full">-5% APPLIQUÉ</span>
+</label>
+<label class="flex items-center justify-between p-3 border border-outline-variant hover:bg-surface-container-low rounded-lg cursor-pointer transition-colors">
+<div class="flex items-center gap-3">
+<input class="text-primary focus:ring-primary w-4 h-4 border-outline" name="zone" type="radio"/>
+<span class="font-body-md text-on-background">Quartier Affaires</span>
+</div>
+<span class="bg-alert-critical bg-opacity-10 text-alert-critical font-label-caps text-[10px] px-2 py-1 rounded-full">+10% APPLIQUÉ</span>
+</label>
+</div>
+</div>
+<!-- Global Adjustment Widget -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-5 shadow-sm">
+<h3 class="font-headline-md text-[18px] font-semibold mb-2 text-on-background">Ajustement Global (Centre-Ville)</h3>
+<p class="text-[13px] text-on-surface-variant mb-4">Appliquez une modification en pourcentage sur tous les services de cette zone.</p>
+<div class="flex items-center gap-4">
+<div class="flex-1 relative">
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-right font-data-mono text-data-mono focus:border-primary focus:ring-1 focus:ring-primary outline-none" type="number" value="0"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">%</span>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-high hover:bg-surface-variant text-on-surface px-3 py-2 rounded-lg font-label-caps transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="bg-surface-container-high hover:bg-surface-variant text-on-surface px-3 py-2 rounded-lg font-label-caps transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+<button class="w-full mt-4 border border-primary text-primary hover:bg-primary hover:text-on-primary py-2 rounded-lg font-label-caps text-label-caps transition-colors">
+                             APPLIQUER LA MODIFICATION
+                         </button>
+</div>
+</div>
+<!-- Price Table (Col span 8) -->
+<div class="lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-md text-[18px] font-semibold text-on-background">Grille Tarifaire Détaillée</h3>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-full text-sm bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary outline-none w-64" placeholder="Rechercher un service..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-ticket text-on-surface-variant font-label-caps text-[11px] border-b border-outline-variant">
+<th class="p-4 font-semibold uppercase tracking-wider">Service / Article</th>
+<th class="p-4 font-semibold uppercase tracking-wider text-right">Tarif Base (Réf)</th>
+<th class="p-4 font-semibold uppercase tracking-wider text-right text-primary">Tarif Centre-Ville</th>
+<th class="p-4 font-semibold uppercase tracking-wider text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-[14px]">
+<!-- Row 1 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">apparel</span>
+</div>
+<div>
+<div class="font-medium text-on-background">Chemise sur cintre</div>
+<div class="text-[12px] text-on-surface-variant">Pressing Classique</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-data-mono text-on-surface-variant">4.50 €</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<input class="w-20 text-right bg-surface-container-lowest border border-outline-variant rounded px-2 py-1 font-data-mono focus:border-primary outline-none" type="text" value="4.50"/>
+<span class="text-on-surface-variant font-data-mono">€</span>
+</div>
+</td>
+<td class="p-4 text-center">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">styler</span>
+</div>
+<div>
+<div class="font-medium text-on-background">Costume 2 pièces</div>
+<div class="text-[12px] text-on-surface-variant">Nettoyage à sec</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-data-mono text-on-surface-variant">18.00 €</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<input class="w-20 text-right bg-surface-container-lowest border border-outline-variant rounded px-2 py-1 font-data-mono focus:border-primary outline-none" type="text" value="18.00"/>
+<span class="text-on-surface-variant font-data-mono">€</span>
+</div>
+</td>
+<td class="p-4 text-center">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors bg-surface-variant bg-opacity-30">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">bed</span>
+</div>
+<div>
+<div class="font-medium text-on-background">Couette 2 personnes</div>
+<div class="text-[12px] text-on-surface-variant">Blanchisserie</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-data-mono text-on-surface-variant">25.00 €</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<input class="w-20 text-right bg-primary-fixed-dim border border-primary text-primary rounded px-2 py-1 font-data-mono focus:border-primary outline-none font-bold" type="text" value="28.00"/>
+<span class="text-primary font-data-mono">€</span>
+</div>
+<div class="text-[10px] text-alert-critical text-right mt-1 font-label-caps">Modifié (+12%)</div>
+</td>
+<td class="p-4 text-center">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low transition-colors">
+<td class="p-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+</div>
+<div>
+<div class="font-medium text-on-background">Manteau long</div>
+<div class="text-[12px] text-on-surface-variant">Nettoyage délicat</div>
+</div>
+</div>
+</td>
+<td class="p-4 text-right font-data-mono text-on-surface-variant">22.00 €</td>
+<td class="p-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<input class="w-20 text-right bg-surface-container-lowest border border-outline-variant rounded px-2 py-1 font-data-mono focus:border-primary outline-none" type="text" value="22.00"/>
+<span class="text-on-surface-variant font-data-mono">€</span>
+</div>
+</td>
+<td class="p-4 text-center">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-outline-variant flex justify-between items-center bg-surface-container-lowest">
+<div class="text-[13px] text-on-surface-variant">Affichage 1-4 sur 45 services</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container-low text-sm disabled:opacity-50" disabled="">Préc.</button>
+<button class="px-3 py-1 border border-outline-variant rounded hover:bg-surface-container-low text-sm">Suiv.</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Save Action Bar -->
+<div class="fixed bottom-0 right-0 md:left-64 left-0 bg-surface-container-lowest border-t border-outline-variant p-4 flex justify-end gap-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-30">
+<button class="px-6 py-2 rounded-lg font-label-caps text-label-caps text-secondary hover:bg-surface-container-low transition-colors">
+                    ANNULER
+                </button>
+<button class="bg-primary text-on-primary px-8 py-2 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                    ENREGISTRER LES TARIFS
+                </button>
+</div>
+<!-- Spacer for fixed bottom bar -->
+<div class="h-16"></div>
+</div>
+</main>
+</body></html>

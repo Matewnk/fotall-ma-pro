@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fotall-Ma PRO - Gestion Multi-Boutiques</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#bcceff",
+                      "error-container": "#ffdad6",
+                      "tertiary-container": "#993900",
+                      "primary-container": "#0f52ba",
+                      "inverse-on-surface": "#f0f0f9",
+                      "outline-variant": "#c3c6d5",
+                      "status-ready": "#10B981",
+                      "tertiary-fixed": "#ffdbcd",
+                      "secondary-container": "#d0e1fb",
+                      "on-background": "#191b22",
+                      "on-primary-fixed": "#001945",
+                      "surface-container-low": "#f3f3fc",
+                      "secondary": "#505f76",
+                      "surface-bright": "#faf8ff",
+                      "status-delivered": "#6366F1",
+                      "background": "#faf8ff",
+                      "surface-container": "#ededf6",
+                      "surface-container-lowest": "#ffffff",
+                      "alert-critical": "#EF4444",
+                      "primary": "#003c90",
+                      "surface-container-highest": "#e1e2eb",
+                      "surface-tint": "#1d59c1",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "on-tertiary-container": "#ffc0a7",
+                      "surface-container-high": "#e7e7f1",
+                      "inverse-surface": "#2e3037",
+                      "on-surface-variant": "#434653",
+                      "secondary-fixed": "#d3e4fe",
+                      "tenant-accent": "var(--primary-color)",
+                      "on-tertiary": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#191b22",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "surface-variant": "#e1e2eb",
+                      "on-secondary": "#ffffff",
+                      "surface-dim": "#d9d9e2",
+                      "on-secondary-container": "#54647a",
+                      "on-error-container": "#93000a",
+                      "status-progress": "#3B82F6",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-tertiary-fixed": "#360f00",
+                      "primary-fixed": "#d9e2ff",
+                      "on-primary-fixed-variant": "#00419c",
+                      "surface-ticket": "#F8FAFC",
+                      "inverse-primary": "#b0c6ff",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "surface": "#faf8ff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-error": "#ffffff",
+                      "tertiary": "#732900",
+                      "outline": "#737784",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "status-pending": "#F59E0B"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "base": "8px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "24px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "ticket-body": [
+                              "Inter"
+                      ],
+                      "kpi-display": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "ticket-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "kpi-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        :root {
+            --primary-color: #0f52ba; /* primary-container */
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- SideNavBar (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen border-r border-outline-variant bg-surface py-base px-4 w-64 flex-shrink-0 sticky top-0" style="z-index: 40;">
+<div class="mb-8 mt-4 px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Pressing Deluxe</h1>
+<p class="font-ticket-body text-ticket-body text-on-surface-variant">Admin Console</p>
+</div>
+<button class="w-full bg-tenant-accent text-on-primary py-3 rounded-xl mb-6 font-ticket-body text-ticket-body flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+            New Order
+        </button>
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ticket-body text-ticket-body">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-ticket-body text-ticket-body">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-secondary-container text-on-secondary-container transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="font-ticket-body text-ticket-body font-semibold">Multi-Boutiques</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-ticket-body text-ticket-body">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-ticket-body text-ticket-body">Customers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-ticket-body text-ticket-body">Reports</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-2 pt-4 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-ticket-body text-ticket-body">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ticket-body text-ticket-body">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-ticket-body text-ticket-body">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-h-screen relative">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop h-16 border-b border-outline-variant bg-surface sticky top-0" style="z-index: 30;">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary md:hidden">Fotall-Ma PRO</span>
+<h2 class="hidden md:block font-headline-md text-headline-md text-on-surface font-semibold">Gestion Réseau</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-ticket-body focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Rechercher..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-highest p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A detailed, professional avatar portrait of a modern business manager. The subject is wearing a crisp corporate shirt, set against a clean, bright minimalist background. The lighting is soft and flattering, emphasizing a clean and professional corporate aesthetic suitable for a high-end SaaS platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8pDjHW4zEez-p9Wpa7iqtGlVzE74cJMXXfCPz4fcuMEQPo70w1l0CTolik-HTpMlSGs-gnH5ZzsDp1TCJuixPw6IF02ul0oeXKB7pnpj6fyr0tXIZYZ4MY9HdT5TfdOeVJfLmTKXrgjFblVoNGwamJs4up0v_C2J4kE5BLr-LWzZ3vHTed9z5mgeSJ_wWTHvZjRnZyZNNk65Jcp1R-3lqqijWDT_BsaShqdUa9bjsaLhMfqlVncD8"/>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop space-y-6 max-w-container-max mx-auto w-full">
+<!-- Global Network Overview KPIs -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">Chiffre d'Affaires</span>
+<span class="material-symbols-outlined text-primary-container">payments</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">1.2M</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">FCFA</span>
+</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-status-ready text-[16px]">arrow_upward</span>
+<span class="font-label-caps text-label-caps text-status-ready">+8.4% vs Hier</span>
+</div>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">Boutiques Actives</span>
+<span class="material-symbols-outlined text-primary-container">storefront</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">12</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">/ 14</span>
+</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-status-pending text-[16px]">warning</span>
+<span class="font-label-caps text-label-caps text-status-pending">2 en maintenance</span>
+</div>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">Commandes Total</span>
+<span class="material-symbols-outlined text-primary-container">local_mall</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">458</span>
+</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-status-ready text-[16px]">arrow_upward</span>
+<span class="font-label-caps text-label-caps text-status-ready">+12% vs Hier</span>
+</div>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">Efficacité Moyenne</span>
+<span class="material-symbols-outlined text-primary-container">speed</span>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">94</span>
+<span class="font-data-mono text-data-mono text-on-surface-variant">%</span>
+</div>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-alert-critical text-[16px]">arrow_downward</span>
+<span class="font-label-caps text-label-caps text-alert-critical">-2% (Ngor)</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

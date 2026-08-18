@@ -1,0 +1,9 @@
+name: Release Guard
+on:
+  workflow_dispatch:
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Release requires all CI/security checks green and tenant-isolation gate approved."

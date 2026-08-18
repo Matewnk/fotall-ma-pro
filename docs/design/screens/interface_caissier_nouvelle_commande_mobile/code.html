@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fotall-Ma PRO - Mobile Cashier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#faf8ff",
+                      "status-progress": "#3B82F6",
+                      "on-background": "#191b22",
+                      "surface-bright": "#faf8ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#001945",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "tertiary-fixed": "#ffdbcd",
+                      "surface-container": "#ededf6",
+                      "background": "#faf8ff",
+                      "on-secondary-container": "#54647a",
+                      "status-ready": "#10B981",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-highest": "#e1e2eb",
+                      "tertiary-container": "#993900",
+                      "secondary": "#505f76",
+                      "outline-variant": "#c3c6d5",
+                      "tenant-accent": "var(--primary-color, #003c90)",
+                      "error": "#ba1a1a",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-tertiary": "#ffffff",
+                      "status-delivered": "#6366F1",
+                      "alert-critical": "#EF4444",
+                      "on-primary-fixed-variant": "#00419c",
+                      "secondary-container": "#d0e1fb",
+                      "surface-ticket": "#F8FAFC",
+                      "inverse-on-surface": "#f0f0f9",
+                      "on-surface": "#191b22",
+                      "surface-container-low": "#f3f3fc",
+                      "on-primary-container": "#bcceff",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "inverse-surface": "#2e3037",
+                      "surface-container-high": "#e7e7f1",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "surface-variant": "#e1e2eb",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#d9d9e2",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "status-pending": "#F59E0B",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "on-surface-variant": "#434653",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#732900",
+                      "primary": "#003c90",
+                      "surface-tint": "#1d59c1",
+                      "outline": "#737784",
+                      "inverse-primary": "#b0c6ff",
+                      "on-tertiary-container": "#ffc0a7",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#d9e2ff",
+                      "primary-container": "#0f52ba"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "margin-desktop": "24px",
+                      "margin-mobile": "16px",
+                      "container-max": "1440px",
+                      "gutter": "16px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "ticket-body": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "kpi-display": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "ticket-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "kpi-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for mobile ticket view */
+        .ticket-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .ticket-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .ticket-scroll::-webkit-scrollbar-thumb {
+            background-color: #e1e2eb;
+            border-radius: 4px;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md h-full flex flex-col md:flex-row antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Mobile Top Header (Hidden on md for split view) -->
+<header class="md:hidden flex justify-between items-center w-full px-margin-mobile h-16 border-b border-outline-variant bg-surface shrink-0 z-10 sticky top-0">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</h1>
+<div class="flex gap-4 items-center">
+<button class="text-on-surface-variant p-2 rounded-full hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant p-2 rounded-full hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Side Navigation (Desktop/Tablet) / Bottom Navigation (Mobile) -->
+<nav class="hidden md:flex flex-col h-screen border-r border-outline-variant bg-surface py-base px-4 w-24 lg:w-64 shrink-0 transition-all duration-200 ease-in-out z-20 sticky top-0">
+<div class="flex items-center gap-3 mb-8 px-2 mt-4 hidden lg:flex">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center shrink-0">
+<span class="font-headline-md text-headline-md text-on-primary-container font-bold">F</span>
+</div>
+<div>
+<h2 class="font-ticket-body text-ticket-body font-bold text-tenant-accent">Pressing Deluxe</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Admin Console</p>
+</div>
+</div>
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block group-hover:text-on-surface">Dashboard</span>
+</a>
+<!-- Orders (Active - Since we are creating a New Order view) -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl bg-secondary-container text-on-secondary-container transition-colors relative" href="#">
+<span class="material-symbols-outlined fill">receipt_long</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block font-bold">Orders</span>
+<!-- Active Indicator line on the left for extra emphasis -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-tenant-accent rounded-r-full"></div>
+</a>
+<!-- Inventory (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors group" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block group-hover:text-on-surface">Inventory</span>
+</a>
+<!-- Customers (Inactive) -->
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block group-hover:text-on-surface">Customers</span>
+</a>
+</div>
+<div class="flex flex-col gap-2 border-t border-outline-variant pt-4 mt-auto">
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors group" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block group-hover:text-on-surface">Support</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-colors group" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-ticket-body text-ticket-body hidden lg:block group-hover:text-on-surface">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area: Split View for Point of Sale -->
+<main class="flex-grow flex flex-col md:flex-row overflow-hidden pb-16 md:pb-0">
+<!-- Left Side: Action Area (Select Client, Add Items, Services) -->
+<section class="flex-1 flex flex-col p-margin-mobile md:p-margin-desktop overflow-y-auto bg-surface-container-lowest gap-6">
+<header class="flex justify-between items-center pb-4 border-b border-outline-variant">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Nouvelle Commande</h2>
+<p class="text-on-surface-variant font-body-md">#ORD-2023-1142</p>
+</div>
+</header>
+<!-- Step 1: Client Selection -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h3 class="font-ticket-body text-ticket-body text-on-surface uppercase tracking-wider">1. Client</h3>
+<button class="text-tenant-accent font-ticket-body text-ticket-body flex items-center gap-1 hover:bg-surface-container-low px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        Nouveau
+                    </button>
+</div>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-12 py-3 rounded-lg border-outline-variant bg-surface-container-lowest focus:ring-2 focus:ring-primary focus:border-primary font-body-md text-body-md placeholder-on-surface-variant transition-all" placeholder="Rechercher ou scanner..." type="text"/>
+<!-- Scanner Icon for mobile POS context -->
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">barcode_scanner</span>
+</button>
+</div>
+</div>
+<!-- Step 2: Add Items (Bento Grid) -->
+<div class="flex flex-col gap-3">
+<h3 class="font-ticket-body text-ticket-body text-on-surface uppercase tracking-wider">2. Articles Rapides</h3>
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+<!-- Item Button -->
+<button class="flex flex-col items-center justify-center p-4 bg-surface rounded-xl border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary mb-2">styler</span>
+<span class="font-ticket-body text-ticket-body text-on-surface">Chemise</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-1">4.50 €</span>
+</button>
+<!-- Item Button -->
+<button class="flex flex-col items-center justify-center p-4 bg-surface rounded-xl border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary mb-2">dry_cleaning</span>
+<span class="font-ticket-body text-ticket-body text-on-surface">Costume</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-1">15.00 €</span>
+</button>
+<!-- Item Button -->
+<button class="flex flex-col items-center justify-center p-4 bg-surface rounded-xl border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary mb-2">accessibility_new</span>
+<span class="font-ticket-body text-ticket-body text-on-surface">Robe</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-1">12.50 €</span>
+</button>
+<!-- Item Button -->
+<button class="flex flex-col items-center justify-center p-4 bg-surface rounded-xl border border-outline-variant hover:border-primary hover:bg-surface-container-low transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary mb-2">bed</span>
+<span class="font-ticket-body text-ticket-body text-on-surface">Couette</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant mt-1">25.00 €</span>
+</button>
+</div>
+<button class="w-full py-3 mt-2 border border-dashed border-outline-variant rounded-xl text-on-surface-variant font-ticket-body text-ticket-body hover:bg-surface-container-low hover:text-on-surface transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">more_horiz</span>
+                     Voir tout le catalogue
+                 </button>
+</div>
+<!-- Step 3: Service Selection -->
+<div class="flex flex-col gap-3 mt-auto">
+<h3 class="font-ticket-body text-ticket-body text-on-surface uppercase tracking-wider">3. Services (Article sélectionné)</h3>
+<div class="flex flex-wrap gap-2">
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant font-ticket-body text-ticket-body peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">local_laundry_service</span>
+                             Lavage
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant font-ticket-body text-ticket-body peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">iron</span>
+                             Repassage
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant font-ticket-body text-ticket-body peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">dry</span>
+                             Séchage
+                        </div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant font-ticket-body text-ticket-body peer-checked:bg-secondary-container peer-checked:text-on-secondary-container peer-checked:border-secondary-container transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+                             Emballage
+                        </div>
+</label>
+</div>
+</div>
+</section>
+<!-- Right Side: Order Summary / Basket (Ticket View) -->
+<section class="w-full md:w-[360px] lg:w-[420px] bg-surface-container border-l border-outline-variant flex flex-col shrink-0">
+<!-- Ticket Header -->
+<div class="p-4 bg-surface-ticket border-b border-outline-variant shrink-0 flex flex-col items-center text-center">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface mb-1">Ticket de Caisse</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant">#ORD-2023-1142</p>
+<div class="w-full border-b border-dashed border-outline-variant my-4"></div>
+<div class="w-full flex justify-between items-center text-left">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Client</p>
+<p class="font-ticket-body text-ticket-body text-on-surface font-bold">Jean Dupont</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-label-caps text-on-surface-variant">Date de Retrait</p>
+<p class="font-ticket-body text-ticket-body text-status-pending font-bold flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                             15 Oct, 14:00
+                         </p>
+</div>
+</div>
+</div>
+<!-- Basket Items List -->
+<div class="flex-grow overflow-y-auto ticket-scroll p-4 bg-surface-ticket flex flex-col gap-4">
+<!-- Line Item -->
+<div class="flex justify-between items-start group">
+<div class="flex gap-2">
+<div class="bg-surface-container w-6 h-6 rounded flex items-center justify-center shrink-0">
+<span class="font-data-mono text-[12px] font-bold text-on-surface">2x</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface">Chemise Homme</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Lavage, Repassage</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<p class="font-data-mono text-data-mono text-on-surface">9.00 €</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-error hover:bg-error-container p-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Line Item -->
+<div class="flex justify-between items-start group">
+<div class="flex gap-2">
+<div class="bg-surface-container w-6 h-6 rounded flex items-center justify-center shrink-0">
+<span class="font-data-mono text-[12px] font-bold text-on-surface">1x</span>
+</div>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface">Costume 2 pièces</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Nettoyage à sec</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<p class="font-data-mono text-data-mono text-on-surface">15.00 €</p>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-error hover:bg-error-container p-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Ticket Footer / Totals -->
+<div class="p-4 bg-surface-ticket border-t border-dashed border-outline-variant shrink-0">
+<div class="flex justify-between items-center mb-2">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">Sous-total</span>
+<span class="font-data-mono text-data-mono text-on-surface">24.00 €</span>
+</div>
+<div class="flex justify-between items-center mb-4">
+<span class="font-ticket-body text-ticket-body text-on-surface-variant">TVA (20%)</span>
+<span class="font-data-mono text-data-mono text-on-surface">4.80 €</span>
+</div>
+<div class="flex justify-between items-end mb-6">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">Total</span>
+<span class="font-kpi-display text-[32px] md:text-kpi-display text-tenant-accent font-bold">28.80 €</span>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-tenant-accent text-on-primary py-4 rounded-xl font-headline-md text-headline-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-sm active:scale-[0.98]">
+<span class="material-symbols-outlined">print</span>
+                    Valider &amp; Imprimer
+                </button>
+</div>
+</section>
+</main>
+<!-- Mobile Bottom Navigation Shell (Hidden on md) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant flex justify-around items-center h-16 pb-safe z-50">
+<!-- Dashboard (Inactive) -->
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant active:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">dashboard</span>
+<span class="font-label-caps text-[10px]">Dashboard</span>
+</a>
+<!-- Orders (Active) -->
+<a class="flex flex-col items-center justify-center w-full h-full text-primary active:bg-surface-container-highest transition-colors relative" href="#">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-b-full"></div>
+<span class="material-symbols-outlined fill mb-1 text-primary">receipt_long</span>
+<span class="font-label-caps text-[10px] text-primary font-bold">Orders</span>
+</a>
+<!-- Clients (Inactive) -->
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant active:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">group</span>
+<span class="font-label-caps text-[10px]">Clients</span>
+</a>
+<!-- More (Inactive) -->
+<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant active:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined mb-1">menu</span>
+<span class="font-label-caps text-[10px]">More</span>
+</a>
+</nav>
+</body></html>

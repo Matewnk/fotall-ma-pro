@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fotall-Ma PRO - Interface Technicien &amp; Livreur</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#434653",
+                      "status-pending": "#F59E0B",
+                      "on-tertiary": "#ffffff",
+                      "surface-variant": "#e1e2eb",
+                      "secondary": "#505f76",
+                      "surface-container-high": "#e7e7f1",
+                      "surface-dim": "#d9d9e2",
+                      "inverse-primary": "#b0c6ff",
+                      "status-delivered": "#6366F1",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "surface-container-highest": "#e1e2eb",
+                      "on-surface": "#191b22",
+                      "surface-ticket": "#F8FAFC",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "on-tertiary-fixed": "#360f00",
+                      "surface-tint": "#1d59c1",
+                      "background": "#faf8ff",
+                      "on-error-container": "#93000a",
+                      "surface": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "tertiary-container": "#993900",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "on-error": "#ffffff",
+                      "primary": "#003c90",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "on-tertiary-container": "#ffc0a7",
+                      "on-primary-fixed-variant": "#00419c",
+                      "surface-container-lowest": "#ffffff",
+                      "outline": "#737784",
+                      "alert-critical": "#EF4444",
+                      "on-primary-container": "#bcceff",
+                      "status-progress": "#3B82F6",
+                      "surface-bright": "#faf8ff",
+                      "surface-container": "#ededf6",
+                      "inverse-on-surface": "#f0f0f9",
+                      "tenant-accent": "var(--primary-color)",
+                      "surface-container-low": "#f3f3fc",
+                      "inverse-surface": "#2e3037",
+                      "status-ready": "#10B981",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "on-background": "#191b22",
+                      "on-secondary-fixed": "#0b1c30",
+                      "outline-variant": "#c3c6d5",
+                      "primary-fixed": "#d9e2ff",
+                      "tertiary-fixed": "#ffdbcd",
+                      "secondary-container": "#d0e1fb",
+                      "on-secondary-container": "#54647a",
+                      "secondary-fixed": "#d3e4fe",
+                      "primary-container": "#0f52ba",
+                      "on-primary-fixed": "#001945",
+                      "error": "#ba1a1a",
+                      "tertiary": "#732900"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "24px",
+                      "base": "8px",
+                      "container-max": "1440px"
+              },
+              "fontFamily": {
+                      "ticket-body": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "kpi-display": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "ticket-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "kpi-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Area -->
+<header class="bg-surface-container-lowest border-b border-outline-variant px-margin-mobile py-4 flex items-center justify-between shadow-sm z-10 shrink-0">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">Fotall-Ma PRO</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Zone de Suivi</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full bg-surface-variant flex items-center justify-center text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<div class="relative w-10 h-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Avatar" class="object-cover w-full h-full" data-alt="A close up professional headshot of an industrial worker wearing a clean uniform, set against a blurred, bright logistics warehouse background. The lighting is crisp and cool, emphasizing cleanliness and reliability. The color palette focuses on whites, soft grays, and the primary blue accent of the brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUPPrudT66XE_rbo75v3JFXxEWYM7jesLZnD5RYXzDaDVFRgRISJLCl5gFVQsYwYJYYWZ_j6JasY82yDSX3yfZxJEWPTgEu2MWbobA-vFZ7-XEKGRMakXu0he2Hix4g3L88eu4teBph9GRaAEBIMlxYagivpMxSUsXS12nTjYaTorcgNcP2ojdC71FdxlrllxjI6jhz7oL1F51T1BWwkCP3yTJXdAsSANuDSRlK_Cbr10BFYtc27Ib"/>
+</div>
+</div>
+</header>
+<!-- Tab Navigation -->
+<div class="bg-surface-container-lowest border-b border-outline-variant px-margin-mobile flex gap-2 pt-2 shrink-0 z-10 sticky top-0">
+<button aria-selected="true" class="flex-1 pb-3 text-center border-b-2 border-primary text-primary font-bold transition-all" id="tab-tech" onclick="switchTab('tech')">
+            Technicien
+        </button>
+<button aria-selected="false" class="flex-1 pb-3 text-center border-b-2 border-transparent text-on-surface-variant hover:text-on-surface transition-all" id="tab-livreur" onclick="switchTab('livreur')">
+            Livreur
+        </button>
+</div>
+<!-- Main Content Area (Scrollable) -->
+<main class="flex-1 overflow-y-auto bg-surface p-margin-mobile pb-24">
+<!-- View: Technicien -->
+<div class="space-y-4" id="view-tech">
+<!-- Filter Bar -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<span class="px-4 py-1.5 rounded-full bg-primary-container text-on-primary-container font-label-caps text-label-caps whitespace-nowrap cursor-pointer">Tout</span>
+<span class="px-4 py-1.5 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps whitespace-nowrap cursor-pointer hover:bg-surface-container-highest transition-colors">Lavage</span>
+<span class="px-4 py-1.5 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps whitespace-nowrap cursor-pointer hover:bg-surface-container-highest transition-colors">Repassage</span>
+<span class="px-4 py-1.5 rounded-full bg-surface-variant text-on-surface-variant font-label-caps text-label-caps whitespace-nowrap cursor-pointer hover:bg-surface-container-highest transition-colors">Tâches</span>
+</div>
+<!-- Task Cards -->
+<div class="space-y-3">
+<!-- Task Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-data-mono text-data-mono text-secondary">#ORD-9821</span>
+<h3 class="font-ticket-body text-ticket-body mt-1">Costume 2 Pièces (Noir)</h3>
+</div>
+<span class="px-2 py-1 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                            En Cours
+                        </span>
+</div>
+<div class="flex gap-2 text-sm text-on-surface-variant">
+<span class="bg-surface-variant px-2 py-0.5 rounded text-xs font-medium">Nettoyage à sec</span>
+<span class="bg-surface-variant px-2 py-0.5 rounded text-xs font-medium">Urgent</span>
+</div>
+<div class="pt-2 border-t border-outline-variant flex justify-end">
+<button class="bg-surface-variant text-primary font-medium px-4 py-2 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Marquer Prêt
+                        </button>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-data-mono text-data-mono text-secondary">#ORD-9822</span>
+<h3 class="font-ticket-body text-ticket-body mt-1">Chemise Coton x3</h3>
+</div>
+<span class="px-2 py-1 rounded-full bg-status-progress/10 text-status-progress font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">laundry</span>
+                            Lavage
+                        </span>
+</div>
+<div class="flex gap-2 text-sm text-on-surface-variant">
+<span class="bg-surface-variant px-2 py-0.5 rounded text-xs font-medium">Repassage</span>
+</div>
+<div class="pt-2 border-t border-outline-variant flex justify-end">
+<button class="bg-surface-variant text-primary font-medium px-4 py-2 rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Marquer Prêt
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- View: Livreur (Hidden by default) -->
+<div class="space-y-4 hidden" id="view-livreur">
+<div class="flex items-center justify-between mb-2">
+<h2 class="font-headline-md text-headline-md">Tournée du Jour</h2>
+<span class="text-sm font-medium text-secondary">12 Livraisons restantes</span>
+</div>
+<!-- Delivery Cards -->
+<div class="space-y-3">
+<!-- Delivery Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-status-ready/10 text-status-ready flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</div>
+<div>
+<span class="font-data-mono text-data-mono text-secondary">#LIV-405</span>
+<h3 class="font-ticket-body text-ticket-body font-bold text-on-surface">Mme. Dupont</h3>
+</div>
+</div>
+<span class="font-data-mono text-data-mono font-bold text-primary">10:30</span>
+</div>
+<div class="bg-surface-variant/50 p-3 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-outline mt-0.5">location_on</span>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface">15 Rue de la Paix</p>
+<p class="text-sm text-on-surface-variant mt-1">Code portail: 45A2. 3ème étage gauche.</p>
+</div>
+</div>
+<div class="flex gap-2 text-sm text-on-surface-variant mt-1">
+<span class="bg-surface-variant px-2 py-0.5 rounded text-xs font-medium">3 Articles</span>
+<span class="bg-status-pending/10 text-status-pending px-2 py-0.5 rounded text-xs font-medium">Paiement Dû: 45€</span>
+</div>
+<div class="pt-3 border-t border-outline-variant flex gap-2">
+<button class="flex-1 bg-surface-variant text-on-surface font-medium py-2.5 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">call</span>
+                            Appeler
+                        </button>
+<button class="flex-1 bg-primary text-on-primary font-medium py-2.5 rounded-lg hover:bg-primary-fixed-variant transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+                            Livré
+                        </button>
+</div>
+</div>
+<!-- Delivery Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex justify-between items-start mb-1">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-status-pending/10 text-status-pending flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">hail</span>
+</div>
+<div>
+<span class="font-data-mono text-data-mono text-secondary">#COL-882</span>
+<h3 class="font-ticket-body text-ticket-body font-bold text-on-surface">Hotel Le Riviera</h3>
+</div>
+</div>
+<span class="font-data-mono text-data-mono font-bold text-primary">11:15</span>
+</div>
+<div class="bg-surface-variant/50 p-3 rounded-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-outline mt-0.5">location_on</span>
+<div>
+<p class="font-ticket-body text-ticket-body text-on-surface">22 Boulevard de la Mer</p>
+<p class="text-sm text-on-surface-variant mt-1">Passer par l'entrée de service à l'arrière.</p>
+</div>
+</div>
+<div class="flex gap-2 text-sm text-on-surface-variant mt-1">
+<span class="bg-surface-variant px-2 py-0.5 rounded text-xs font-medium">Collecte Volumineuse</span>
+</div>
+<div class="pt-3 border-t border-outline-variant flex gap-2">
+<button class="flex-1 bg-surface-variant text-on-surface font-medium py-2.5 rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">call</span>
+                            Appeler
+                        </button>
+<button class="flex-1 bg-primary text-on-primary font-medium py-2.5 rounded-lg hover:bg-primary-fixed-variant transition-colors flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined text-[18px]">inventory</span>
+                            Collecté
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (from JSON) -->
+<nav class="fixed bottom-0 w-full z-50 md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center px-4 py-2">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Accueil</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100 cursor-pointer">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-caps text-label-caps mt-1">Livraisons</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined" data-icon="barcode_scanner">barcode_scanner</span>
+<span class="font-label-caps text-label-caps mt-1">Scan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100 rounded-xl cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-caps text-label-caps mt-1">Profil</span>
+</div>
+</nav>
+<script>
+        function switchTab(tab) {
+            const techView = document.getElementById('view-tech');
+            const livreurView = document.getElementById('view-livreur');
+            const techTab = document.getElementById('tab-tech');
+            const livreurTab = document.getElementById('tab-livreur');
+
+            if (tab === 'tech') {
+                techView.classList.remove('hidden');
+                livreurView.classList.add('hidden');
+                
+                techTab.classList.add('border-primary', 'text-primary', 'font-bold');
+                techTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                
+                livreurTab.classList.remove('border-primary', 'text-primary', 'font-bold');
+                livreurTab.classList.add('border-transparent', 'text-on-surface-variant');
+            } else {
+                livreurView.classList.remove('hidden');
+                techView.classList.add('hidden');
+                
+                livreurTab.classList.add('border-primary', 'text-primary', 'font-bold');
+                livreurTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                
+                techTab.classList.remove('border-primary', 'text-primary', 'font-bold');
+                techTab.classList.add('border-transparent', 'text-on-surface-variant');
+            }
+        }
+    </script>
+</body></html>

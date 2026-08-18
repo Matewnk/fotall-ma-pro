@@ -1,0 +1,16 @@
+{
+  "name": "fotall-ma-pro",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:e2e": "turbo test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": { "prettier": "^3.0.0", "turbo": "^2.0.0", "typescript": "^5.0.0" }
+}

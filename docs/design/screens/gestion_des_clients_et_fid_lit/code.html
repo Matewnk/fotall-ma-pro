@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fotall-Ma PRO - Clients</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#434653",
+                    "status-pending": "#F59E0B",
+                    "on-tertiary": "#ffffff",
+                    "surface-variant": "#e1e2eb",
+                    "secondary": "#505f76",
+                    "surface-container-high": "#e7e7f1",
+                    "surface-dim": "#d9d9e2",
+                    "inverse-primary": "#b0c6ff",
+                    "status-delivered": "#6366F1",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#b0c6ff",
+                    "surface-container-highest": "#e1e2eb",
+                    "on-surface": "#191b22",
+                    "surface-ticket": "#F8FAFC",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-tertiary-fixed": "#360f00",
+                    "surface-tint": "#1d59c1",
+                    "background": "#faf8ff",
+                    "on-error-container": "#93000a",
+                    "surface": "#faf8ff",
+                    "on-secondary": "#ffffff",
+                    "tertiary-container": "#993900",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "on-error": "#ffffff",
+                    "primary": "#003c90",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-tertiary-container": "#ffc0a7",
+                    "on-primary-fixed-variant": "#00419c",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#737784",
+                    "alert-critical": "#EF4444",
+                    "on-primary-container": "#bcceff",
+                    "status-progress": "#3B82F6",
+                    "surface-bright": "#faf8ff",
+                    "surface-container": "#ededf6",
+                    "inverse-on-surface": "#f0f0f9",
+                    "tenant-accent": "var(--primary-color)",
+                    "surface-container-low": "#f3f3fc",
+                    "inverse-surface": "#2e3037",
+                    "status-ready": "#10B981",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-background": "#191b22",
+                    "on-secondary-fixed": "#0b1c30",
+                    "outline-variant": "#c3c6d5",
+                    "primary-fixed": "#d9e2ff",
+                    "tertiary-fixed": "#ffdbcd",
+                    "secondary-container": "#d0e1fb",
+                    "on-secondary-container": "#54647a",
+                    "secondary-fixed": "#d3e4fe",
+                    "primary-container": "#0f52ba",
+                    "on-primary-fixed": "#001945",
+                    "error": "#ba1a1a",
+                    "tertiary": "#732900"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "24px",
+                    "base": "8px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "ticket-body": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "label-caps": [
+                            "Inter"
+                    ],
+                    "kpi-display": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "data-mono": [
+                            "JetBrains Mono"
+                    ]
+            },
+            "fontSize": {
+                    "ticket-body": [
+                            "14px",
+                            {
+                                    "lineHeight": "18px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "30px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-caps": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "kpi-display": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "data-mono": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNav (Desktop) -->
+<nav class="hidden md:flex bg-surface dark:bg-inverse-surface h-full w-64 fixed left-0 top-0 overflow-y-auto border-r border-outline-variant dark:border-outline flex-col py-base z-30">
+<div class="px-6 mb-8 mt-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Fotall-Ma PRO</h1>
+<p class="text-on-surface-variant text-sm mt-1">Administration Centrale</p>
+</div>
+<div class="flex-1 px-4 space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">local_laundry_service</span>
+<span>Commandes</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined fill">groups</span>
+<span>Clients</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span>Logistique</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Rapports</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Paramètres</span>
+</a>
+</div>
+<div class="p-4 mt-auto">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold flex items-center justify-center space-x-2 hover:bg-primary/90 transition-colors cursor-pointer active:scale-95 duration-150">
+<span class="material-symbols-outlined">add</span>
+<span>Nouvelle Commande</span>
+</button>
+</div>
+</nav>
+<!-- TopAppBar (Desktop) -->
+<header class="hidden md:flex bg-surface-container-lowest dark:bg-surface-container fixed top-0 right-0 w-[calc(100%-256px)] z-40 border-b border-outline-variant dark:border-outline items-center justify-between px-margin-desktop h-16">
+<div class="flex-1 flex items-center">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary outline-none text-body-md font-body-md placeholder-outline" placeholder="Rechercher (Nom, Tél, ID...)" type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-98">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-all active:scale-98">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-2"></div>
+<div class="flex items-center space-x-3 cursor-pointer">
+<img alt="Avatar de l'utilisateur" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small, professional avatar photo of a user in a well-lit studio setting. Corporate style, soft lighting, neutral background, high resolution, sharp focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARybJuL-LEy6C35E6ivJwiW6_QN4-wCsTX464zDTEY43da9yFNtlwQSRCdg8lqxULTU6H_5RN2oibKb9fQqG7lvjWZmZPD76YmavhvBHsuZ399zhLApWBWpQTaue6vjUKbNA7en1BOvb5PlsQ00b1am7Qb7Zwklmo4gw8QoDKVfS9dmaSbv3Qu9giay8JfvaFsTB9-LeNqOQV-4W_xBksvQ6xz_-1iVBeDJWpSgbhK0BEbQK70uAaL"/>
+<span class="font-body-md text-body-md text-on-surface font-medium">Admin</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 w-full md:w-[calc(100%-256px)] md:ml-64 mt-0 md:mt-16 h-full md:h-[calc(100vh-64px)] overflow-hidden bg-background relative flex flex-col md:flex-row pb-20 md:pb-0">
+<!-- Mobile Header -->
+<header class="md:hidden flex items-center justify-between px-margin-mobile h-16 bg-surface-container-lowest border-b border-outline-variant shrink-0">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">Clients</h1>
+<button class="bg-primary text-on-primary p-2 rounded-full">
+<span class="material-symbols-outlined">person_add</span>
+</button>
+</header>
+<!-- Clients List Canvas -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop flex flex-col">
+<!-- Page Header & Actions -->
+<div class="hidden md:flex justify-between items-end mb-6 shrink-0">
+<div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Gestion des Clients</h2>
+<p class="text-on-surface-variant mt-1">1,248 clients enregistrés</p>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-bold flex items-center space-x-2 hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined">person_add</span>
+<span>Nouveau Client</span>
+</button>
+</div>
+<!-- Filters Bar -->
+<div class="bg-surface border border-outline-variant rounded-xl p-4 mb-6 shrink-0 flex flex-wrap gap-4 items-center">
+<div class="md:hidden w-full relative mb-2">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-10 py-2.5 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none" placeholder="Rechercher..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 transform -translate-y-1/2 text-outline">barcode_scanner</span>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-sm">filter_alt</span>
+<span class="text-sm font-medium text-on-surface-variant">Statut:</span>
+<select class="bg-transparent border-none text-sm focus:ring-0 py-0 pl-1 pr-6 cursor-pointer">
+<option>Tous</option>
+<option>VIP</option>
+<option>Régulier</option>
+<option>Nouveau</option>
+</select>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-sm">calendar_month</span>
+<span class="text-sm font-medium text-on-surface-variant">Activité:</span>
+<select class="bg-transparent border-none text-sm focus:ring-0 py-0 pl-1 pr-6 cursor-pointer">
+<option>30 derniers jours</option>
+<option>3 derniers mois</option>
+<option>6 derniers mois</option>
+<option>Inactifs</option>
+</select>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-outline text-sm">loyalty</span>
+<span class="text-sm font-medium text-on-surface-variant">Palier:</span>
+<select class="bg-transparent border-none text-sm focus:ring-0 py-0 pl-1 pr-6 cursor-pointer">
+<option>Tous</option>
+<option>Gold (15%)</option>
+<option>Silver (10%)</option>
+<option>Bronze (5%)</option>
+</select>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden flex-1 flex flex-col min-h-0">
+<div class="overflow-x-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low sticky top-0 z-10">
+<tr>
+<th class="px-4 py-3 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant">Client</th>
+<th class="px-4 py-3 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant">Contact</th>
+<th class="px-4 py-3 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant text-right">Commandes</th>
+<th class="px-4 py-3 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant text-right">Points</th>
+<th class="px-4 py-3 border-b border-outline-variant font-label-caps text-label-caps text-on-surface-variant text-center">Palier</th>
+<th class="px-4 py-3 border-b border-outline-variant"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant font-ticket-body text-ticket-body">
+<!-- Row 1 (Selected) -->
+<tr class="hover:bg-surface-container-lowest cursor-pointer bg-primary-container/5 transition-colors">
+<td class="px-4 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
+                                                JD
+                                            </div>
+<div>
+<div class="font-medium text-on-surface">Jean Dupont</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-xs mt-0.5">CLI-8472</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4">
+<div class="text-on-surface">+33 6 12 34 56 78</div>
+<div class="text-on-surface-variant text-xs flex items-center mt-0.5">
+<span class="material-symbols-outlined text-[14px] mr-1">chat</span> WhatsApp
+                                        </div>
+</td>
+<td class="px-4 py-4 text-right">
+<div class="font-bold">42</div>
+<div class="text-on-surface-variant text-xs">Dernière: 12/10/23</div>
+</td>
+<td class="px-4 py-4 text-right font-data-mono text-data-mono font-bold text-primary">
+                                        1,250
+                                    </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-status-pending/10 text-status-pending border border-status-pending/20">
+                                            Gold
+                                        </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest cursor-pointer transition-colors">
+<td class="px-4 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold">
+                                                ML
+                                            </div>
+<div>
+<div class="font-medium text-on-surface">Marie Laurent</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-xs mt-0.5">CLI-9103</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4">
+<div class="text-on-surface">+33 7 89 01 23 45</div>
+<div class="text-on-surface-variant text-xs flex items-center mt-0.5">
+<span class="material-symbols-outlined text-[14px] mr-1">sms</span> SMS
+                                        </div>
+</td>
+<td class="px-4 py-4 text-right">
+<div class="font-bold">18</div>
+<div class="text-on-surface-variant text-xs">Dernière: 05/10/23</div>
+</td>
+<td class="px-4 py-4 text-right font-data-mono text-data-mono font-bold text-on-surface">
+                                        450
+                                    </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-outline-variant/30 text-secondary border border-outline-variant">
+                                            Silver
+                                        </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest cursor-pointer transition-colors">
+<td class="px-4 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center font-bold">
+                                                PK
+                                            </div>
+<div>
+<div class="font-medium text-on-surface">Paul Kaba</div>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-xs mt-0.5">CLI-7721</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4">
+<div class="text-on-surface">+33 6 55 44 33 22</div>
+<div class="text-on-surface-variant text-xs flex items-center mt-0.5">
+<span class="material-symbols-outlined text-[14px] mr-1">mail</span> Email
+                                        </div>
+</td>
+<td class="px-4 py-4 text-right">
+<div class="font-bold">3</div>
+<div class="text-on-surface-variant text-xs">Dernière: 28/09/23</div>
+</td>
+<td class="px-4 py-4 text-right font-data-mono text-data-mono font-bold text-on-surface">
+                                        85
+                                    </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-surface-dim text-on-surface-variant border border-outline-variant">
+                                            Base
+                                        </span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Detail Panel (Side View) -->
+<div class="w-full md:w-[400px] bg-surface-container-lowest border-l border-outline-variant h-full shrink-0 flex flex-col overflow-y-auto hidden lg:flex shadow-[-4px_0_15px_-3px_rgba(0,0,0,0.05)]">
+<!-- Panel Header -->
+<div class="p-6 border-b border-outline-variant bg-surface sticky top-0 z-10 flex justify-between items-start">
+<div class="flex items-start space-x-4">
+<div class="w-14 h-14 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md font-bold shrink-0">
+                            JD
+                        </div>
+<div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Jean Dupont</h3>
+<div class="font-data-mono text-data-mono text-on-surface-variant text-sm mt-1">ID: CLI-8472</div>
+<div class="mt-2 flex gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-status-pending/10 text-status-pending border border-status-pending/20">
+                                    VIP Gold
+                                </span>
+</div>
+</div>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-variant p-1.5 rounded-md transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Panel Content -->
+<div class="p-6 space-y-8 flex-1">
+<!-- Contact Info -->
+<div>
+<h4 class="font-label-caps text-label-caps text-outline mb-3 uppercase tracking-wider">Contact &amp; Préférences</h4>
+<div class="bg-surface border border-outline-variant rounded-lg p-4 space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3 text-on-surface">
+<span class="material-symbols-outlined text-outline">call</span>
+<span class="font-data-mono text-data-mono">+33 6 12 34 56 78</span>
+</div>
+<button class="text-primary p-1 hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+</div>
+<div class="h-px bg-outline-variant"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3 text-on-surface">
+<span class="material-symbols-outlined text-outline">notifications_active</span>
+<span>Canal préféré: WhatsApp</span>
+</div>
+<button class="text-primary p-1 hover:bg-primary-container/20 rounded"><span class="material-symbols-outlined text-sm">edit</span></button>
+</div>
+</div>
+</div>
+<!-- Loyalty Stats -->
+<div>
+<h4 class="font-label-caps text-label-caps text-outline mb-3 uppercase tracking-wider">Fidélité</h4>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-primary-container/10 border border-primary-container/20 rounded-lg p-4 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">stars</span>
+<div class="font-kpi-display text-kpi-display font-bold text-primary">1.2k</div>
+<div class="text-xs text-on-surface-variant font-medium mt-1">Points Acquis</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-status-ready mb-1">loyalty</span>
+<div class="font-kpi-display text-[32px] font-bold text-on-surface mt-2">-15%</div>
+<div class="text-xs text-on-surface-variant font-medium mt-1">Réduction Actuelle</div>
+</div>
+</div>
+</div>
+<!-- Order History (Mini) -->
+<div>
+<div class="flex justify-between items-end mb-3">
+<h4 class="font-label-caps text-label-caps text-outline uppercase tracking-wider">Historique Récent</h4>
+<a class="text-xs text-primary font-bold hover:underline" href="#">Voir tout</a>
+</div>
+<div class="space-y-3">
+<!-- Receipt Item -->
+<div class="bg-surface-ticket border border-outline-variant rounded-lg p-3 flex justify-between items-center shadow-sm">
+<div>
+<div class="font-data-mono text-data-mono font-bold text-on-surface">CMD-2023-10-12</div>
+<div class="text-xs text-on-surface-variant mt-1">3 articles (Costumes, Chemise)</div>
+</div>
+<div class="text-right">
+<div class="font-bold text-on-surface">45.50 €</div>
+<span class="inline-block mt-1 text-[10px] font-bold px-1.5 py-0.5 rounded bg-status-ready/10 text-status-ready">Livré</span>
+</div>
+</div>
+<!-- Receipt Item -->
+<div class="bg-surface-ticket border border-outline-variant rounded-lg p-3 flex justify-between items-center shadow-sm opacity-70">
+<div>
+<div class="font-data-mono text-data-mono font-bold text-on-surface">CMD-2023-09-28</div>
+<div class="text-xs text-on-surface-variant mt-1">1 article (Manteau)</div>
+</div>
+<div class="text-right">
+<div class="font-bold text-on-surface">22.00 €</div>
+<span class="inline-block mt-1 text-[10px] font-bold px-1.5 py-0.5 rounded bg-status-ready/10 text-status-ready">Livré</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel Footer Actions -->
+<div class="p-4 border-t border-outline-variant bg-surface sticky bottom-0 grid grid-cols-2 gap-3">
+<button class="bg-surface border border-outline text-on-surface py-2.5 rounded-lg font-medium flex items-center justify-center space-x-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span>Contacter</span>
+</button>
+<button class="bg-primary text-on-primary py-2.5 rounded-lg font-medium flex items-center justify-center space-x-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+<span>Nouvelle Cmd</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface/95 backdrop-blur-md border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center px-4 py-2 font-label-caps text-label-caps">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span>Accueil</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined mb-1">local_shipping</span>
+<span>Livraisons</span>
+</a>
+<!-- Contextual FAB equivalent for Mobile Scanner -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-secondary-fixed-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100 relative -top-3" href="#">
+<div class="bg-primary text-on-primary p-3 rounded-full shadow-lg">
+<span class="material-symbols-outlined">barcode_scanner</span>
+</div>
+<span class="mt-1">Scan</span>
+</a>
+<!-- Semantically highlighted because we are in a User/Client management context -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
+<span class="material-symbols-outlined fill mb-1">person</span>
+<span>Profil</span>
+</a>
+</nav>
+</div>
+</body></html>

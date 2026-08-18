@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Super-Admin Dashboard - Fotall-Ma PRO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#faf8ff",
+                        "status-progress": "#3B82F6",
+                        "on-background": "#191b22",
+                        "surface-bright": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001945",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "tertiary-fixed": "#ffdbcd",
+                        "surface-container": "#ededf6",
+                        "background": "#faf8ff",
+                        "on-secondary-container": "#54647a",
+                        "status-ready": "#10B981",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary-fixed": "#0b1c30",
+                        "surface-container-highest": "#e1e2eb",
+                        "tertiary-container": "#993900",
+                        "secondary": "#505f76",
+                        "outline-variant": "#c3c6d5",
+                        "tenant-accent": "var(--primary-color)",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary": "#ffffff",
+                        "status-delivered": "#6366F1",
+                        "alert-critical": "#EF4444",
+                        "on-primary-fixed-variant": "#00419c",
+                        "secondary-container": "#d0e1fb",
+                        "surface-ticket": "#F8FAFC",
+                        "inverse-on-surface": "#f0f0f9",
+                        "on-surface": "#191b22",
+                        "surface-container-low": "#f3f3fc",
+                        "on-primary-container": "#bcceff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "inverse-surface": "#2e3037",
+                        "surface-container-high": "#e7e7f1",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "surface-variant": "#e1e2eb",
+                        "on-error-container": "#93000a",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#d9d9e2",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "status-pending": "#F59E0B",
+                        "primary-fixed-dim": "#b0c6ff",
+                        "on-surface-variant": "#434653",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#732900",
+                        "primary": "#003c90",
+                        "surface-tint": "#1d59c1",
+                        "outline": "#737784",
+                        "inverse-primary": "#b0c6ff",
+                        "on-tertiary-container": "#ffc0a7",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#d9e2ff",
+                        "primary-container": "#0f52ba"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "margin-mobile": "16px",
+                        "container-max": "1440px",
+                        "gutter": "16px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "ticket-body": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "kpi-display": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "data-mono": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        :root {
+            --primary-color: #003c90;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen border-r border-outline-variant bg-surface py-base px-4 w-64 flex-shrink-0 z-10 relative">
+<div class="mb-8 flex items-center space-x-3 px-2">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A clean, modern geometric logo for a corporate SaaS platform, featuring interlocking shapes in deep blue and crisp white. The style is minimalist and professional, suitable for a high-end enterprise software dashboard. The lighting is bright and even, highlighting the sleek curves of the icon." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRB6wCuALt9SMU-0V_07vsEu7Lnu6mcQhEYiCxFWthLCB_IdM7aNjD_0OP-3_c-XlQcD_DB9fOcbUretCF332TxqMpURzPKtnPC0HCl6ITp-940HkJVTGy9_uWTM_tbxEuxNganJwt-3iQ4OOKyCMbjQ31RiLmwg9pQxtPraYUH-uB3oRxLdvJdIV3ZM46EJmrWudLoDDWAPVMsrgZ7uQeph6XoaQGvsPfaJN3chDQbrZXs9XSdhsh"/>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</h1>
+<p class="font-ticket-body text-ticket-body text-on-surface-variant">Admin Console</p>
+</div>
+</div>
+<button class="mb-6 w-full py-3 px-4 rounded-xl bg-tenant-accent text-on-primary flex items-center justify-center space-x-2 shadow-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+<span class="font-ticket-body text-ticket-body">Create New Tenant</span>
+</button>
+<ul class="space-y-2 flex-grow">
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ticket-body text-ticket-body">Overview</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-ticket-body text-ticket-body">Tenants</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">subscriptions</span>
+<span class="font-ticket-body text-ticket-body">Subscriptions</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">key</span>
+<span class="font-ticket-body text-ticket-body">Licenses</span>
+</a>
+</li>
+</ul>
+<ul class="space-y-2 mt-auto border-t border-outline-variant pt-4">
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ticket-body text-ticket-body">Support</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-ticket-body text-ticket-body">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center space-x-3 px-3 py-2 rounded-xl text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 ease-in-out mt-4" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-ticket-body text-ticket-body">Logout</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 bg-surface border-b border-outline-variant flex-shrink-0 relative z-0">
+<div class="md:hidden flex items-center">
+<span class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</span>
+</div>
+<div class="hidden md:flex items-center w-96 relative">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary font-body-md text-body-md text-on-surface placeholder-on-surface-variant" placeholder="Search tenants, licenses..." type="text"/>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center space-x-2 border-l border-outline-variant pl-4 ml-2">
+<div class="text-right hidden lg:block">
+<p class="font-ticket-body text-ticket-body text-on-surface">Admin User</p>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Super Administrator</p>
+</div>
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A professional headshot of a corporate executive in a modern office setting. The lighting is bright and natural, highlighting a confident expression. The background is slightly blurred, featuring sleek glass and steel architectural elements." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVT8a9RdPMVKMlVUXR8QKdvBUGlJOyxO6q612TytrFdUYHKIs9drSPgGpCET0NB2ZbdtzZSLSrmTjYgl41Y9redtmTasISXD5kBXRTmwEsR3XoTfOpnaT0mqUCB35F_iuiauhneiHtqktsVcaqLj7paxoo3QaWkXbo8K3XoTxvIIhYx8Wbb5tSJr8thV_VGGmSkMIPqLB3FsSH9RYw5uqrH24sZNfaqgJ9I0nhw2hmWb42YeVrnQze"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-desktop lg:p-8 bg-surface-container-low">
+<div class="max-w-container-max mx-auto space-y-8">
+<!-- Page Header -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Global Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Monitor platform health and tenant metrics.</p>
+</div>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- KPI 1 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Active Tenants</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-sm">storefront</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline space-x-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">1,248</span>
+<span class="flex items-center text-status-ready font-ticket-body text-ticket-body">
+<span class="material-symbols-outlined text-sm">arrow_upward</span>
+                                12%
+                            </span>
+</div>
+<!-- Decorative gradient blob -->
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-primary/5 rounded-full blur-xl group-hover:bg-primary/10 transition-colors"></div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Monthly Recurring Revenue</span>
+<div class="w-8 h-8 rounded-full bg-status-ready/10 flex items-center justify-center text-status-ready">
+<span class="material-symbols-outlined text-sm">payments</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline space-x-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">$245k</span>
+<span class="flex items-center text-status-ready font-ticket-body text-ticket-body">
+<span class="material-symbols-outlined text-sm">arrow_upward</span>
+                                8%
+                            </span>
+</div>
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-status-ready/5 rounded-full blur-xl group-hover:bg-status-ready/10 transition-colors"></div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Total Orders (Global)</span>
+<div class="w-8 h-8 rounded-full bg-status-progress/10 flex items-center justify-center text-status-progress">
+<span class="material-symbols-outlined text-sm">receipt_long</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline space-x-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">84.2k</span>
+<span class="flex items-center text-on-surface-variant font-ticket-body text-ticket-body">
+                                this month
+                            </span>
+</div>
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-status-progress/5 rounded-full blur-xl group-hover:bg-status-progress/10 transition-colors"></div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface rounded-xl border border-outline-variant p-6 flex flex-col justify-between h-40 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Licenses Expiring (&lt;30d)</span>
+<div class="w-8 h-8 rounded-full bg-alert-critical/10 flex items-center justify-center text-alert-critical">
+<span class="material-symbols-outlined text-sm">warning</span>
+</div>
+</div>
+<div class="mt-4 flex items-baseline space-x-2">
+<span class="font-kpi-display text-kpi-display text-on-surface">32</span>
+<span class="flex items-center text-alert-critical font-ticket-body text-ticket-body">
+                                Action req.
+                            </span>
+</div>
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-alert-critical/5 rounded-full blur-xl group-hover:bg-alert-critical/10 transition-colors"></div>
+</div>
+</div>
+<!-- Recent Tenants Section -->
+<div class="bg-surface rounded-xl border border-outline-variant overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recent Tenants</h3>
+<button class="font-ticket-body text-ticket-body text-primary hover:underline flex items-center">
+                            View All <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="py-3 px-6 font-label-caps text-label-caps text-on-surface-variant uppercase">Tenant Name</th>
+<th class="py-3 px-6 font-label-caps text-label-caps text-on-surface-variant uppercase">Plan Status</th>
+<th class="py-3 px-6 font-label-caps text-label-caps text-on-surface-variant uppercase">License State</th>
+<th class="py-3 px-6 font-label-caps text-label-caps text-on-surface-variant uppercase">Tenant ID</th>
+<th class="py-3 px-6 font-label-caps text-label-caps text-on-surface-variant uppercase text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-lowest transition-colors h-12">
+<td class="py-2 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">PD</div>
+<span class="font-ticket-body text-ticket-body text-on-surface font-semibold">Pressing Deluxe Paris</span>
+</div>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary uppercase tracking-wide">Pro</span>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-ready/10 text-status-ready uppercase tracking-wide">Active</span>
+</td>
+<td class="py-2 px-6 font-data-mono text-data-mono text-on-surface-variant">TEN-4892</td>
+<td class="py-2 px-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high" title="Manage">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-alert-critical transition-colors rounded hover:bg-surface-container-high" title="Suspend">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-lowest transition-colors h-12">
+<td class="py-2 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-status-pending/20 text-status-pending flex items-center justify-center font-bold text-xs">LC</div>
+<span class="font-ticket-body text-ticket-body text-on-surface font-semibold">Le Clean Express</span>
+</div>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-secondary/10 text-secondary uppercase tracking-wide">Starter</span>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-pending/10 text-status-pending uppercase tracking-wide">Trial</span>
+</td>
+<td class="py-2 px-6 font-data-mono text-data-mono text-on-surface-variant">TEN-5011</td>
+<td class="py-2 px-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high" title="Manage">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-alert-critical transition-colors rounded hover:bg-surface-container-high" title="Suspend">
+<span class="material-symbols-outlined text-sm">block</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-lowest transition-colors h-12">
+<td class="py-2 px-6">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-xs">MN</div>
+<span class="font-ticket-body text-ticket-body text-on-surface font-semibold">Master Nettoyeur</span>
+</div>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-on-background/10 text-on-background uppercase tracking-wide">Business</span>
+</td>
+<td class="py-2 px-6">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-alert-critical/10 text-alert-critical uppercase tracking-wide">Expired</span>
+</td>
+<td class="py-2 px-6 font-data-mono text-data-mono text-on-surface-variant">TEN-2204</td>
+<td class="py-2 px-6 text-right">
+<div class="flex items-center justify-end space-x-2">
+<button class="px-2 py-1 text-xs font-ticket-body text-status-ready border border-status-ready rounded hover:bg-status-ready/10 transition-colors">
+                                                Renew
+                                            </button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high" title="Manage">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

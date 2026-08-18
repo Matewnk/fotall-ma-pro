@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Paramètres de Marque - CleanManager Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "surface-container-high": "#e7e7f1",
+                      "inverse-on-surface": "#f0f0f9",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "secondary-container": "#d0e1fb",
+                      "tertiary-fixed": "#ffdbcd",
+                      "status-progress": "#3B82F6",
+                      "secondary-fixed": "#d3e4fe",
+                      "on-primary-fixed": "#001945",
+                      "on-primary-fixed-variant": "#00419c",
+                      "on-primary-container": "#bcceff",
+                      "surface-variant": "#e1e2eb",
+                      "background": "#faf8ff",
+                      "inverse-surface": "#2e3037",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "surface-dim": "#d9d9e2",
+                      "tertiary-container": "#993900",
+                      "primary-fixed": "#d9e2ff",
+                      "outline": "#737784",
+                      "surface-container": "#ededf6",
+                      "status-pending": "#F59E0B",
+                      "on-background": "#191b22",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "error": "#ba1a1a",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#54647a",
+                      "on-surface": "#191b22",
+                      "on-primary": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f3f3fc",
+                      "alert-critical": "#EF4444",
+                      "on-secondary-fixed": "#0b1c30",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "on-surface-variant": "#434653",
+                      "primary": "#003c90",
+                      "inverse-primary": "#b0c6ff",
+                      "surface-tint": "#1d59c1",
+                      "tertiary": "#732900",
+                      "surface": "#faf8ff",
+                      "primary-container": "#0f52ba",
+                      "on-secondary": "#ffffff",
+                      "surface-bright": "#faf8ff",
+                      "surface-ticket": "#F8FAFC",
+                      "secondary": "#505f76",
+                      "on-tertiary-container": "#ffc0a7",
+                      "status-delivered": "#6366F1",
+                      "surface-container-highest": "#e1e2eb",
+                      "surface-container-lowest": "#ffffff",
+                      "outline-variant": "#c3c6d5",
+                      "status-ready": "#10B981",
+                      "on-tertiary-fixed": "#360f00",
+                      "tenant-accent": "var(--primary-color)"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "container-max": "1440px",
+                      "base": "8px",
+                      "margin-desktop": "24px",
+                      "gutter": "16px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "kpi-display": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "ticket-body": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "kpi-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "ticket-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        :root {
+            --primary-color: #003c90;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col h-full py-base z-40 hidden md:flex">
+<div class="px-margin-desktop py-4 mb-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">CleanManager Pro</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Admin Console</p>
+</div>
+<div class="flex-1 overflow-y-auto px-4 space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md font-medium">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-body-md text-body-md font-medium">Orders</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-body-md text-body-md font-medium">Inventory</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-body-md text-body-md font-medium">Customers</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md font-medium">Reports</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 rounded-lg bg-surface-container-low text-primary dark:text-inverse-primary font-bold border-r-4 border-primary cursor-pointer active:scale-95 transition-colors" href="#">
+<span class="material-symbols-outlined filled-icon" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-outline-variant">
+<div class="flex items-center space-x-3 px-4 py-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-body-md text-body-md text-sm font-medium text-on-surface truncate">Admin User</p>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-64 h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline h-16 flex justify-between items-center w-full px-margin-desktop sticky top-0 z-30 transition-all duration-200">
+<div class="flex items-center md:hidden">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary dark:text-inverse-primary">CleanManager Pro</h1>
+</div>
+<!-- Mobile Menu Button (Placeholder) -->
+<button class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-all">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Search - Hidden on this specific settings page for clarity, but part of shell structure -->
+<div class="hidden md:flex items-center flex-1 max-w-md mx-4">
+<!-- Keep empty or simplified for settings context -->
+</div>
+<div class="flex items-center space-x-2">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden ml-2 cursor-pointer border border-outline-variant hidden md:block">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A small circular profile picture of an administrative user in a corporate setting, showing a professional and friendly face against a neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyS0E4PiCwQqadG5D19O4ZK9--7devOtulmXHzmTN7dECgFSe7FdmtvfOmqQss7IZpTzMA2Lhrn3TU8M3sgvWMoVWG4M_X76IlwKSxF2JTLurq8jE0heZJjFHtG5H5_7CDYNbLp8EgzisAijBFR3Ro3nkOlwKLhMAKPovpBMTIysqBGiB_hvKQCfkO07GroBcC9tR0WWNy0hswDcfwTbsKr3ZwOr75b9qEH4fD2bpK3L7YT5PZyHuf"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 overflow-y-auto bg-surface-container-lowest p-margin-mobile md:p-margin-desktop">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="mb-8">
+<h2 class="font-headline-lg text-headline-lg md:font-headline-lg md:text-headline-lg text-on-surface">Branding &amp; Personalization</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">Configure your establishment's identity. These details will appear on receipts, customer communications, and the Point of Sale interface.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Forms (8 cols) -->
+<div class="lg:col-span-8 space-y-gutter">
+<!-- General Info Card -->
+<div class="bg-surface border border-outline-variant rounded-xl p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">storefront</span>
+                                Informations Générales
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Nom de l'établissement</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" type="text" value="Pressing de l'Étoile"/>
+</div>
+<div class="space-y-2 md:col-span-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Adresse complète</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" rows="2">15 Avenue des Champs-Élysées, 75008 Paris</textarea>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Téléphone</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" type="tel" value="01 23 45 67 89"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Email de contact</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" type="email" value="contact@pressing-etoile.fr"/>
+</div>
+</div>
+</div>
+<!-- Branding Card -->
+<div class="bg-surface border border-outline-variant rounded-xl p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">palette</span>
+                                Identité Visuelle
+                            </h3>
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Logo Upload -->
+<div class="flex-1 space-y-4">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Logo de l'entreprise</label>
+<div class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-2xl">upload_file</span>
+</div>
+<p class="font-body-md text-body-md font-medium text-on-surface">Glissez-déposez votre logo ici</p>
+<p class="font-body-md text-sm text-on-surface-variant mt-1">PNG, JPG ou SVG (Max. 2MB)</p>
+</div>
+</div>
+<!-- Color Picker -->
+<div class="flex-1 space-y-4">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase">Couleur Principale (Accent)</label>
+<div class="bg-surface-container-low border border-outline-variant rounded-xl p-4 flex flex-col gap-4">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-lg bg-[var(--primary-color)] shadow-sm border border-outline-variant"></div>
+<input class="flex-1 bg-surface border border-outline-variant rounded-lg px-3 py-2 font-data-mono text-data-mono text-on-surface focus:outline-none focus:border-primary" type="text" value="#003c90"/>
+</div>
+<div class="grid grid-cols-5 gap-2">
+<!-- Preset colors -->
+<button class="w-8 h-8 rounded-full bg-[#003c90] ring-2 ring-offset-2 ring-primary cursor-pointer"></button>
+<button class="w-8 h-8 rounded-full bg-[#10B981] hover:scale-110 transition-transform cursor-pointer"></button>
+<button class="w-8 h-8 rounded-full bg-[#6366F1] hover:scale-110 transition-transform cursor-pointer"></button>
+<button class="w-8 h-8 rounded-full bg-[#F59E0B] hover:scale-110 transition-transform cursor-pointer"></button>
+<button class="w-8 h-8 rounded-full bg-surface-variant border border-outline flex items-center justify-center hover:bg-surface-dim transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">add</span>
+</button>
+</div>
+</div>
+<p class="font-body-md text-sm text-on-surface-variant mt-2">Cette couleur sera utilisée pour les boutons principaux et les indicateurs d'état.</p>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex justify-end space-x-4 pt-4">
+<button class="px-6 py-2 rounded-lg font-body-md text-body-md font-medium text-on-surface-variant border border-outline-variant hover:bg-surface-container-low transition-colors">
+                                Annuler
+                            </button>
+<button class="px-6 py-2 rounded-lg font-body-md text-body-md font-medium bg-[var(--primary-color)] text-on-primary hover:opacity-90 transition-opacity shadow-sm flex items-center">
+<span class="material-symbols-outlined mr-2 text-sm">save</span>
+                                Enregistrer les modifications
+                            </button>
+</div>
+</div>
+<!-- Right Column: Live Preview (4 cols) -->
+<div class="lg:col-span-4">
+<div class="sticky top-24 space-y-6">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest px-2">Aperçu en Direct</h3>
+<!-- Preview Container: Simulating the App UI -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm relative">
+<!-- App Header Mock -->
+<div class="bg-surface border-b border-outline-variant h-14 flex items-center px-4 justify-between">
+<div class="flex items-center space-x-2">
+<!-- Mock Logo -->
+<div class="w-8 h-8 bg-surface-container rounded-md flex items-center justify-center border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-lg">local_laundry_service</span>
+</div>
+<span class="font-headline-md text-base font-bold text-on-surface">Pressing de l'Étoile</span>
+</div>
+</div>
+<!-- App Body Mock -->
+<div class="p-4 bg-surface-container-lowest space-y-4">
+<!-- Mock Receipt Card -->
+<div class="bg-surface-ticket border border-outline-variant rounded-lg p-4 shadow-sm relative">
+<div class="absolute top-0 left-0 w-full h-1 bg-[var(--primary-color)] rounded-t-lg"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">CMD #8402</p>
+<p class="font-body-md text-sm font-medium text-on-surface mt-1">Client: Dupont M.</p>
+</div>
+<span class="px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-[10px] uppercase border border-status-ready/20">Prêt</span>
+</div>
+<div class="border-t border-dashed border-outline-variant py-3 space-y-2">
+<div class="flex justify-between font-ticket-body text-ticket-body text-on-surface">
+<span>2x Chemise (Cintre)</span>
+<span>14.00€</span>
+</div>
+<div class="flex justify-between font-ticket-body text-ticket-body text-on-surface">
+<span>1x Pantalon Toile</span>
+<span>8.50€</span>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-3 flex justify-between items-center">
+<span class="font-body-md text-sm text-on-surface-variant">Total TTC</span>
+<span class="font-headline-md text-lg font-bold text-on-surface">22.50€</span>
+</div>
+<div class="mt-4">
+<button class="w-full py-2 rounded-md font-body-md text-sm font-medium bg-[var(--primary-color)] text-on-primary hover:opacity-90 transition-opacity">
+                                                Encaisser
+                                            </button>
+</div>
+</div>
+<!-- Mock Action Buttons -->
+<div class="grid grid-cols-2 gap-2">
+<button class="py-2 px-3 rounded-md border border-[var(--primary-color)] text-[var(--primary-color)] font-body-md text-sm font-medium bg-transparent hover:bg-[var(--primary-color)]/5 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined mr-1 text-sm">print</span> Ticket
+                                        </button>
+<button class="py-2 px-3 rounded-md bg-surface border border-outline-variant text-on-surface font-body-md text-sm font-medium hover:bg-surface-container-low transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined mr-1 text-sm">sms</span> SMS
+                                        </button>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-lg p-4 border border-outline-variant">
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mr-3 mt-0.5">info</span>
+<p class="font-body-md text-sm text-on-surface-variant">
+                                        The preview shows how your branding accent color (currently <span class="font-data-mono font-medium text-on-surface">#003c90</span>) applies to primary actions and decorative elements.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
