@@ -34,6 +34,7 @@ tickets, caisse, rapports, Web, mobile et tablette.
 ## Rôles — ne jamais les fusionner
 
 SUPER_ADMIN
+
 - plateforme SaaS ;
 - tenants ;
 - licences ;
@@ -42,6 +43,7 @@ SUPER_ADMIN
 - support.
 
 ADMIN
+
 - un seul tenant ;
 - configuration ;
 - utilisateurs ;
@@ -50,15 +52,18 @@ ADMIN
 - rapports.
 
 CAISSIER
+
 - commandes ;
 - paiements ;
 - tickets ;
 - caisse.
 
 TECHNICIEN
+
 - statuts de traitement autorisés.
 
 LIVREUR
+
 - livraisons du jour et statut de livraison.
 
 ## Règle de sécurité n°1

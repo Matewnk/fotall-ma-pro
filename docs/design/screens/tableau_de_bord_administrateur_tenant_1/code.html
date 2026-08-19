@@ -1,393 +1,581 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Dashboard - Pressing Deluxe Admin</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        :root {
-            --primary-color: #003c90; /* Tenant accent fallback */
-        }
-        .material-symbols-outlined {
-            font-family: 'Material Symbols Outlined';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            line-height: 1;
-            letter-spacing: normal;
-            text-transform: none;
-            display: inline-block;
-            white-space: nowrap;
-            word-wrap: normal;
-            direction: ltr;
-            -webkit-font-feature-settings: 'liga';
-            -webkit-font-smoothing: antialiased;
-        }
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dashboard - Pressing Deluxe Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #003c90; /* Tenant accent fallback */
+      }
+      .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+      }
     </style>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface": "#faf8ff",
-                        "status-progress": "#3B82F6",
-                        "on-background": "#191b22",
-                        "surface-bright": "#faf8ff",
-                        "surface-container-lowest": "#ffffff",
-                        "on-secondary": "#ffffff",
-                        "on-primary-fixed": "#001945",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "tertiary-fixed": "#ffdbcd",
-                        "surface-container": "#ededf6",
-                        "background": "#faf8ff",
-                        "on-secondary-container": "#54647a",
-                        "status-ready": "#10B981",
-                        "on-tertiary-fixed": "#360f00",
-                        "on-secondary-fixed": "#0b1c30",
-                        "surface-container-highest": "#e1e2eb",
-                        "tertiary-container": "#993900",
-                        "secondary": "#505f76",
-                        "outline-variant": "#c3c6d5",
-                        "tenant-accent": "var(--primary-color)",
-                        "error": "#ba1a1a",
-                        "secondary-fixed": "#d3e4fe",
-                        "on-tertiary": "#ffffff",
-                        "status-delivered": "#6366F1",
-                        "alert-critical": "#EF4444",
-                        "on-primary-fixed-variant": "#00419c",
-                        "secondary-container": "#d0e1fb",
-                        "surface-ticket": "#F8FAFC",
-                        "inverse-on-surface": "#f0f0f9",
-                        "on-surface": "#191b22",
-                        "surface-container-low": "#f3f3fc",
-                        "on-primary-container": "#bcceff",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "inverse-surface": "#2e3037",
-                        "surface-container-high": "#e7e7f1",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "surface-variant": "#e1e2eb",
-                        "on-error-container": "#93000a",
-                        "error-container": "#ffdad6",
-                        "surface-dim": "#d9d9e2",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "status-pending": "#F59E0B",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "on-surface-variant": "#434653",
-                        "on-primary": "#ffffff",
-                        "tertiary": "#732900",
-                        "primary": "#003c90",
-                        "surface-tint": "#1d59c1",
-                        "outline": "#737784",
-                        "inverse-primary": "#b0c6ff",
-                        "on-tertiary-container": "#ffc0a7",
-                        "on-error": "#ffffff",
-                        "primary-fixed": "#d9e2ff",
-                        "primary-container": "#0f52ba"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "margin-desktop": "24px",
-                        "margin-mobile": "16px",
-                        "container-max": "1440px",
-                        "gutter": "16px",
-                        "base": "8px"
-                    },
-                    "fontFamily": {
-                        "ticket-body": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "label-caps": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "data-mono": ["JetBrains Mono"]
-                    },
-                    "fontSize": {
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
-                    }
-                }
-            }
-        }
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              surface: '#faf8ff',
+              'status-progress': '#3B82F6',
+              'on-background': '#191b22',
+              'surface-bright': '#faf8ff',
+              'surface-container-lowest': '#ffffff',
+              'on-secondary': '#ffffff',
+              'on-primary-fixed': '#001945',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'tertiary-fixed': '#ffdbcd',
+              'surface-container': '#ededf6',
+              background: '#faf8ff',
+              'on-secondary-container': '#54647a',
+              'status-ready': '#10B981',
+              'on-tertiary-fixed': '#360f00',
+              'on-secondary-fixed': '#0b1c30',
+              'surface-container-highest': '#e1e2eb',
+              'tertiary-container': '#993900',
+              secondary: '#505f76',
+              'outline-variant': '#c3c6d5',
+              'tenant-accent': 'var(--primary-color)',
+              error: '#ba1a1a',
+              'secondary-fixed': '#d3e4fe',
+              'on-tertiary': '#ffffff',
+              'status-delivered': '#6366F1',
+              'alert-critical': '#EF4444',
+              'on-primary-fixed-variant': '#00419c',
+              'secondary-container': '#d0e1fb',
+              'surface-ticket': '#F8FAFC',
+              'inverse-on-surface': '#f0f0f9',
+              'on-surface': '#191b22',
+              'surface-container-low': '#f3f3fc',
+              'on-primary-container': '#bcceff',
+              'secondary-fixed-dim': '#b7c8e1',
+              'inverse-surface': '#2e3037',
+              'surface-container-high': '#e7e7f1',
+              'tertiary-fixed-dim': '#ffb596',
+              'surface-variant': '#e1e2eb',
+              'on-error-container': '#93000a',
+              'error-container': '#ffdad6',
+              'surface-dim': '#d9d9e2',
+              'on-secondary-fixed-variant': '#38485d',
+              'status-pending': '#F59E0B',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-surface-variant': '#434653',
+              'on-primary': '#ffffff',
+              tertiary: '#732900',
+              primary: '#003c90',
+              'surface-tint': '#1d59c1',
+              outline: '#737784',
+              'inverse-primary': '#b0c6ff',
+              'on-tertiary-container': '#ffc0a7',
+              'on-error': '#ffffff',
+              'primary-fixed': '#d9e2ff',
+              'primary-container': '#0f52ba',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'margin-desktop': '24px',
+              'margin-mobile': '16px',
+              'container-max': '1440px',
+              gutter: '16px',
+              base: '8px',
+            },
+            fontFamily: {
+              'ticket-body': ['Inter'],
+              'headline-lg': ['Inter'],
+              'label-caps': ['Inter'],
+              'headline-md': ['Inter'],
+              'kpi-display': ['Inter'],
+              'body-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+            },
+            fontSize: {
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-background text-on-surface h-screen flex overflow-hidden">
-<!-- SideNavBar (Shared Component) -->
-<nav class="hidden md:flex flex-col h-screen border-r border-outline-variant dark:border-outline py-base px-4 bg-surface dark:bg-inverse-surface w-64 shrink-0 transition-all duration-200 ease-in-out z-20 shadow-sm relative">
-<!-- Header -->
-<div class="flex items-center gap-3 mb-8 px-2 mt-4">
-<img alt="Tenant Logo" class="w-10 h-10 rounded-lg object-cover bg-surface-container-high shrink-0" data-alt="A clean, modern corporate logo for 'Pressing Deluxe', featuring a stylized hanger and water drop motif in a crisp white and navy blue color palette. The aesthetic is minimal, scalable, and highly legible, suitable for a professional SaaS dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgn3a8KUEKnQclqe9YAIG9bZwNAKPMExNiJTVL8dYwsbUqid1T5Dq2fW-dNchfY8m9ml_VcvxuO91Esn6IYIr5DdAUZEehhCe-0zkTTi0Lvv2ETeSjyU75F40cHiJPQHg0QrdVNdyOcbrM8pGDkrKyJR2Bqr2PTZDepu2PBYzwcRMH1FU2RiWprODPBmk9g6y-FODxZIkRfbdGtbWmrKJ52WhfEeY8pASYZWcYT50MotHSuAdishwL"/>
-<div class="flex flex-col">
-<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim">Pressing Deluxe</span>
-<span class="font-ticket-body text-ticket-body text-on-surface-variant">Admin Console</span>
-</div>
-</div>
-<!-- Main Nav Links -->
-<div class="flex flex-col gap-1 flex-grow overflow-y-auto">
-<!-- Active Tab: Dashboard -->
-<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container dark:bg-secondary-fixed-variant text-on-secondary-container dark:text-on-secondary-fixed rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined text-tenant-accent" style="font-size: 20px;">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">receipt_long</span>
-                Orders
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">inventory_2</span>
-                Inventory
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">group</span>
-                Customers
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">analytics</span>
-                Reports
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">settings</span>
-                Settings
-            </a>
-</div>
-<!-- CTA & Footer -->
-<div class="mt-auto flex flex-col gap-4 pt-4 border-t border-outline-variant">
-<button class="w-full py-2 bg-tenant-accent text-on-primary rounded-xl font-ticket-body text-ticket-body shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
-                New Order
+  </head>
+  <body class="bg-background text-on-surface h-screen flex overflow-hidden">
+    <!-- SideNavBar (Shared Component) -->
+    <nav
+      class="hidden md:flex flex-col h-screen border-r border-outline-variant dark:border-outline py-base px-4 bg-surface dark:bg-inverse-surface w-64 shrink-0 transition-all duration-200 ease-in-out z-20 shadow-sm relative"
+    >
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-8 px-2 mt-4">
+        <img
+          alt="Tenant Logo"
+          class="w-10 h-10 rounded-lg object-cover bg-surface-container-high shrink-0"
+          data-alt="A clean, modern corporate logo for 'Pressing Deluxe', featuring a stylized hanger and water drop motif in a crisp white and navy blue color palette. The aesthetic is minimal, scalable, and highly legible, suitable for a professional SaaS dashboard."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgn3a8KUEKnQclqe9YAIG9bZwNAKPMExNiJTVL8dYwsbUqid1T5Dq2fW-dNchfY8m9ml_VcvxuO91Esn6IYIr5DdAUZEehhCe-0zkTTi0Lvv2ETeSjyU75F40cHiJPQHg0QrdVNdyOcbrM8pGDkrKyJR2Bqr2PTZDepu2PBYzwcRMH1FU2RiWprODPBmk9g6y-FODxZIkRfbdGtbWmrKJ52WhfEeY8pASYZWcYT50MotHSuAdishwL"
+        />
+        <div class="flex flex-col">
+          <span
+            class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim"
+            >Pressing Deluxe</span
+          >
+          <span class="font-ticket-body text-ticket-body text-on-surface-variant"
+            >Admin Console</span
+          >
+        </div>
+      </div>
+      <!-- Main Nav Links -->
+      <div class="flex flex-col gap-1 flex-grow overflow-y-auto">
+        <!-- Active Tab: Dashboard -->
+        <a
+          class="flex items-center gap-3 px-3 py-2 bg-secondary-container dark:bg-secondary-fixed-variant text-on-secondary-container dark:text-on-secondary-fixed rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-tenant-accent" style="font-size: 20px"
+            >dashboard</span
+          >
+          Dashboard
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">receipt_long</span>
+          Orders
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">inventory_2</span>
+          Inventory
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">group</span>
+          Customers
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">analytics</span>
+          Reports
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">settings</span>
+          Settings
+        </a>
+      </div>
+      <!-- CTA & Footer -->
+      <div class="mt-auto flex flex-col gap-4 pt-4 border-t border-outline-variant">
+        <button
+          class="w-full py-2 bg-tenant-accent text-on-primary rounded-xl font-ticket-body text-ticket-body shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined" style="font-size: 20px">add</span>
+          New Order
+        </button>
+        <div class="flex flex-col gap-1">
+          <a
+            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+            href="#"
+          >
+            <span class="material-symbols-outlined" style="font-size: 20px">help</span>
+            Support
+          </a>
+          <a
+            class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors"
+            href="#"
+          >
+            <span class="material-symbols-outlined" style="font-size: 20px">logout</span>
+            Logout
+          </a>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
+      <!-- TopNavBar (Shared Component) - Rendered as per instructions, though usually top app bar spans full width. Adjusting for layout. -->
+      <header
+        class="flex justify-between items-center w-full px-margin-desktop h-16 border-b border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface shrink-0"
+      >
+        <div class="flex items-center gap-4">
+          <button
+            class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors"
+          >
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <div class="relative hidden sm:block">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+              style="font-size: 20px"
+              >search</span
+            >
+            <input
+              class="w-64 pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-tenant-accent focus:border-transparent transition-all"
+              placeholder="Search orders, clients..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <button
+            class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors relative"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-alert-critical rounded-full"></span>
+          </button>
+          <button
+            class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors hidden sm:block"
+          >
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <button
+            class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors hidden sm:block"
+          >
+            <span class="material-symbols-outlined">apps</span>
+          </button>
+          <div class="h-6 w-px bg-outline-variant mx-1 hidden sm:block"></div>
+          <img
+            alt="User profile"
+            class="w-8 h-8 rounded-full border border-outline-variant object-cover cursor-pointer hover:ring-2 hover:ring-tenant-accent transition-all"
+            data-alt="A professional headshot of a friendly business manager or admin user in a bright, modern office setting. The image should be cropped as a square avatar, conveying competence and approachability, suitable for a small business software interface."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYPXcsAo8rmXkEBWTmnNAGTh62S3U3j1TLTSY2KuNObi7sfAcOt3GbrcjjaVSzzvR6o7LaLOCpCeMVdF5hXv9ai5eLE7nwBmkHdcR6_3hpBeVBqfSHzd3Nf05wLh6OWtOvJaAxrqkiX5hUaWaziCl6qmB1KiwhXCUMvOLRsfRIQ5zspknxdYNtgXUzYuJNL_GYuXSN_Y8HPKaCwQqNkyjBnHmr6lFKvds9yf8fNrhB4Hwx3Xnz-SwH"
+          />
+        </div>
+      </header>
+      <!-- Scrollable Canvas -->
+      <main
+        class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-lowest"
+      >
+        <!-- Alerts Section -->
+        <div class="mb-6 flex flex-col sm:flex-row gap-4">
+          <div
+            class="flex-1 bg-error-container text-on-error-container p-4 rounded-xl flex items-start gap-3 border border-red-200"
+          >
+            <span class="material-symbols-outlined text-alert-critical shrink-0 mt-0.5"
+              >warning</span
+            >
+            <div>
+              <h4 class="font-ticket-body text-ticket-body font-bold">Stock Warning</h4>
+              <p class="font-body-md text-body-md text-sm mt-1">
+                Detergent 'Pro-Clean' is running low (Current: 2L). Reorder recommended.
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex-1 bg-surface-container-high text-on-surface p-4 rounded-xl flex items-start gap-3 border border-outline-variant"
+          >
+            <span class="material-symbols-outlined text-status-pending shrink-0 mt-0.5">info</span>
+            <div>
+              <h4 class="font-ticket-body text-ticket-body font-bold">Trial Expiring</h4>
+              <p class="font-body-md text-body-md text-sm mt-1">
+                Your Premium Admin license expires in 3 days.
+                <a class="text-tenant-accent underline" href="#">Upgrade now</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between items-end mb-6">
+          <h1
+            class="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-background"
+          >
+            Dashboard Overview
+          </h1>
+          <span
+            class="font-ticket-body text-ticket-body text-on-surface-variant hidden sm:inline-block"
+            >Last synced: Just now</span
+          >
+        </div>
+        <!-- KPI Bento Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+          <!-- KPI 1 -->
+          <div
+            class="col-span-2 lg:col-span-1 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                >Today's Orders</span
+              >
+              <span
+                class="material-symbols-outlined text-on-surface-variant"
+                style="font-size: 20px"
+                >receipt</span
+              >
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-kpi-display text-kpi-display text-on-background">142</span>
+              <div class="flex items-center text-status-ready text-sm font-medium">
+                <span class="material-symbols-outlined" style="font-size: 16px">trending_up</span>
+                <span>12%</span>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 2: Revenue -->
+          <div
+            class="col-span-2 md:col-span-2 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group"
+          >
+            <div
+              class="absolute inset-0 bg-gradient-to-br from-transparent to-surface-container-highest opacity-50 pointer-events-none"
+            ></div>
+            <div class="flex justify-between items-start mb-2 relative z-10">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                >Daily Revenue</span
+              >
+              <span
+                class="material-symbols-outlined text-on-surface-variant"
+                style="font-size: 20px"
+                >payments</span
+              >
+            </div>
+            <div class="flex items-baseline gap-2 relative z-10">
+              <span class="font-kpi-display text-kpi-display text-on-background">345,500</span>
+              <span class="font-ticket-body text-ticket-body text-on-surface-variant">FCFA</span>
+            </div>
+          </div>
+          <!-- KPI 3 -->
+          <div
+            class="col-span-1 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                >Pending Items</span
+              >
+              <span
+                class="material-symbols-outlined text-on-surface-variant"
+                style="font-size: 20px"
+                >laundry</span
+              >
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-kpi-display text-kpi-display text-on-background">87</span>
+            </div>
+          </div>
+          <!-- KPI 4: Alerts -->
+          <div
+            class="col-span-1 bg-error-container/20 border border-alert-critical/30 rounded-xl p-4 flex flex-col justify-between shadow-sm"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-alert-critical uppercase"
+                >Late Orders</span
+              >
+              <span class="material-symbols-outlined text-alert-critical" style="font-size: 20px"
+                >cloud_download</span
+              >
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-kpi-display text-kpi-display text-alert-critical">4</span>
+              <span class="font-ticket-body text-ticket-body text-alert-critical/80"
+                >Require Action</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Main Content Area: Recent Orders Table -->
+        <div class="bg-surface border border-outline-variant rounded-xl shadow-sm flex flex-col">
+          <div
+            class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50 rounded-t-xl"
+          >
+            <h2
+              class="font-headline-md text-ticket-body md:text-[18px] font-semibold text-on-background"
+            >
+              Recent Orders
+            </h2>
+            <button
+              class="text-tenant-accent font-ticket-body text-ticket-body hover:underline flex items-center gap-1"
+            >
+              View All
+              <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
             </button>
-<div class="flex flex-col gap-1">
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">help</span>
-                    Support
-                </a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant rounded-xl font-ticket-body text-ticket-body transition-colors" href="#">
-<span class="material-symbols-outlined" style="font-size: 20px;">logout</span>
-                    Logout
-                </a>
-</div>
-</div>
-</nav>
-<!-- Main Content Area -->
-<div class="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10">
-<!-- TopNavBar (Shared Component) - Rendered as per instructions, though usually top app bar spans full width. Adjusting for layout. -->
-<header class="flex justify-between items-center w-full px-margin-desktop h-16 border-b border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface shrink-0">
-<div class="flex items-center gap-4">
-<button class="md:hidden p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors">
-<span class="material-symbols-outlined">menu</span>
-</button>
-<div class="relative hidden sm:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 20px;">search</span>
-<input class="w-64 pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-tenant-accent focus:border-transparent transition-all" placeholder="Search orders, clients..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-2 sm:gap-4">
-<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors relative">
-<span class="material-symbols-outlined">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-alert-critical rounded-full"></span>
-</button>
-<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors hidden sm:block">
-<span class="material-symbols-outlined">settings</span>
-</button>
-<button class="p-2 text-on-surface-variant hover:bg-surface-container-highest rounded-full transition-colors hidden sm:block">
-<span class="material-symbols-outlined">apps</span>
-</button>
-<div class="h-6 w-px bg-outline-variant mx-1 hidden sm:block"></div>
-<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover cursor-pointer hover:ring-2 hover:ring-tenant-accent transition-all" data-alt="A professional headshot of a friendly business manager or admin user in a bright, modern office setting. The image should be cropped as a square avatar, conveying competence and approachability, suitable for a small business software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYPXcsAo8rmXkEBWTmnNAGTh62S3U3j1TLTSY2KuNObi7sfAcOt3GbrcjjaVSzzvR6o7LaLOCpCeMVdF5hXv9ai5eLE7nwBmkHdcR6_3hpBeVBqfSHzd3Nf05wLh6OWtOvJaAxrqkiX5hUaWaziCl6qmB1KiwhXCUMvOLRsfRIQ5zspknxdYNtgXUzYuJNL_GYuXSN_Y8HPKaCwQqNkyjBnHmr6lFKvds9yf8fNrhB4Hwx3Xnz-SwH"/>
-</div>
-</header>
-<!-- Scrollable Canvas -->
-<main class="flex-1 overflow-y-auto p-margin-mobile md:p-margin-desktop bg-surface-container-lowest">
-<!-- Alerts Section -->
-<div class="mb-6 flex flex-col sm:flex-row gap-4">
-<div class="flex-1 bg-error-container text-on-error-container p-4 rounded-xl flex items-start gap-3 border border-red-200">
-<span class="material-symbols-outlined text-alert-critical shrink-0 mt-0.5">warning</span>
-<div>
-<h4 class="font-ticket-body text-ticket-body font-bold">Stock Warning</h4>
-<p class="font-body-md text-body-md text-sm mt-1">Detergent 'Pro-Clean' is running low (Current: 2L). Reorder recommended.</p>
-</div>
-</div>
-<div class="flex-1 bg-surface-container-high text-on-surface p-4 rounded-xl flex items-start gap-3 border border-outline-variant">
-<span class="material-symbols-outlined text-status-pending shrink-0 mt-0.5">info</span>
-<div>
-<h4 class="font-ticket-body text-ticket-body font-bold">Trial Expiring</h4>
-<p class="font-body-md text-body-md text-sm mt-1">Your Premium Admin license expires in 3 days. <a class="text-tenant-accent underline" href="#">Upgrade now</a>.</p>
-</div>
-</div>
-</div>
-<div class="flex justify-between items-end mb-6">
-<h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-on-background">Dashboard Overview</h1>
-<span class="font-ticket-body text-ticket-body text-on-surface-variant hidden sm:inline-block">Last synced: Just now</span>
-</div>
-<!-- KPI Bento Grid -->
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
-<!-- KPI 1 -->
-<div class="col-span-2 lg:col-span-1 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Today's Orders</span>
-<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">receipt</span>
-</div>
-<div class="flex items-baseline gap-2">
-<span class="font-kpi-display text-kpi-display text-on-background">142</span>
-<div class="flex items-center text-status-ready text-sm font-medium">
-<span class="material-symbols-outlined" style="font-size: 16px;">trending_up</span>
-<span>12%</span>
-</div>
-</div>
-</div>
-<!-- KPI 2: Revenue -->
-<div class="col-span-2 md:col-span-2 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group">
-<div class="absolute inset-0 bg-gradient-to-br from-transparent to-surface-container-highest opacity-50 pointer-events-none"></div>
-<div class="flex justify-between items-start mb-2 relative z-10">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Daily Revenue</span>
-<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">payments</span>
-</div>
-<div class="flex items-baseline gap-2 relative z-10">
-<span class="font-kpi-display text-kpi-display text-on-background">345,500</span>
-<span class="font-ticket-body text-ticket-body text-on-surface-variant">FCFA</span>
-</div>
-</div>
-<!-- KPI 3 -->
-<div class="col-span-1 bg-surface border border-outline-variant rounded-xl p-4 flex flex-col justify-between shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Pending Items</span>
-<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">laundry</span>
-</div>
-<div class="flex items-baseline gap-2">
-<span class="font-kpi-display text-kpi-display text-on-background">87</span>
-</div>
-</div>
-<!-- KPI 4: Alerts -->
-<div class="col-span-1 bg-error-container/20 border border-alert-critical/30 rounded-xl p-4 flex flex-col justify-between shadow-sm">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-alert-critical uppercase">Late Orders</span>
-<span class="material-symbols-outlined text-alert-critical" style="font-size: 20px;">cloud_download</span>
-</div>
-<div class="flex items-baseline gap-2">
-<span class="font-kpi-display text-kpi-display text-alert-critical">4</span>
-<span class="font-ticket-body text-ticket-body text-alert-critical/80">Require Action</span>
-</div>
-</div>
-</div>
-<!-- Main Content Area: Recent Orders Table -->
-<div class="bg-surface border border-outline-variant rounded-xl shadow-sm flex flex-col">
-<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50 rounded-t-xl">
-<h2 class="font-headline-md text-ticket-body md:text-[18px] font-semibold text-on-background">Recent Orders</h2>
-<button class="text-tenant-accent font-ticket-body text-ticket-body hover:underline flex items-center gap-1">
-                        View All
-                        <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
-</button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="border-b border-outline-variant bg-surface-container-lowest">
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Order ID</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Client</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Items</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Total (FCFA)</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">Status</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase text-right">Action</th>
-</tr>
-</thead>
-<tbody class="font-body-md text-body-md">
-<!-- Row 1: Late -->
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors bg-error-container/5">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8802</td>
-<td class="p-4">
-<div class="font-medium text-on-surface">Amadou Diallo</div>
-<div class="text-sm text-on-surface-variant">+221 77 123 45 67</div>
-</td>
-<td class="p-4 text-on-surface-variant">3x Costumes, 2x Chemises</td>
-<td class="p-4 font-medium">15,000</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-alert-critical/10 text-alert-critical border border-alert-critical/20">
-                                        Late
-                                    </span>
-</td>
-<td class="p-4 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors">
-<span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 2: In Progress -->
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8803</td>
-<td class="p-4">
-<div class="font-medium text-on-surface">Fatou Ndiaye</div>
-</td>
-<td class="p-4 text-on-surface-variant">1x Robe de soirée</td>
-<td class="p-4 font-medium">5,000</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-progress/10 text-status-progress border border-status-progress/20">
-                                        In Progress
-                                    </span>
-</td>
-<td class="p-4 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors">
-<span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 3: Ready -->
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8804</td>
-<td class="p-4">
-<div class="font-medium text-on-surface">Jean Dupont</div>
-</td>
-<td class="p-4 text-on-surface-variant">5x Chemises (Repassage)</td>
-<td class="p-4 font-medium">2,500</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-ready/10 text-status-ready border border-status-ready/20">
-                                        Ready
-                                    </span>
-</td>
-<td class="p-4 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors">
-<span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
-</button>
-</td>
-</tr>
-<!-- Row 4: Pending -->
-<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8805</td>
-<td class="p-4">
-<div class="font-medium text-on-surface">Marie Koné</div>
-</td>
-<td class="p-4 text-on-surface-variant">2x Manteaux</td>
-<td class="p-4 font-medium">8,000</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-pending/10 text-status-pending border border-status-pending/20">
-                                        Pending
-                                    </span>
-</td>
-<td class="p-4 text-right">
-<button class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors">
-<span class="material-symbols-outlined" style="font-size: 20px;">more_vert</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-outline-variant bg-surface-container-lowest">
+                  <th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">
+                    Order ID
+                  </th>
+                  <th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">
+                    Client
+                  </th>
+                  <th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">
+                    Items
+                  </th>
+                  <th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">
+                    Total (FCFA)
+                  </th>
+                  <th class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase">
+                    Status
+                  </th>
+                  <th
+                    class="p-4 font-label-caps text-label-caps text-on-surface-variant uppercase text-right"
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="font-body-md text-body-md">
+                <!-- Row 1: Late -->
+                <tr
+                  class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors bg-error-container/5"
+                >
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8802</td>
+                  <td class="p-4">
+                    <div class="font-medium text-on-surface">Amadou Diallo</div>
+                    <div class="text-sm text-on-surface-variant">+221 77 123 45 67</div>
+                  </td>
+                  <td class="p-4 text-on-surface-variant">3x Costumes, 2x Chemises</td>
+                  <td class="p-4 font-medium">15,000</td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-alert-critical/10 text-alert-critical border border-alert-critical/20"
+                    >
+                      Late
+                    </span>
+                  </td>
+                  <td class="p-4 text-right">
+                    <button
+                      class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 20px"
+                        >more_vert</span
+                      >
+                    </button>
+                  </td>
+                </tr>
+                <!-- Row 2: In Progress -->
+                <tr
+                  class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors"
+                >
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8803</td>
+                  <td class="p-4">
+                    <div class="font-medium text-on-surface">Fatou Ndiaye</div>
+                  </td>
+                  <td class="p-4 text-on-surface-variant">1x Robe de soirée</td>
+                  <td class="p-4 font-medium">5,000</td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-progress/10 text-status-progress border border-status-progress/20"
+                    >
+                      In Progress
+                    </span>
+                  </td>
+                  <td class="p-4 text-right">
+                    <button
+                      class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 20px"
+                        >more_vert</span
+                      >
+                    </button>
+                  </td>
+                </tr>
+                <!-- Row 3: Ready -->
+                <tr
+                  class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors"
+                >
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8804</td>
+                  <td class="p-4">
+                    <div class="font-medium text-on-surface">Jean Dupont</div>
+                  </td>
+                  <td class="p-4 text-on-surface-variant">5x Chemises (Repassage)</td>
+                  <td class="p-4 font-medium">2,500</td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-ready/10 text-status-ready border border-status-ready/20"
+                    >
+                      Ready
+                    </span>
+                  </td>
+                  <td class="p-4 text-right">
+                    <button
+                      class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 20px"
+                        >more_vert</span
+                      >
+                    </button>
+                  </td>
+                </tr>
+                <!-- Row 4: Pending -->
+                <tr
+                  class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors"
+                >
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#ORD-8805</td>
+                  <td class="p-4">
+                    <div class="font-medium text-on-surface">Marie Koné</div>
+                  </td>
+                  <td class="p-4 text-on-surface-variant">2x Manteaux</td>
+                  <td class="p-4 font-medium">8,000</td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-status-pending/10 text-status-pending border border-status-pending/20"
+                    >
+                      Pending
+                    </span>
+                  </td>
+                  <td class="p-4 text-right">
+                    <button
+                      class="p-1.5 text-on-surface-variant hover:text-tenant-accent hover:bg-surface-container-high rounded-md transition-colors"
+                    >
+                      <span class="material-symbols-outlined" style="font-size: 20px"
+                        >more_vert</span
+                      >
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

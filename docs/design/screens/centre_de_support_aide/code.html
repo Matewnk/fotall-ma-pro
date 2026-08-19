@@ -1,349 +1,548 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Support &amp; Assistance - Fotall-Ma PRO</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-secondary": "#ffffff",
-                        "surface-container-high": "#e7e7f1",
-                        "alert-critical": "#EF4444",
-                        "secondary-container": "#d0e1fb",
-                        "surface-container-low": "#f3f3fc",
-                        "background": "#faf8ff",
-                        "tenant-accent": "var(--primary-color, #0f52ba)",
-                        "on-primary-container": "#bcceff",
-                        "tertiary-fixed": "#ffdbcd",
-                        "primary": "#003c90",
-                        "error": "#ba1a1a",
-                        "on-secondary-container": "#54647a",
-                        "on-secondary-fixed": "#0b1c30",
-                        "on-tertiary-container": "#ffc0a7",
-                        "surface": "#faf8ff",
-                        "surface-variant": "#e1e2eb",
-                        "surface-tint": "#1d59c1",
-                        "on-primary": "#ffffff",
-                        "status-delivered": "#6366F1",
-                        "secondary": "#505f76",
-                        "on-primary-fixed": "#001945",
-                        "surface-dim": "#d9d9e2",
-                        "secondary-fixed": "#d3e4fe",
-                        "inverse-on-surface": "#f0f0f9",
-                        "error-container": "#ffdad6",
-                        "inverse-primary": "#b0c6ff",
-                        "surface-container-highest": "#e1e2eb",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "surface-bright": "#faf8ff",
-                        "on-error-container": "#93000a",
-                        "on-surface": "#191b22",
-                        "on-error": "#ffffff",
-                        "on-tertiary": "#ffffff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "on-tertiary-fixed": "#360f00",
-                        "surface-container": "#ededf6",
-                        "status-progress": "#3B82F6",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "on-background": "#191b22",
-                        "outline": "#737784",
-                        "inverse-surface": "#2e3037",
-                        "surface-ticket": "#F8FAFC",
-                        "surface-container-lowest": "#ffffff",
-                        "primary-fixed": "#d9e2ff",
-                        "outline-variant": "#c3c6d5",
-                        "primary-container": "#0f52ba",
-                        "on-surface-variant": "#434653",
-                        "status-pending": "#F59E0B",
-                        "tertiary-container": "#993900",
-                        "on-primary-fixed-variant": "#00419c",
-                        "tertiary": "#732900",
-                        "status-ready": "#10B981",
-                        "secondary-fixed-dim": "#b7c8e1"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "gutter": "16px",
-                        "margin-desktop": "24px",
-                        "container-max": "1440px",
-                        "base": "8px",
-                        "margin-mobile": "16px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "ticket-body": ["Inter"],
-                        "label-caps": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                        "headline-lg-mobile": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
-                        "ticket-body": ["14px", {"lineHeight": "18px", "fontWeight": "500"}],
-                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
-                        "kpi-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                        "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "600"}],
-                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
-                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
-                    }
-                }
-            }
-        }
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Support &amp; Assistance - Fotall-Ma PRO</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-secondary': '#ffffff',
+              'surface-container-high': '#e7e7f1',
+              'alert-critical': '#EF4444',
+              'secondary-container': '#d0e1fb',
+              'surface-container-low': '#f3f3fc',
+              background: '#faf8ff',
+              'tenant-accent': 'var(--primary-color, #0f52ba)',
+              'on-primary-container': '#bcceff',
+              'tertiary-fixed': '#ffdbcd',
+              primary: '#003c90',
+              error: '#ba1a1a',
+              'on-secondary-container': '#54647a',
+              'on-secondary-fixed': '#0b1c30',
+              'on-tertiary-container': '#ffc0a7',
+              surface: '#faf8ff',
+              'surface-variant': '#e1e2eb',
+              'surface-tint': '#1d59c1',
+              'on-primary': '#ffffff',
+              'status-delivered': '#6366F1',
+              secondary: '#505f76',
+              'on-primary-fixed': '#001945',
+              'surface-dim': '#d9d9e2',
+              'secondary-fixed': '#d3e4fe',
+              'inverse-on-surface': '#f0f0f9',
+              'error-container': '#ffdad6',
+              'inverse-primary': '#b0c6ff',
+              'surface-container-highest': '#e1e2eb',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'on-secondary-fixed-variant': '#38485d',
+              'surface-bright': '#faf8ff',
+              'on-error-container': '#93000a',
+              'on-surface': '#191b22',
+              'on-error': '#ffffff',
+              'on-tertiary': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-tertiary-fixed': '#360f00',
+              'surface-container': '#ededf6',
+              'status-progress': '#3B82F6',
+              'tertiary-fixed-dim': '#ffb596',
+              'on-background': '#191b22',
+              outline: '#737784',
+              'inverse-surface': '#2e3037',
+              'surface-ticket': '#F8FAFC',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed': '#d9e2ff',
+              'outline-variant': '#c3c6d5',
+              'primary-container': '#0f52ba',
+              'on-surface-variant': '#434653',
+              'status-pending': '#F59E0B',
+              'tertiary-container': '#993900',
+              'on-primary-fixed-variant': '#00419c',
+              tertiary: '#732900',
+              'status-ready': '#10B981',
+              'secondary-fixed-dim': '#b7c8e1',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              gutter: '16px',
+              'margin-desktop': '24px',
+              'container-max': '1440px',
+              base: '8px',
+              'margin-mobile': '16px',
+            },
+            fontFamily: {
+              'body-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'ticket-body': ['Inter'],
+              'label-caps': ['Inter'],
+              'kpi-display': ['Inter'],
+              'headline-lg': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        .ticket-modal { display: none; }
-        .ticket-modal.active { display: flex; }
+    <style>
+      .ticket-modal {
+        display: none;
+      }
+      .ticket-modal.active {
+        display: flex;
+      }
     </style>
-</head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex">
-<!-- SideNavBar -->
-<aside class="bg-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col py-base z-50">
-<div class="px-gutter mb-8">
-<h1 class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</h1>
-<p class="font-label-caps text-label-caps text-secondary mt-1">Management Suite</p>
-</div>
-<nav class="flex-1 px-base space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="font-body-md text-body-md">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-<span class="font-body-md text-body-md">Orders</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">group</span>
-<span class="font-body-md text-body-md">Customers</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">inventory_2</span>
-<span class="font-body-md text-body-md">Inventory</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">assessment</span>
-<span class="font-body-md text-body-md">Reports</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="font-body-md text-body-md">Settings</span>
-</a>
-</nav>
-<div class="px-base mt-auto">
-<button class="w-full bg-tenant-accent text-on-primary py-3 rounded-lg font-ticket-body mb-4 hover:opacity-90 transition-opacity">
-                Nouvelle Commande
+  </head>
+  <body class="bg-background text-on-background font-body-md min-h-screen flex">
+    <!-- SideNavBar -->
+    <aside
+      class="bg-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant flex flex-col py-base z-50"
+    >
+      <div class="px-gutter mb-8">
+        <h1 class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</h1>
+        <p class="font-label-caps text-label-caps text-secondary mt-1">Management Suite</p>
+      </div>
+      <nav class="flex-1 px-base space-y-1">
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">dashboard</span>
+          <span class="font-body-md text-body-md">Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span class="font-body-md text-body-md">Orders</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">group</span>
+          <span class="font-body-md text-body-md">Customers</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">inventory_2</span>
+          <span class="font-body-md text-body-md">Inventory</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">assessment</span>
+          <span class="font-body-md text-body-md">Reports</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          <span class="font-body-md text-body-md">Settings</span>
+        </a>
+      </nav>
+      <div class="px-base mt-auto">
+        <button
+          class="w-full bg-tenant-accent text-on-primary py-3 rounded-lg font-ticket-body mb-4 hover:opacity-90 transition-opacity"
+        >
+          Nouvelle Commande
+        </button>
+        <div class="border-t border-outline-variant pt-4 space-y-1">
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-4 border-tenant-accent bg-primary-container/10 translate-x-1 transition-transform"
+            href="#"
+          >
+            <span class="material-symbols-outlined">support_agent</span>
+            <span class="font-body-md text-body-md">Support</span>
+          </a>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined">logout</span>
+            <span class="font-body-md text-body-md">Sign Out</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content Area -->
+    <main class="flex-1 ml-64 flex flex-col min-h-screen">
+      <!-- TopNavBar -->
+      <header
+        class="bg-surface-container-lowest h-16 px-margin-desktop border-b border-outline-variant flex justify-between items-center sticky top-0 z-40"
+      >
+        <div class="flex items-center gap-4">
+          <h2 class="font-headline-md text-headline-md text-primary font-bold">
+            Support &amp; Assistance
+          </h2>
+        </div>
+        <div class="flex items-center gap-6">
+          <div class="relative w-64">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+              >search</span
+            >
+            <input
+              class="w-full pl-10 pr-4 py-2 bg-surface rounded-full border border-outline-variant focus:ring-2 focus:ring-tenant-accent/50 outline-none text-body-md"
+              placeholder="Search Help..."
+              type="text"
+            />
+          </div>
+          <div class="flex items-center gap-4 text-on-surface-variant">
+            <button
+              class="hover:text-primary transition-colors focus:ring-2 focus:ring-tenant-accent/50 rounded-full p-1"
+            >
+              <span class="material-symbols-outlined">notifications</span>
             </button>
-<div class="border-t border-outline-variant pt-4 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-4 border-tenant-accent bg-primary-container/10 translate-x-1 transition-transform" href="#">
-<span class="material-symbols-outlined">support_agent</span>
-<span class="font-body-md text-body-md">Support</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-secondary hover:bg-surface-container-high transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">logout</span>
-<span class="font-body-md text-body-md">Sign Out</span>
-</a>
-</div>
-</div>
-</aside>
-<!-- Main Content Area -->
-<main class="flex-1 ml-64 flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="bg-surface-container-lowest h-16 px-margin-desktop border-b border-outline-variant flex justify-between items-center sticky top-0 z-40">
-<div class="flex items-center gap-4">
-<h2 class="font-headline-md text-headline-md text-primary font-bold">Support &amp; Assistance</h2>
-</div>
-<div class="flex items-center gap-6">
-<div class="relative w-64">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full pl-10 pr-4 py-2 bg-surface rounded-full border border-outline-variant focus:ring-2 focus:ring-tenant-accent/50 outline-none text-body-md" placeholder="Search Help..." type="text"/>
-</div>
-<div class="flex items-center gap-4 text-on-surface-variant">
-<button class="hover:text-primary transition-colors focus:ring-2 focus:ring-tenant-accent/50 rounded-full p-1">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="hover:text-primary transition-colors focus:ring-2 focus:ring-tenant-accent/50 rounded-full p-1">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<img alt="User Profile Avatar" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional user avatar portrait of a business person in a well-lit, modern corporate setting. The lighting is soft and neutral, conveying reliability. The background is slightly blurred to focus on the person, fitting seamlessly into a clean, minimal UI dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT-EfgswN1wG3TJATr2Aog52moqkfhFP_5DZTjf8777ryJjWMFSIxqH1c2V_sy7djqzMgVfLso0NDsbz5kYp8ebS23xe3UFJReGldNt2ZgDryoL7yTbjc_EhchJdC0qv6meks5OlM9tIfQEElQAQA13My1f5_55dypB1Xa7x0DbH-agvLRvaVxTGrjjqi8p-wOIvwx5lFubTy1JytfjtytsQulgrsDi6u1_9Hf_LGmU4R7nZZCYU-l"/>
-</div>
-</div>
-</header>
-<!-- Dashboard Content -->
-<div class="flex-1 p-margin-desktop overflow-auto">
-<div class="max-w-container-max mx-auto space-y-6">
-<!-- Bento Grid Top Row -->
-<div class="grid grid-cols-12 gap-6">
-<!-- Contact Card -->
-<div class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between">
-<div>
-<div class="flex items-center justify-between mb-4">
-<h3 class="font-ticket-body text-ticket-body text-on-surface-variant">Technical Support</h3>
-<span class="px-2 py-1 bg-status-ready/10 text-status-ready font-label-caps text-label-caps rounded-full flex items-center gap-1">
-<span class="w-2 h-2 rounded-full bg-status-ready"></span>
-                                    Agents Online
-                                </span>
-</div>
-<div class="flex items-center gap-4 mb-6">
-<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[28px]">support_agent</span>
-</div>
-<div>
-<p class="font-data-mono text-data-mono text-primary font-bold text-lg">0800 123 456</p>
-<p class="font-label-caps text-label-caps text-secondary mt-1">Mon-Fri, 8am-6pm</p>
-</div>
-</div>
-</div>
-<button class="w-full py-2 border border-outline-variant rounded-lg font-ticket-body hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2">
-<span class="material-symbols-outlined">chat</span>
-                            Start Live Chat
-                        </button>
-</div>
-<!-- FAQ Categories -->
-<div class="col-span-12 md:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
-<h3 class="font-ticket-body text-ticket-body text-on-surface-variant mb-4">Quick Solutions</h3>
-<div class="grid grid-cols-3 gap-4">
-<!-- Category 1 -->
-<a class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group" href="#">
-<span class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2">receipt_long</span>
-<h4 class="font-ticket-body text-ticket-body font-bold">Billing &amp; Invoices</h4>
-<p class="font-label-caps text-label-caps text-secondary mt-1">Payment methods, receipts</p>
-</a>
-<!-- Category 2 -->
-<a class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group" href="#">
-<span class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2">print</span>
-<h4 class="font-ticket-body text-ticket-body font-bold">Hardware &amp; Printers</h4>
-<p class="font-label-caps text-label-caps text-secondary mt-1">Ticket printing, barcode scanners</p>
-</a>
-<!-- Category 3 -->
-<a class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group" href="#">
-<span class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2">manage_accounts</span>
-<h4 class="font-ticket-body text-ticket-body font-bold">Account Settings</h4>
-<p class="font-label-caps text-label-caps text-secondary mt-1">Users, permissions, details</p>
-</a>
-</div>
-</div>
-</div>
-<!-- Active Tickets Section -->
-<div class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col">
-<div class="p-6 border-b border-outline-variant flex justify-between items-center">
-<div>
-<h3 class="font-headline-md text-headline-md font-bold">Active Tickets</h3>
-<p class="font-body-md text-body-md text-secondary">Manage and track your support requests.</p>
-</div>
-<button class="bg-tenant-accent text-on-primary px-4 py-2 rounded-lg font-ticket-body flex items-center gap-2 hover:opacity-90 transition-opacity" onclick="document.getElementById('new-ticket-modal').classList.add('active')">
-<span class="material-symbols-outlined">add</span>
-                            New Ticket
-                        </button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="border-b border-outline-variant bg-surface">
-<th class="p-4 font-label-caps text-label-caps text-secondary font-medium">Ticket ID</th>
-<th class="p-4 font-label-caps text-label-caps text-secondary font-medium">Subject</th>
-<th class="p-4 font-label-caps text-label-caps text-secondary font-medium">Priority</th>
-<th class="p-4 font-label-caps text-label-caps text-secondary font-medium">Status</th>
-<th class="p-4 font-label-caps text-label-caps text-secondary font-medium">Last Update</th>
-</tr>
-</thead>
-<tbody>
-<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-primary">#TK-8921</td>
-<td class="p-4 font-body-md text-body-md font-medium">Printer not connecting to POS</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps rounded-full">High</span>
-</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-status-pending/10 text-status-pending font-label-caps text-label-caps rounded-full">In Progress</span>
-</td>
-<td class="p-4 font-body-md text-body-md text-secondary">2 hours ago</td>
-</tr>
-<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-primary">#TK-8915</td>
-<td class="p-4 font-body-md text-body-md font-medium">Update billing address on invoice</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-outline/10 text-secondary font-label-caps text-label-caps rounded-full">Low</span>
-</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-status-delivered/10 text-status-delivered font-label-caps text-label-caps rounded-full">Open</span>
-</td>
-<td class="p-4 font-body-md text-body-md text-secondary">Yesterday</td>
-</tr>
-<tr class="hover:bg-surface-container-high transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-primary">#TK-8890</td>
-<td class="p-4 font-body-md text-body-md font-medium">How to add a new cashier user</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-status-pending/10 text-status-pending font-label-caps text-label-caps rounded-full">Medium</span>
-</td>
-<td class="p-4">
-<span class="px-2 py-1 bg-status-ready/10 text-status-ready font-label-caps text-label-caps rounded-full">Resolved</span>
-</td>
-<td class="p-4 font-body-md text-body-md text-secondary">Oct 12, 2023</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- New Ticket Modal -->
-<div class="ticket-modal fixed inset-0 z-50 bg-on-background/50 backdrop-blur-sm items-center justify-center p-4" id="new-ticket-modal">
-<div class="bg-surface-container-lowest rounded-xl border border-outline-variant w-full max-w-lg shadow-2xl flex flex-col">
-<div class="p-6 border-b border-outline-variant flex justify-between items-center">
-<h3 class="font-headline-md text-headline-md font-bold">Submit New Ticket</h3>
-<button class="text-secondary hover:text-primary transition-colors" onclick="document.getElementById('new-ticket-modal').classList.remove('active')">
-<span class="material-symbols-outlined">close</span>
-</button>
-</div>
-<form class="p-6 space-y-4">
-<div>
-<label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1">Category</label>
-<select class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md">
-<option>Hardware &amp; Printers</option>
-<option>Billing &amp; Invoices</option>
-<option>Account Settings</option>
-<option>Software Bug</option>
-<option>Other</option>
-</select>
-</div>
-<div>
-<label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1">Subject</label>
-<input class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md" placeholder="Brief description of the issue" type="text"/>
-</div>
-<div>
-<label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1">Description</label>
-<textarea class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md resize-none" placeholder="Provide detailed information..." rows="4"></textarea>
-</div>
-<div class="border border-dashed border-outline-variant rounded-lg p-4 text-center bg-surface hover:bg-surface-container-high transition-colors cursor-pointer">
-<span class="material-symbols-outlined text-secondary mb-2">upload_file</span>
-<p class="font-ticket-body text-ticket-body text-secondary">Click to attach files or drag and drop</p>
-<p class="font-label-caps text-label-caps text-outline mt-1">JPG, PNG, PDF up to 10MB</p>
-</div>
-</form>
-<div class="p-6 border-t border-outline-variant bg-surface flex justify-end gap-3 rounded-b-xl">
-<button class="px-4 py-2 border border-outline-variant rounded-lg font-ticket-body hover:bg-surface-container-highest transition-colors" onclick="document.getElementById('new-ticket-modal').classList.remove('active')" type="button">
-                    Cancel
-                </button>
-<button class="px-4 py-2 bg-tenant-accent text-on-primary rounded-lg font-ticket-body hover:opacity-90 transition-opacity" type="button">
-                    Submit Ticket
-                </button>
-</div>
-</div>
-</div>
-</body></html>
+            <button
+              class="hover:text-primary transition-colors focus:ring-2 focus:ring-tenant-accent/50 rounded-full p-1"
+            >
+              <span class="material-symbols-outlined">help_outline</span>
+            </button>
+            <img
+              alt="User Profile Avatar"
+              class="w-8 h-8 rounded-full border border-outline-variant object-cover"
+              data-alt="A small, professional user avatar portrait of a business person in a well-lit, modern corporate setting. The lighting is soft and neutral, conveying reliability. The background is slightly blurred to focus on the person, fitting seamlessly into a clean, minimal UI dashboard."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT-EfgswN1wG3TJATr2Aog52moqkfhFP_5DZTjf8777ryJjWMFSIxqH1c2V_sy7djqzMgVfLso0NDsbz5kYp8ebS23xe3UFJReGldNt2ZgDryoL7yTbjc_EhchJdC0qv6meks5OlM9tIfQEElQAQA13My1f5_55dypB1Xa7x0DbH-agvLRvaVxTGrjjqi8p-wOIvwx5lFubTy1JytfjtytsQulgrsDi6u1_9Hf_LGmU4R7nZZCYU-l"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Dashboard Content -->
+      <div class="flex-1 p-margin-desktop overflow-auto">
+        <div class="max-w-container-max mx-auto space-y-6">
+          <!-- Bento Grid Top Row -->
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Contact Card -->
+            <div
+              class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-ticket-body text-ticket-body text-on-surface-variant">
+                    Technical Support
+                  </h3>
+                  <span
+                    class="px-2 py-1 bg-status-ready/10 text-status-ready font-label-caps text-label-caps rounded-full flex items-center gap-1"
+                  >
+                    <span class="w-2 h-2 rounded-full bg-status-ready"></span>
+                    Agents Online
+                  </span>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                  <div
+                    class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center text-primary"
+                  >
+                    <span class="material-symbols-outlined text-[28px]">support_agent</span>
+                  </div>
+                  <div>
+                    <p class="font-data-mono text-data-mono text-primary font-bold text-lg">
+                      0800 123 456
+                    </p>
+                    <p class="font-label-caps text-label-caps text-secondary mt-1">
+                      Mon-Fri, 8am-6pm
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="w-full py-2 border border-outline-variant rounded-lg font-ticket-body hover:bg-surface-container-high transition-colors flex items-center justify-center gap-2"
+              >
+                <span class="material-symbols-outlined">chat</span>
+                Start Live Chat
+              </button>
+            </div>
+            <!-- FAQ Categories -->
+            <div
+              class="col-span-12 md:col-span-8 bg-surface-container-lowest rounded-xl border border-outline-variant p-6"
+            >
+              <h3 class="font-ticket-body text-ticket-body text-on-surface-variant mb-4">
+                Quick Solutions
+              </h3>
+              <div class="grid grid-cols-3 gap-4">
+                <!-- Category 1 -->
+                <a
+                  class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group"
+                  href="#"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2"
+                    >receipt_long</span
+                  >
+                  <h4 class="font-ticket-body text-ticket-body font-bold">
+                    Billing &amp; Invoices
+                  </h4>
+                  <p class="font-label-caps text-label-caps text-secondary mt-1">
+                    Payment methods, receipts
+                  </p>
+                </a>
+                <!-- Category 2 -->
+                <a
+                  class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group"
+                  href="#"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2"
+                    >print</span
+                  >
+                  <h4 class="font-ticket-body text-ticket-body font-bold">
+                    Hardware &amp; Printers
+                  </h4>
+                  <p class="font-label-caps text-label-caps text-secondary mt-1">
+                    Ticket printing, barcode scanners
+                  </p>
+                </a>
+                <!-- Category 3 -->
+                <a
+                  class="p-4 border border-outline-variant rounded-lg hover:border-tenant-accent hover:bg-surface-container-high transition-all group"
+                  href="#"
+                >
+                  <span
+                    class="material-symbols-outlined text-secondary group-hover:text-tenant-accent mb-2"
+                    >manage_accounts</span
+                  >
+                  <h4 class="font-ticket-body text-ticket-body font-bold">Account Settings</h4>
+                  <p class="font-label-caps text-label-caps text-secondary mt-1">
+                    Users, permissions, details
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- Active Tickets Section -->
+          <div
+            class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col"
+          >
+            <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+              <div>
+                <h3 class="font-headline-md text-headline-md font-bold">Active Tickets</h3>
+                <p class="font-body-md text-body-md text-secondary">
+                  Manage and track your support requests.
+                </p>
+              </div>
+              <button
+                class="bg-tenant-accent text-on-primary px-4 py-2 rounded-lg font-ticket-body flex items-center gap-2 hover:opacity-90 transition-opacity"
+                onclick="document.getElementById('new-ticket-modal').classList.add('active')"
+              >
+                <span class="material-symbols-outlined">add</span>
+                New Ticket
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-outline-variant bg-surface">
+                    <th class="p-4 font-label-caps text-label-caps text-secondary font-medium">
+                      Ticket ID
+                    </th>
+                    <th class="p-4 font-label-caps text-label-caps text-secondary font-medium">
+                      Subject
+                    </th>
+                    <th class="p-4 font-label-caps text-label-caps text-secondary font-medium">
+                      Priority
+                    </th>
+                    <th class="p-4 font-label-caps text-label-caps text-secondary font-medium">
+                      Status
+                    </th>
+                    <th class="p-4 font-label-caps text-label-caps text-secondary font-medium">
+                      Last Update
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="border-b border-outline-variant hover:bg-surface-container-high transition-colors"
+                  >
+                    <td class="p-4 font-data-mono text-data-mono text-primary">#TK-8921</td>
+                    <td class="p-4 font-body-md text-body-md font-medium">
+                      Printer not connecting to POS
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps rounded-full"
+                        >High</span
+                      >
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-status-pending/10 text-status-pending font-label-caps text-label-caps rounded-full"
+                        >In Progress</span
+                      >
+                    </td>
+                    <td class="p-4 font-body-md text-body-md text-secondary">2 hours ago</td>
+                  </tr>
+                  <tr
+                    class="border-b border-outline-variant hover:bg-surface-container-high transition-colors"
+                  >
+                    <td class="p-4 font-data-mono text-data-mono text-primary">#TK-8915</td>
+                    <td class="p-4 font-body-md text-body-md font-medium">
+                      Update billing address on invoice
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-outline/10 text-secondary font-label-caps text-label-caps rounded-full"
+                        >Low</span
+                      >
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-status-delivered/10 text-status-delivered font-label-caps text-label-caps rounded-full"
+                        >Open</span
+                      >
+                    </td>
+                    <td class="p-4 font-body-md text-body-md text-secondary">Yesterday</td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-high transition-colors">
+                    <td class="p-4 font-data-mono text-data-mono text-primary">#TK-8890</td>
+                    <td class="p-4 font-body-md text-body-md font-medium">
+                      How to add a new cashier user
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-status-pending/10 text-status-pending font-label-caps text-label-caps rounded-full"
+                        >Medium</span
+                      >
+                    </td>
+                    <td class="p-4">
+                      <span
+                        class="px-2 py-1 bg-status-ready/10 text-status-ready font-label-caps text-label-caps rounded-full"
+                        >Resolved</span
+                      >
+                    </td>
+                    <td class="p-4 font-body-md text-body-md text-secondary">Oct 12, 2023</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- New Ticket Modal -->
+    <div
+      class="ticket-modal fixed inset-0 z-50 bg-on-background/50 backdrop-blur-sm items-center justify-center p-4"
+      id="new-ticket-modal"
+    >
+      <div
+        class="bg-surface-container-lowest rounded-xl border border-outline-variant w-full max-w-lg shadow-2xl flex flex-col"
+      >
+        <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+          <h3 class="font-headline-md text-headline-md font-bold">Submit New Ticket</h3>
+          <button
+            class="text-secondary hover:text-primary transition-colors"
+            onclick="document.getElementById('new-ticket-modal').classList.remove('active')"
+          >
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <form class="p-6 space-y-4">
+          <div>
+            <label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1"
+              >Category</label
+            >
+            <select
+              class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md"
+            >
+              <option>Hardware &amp; Printers</option>
+              <option>Billing &amp; Invoices</option>
+              <option>Account Settings</option>
+              <option>Software Bug</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1"
+              >Subject</label
+            >
+            <input
+              class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md"
+              placeholder="Brief description of the issue"
+              type="text"
+            />
+          </div>
+          <div>
+            <label class="block font-ticket-body text-ticket-body text-on-surface-variant mb-1"
+              >Description</label
+            >
+            <textarea
+              class="w-full p-2 bg-surface border border-outline-variant rounded-lg focus:ring-2 focus:ring-tenant-accent/50 outline-none font-body-md text-body-md resize-none"
+              placeholder="Provide detailed information..."
+              rows="4"
+            ></textarea>
+          </div>
+          <div
+            class="border border-dashed border-outline-variant rounded-lg p-4 text-center bg-surface hover:bg-surface-container-high transition-colors cursor-pointer"
+          >
+            <span class="material-symbols-outlined text-secondary mb-2">upload_file</span>
+            <p class="font-ticket-body text-ticket-body text-secondary">
+              Click to attach files or drag and drop
+            </p>
+            <p class="font-label-caps text-label-caps text-outline mt-1">
+              JPG, PNG, PDF up to 10MB
+            </p>
+          </div>
+        </form>
+        <div
+          class="p-6 border-t border-outline-variant bg-surface flex justify-end gap-3 rounded-b-xl"
+        >
+          <button
+            class="px-4 py-2 border border-outline-variant rounded-lg font-ticket-body hover:bg-surface-container-highest transition-colors"
+            onclick="document.getElementById('new-ticket-modal').classList.remove('active')"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            class="px-4 py-2 bg-tenant-accent text-on-primary rounded-lg font-ticket-body hover:opacity-90 transition-opacity"
+            type="button"
+          >
+            Submit Ticket
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

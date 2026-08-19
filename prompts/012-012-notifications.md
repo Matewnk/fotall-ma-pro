@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Construis l'architecture événementielle notifications : FCM, WhatsApp Business, SMS. Événements dépôt, prêt, livraison, retard, paiement, essai proche. Templates par tenant et dry-run. Tester retries, idempotence et isolation.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

@@ -1,0 +1,11 @@
+// Fondation Prisma — aucun modèle métier ici.
+// Les entités Tenant/Utilisateur seront ajoutées en spec 002-identity-tenancy.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

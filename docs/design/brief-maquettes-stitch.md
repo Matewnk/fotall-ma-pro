@@ -1,17 +1,26 @@
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 # 👔 Fotall-Ma PRO
 
 ### Application de Gestion de Pressing Multi-Plateforme
+
 CAHIER DES CHARGES FONCTIONNEL ET TECHNIQUEVersion1.0DateMai 2026StatutDocument initialPlateformesMobile (iOS/Android), Web (PC/Mac), TabletteLangueFrançais
 ---
+
 <!-- Page 1 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 20261. Présentation Générale du Projet ........................................................................................... 41.1 Contexte et Objectifs ....................................................................................................... 41.2 Périmètre de l’Application ................................................................................................ 42. Exigences Multi-Plateformes ................................................................................................. 52.1 Plateformes Cibles .......................................................................................................... 52.2 Technologies Recommandées ........................................................................................ 53. Page 1 — Tableau de Bord (Accueil) .................................................................................... 63.1 Description Générale ....................................................................................................... 63.2 Éléments du Tableau de Bord ......................................................................................... 63.2.1 Indicateurs Clés de Performance (KPIs) ................................................................... 63.2.2 Tableau des Commandes Récentes ......................................................................... 63.2.3 Alertes et Notifications .............................................................................................. 64. Page 2 — Gestion des Clients .............................................................................................. 74.1 Description Générale ....................................................................................................... 74.2 Fiche Client — Champs requis ........................................................................................ 74.3 Fonctionnalités de la Page Clients ................................................................................... 75. Page 3 — Services Pressing & Livraison .............................................................................. 85.1 Catalogue des Services ................................................................................................... 85.2 Création d’une Commande .............................................................................................. 85.2.1 Étapes du Flux de Commande .................................................................................. 85.3 Ticket de Dépôt / Bon de Commande .............................................................................. 85.3.1 Options d’Impression ................................................................................................ 85.4 Système de Notification ................................................................................................... 95.4.1 Intégrations de Messagerie ....................................................................................... 96. Page 4 — Journaux & Caisse ............................................................................................. 106.1 Description Générale ..................................................................................................... 106.2 Gestion de la Caisse ..................................................................................................... 106.2.1 Opérations de Caisse .............................................................................................. 106.3 Modes de Paiement Acceptés ....................................................................................... 106.4 Journal des Opérations .................................................................................................. 106.5 Clôture et Rapport Journalier ......................................................................................... 107. Page 5 — Rapports & Statistiques ...................................................................................... 127.1 Rapports Disponibles..................................................................................................... 127.2 Formats d’Export ........................................................................................................... 128. Page 6 — Paramètres & Administration .............................................................................. 138.1 Gestion des Utilisateurs ................................................................................................. 138.2 Configuration Générale .................................................................................................. 139. Sécurité et Confidentialité ................................................................................................... 1411. Planning de Développement Prévisionnel ......................................................................... 1912. Glossaire ........................................................................................................................... 20
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 20261. Présentation Générale du Projet ........................................................................................... 41.1 Contexte et Objectifs ....................................................................................................... 41.2 Périmètre de l’Application ................................................................................................ 42. Exigences Multi-Plateformes ................................................................................................. 52.1 Plateformes Cibles .......................................................................................................... 52.2 Technologies Recommandées ........................................................................................ 53. Page 1 — Tableau de Bord (Accueil) .................................................................................... 63.1 Description Générale ....................................................................................................... 63.2 Éléments du Tableau de Bord ......................................................................................... 63.2.1 Indicateurs Clés de Performance (KPIs) ................................................................... 63.2.2 Tableau des Commandes Récentes ......................................................................... 63.2.3 Alertes et Notifications .............................................................................................. 64. Page 2 — Gestion des Clients .............................................................................................. 74.1 Description Générale ....................................................................................................... 74.2 Fiche Client — Champs requis ........................................................................................ 74.3 Fonctionnalités de la Page Clients ................................................................................... 75. Page 3 — Services Pressing & Livraison .............................................................................. 85.1 Catalogue des Services ................................................................................................... 85.2 Création d’une Commande .............................................................................................. 85.2.1 Étapes du Flux de Commande .................................................................................. 85.3 Ticket de Dépôt / Bon de Commande .............................................................................. 85.3.1 Options d’Impression ................................................................................................ 85.4 Système de Notification ................................................................................................... 95.4.1 Intégrations de Messagerie ....................................................................................... 96. Page 4 — Journaux & Caisse ............................................................................................. 106.1 Description Générale ..................................................................................................... 106.2 Gestion de la Caisse ..................................................................................................... 106.2.1 Opérations de Caisse .............................................................................................. 106.3 Modes de Paiement Acceptés ....................................................................................... 106.4 Journal des Opérations .................................................................................................. 106.5 Clôture et Rapport Journalier ......................................................................................... 107. Page 5 — Rapports & Statistiques ...................................................................................... 127.1 Rapports Disponibles..................................................................................................... 127.2 Formats d’Export ........................................................................................................... 128. Page 6 — Paramètres & Administration .............................................................................. 138.1 Gestion des Utilisateurs ................................................................................................. 138.2 Configuration Générale .................................................................................................. 139. Sécurité et Confidentialité ................................................................................................... 1411. Planning de Développement Prévisionnel ......................................................................... 1912. Glossaire ........................................................................................................................... 20
 ---
+
 <!-- Page 2 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
 ---
+
 <!-- Page 3 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 1. Présentation Générale du Projet
 
 **1.1 Contexte et Objectifs**
@@ -19,8 +28,11 @@ Fotall-Ma Pro est une application de gestion complète destinée aux établissem
 **1.2 Périmètre de l’Application**
 N° PageNom de la PageFonction PrincipalePage 1Tableau de Bord (Accueil)Vue synthétique des activitésPage 2Gestion ClientsBase de données clients ethistoriquePage 3Services & LivraisonCommandes, tickets, notificationPage 4Journaux & CaisseSuivi financier quotidienPage 5Rapports & StatistiquesAnalyses et exportsPage 6Paramètres & AdministrationConfiguration et gestion utilisateurs
 ---
+
 <!-- Page 4 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 2. Exigences Multi-Plateformes
 
 **2.1 Plateformes Cibles**
@@ -28,8 +40,11 @@ PlateformeOS / NavigateursSpécificitésMobileiOS 16+, Android10+Interface tacti
 **2.2 Technologies Recommandées**
 •Framework : React Native (mobile + tablette) + React.js (web)•Backend : Node.js / Express ou Django REST•Base de données : PostgreSQL (données métier) + Redis (cache sessions)•Notifications : Firebase Cloud Messaging (push), Twilio / WhatsApp Business API•Impression : Bibliothèque React-to-PDF ou impression thérmique via ESC/POS•Auth : JWT + OAuth2 pour connexion sécurisée•Gestion des licences : module serveur de génération et de vérification des clés delicence, rattaché au compte Administrateur (web)•Multi-tenant : isolation des données par schéma dédié ou tenant_id, routage par sous-domaine par client•Facturation SaaS : plateforme de paiement récurrent (Stripe ou équivalent local) pourles abonnements mensuels
 ---
+
 <!-- Page 5 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 3. Page 1 — Tableau de Bord (Accueil)
 
 **3.1 Description Générale**
@@ -37,8 +52,11 @@ La page d’accueil est le point d’entrée principal de l’application. Elle 
 **3.2 Éléments du Tableau de Bord**
 3.2.1 Indicateurs Clés de Performance (KPIs)IndicateurPériodeAffichageNombre de commandes du jourJournée en coursCompteur coloréChiffre d’affaires du jourJournée en coursMontant en FCFA /Devise localeArticles en attente de traitementTemps réelBadge d’alerteLivraisons prévues aujourd’huiJournée en coursListe rapideCommandes en retardToutes périodesAlerte rougeRevenus de la semaine7 derniers joursGraphique barres3.2.2 Tableau des Commandes Récentes•Liste des 10 dernières commandes avec statut coloré : En attente / En cours / Prêt /Livré•Possibilité de cliquer sur une ligne pour accéder au détail de la commande•Filtres rapides : Aujourd’hui / Cette semaine / Ce mois•Bouton d’action rapide : Nouvelle commande3.2.3 Alertes et Notifications•Zone d’alertes visuelles : commandes urgentes, stock bas, paiements en attente•Rappels automatiques des rendez-vous de livraison du jour
 ---
+
 <!-- Page 6 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 4. Page 2 — Gestion des Clients
 
 **4.1 Description Générale**
@@ -48,8 +66,11 @@ ChampTypeObligatoire / FacultatifNom completTexteObligatoireNuméro de télépho
 **4.3 Fonctionnalités de la Page Clients**
 •Recherche rapide par nom, téléphone ou numéro client•Tri et filtres : par date d’inscription, fréquence de commande, statut•Historique complet des commandes par client avec totaux•Envoi manuel d’un message WhatsApp ou SMS depuis la fiche client•Export de la liste clients en CSV ou PDF•Statistiques individuelles : montant total dépensé, nombre de visites, dernièrecommande•Programme fidélité (optionnel) : points cumulés, paliers de réduction
 ---
+
 <!-- Page 7 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 5. Page 3 — Services Pressing & Livraison
 
 **5.1 Catalogue des Services**
@@ -59,13 +80,18 @@ Code ServiceIntitulé du ServiceDélai StandardSRV-01Lavage Simple24hSRV-02Lavag
 **5.3 Ticket de Dépôt / Bon de Commande**
 Chaque commande génère un ticket imprimable contenant les informations suivantes :SectionContenuEn-têteLogo + Nom du pressing + Adresse + Tél.IdentificationN° de commande unique (QR code ou code-barres)ClientNom, téléphone, date de dépôtArticlesListe des vêtements, quantités, descriptionsspécialesServicesServices choisis, prix unitairesTotalSous-total, remise, total TTC, deviseRemise prévueDate et heure de retrait ou livraisonPied de pageConditions, mentions légales, remerciement5.3.1 Options d’Impression
 ---
+
 <!-- Page 8 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026•Impression thermique (imprimante ESC/POS 58mm ou 80mm)•Impression PDF (partage par WhatsApp ou email)•Ticket numérique envoyé par SMS / WhatsApp
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026•Impression thermique (imprimante ESC/POS 58mm ou 80mm)•Impression PDF (partage par WhatsApp ou email)•Ticket numérique envoyé par SMS / WhatsApp
 **5.4 Système de Notification**
 ÉvénementDéclencheurCanalContenu du MessageDépôt reçuSMS / WhatsAppConfirmation + n° commande+ date prévueVêtements prêtsWhatsApp / SMS / Push« Votre commande est prête àrécupérer »Livraison en routeWhatsApp / SMS« Votre livreur est en chemin »Livraison effectuéeSMS / WhatsAppConfirmation de livraison +demande d’avisRetard de commandeSMS / WhatsAppExcuse + nouvelle date prévuePaiement reçuSMSReçu numérique de paiement5.4.1 Intégrations de Messagerie•WhatsApp Business API (Meta) : messages automatisés avec modèles approuvés•SMS via Twilio, Orange SMS API, ou passerelle locale•Notifications Push via Firebase (application mobile installée)•Templates de messages configurables par l’administrateur
 ---
+
 <!-- Page 9 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 6. Page 4 — Journaux & Caisse
 
 **6.1 Description Générale**
@@ -79,11 +105,16 @@ Le journal enregistre automatiquement toutes les transactions avec les données 
 **6.5 Clôture et Rapport Journalier**
 En fin de journée, le système génère automatiquement un rapport comportant :•Total des recettes du jour par mode de paiement•Total des dépenses•Bénéfice net de la journée•Nombre de commandes traitées
 ---
+
 <!-- Page 10 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026•Comparaison avec la veille et la moyenne hebdomadaire•Export PDF ou impression du rapport
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026•Comparaison avec la veille et la moyenne hebdomadaire•Export PDF ou impression du rapport
 ---
+
 <!-- Page 11 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 7. Page 5 — Rapports & Statistiques
 
 **7.1 Rapports Disponibles**
@@ -91,8 +122,11 @@ CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Co
 **7.2 Formats d’Export**
 •PDF imprimable•Excel / CSV pour traitement externe•Partage par WhatsApp ou email
 ---
+
 <!-- Page 12 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 8. Page 6 — Paramètres & Administration
 
 **8.1 Gestion des Utilisateurs**
@@ -102,23 +136,35 @@ RôleDroits et AccèsAdministrateurAccès complet : configuration, rapports, uti
 **8.3 Gestion des Licences**
 Fotall-Ma Pro est distribuée selon un modèle sous licence. Au premier téléchargement,l'application est disponible en version d'évaluation gratuite pendant 1 semaine. À l'issue decette période, le client doit se procurer une licence pour continuer à utiliser l'application ;l'activation, le suivi et la gestion des licences sont assurés par l'administrateur depuisl'interface web.ÉtatDéclencheurAccès à l'applicationGéré parVersion d'évaluationPremier téléchargement /première installationAccès complet pendant1 semaineAutomatique(application)Version souslicenceAchat et activation de lalicence par le clientAccès completmaintenu tant que lalicence est activeAdministrateur(web)Version expiréeFin de la semaine d'essaisans achat de licenceAccès bloqué (lectureseule des données),invitation à activer unelicenceApplicationpuisAdministrateur(web)•Génération et attribution d'une clé de licence par établissement (pressing) depuis leback-office web•Suivi de l'état des licences (en essai, active, expirée) pour chaque client•Activation, renouvellement, suspension ou révocation d'une licence•Notification automatique au client avant la fin de la période d'évaluation•Vérification périodique de la validité de la licence par l'application (mobile, tablette,web) auprès du serveur
 ---
+
 <!-- Page 13 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 9. Sécurité et Confidentialité
+
 •Authentification sécurisée : mot de passe + code PIN ou biométrie (mobile)•Chiffrement des données clients en base de données•Journalisation de toutes les actions sensibles (audit log)•Sauvegarde automatique quotidienne sur cloud sécurisé•Rôles et permissions strictement cloisonnés•Expiration de session automatique après inactivité•Connexion HTTPS obligatoire pour la version web
 ---
+
 <!-- Page 14 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 10. Plateforme SaaS & Multi-Tenant
+
 Fotall-Ma Pro évolue en logiciel commercial exploité selon un modèle SaaS (Software as aService) : une plateforme unique, hébergée et maintenue par l'éditeur, permet à plusieursétablissements de pressing de s'y abonner et de l'utiliser en toute autonomie, chacundisposant d'un espace cloisonné (tenant).Objectifs du modèle :•Logiciel commercial, vendu à plusieurs clients pressing•Architecture SaaS : hébergement centralisé, mises à jour communes à tous les clients•Multi-tenant : isolation stricte des données de chaque client•Facturation par abonnement mensuel récurrent•Plateforme évolutive, capable d'accueillir de nouveaux clients sans refonte•Personnalisable par client (branding, tarifs, langue, devise)•API ouverte pour permettre des intégrations tierces
 **10.1 Architecture Multi-Tenant — Isolation Complète des Données**
 Vendre Fotall-Ma Pro à plusieurs établissements n'a de sens que si l'étanchéité entre eux esttotale et non négociable. Un Pressing A ne doit jamais pouvoir consulter, modifier, exporter oumême deviner l'existence des données d'un Pressing B, C ou D — que ce soit par erreurapplicative, faille de sécurité ou mauvaise configuration. Cette isolation est un principearchitectural transverse, appliqué à chaque couche du système (application, base de données,stockage, cache, API, journalisation).10.1.1 Éléments Isolés par Établissement (Tenant)Chaque pressing (tenant) dispose de son propre périmètre, totalement séparé des autres :ÉlémentContenu isoléPortée de l'isolationUtilisateursComptes Administrateur, Caissier,Technicien, LivreurUn compte n'existe que dans sontenant ; aucune connexion croiséepossibleClientsFiches clients, historique, contacts, notesBase clients invisible etinaccessible d'un tenant à l'autreTarifsGrille tarifaire, catalogue de services,remisesChaque tenant définit ses propresprix, promotions et conditionsCaisseJournal de caisse, opérations, soldesFlux financiers et comptabilitéstrictement séparésStatistiquesRapports, KPIs, exportsCalculées uniquement sur lepérimètre du tenantLogo / BrandingLogo, couleurs, nom commercialAppliqué sur l'interface, les ticketset les notifications du tenantuniquementNotificationsComptes WhatsApp/SMS, modèles demessagesChaque tenant configure et utiliseses propres comptes d'envoiAbonnementPlan, statut, historique de facturationCycle de facturation et paiementspropres à chaque tenant10.1.2 Stratégies Techniques d'Isolation des DonnéesTrois approches sont envisageables pour isoler les données en base ; le choix impacte le coût,la sécurité et la scalabilité :
 ---
+
 <!-- Page 15 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026StratégiePrincipeAvantages / LimitesBase de données dédiéepar tenantUne base physique distincte pourchaque pressingIsolation maximale ; coût etcomplexité opérationnelle élevés au-delà de quelques dizaines detenantsSchéma dédié par tenant(recommandé audémarrage)Une base PostgreSQL unique, unschéma par tenantBon compromis isolation / coût ;simplifie sauvegardes et montées deversion par tenantTable partagée +tenant_id (Row-LevelSecurity)Toutes les données dans lesmêmes tables, filtrées partenant_idScalabilité maximale pour un grandnombre de tenants ; nécessite unepolitique RLS stricte au niveau basede données, pas seulementapplicativeApproche retenue :•Démarrage en schéma dédié par tenant pour garantir une isolation forte avec unnombre limité de clients•Migration progressive vers un modèle table partagée + Row-Level Security (RLSPostgreSQL) si le nombre de tenants devient important, avec double filtrage (applicatifET base de données) pour éviter toute fuite en cas de bug10.1.3 Garanties d'Étanchéité à Chaque Couche•Authentification : le tenant est résolu dès la connexion (sous-domaine ou sélection),injecté dans le token JWT, puis vérifié à chaque requête API.•Base de données : clause de filtrage systématique par tenant_id (Row-Level Security),en complément du filtrage applicatif, pour empêcher toute fuite même en cas de bugapplicatif.•Fichiers : logos, photos d'articles, tickets PDF stockés dans des espaces de stockageséparés par tenant.•Cache & files d'attente : clés de cache préfixées par tenant, files de notificationcloisonnées, pour éviter tout mélange de données en cache.•API : chaque clé API générée (section 10.5) est rattachée à un tenant unique et nepeut interroger que son propre périmètre.•Audit & journalisation : les journaux incluent systématiquement le tenant concerné etsont consultables séparément par chaque Administrateur, sans accès aux journaux desautres tenants.•Sauvegardes : sauvegarde et restauration réalisables tenant par tenant, sans impacterles autres établissements.10.1.4 Visibilité par RôleRôleCe qu'il voitAdministrateur / Caissier / Technicien /Livreur (tenant)Uniquement les données de son propreétablissementSuper-Administrateur (SaaS)Statistiques globales agrégées etanonymisées entre tenants ; accès auxdonnées détaillées d'un tenant uniquementdans un cadre de support explicite, motivé ettracé dans le journal d'audit
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026StratégiePrincipeAvantages / LimitesBase de données dédiéepar tenantUne base physique distincte pourchaque pressingIsolation maximale ; coût etcomplexité opérationnelle élevés au-delà de quelques dizaines detenantsSchéma dédié par tenant(recommandé audémarrage)Une base PostgreSQL unique, unschéma par tenantBon compromis isolation / coût ;simplifie sauvegardes et montées deversion par tenantTable partagée +tenant_id (Row-LevelSecurity)Toutes les données dans lesmêmes tables, filtrées partenant_idScalabilité maximale pour un grandnombre de tenants ; nécessite unepolitique RLS stricte au niveau basede données, pas seulementapplicativeApproche retenue :•Démarrage en schéma dédié par tenant pour garantir une isolation forte avec unnombre limité de clients•Migration progressive vers un modèle table partagée + Row-Level Security (RLSPostgreSQL) si le nombre de tenants devient important, avec double filtrage (applicatifET base de données) pour éviter toute fuite en cas de bug10.1.3 Garanties d'Étanchéité à Chaque Couche•Authentification : le tenant est résolu dès la connexion (sous-domaine ou sélection),injecté dans le token JWT, puis vérifié à chaque requête API.•Base de données : clause de filtrage systématique par tenant_id (Row-Level Security),en complément du filtrage applicatif, pour empêcher toute fuite même en cas de bugapplicatif.•Fichiers : logos, photos d'articles, tickets PDF stockés dans des espaces de stockageséparés par tenant.•Cache & files d'attente : clés de cache préfixées par tenant, files de notificationcloisonnées, pour éviter tout mélange de données en cache.•API : chaque clé API générée (section 10.5) est rattachée à un tenant unique et nepeut interroger que son propre périmètre.•Audit & journalisation : les journaux incluent systématiquement le tenant concerné etsont consultables séparément par chaque Administrateur, sans accès aux journaux desautres tenants.•Sauvegardes : sauvegarde et restauration réalisables tenant par tenant, sans impacterles autres établissements.10.1.4 Visibilité par RôleRôleCe qu'il voitAdministrateur / Caissier / Technicien /Livreur (tenant)Uniquement les données de son propreétablissementSuper-Administrateur (SaaS)Statistiques globales agrégées etanonymisées entre tenants ; accès auxdonnées détaillées d'un tenant uniquementdans un cadre de support explicite, motivé ettracé dans le journal d'audit
 ---
+
 <!-- Page 16 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026Chaque tenant conserve ainsi sa propre base clients, ses commandes, sa caisse et sesutilisateurs (Administrateur / Caissier / Technicien / Livreur), comme défini en section 8.1, sansaucune visibilité croisée avec les autres établissements de la plateforme.
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026Chaque tenant conserve ainsi sa propre base clients, ses commandes, sa caisse et sesutilisateurs (Administrateur / Caissier / Technicien / Livreur), comme défini en section 8.1, sansaucune visibilité croisée avec les autres établissements de la plateforme.
 **10.2 Espace Super-Administrateur (SaaS)**
 Un nouveau rôle, distinct de l'Administrateur de chaque pressing, est introduit pour piloter laplateforme dans son ensemble :RôlePérimètreSuper-Administrateur (SaaS)Vision globale de la plateforme : gestion des tenants, desabonnements, de la facturation et des statistiques globalesAdministrateur (tenant)Gestion de son établissement uniquement (configuration,utilisateurs, tarifs), comme défini en section 8Fonctionnalités de l'espace Super-Administrateur :•Création, activation, suspension ou suppression d'un tenant (client pressing)•Attribution et changement de plan d'abonnement par tenant•Vue consolidée : nombre de tenants actifs, revenu récurrent mensuel, taux derésiliation•Historique de facturation et des paiements par tenant•Supervision technique de la plateforme (quotas, usage de l'API, incidents)•Gestion des demandes de support
 **10.3 Plans d'Abonnement & Facturation**
@@ -126,21 +172,32 @@ PlanCibleInclus (indicatif)StarterPetit pressing, boutiqueunique1 point de vente
 **10.4 Personnalisation par Client (Tenant)**
 •Logo, couleurs et nom commercial affichés sur l'interface et sur les tickets•Devise, langue et fuseau horaire configurables par tenant•Grille tarifaire et catalogue de services propres à chaque établissement•Modèles de messages de notification personnalisables•Nom de domaine personnalisé, en option sur le plan Business
 ---
+
 <!-- Page 17 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
 **10.5 API Ouverte**
 •API REST documentée (spécification OpenAPI/Swagger) exposant commandes,clients, caisse et rapports•Clés API générées et révocables par chaque tenant depuis son espace Administrateur•Authentification de l'API par JWT / OAuth2, au même titre que l'accès applicatif (section2.2)•Webhooks pour les évènements clés (commande créée, statut modifié, paiement reçu)•Quotas d'appels API différenciés selon le plan d'abonnement•Cas d'usage typiques : intégration avec un site e-commerce, un ERP ou un outil decomptabilité externe
 **10.6 Évolutivité de la Plateforme**
 •Infrastructure cloud avec montée en charge automatique (auto-scaling horizontal)•Services découplés (API, notifications, facturation) pouvant évoluer indépendamment•Cache partagé (Redis) et files d'attente pour absorber les pics d'activité (notifications,impressions)•Ajout de nouveaux tenants sans interruption de service pour les clients existants•Supervision et alerting continus (monitoring, journaux centralisés)
 ---
+
 <!-- Page 18 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 11. Planning de Développement Prévisionnel
+
 Règle de validation : chaque phase ci-dessous se termine par une étape de tests et devalidation. Le passage à la phase suivante n'est autorisé qu'après la recette de ces tests.PhaseDescriptionDurée EstiméePhase 1Conception UX/UI, maquettes et validation + testsde validation avant passage à la phase suivante3 semainesPhase 2Développement Backend (API, base de données)+ tests unitaires et d'intégration avant passage à laphase suivante5 semainesPhase 3Développement Frontend (Web + Mobile) + testsfonctionnels avant passage à la phase suivante6 semainesPhase 4Intégration Notifications (WhatsApp, SMS, Push) +tests d'intégration avant passage à la phasesuivante2 semainesPhase 5Tests, corrections et recette client3 semainesPhase 6Déploiement et formation + tests de validationfinale avant mise en production2 semainesTOTALDurée totale du projet~21 semaines
 ---
+
 <!-- Page 19 -->
-CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage  — Confidentiel — Version 1.0 — Mai 2026
+
+CAHIER DES CHARGES — APPLICATION GESTION PRESSING MULTI-PLATEFORMEPage — Confidentiel — Version 1.0 — Mai 2026
+
 ### 12. Glossaire
+
 •ESC/POS : protocole d’impression thermique standard pour imprimantes de caisse•KPI : Indicateur Clé de Performance•JWT : JSON Web Token, standard d’authentification sécurisé•API : Interface de Programmation Applicative•Firebase : plateforme Google pour notifications push et base de données•Twilio : service cloud d’envoi de SMS et WhatsApp automatisés•NINEA : Numéro d’Identification Nationale des Entreprises et des Associations(Sénégal)•QR Code : code-barres 2D pour identification rapide des commandes•SaaS : Software as a Service, logiciel hébergé et accessible par abonnement•Tenant : établissement client disposant d'un espace isolé sur la plateforme SaaS•Webhook : notification HTTP automatique envoyée à un système tiers lors d'unévènement© 2026 — Document Confidentiel — Fotall-Ma Pro — Tous droits réservés
 ---
+
 <!-- Page 20 -->

@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente Tenant, User, rôles tenant, SUPER_ADMIN, JWT, résolution tenant par login/sous-domaine, TenantContext, guards/interceptors et provisionnement du schéma PostgreSQL par tenant. Tests A/B cross-tenant obligatoires.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

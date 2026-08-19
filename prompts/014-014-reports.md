@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente rapports caisse, activité, recettes par service, top clients, services demandés, livraison/retrait, retards. Exports PDF/Excel/CSV. Tester fuseaux horaires, permissions et isolation.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

@@ -1,503 +1,783 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Fotall-Ma PRO - Impression Thermique</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "status-progress": "#3B82F6",
-                        "inverse-surface": "#2e3037",
-                        "status-pending": "#F59E0B",
-                        "on-tertiary-fixed": "#360f00",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "surface-container-high": "#e7e7f1",
-                        "on-surface-variant": "#434653",
-                        "status-delivered": "#6366F1",
-                        "surface-container-lowest": "#ffffff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "on-error": "#ffffff",
-                        "alert-critical": "#EF4444",
-                        "secondary-fixed": "#d3e4fe",
-                        "primary": "#003c90",
-                        "on-secondary-container": "#54647a",
-                        "on-tertiary-container": "#ffc0a7",
-                        "on-tertiary": "#ffffff",
-                        "secondary-container": "#d0e1fb",
-                        "primary-fixed": "#d9e2ff",
-                        "surface-dim": "#d9d9e2",
-                        "tertiary-container": "#993900",
-                        "surface-container": "#ededf6",
-                        "tenant-accent": "var(--primary-color)",
-                        "surface-bright": "#faf8ff",
-                        "on-primary-container": "#bcceff",
-                        "inverse-primary": "#b0c6ff",
-                        "status-ready": "#10B981",
-                        "on-secondary": "#ffffff",
-                        "on-primary": "#ffffff",
-                        "surface-container-highest": "#e1e2eb",
-                        "surface-variant": "#e1e2eb",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "outline-variant": "#c3c6d5",
-                        "on-background": "#191b22",
-                        "error-container": "#ffdad6",
-                        "surface-container-low": "#f3f3fc",
-                        "primary-container": "#0f52ba",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "on-primary-fixed": "#001945",
-                        "on-secondary-fixed": "#0b1c30",
-                        "surface-ticket": "#F8FAFC",
-                        "error": "#ba1a1a",
-                        "surface": "#faf8ff",
-                        "surface-tint": "#1d59c1",
-                        "tertiary": "#732900",
-                        "on-error-container": "#93000a",
-                        "inverse-on-surface": "#f0f0f9",
-                        "background": "#faf8ff",
-                        "on-surface": "#191b22",
-                        "outline": "#737784",
-                        "tertiary-fixed": "#ffdbcd",
-                        "on-primary-fixed-variant": "#00419c",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "secondary": "#505f76"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "gutter": "16px",
-                        "base": "8px",
-                        "margin-mobile": "16px",
-                        "margin-desktop": "24px"
-                    },
-                    "fontFamily": {
-                        "label-caps": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-md": ["Inter"],
-                        "ticket-body": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "headline-lg": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
-                    }
-                }
-            }
-        }
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Impression Thermique</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'status-progress': '#3B82F6',
+              'inverse-surface': '#2e3037',
+              'status-pending': '#F59E0B',
+              'on-tertiary-fixed': '#360f00',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-container-high': '#e7e7f1',
+              'on-surface-variant': '#434653',
+              'status-delivered': '#6366F1',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-error': '#ffffff',
+              'alert-critical': '#EF4444',
+              'secondary-fixed': '#d3e4fe',
+              primary: '#003c90',
+              'on-secondary-container': '#54647a',
+              'on-tertiary-container': '#ffc0a7',
+              'on-tertiary': '#ffffff',
+              'secondary-container': '#d0e1fb',
+              'primary-fixed': '#d9e2ff',
+              'surface-dim': '#d9d9e2',
+              'tertiary-container': '#993900',
+              'surface-container': '#ededf6',
+              'tenant-accent': 'var(--primary-color)',
+              'surface-bright': '#faf8ff',
+              'on-primary-container': '#bcceff',
+              'inverse-primary': '#b0c6ff',
+              'status-ready': '#10B981',
+              'on-secondary': '#ffffff',
+              'on-primary': '#ffffff',
+              'surface-container-highest': '#e1e2eb',
+              'surface-variant': '#e1e2eb',
+              'secondary-fixed-dim': '#b7c8e1',
+              'outline-variant': '#c3c6d5',
+              'on-background': '#191b22',
+              'error-container': '#ffdad6',
+              'surface-container-low': '#f3f3fc',
+              'primary-container': '#0f52ba',
+              'on-secondary-fixed-variant': '#38485d',
+              'on-primary-fixed': '#001945',
+              'on-secondary-fixed': '#0b1c30',
+              'surface-ticket': '#F8FAFC',
+              error: '#ba1a1a',
+              surface: '#faf8ff',
+              'surface-tint': '#1d59c1',
+              tertiary: '#732900',
+              'on-error-container': '#93000a',
+              'inverse-on-surface': '#f0f0f9',
+              background: '#faf8ff',
+              'on-surface': '#191b22',
+              outline: '#737784',
+              'tertiary-fixed': '#ffdbcd',
+              'on-primary-fixed-variant': '#00419c',
+              'tertiary-fixed-dim': '#ffb596',
+              secondary: '#505f76',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'container-max': '1440px',
+              gutter: '16px',
+              base: '8px',
+              'margin-mobile': '16px',
+              'margin-desktop': '24px',
+            },
+            fontFamily: {
+              'label-caps': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'body-md': ['Inter'],
+              'ticket-body': ['Inter'],
+              'kpi-display': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-lg': ['Inter'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        body { font-family: 'Inter', sans-serif; background-color: #faf8ff; color: #191b22; }
-        .receipt-dashed-line { border-bottom: 2px dashed #737784; margin: 16px 0; }
-        .thermal-preview { filter: contrast(1.2) grayscale(100%); }
-        /* Custom scrollbar for data tables */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #c3c6d5; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #737784; }
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #faf8ff;
+        color: #191b22;
+      }
+      .receipt-dashed-line {
+        border-bottom: 2px dashed #737784;
+        margin: 16px 0;
+      }
+      .thermal-preview {
+        filter: contrast(1.2) grayscale(100%);
+      }
+      /* Custom scrollbar for data tables */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c3c6d5;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #737784;
+      }
     </style>
-</head>
-<body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden">
-<!-- TopNavBar -->
-<header class="fixed top-0 right-0 w-full md:w-[calc(100%-256px)] z-40 bg-surface-container-lowest dark:bg-surface-container border-b border-outline-variant dark:border-outline flex items-center justify-between px-margin-desktop h-16">
-<div class="flex items-center gap-4">
-<span class="md:hidden material-symbols-outlined cursor-pointer" onclick="document.getElementById('mobile-sidebar').classList.toggle('hidden')">menu</span>
-<div class="font-headline-md text-headline-md font-black text-primary dark:text-inverse-primary">Fotall-Ma PRO</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="hidden md:flex bg-surface-container-high rounded-full px-4 py-2 items-center text-on-surface-variant">
-<span class="material-symbols-outlined text-[20px] mr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm w-48 outline-none" placeholder="Rechercher..." type="text"/>
-</div>
-<div class="flex items-center gap-3">
-<button class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all text-primary dark:text-inverse-primary"><span class="material-symbols-outlined">notifications</span></button>
-<button class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all text-primary dark:text-inverse-primary"><span class="material-symbols-outlined">help_outline</span></button>
-<button class="text-sm font-semibold text-primary dark:text-inverse-primary hidden sm:block">Support</button>
-<img alt="Avatar de l'utilisateur" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A highly detailed close-up portrait of a professional manager in a modern retail setting. The lighting is bright and clean, typical of a well-lit office or store. The person is smiling slightly, conveying competence and reliability. The overall color palette is neutral with soft tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8khtbdZZIfy42JGgyFsLXn3BEcDXdchA_AjExrMDRqRwOhk_VCDPrGrA2bV27kDcYf7FIOrdAsFMqG6pa6OhgvGpT1ApohM0Nnuv9P_Rb7mnAPsqSdojwCIN82WX1Yf-6h4y6zTuB21AWRu6rBCzIPzxC8GLmJsl65w7DwbXpYmaHQql1kUNF6sfq8vIZL5oSUryV9W6q-gnELm26-NBTXyMcfXjb8LSjCexn371JVUI7hG3uD6Yz"/>
-</div>
-</div>
-</header>
-<!-- SideNavBar (Desktop) -->
-<nav class="hidden md:flex h-full w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex-col py-base z-50">
-<div class="px-6 py-4 flex flex-col gap-1 mb-6">
-<div class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Fotall-Ma PRO</div>
-<div class="text-xs text-on-surface-variant">Administration Centrale</div>
-</div>
-<div class="flex flex-col gap-1 px-3 flex-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]">dashboard</span>
-<span class="font-medium text-sm">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]">local_laundry_service</span>
-<span class="font-medium text-sm">Commandes</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]">groups</span>
-<span class="font-medium text-sm">Clients</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]">local_shipping</span>
-<span class="font-medium text-sm">Logistique</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]">analytics</span>
-<span class="font-medium text-sm">Rapports</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">settings</span>
-<span class="font-medium text-sm">Paramètres</span>
-</a>
-</div>
-<div class="px-6 py-4 mt-auto">
-<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-medium text-sm hover:bg-surface-tint transition-colors shadow-sm flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[18px]">add</span>
-                Nouvelle Commande
+  </head>
+  <body class="bg-background text-on-background min-h-screen font-body-md overflow-x-hidden">
+    <!-- TopNavBar -->
+    <header
+      class="fixed top-0 right-0 w-full md:w-[calc(100%-256px)] z-40 bg-surface-container-lowest dark:bg-surface-container border-b border-outline-variant dark:border-outline flex items-center justify-between px-margin-desktop h-16"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="md:hidden material-symbols-outlined cursor-pointer"
+          onclick="document.getElementById('mobile-sidebar').classList.toggle('hidden')"
+          >menu</span
+        >
+        <div
+          class="font-headline-md text-headline-md font-black text-primary dark:text-inverse-primary"
+        >
+          Fotall-Ma PRO
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div
+          class="hidden md:flex bg-surface-container-high rounded-full px-4 py-2 items-center text-on-surface-variant"
+        >
+          <span class="material-symbols-outlined text-[20px] mr-2">search</span>
+          <input
+            class="bg-transparent border-none focus:ring-0 text-sm w-48 outline-none"
+            placeholder="Rechercher..."
+            type="text"
+          />
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all text-primary dark:text-inverse-primary"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all text-primary dark:text-inverse-primary"
+          >
+            <span class="material-symbols-outlined">help_outline</span>
+          </button>
+          <button
+            class="text-sm font-semibold text-primary dark:text-inverse-primary hidden sm:block"
+          >
+            Support
+          </button>
+          <img
+            alt="Avatar de l'utilisateur"
+            class="w-8 h-8 rounded-full object-cover border border-outline-variant"
+            data-alt="A highly detailed close-up portrait of a professional manager in a modern retail setting. The lighting is bright and clean, typical of a well-lit office or store. The person is smiling slightly, conveying competence and reliability. The overall color palette is neutral with soft tones."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8khtbdZZIfy42JGgyFsLXn3BEcDXdchA_AjExrMDRqRwOhk_VCDPrGrA2bV27kDcYf7FIOrdAsFMqG6pa6OhgvGpT1ApohM0Nnuv9P_Rb7mnAPsqSdojwCIN82WX1Yf-6h4y6zTuB21AWRu6rBCzIPzxC8GLmJsl65w7DwbXpYmaHQql1kUNF6sfq8vIZL5oSUryV9W6q-gnELm26-NBTXyMcfXjb8LSjCexn371JVUI7hG3uD6Yz"
+          />
+        </div>
+      </div>
+    </header>
+    <!-- SideNavBar (Desktop) -->
+    <nav
+      class="hidden md:flex h-full w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline flex-col py-base z-50"
+    >
+      <div class="px-6 py-4 flex flex-col gap-1 mb-6">
+        <div
+          class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary"
+        >
+          Fotall-Ma PRO
+        </div>
+        <div class="text-xs text-on-surface-variant">Administration Centrale</div>
+      </div>
+      <div class="flex flex-col gap-1 px-3 flex-1">
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>
+          <span class="font-medium text-sm">Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-[20px]">local_laundry_service</span>
+          <span class="font-medium text-sm">Commandes</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-[20px]">groups</span>
+          <span class="font-medium text-sm">Clients</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-[20px]">local_shipping</span>
+          <span class="font-medium text-sm">Logistique</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined text-[20px]">analytics</span>
+          <span class="font-medium text-sm">Rapports</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-[20px]"
+            style="font-variation-settings: 'FILL' 1"
+            >settings</span
+          >
+          <span class="font-medium text-sm">Paramètres</span>
+        </a>
+      </div>
+      <div class="px-6 py-4 mt-auto">
+        <button
+          class="w-full bg-primary text-on-primary py-3 rounded-lg font-medium text-sm hover:bg-surface-tint transition-colors shadow-sm flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined text-[18px]">add</span>
+          Nouvelle Commande
+        </button>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="md:ml-64 pt-24 px-margin-mobile md:px-margin-desktop pb-24 md:pb-8 min-h-screen">
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+          <h1 class="font-headline-lg text-headline-lg text-on-background mb-2">
+            Gestion de l'Impression Thermique
+          </h1>
+          <p class="text-on-surface-variant font-body-md text-body-md">
+            Configuration du matériel et supervision des files d'attente d'impression ESC/POS.
+          </p>
+        </div>
+        <button
+          class="bg-primary text-on-primary px-6 py-3 rounded-lg font-medium hover:bg-surface-tint transition-colors shadow-sm flex items-center gap-2 self-start md:self-auto active:scale-95 duration-150"
+        >
+          <span class="material-symbols-outlined">print</span>
+          Imprimer un Ticket de Test
+        </button>
+      </div>
+      <!-- Bento Grid Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <!-- Printer Status (Spans 8 cols on desktop) -->
+        <div
+          class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-6"
+        >
+          <h2
+            class="font-headline-md text-headline-md text-on-background border-b border-surface-container-highest pb-4"
+          >
+            État des Imprimantes
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- POS Printer -->
+            <div
+              class="border border-outline-variant rounded-lg p-5 flex flex-col gap-4 relative overflow-hidden bg-surface"
+            >
+              <div class="flex justify-between items-start">
+                <div class="flex items-center gap-3">
+                  <div class="bg-primary-container/20 p-3 rounded-full text-primary">
+                    <span class="material-symbols-outlined text-2xl">point_of_sale</span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-lg text-on-background">Caisse Principale</h3>
+                    <p class="text-sm text-on-surface-variant font-data-mono text-data-mono">
+                      192.168.1.104:9100
+                    </p>
+                  </div>
+                </div>
+                <span
+                  class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider"
+                  >En Ligne</span
+                >
+              </div>
+              <div class="grid grid-cols-2 gap-y-3 mt-2">
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Modèle</span>
+                  <span class="font-medium text-on-background">Epson TM-T88VI</span>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Format</span>
+                  <span class="font-medium text-on-background">80mm</span>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Niveau Papier</span>
+                  <div class="w-full bg-surface-container-high rounded-full h-2 mt-2">
+                    <div class="bg-status-progress h-2 rounded-full" style="width: 75%"></div>
+                  </div>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Tête thermique</span>
+                  <span class="font-medium text-status-ready flex items-center gap-1"
+                    ><span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    OK</span
+                  >
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-outline-variant flex justify-end gap-3">
+                <button
+                  class="text-on-surface-variant hover:bg-surface-container-high px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                >
+                  Détails
+                </button>
+                <button
+                  class="text-primary hover:bg-primary-container/10 px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                >
+                  Reconnecter
+                </button>
+              </div>
+            </div>
+            <!-- Label Printer -->
+            <div
+              class="border border-outline-variant rounded-lg p-5 flex flex-col gap-4 relative overflow-hidden bg-surface"
+            >
+              <div class="flex justify-between items-start">
+                <div class="flex items-center gap-3">
+                  <div class="bg-tertiary-container/20 p-3 rounded-full text-tertiary">
+                    <span class="material-symbols-outlined text-2xl">label</span>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-lg text-on-background">Étiquettes Prod.</h3>
+                    <p class="text-sm text-on-surface-variant font-data-mono text-data-mono">
+                      USB-001
+                    </p>
+                  </div>
+                </div>
+                <span
+                  class="bg-status-pending/10 text-status-pending font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider"
+                  >Veille</span
+                >
+              </div>
+              <div class="grid grid-cols-2 gap-y-3 mt-2">
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Modèle</span>
+                  <span class="font-medium text-on-background">Zebra ZD421</span>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Format</span>
+                  <span class="font-medium text-on-background">58mm</span>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Niveau Rouleau</span>
+                  <div class="w-full bg-surface-container-high rounded-full h-2 mt-2">
+                    <div class="bg-status-pending h-2 rounded-full" style="width: 20%"></div>
+                  </div>
+                </div>
+                <div class="text-sm">
+                  <span class="text-on-surface-variant block mb-1">Dernier job</span>
+                  <span class="font-medium text-on-background">Il y a 2h</span>
+                </div>
+              </div>
+              <div class="mt-4 pt-4 border-t border-outline-variant flex justify-end gap-3">
+                <button
+                  class="text-on-surface-variant hover:bg-surface-container-high px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                >
+                  Détails
+                </button>
+                <button
+                  class="text-primary hover:bg-primary-container/10 px-3 py-1.5 rounded text-sm font-medium transition-colors"
+                >
+                  Réveiller
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Configuration & Preview (Spans 4 cols on desktop) -->
+        <div class="md:col-span-4 flex flex-col gap-6">
+          <!-- Settings Card -->
+          <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
+            <h2
+              class="font-headline-md text-headline-md text-on-background border-b border-surface-container-highest pb-4 mb-4"
+            >
+              Paramètres d'Impression
+            </h2>
+            <div class="flex flex-col gap-5">
+              <div>
+                <label class="block text-sm font-medium text-on-background mb-2"
+                  >Protocole de Communication</label
+                >
+                <select
+                  class="w-full bg-surface border border-outline-variant rounded-lg p-2.5 text-on-background text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+                >
+                  <option value="escpos">ESC/POS (Standard)</option>
+                  <option value="zpl">ZPL (Zebra)</option>
+                  <option value="tspl">TSPL</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-on-background mb-2"
+                  >Largeur du Papier</label
+                >
+                <div class="flex gap-4">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      class="text-primary focus:ring-primary border-outline-variant"
+                      name="paper_width"
+                      type="radio"
+                      value="58"
+                    />
+                    <span class="text-sm text-on-background">58 mm</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      checked=""
+                      class="text-primary focus:ring-primary border-outline-variant"
+                      name="paper_width"
+                      type="radio"
+                      value="80"
+                    />
+                    <span class="text-sm text-on-background">80 mm</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-on-background mb-2 flex justify-between"
+                >
+                  Densité d'Impression (Contraste)
+                  <span class="text-on-surface-variant" id="contrast-value">Niveau 4</span>
+                </label>
+                <input
+                  class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary"
+                  max="8"
+                  min="1"
+                  oninput="
+                    document.getElementById('contrast-value').innerText = 'Niveau ' + this.value
+                  "
+                  type="range"
+                  value="4"
+                />
+              </div>
+              <div class="flex items-center justify-between pt-2">
+                <span class="text-sm font-medium text-on-background">Découpe Automatique</span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input checked="" class="sr-only peer" type="checkbox" value="" />
+                  <div
+                    class="w-11 h-6 bg-surface-container-high peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-fixed rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                  ></div>
+                </label>
+              </div>
+              <button
+                class="w-full bg-surface border border-outline-variant text-on-background py-2 rounded-lg text-sm font-medium hover:bg-surface-container-high transition-colors mt-2"
+              >
+                Sauvegarder Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Print Queue / History (Spans 8 cols) -->
+        <div
+          class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col"
+        >
+          <div
+            class="p-6 border-b border-surface-container-highest flex justify-between items-center bg-surface-container-lowest sticky top-0 z-10"
+          >
+            <h2 class="font-headline-md text-headline-md text-on-background">
+              Historique des Impressions
+            </h2>
+            <button
+              class="text-primary text-sm font-medium hover:underline flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined text-[18px]">refresh</span> Actualiser
             </button>
-</div>
-</nav>
-<!-- Main Content Area -->
-<main class="md:ml-64 pt-24 px-margin-mobile md:px-margin-desktop pb-24 md:pb-8 min-h-screen">
-<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<h1 class="font-headline-lg text-headline-lg text-on-background mb-2">Gestion de l'Impression Thermique</h1>
-<p class="text-on-surface-variant font-body-md text-body-md">Configuration du matériel et supervision des files d'attente d'impression ESC/POS.</p>
-</div>
-<button class="bg-primary text-on-primary px-6 py-3 rounded-lg font-medium hover:bg-surface-tint transition-colors shadow-sm flex items-center gap-2 self-start md:self-auto active:scale-95 duration-150">
-<span class="material-symbols-outlined">print</span>
-                Imprimer un Ticket de Test
-            </button>
-</div>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Printer Status (Spans 8 cols on desktop) -->
-<div class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-6">
-<h2 class="font-headline-md text-headline-md text-on-background border-b border-surface-container-highest pb-4">État des Imprimantes</h2>
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<!-- POS Printer -->
-<div class="border border-outline-variant rounded-lg p-5 flex flex-col gap-4 relative overflow-hidden bg-surface">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-3">
-<div class="bg-primary-container/20 p-3 rounded-full text-primary">
-<span class="material-symbols-outlined text-2xl">point_of_sale</span>
-</div>
-<div>
-<h3 class="font-semibold text-lg text-on-background">Caisse Principale</h3>
-<p class="text-sm text-on-surface-variant font-data-mono text-data-mono">192.168.1.104:9100</p>
-</div>
-</div>
-<span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider">En Ligne</span>
-</div>
-<div class="grid grid-cols-2 gap-y-3 mt-2">
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Modèle</span>
-<span class="font-medium text-on-background">Epson TM-T88VI</span>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Format</span>
-<span class="font-medium text-on-background">80mm</span>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Niveau Papier</span>
-<div class="w-full bg-surface-container-high rounded-full h-2 mt-2">
-<div class="bg-status-progress h-2 rounded-full" style="width: 75%"></div>
-</div>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Tête thermique</span>
-<span class="font-medium text-status-ready flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> OK</span>
-</div>
-</div>
-<div class="mt-4 pt-4 border-t border-outline-variant flex justify-end gap-3">
-<button class="text-on-surface-variant hover:bg-surface-container-high px-3 py-1.5 rounded text-sm font-medium transition-colors">Détails</button>
-<button class="text-primary hover:bg-primary-container/10 px-3 py-1.5 rounded text-sm font-medium transition-colors">Reconnecter</button>
-</div>
-</div>
-<!-- Label Printer -->
-<div class="border border-outline-variant rounded-lg p-5 flex flex-col gap-4 relative overflow-hidden bg-surface">
-<div class="flex justify-between items-start">
-<div class="flex items-center gap-3">
-<div class="bg-tertiary-container/20 p-3 rounded-full text-tertiary">
-<span class="material-symbols-outlined text-2xl">label</span>
-</div>
-<div>
-<h3 class="font-semibold text-lg text-on-background">Étiquettes Prod.</h3>
-<p class="text-sm text-on-surface-variant font-data-mono text-data-mono">USB-001</p>
-</div>
-</div>
-<span class="bg-status-pending/10 text-status-pending font-label-caps text-label-caps px-3 py-1 rounded-full uppercase tracking-wider">Veille</span>
-</div>
-<div class="grid grid-cols-2 gap-y-3 mt-2">
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Modèle</span>
-<span class="font-medium text-on-background">Zebra ZD421</span>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Format</span>
-<span class="font-medium text-on-background">58mm</span>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Niveau Rouleau</span>
-<div class="w-full bg-surface-container-high rounded-full h-2 mt-2">
-<div class="bg-status-pending h-2 rounded-full" style="width: 20%"></div>
-</div>
-</div>
-<div class="text-sm">
-<span class="text-on-surface-variant block mb-1">Dernier job</span>
-<span class="font-medium text-on-background">Il y a 2h</span>
-</div>
-</div>
-<div class="mt-4 pt-4 border-t border-outline-variant flex justify-end gap-3">
-<button class="text-on-surface-variant hover:bg-surface-container-high px-3 py-1.5 rounded text-sm font-medium transition-colors">Détails</button>
-<button class="text-primary hover:bg-primary-container/10 px-3 py-1.5 rounded text-sm font-medium transition-colors">Réveiller</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Configuration & Preview (Spans 4 cols on desktop) -->
-<div class="md:col-span-4 flex flex-col gap-6">
-<!-- Settings Card -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
-<h2 class="font-headline-md text-headline-md text-on-background border-b border-surface-container-highest pb-4 mb-4">Paramètres d'Impression</h2>
-<div class="flex flex-col gap-5">
-<div>
-<label class="block text-sm font-medium text-on-background mb-2">Protocole de Communication</label>
-<select class="w-full bg-surface border border-outline-variant rounded-lg p-2.5 text-on-background text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none">
-<option value="escpos">ESC/POS (Standard)</option>
-<option value="zpl">ZPL (Zebra)</option>
-<option value="tspl">TSPL</option>
-</select>
-</div>
-<div>
-<label class="block text-sm font-medium text-on-background mb-2">Largeur du Papier</label>
-<div class="flex gap-4">
-<label class="flex items-center gap-2 cursor-pointer">
-<input class="text-primary focus:ring-primary border-outline-variant" name="paper_width" type="radio" value="58"/>
-<span class="text-sm text-on-background">58 mm</span>
-</label>
-<label class="flex items-center gap-2 cursor-pointer">
-<input checked="" class="text-primary focus:ring-primary border-outline-variant" name="paper_width" type="radio" value="80"/>
-<span class="text-sm text-on-background">80 mm</span>
-</label>
-</div>
-</div>
-<div>
-<label class="block text-sm font-medium text-on-background mb-2 flex justify-between">
-                                Densité d'Impression (Contraste)
-                                <span class="text-on-surface-variant" id="contrast-value">Niveau 4</span>
-</label>
-<input class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" max="8" min="1" oninput="document.getElementById('contrast-value').innerText = 'Niveau ' + this.value" type="range" value="4"/>
-</div>
-<div class="flex items-center justify-between pt-2">
-<span class="text-sm font-medium text-on-background">Découpe Automatique</span>
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" type="checkbox" value=""/>
-<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-fixed rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-</label>
-</div>
-<button class="w-full bg-surface border border-outline-variant text-on-background py-2 rounded-lg text-sm font-medium hover:bg-surface-container-high transition-colors mt-2">Sauvegarder Configuration</button>
-</div>
-</div>
-</div>
-<!-- Print Queue / History (Spans 8 cols) -->
-<div class="md:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col">
-<div class="p-6 border-b border-surface-container-highest flex justify-between items-center bg-surface-container-lowest sticky top-0 z-10">
-<h2 class="font-headline-md text-headline-md text-on-background">Historique des Impressions</h2>
-<button class="text-primary text-sm font-medium hover:underline flex items-center gap-1">
-<span class="material-symbols-outlined text-[18px]">refresh</span> Actualiser
-                    </button>
-</div>
-<div class="overflow-x-auto h-[400px]">
-<table class="w-full text-left border-collapse">
-<thead class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps sticky top-0 shadow-sm z-10">
-<tr>
-<th class="p-4 font-semibold uppercase tracking-wider">ID Job</th>
-<th class="p-4 font-semibold uppercase tracking-wider">Type</th>
-<th class="p-4 font-semibold uppercase tracking-wider">Imprimante</th>
-<th class="p-4 font-semibold uppercase tracking-wider">Horodatage</th>
-<th class="p-4 font-semibold uppercase tracking-wider">Statut</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant font-body-md text-body-md bg-surface-container-lowest">
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0942</td>
-<td class="p-4 text-on-surface-variant">Ticket Client</td>
-<td class="p-4 text-on-surface-variant">Caisse Principale</td>
-<td class="p-4 text-on-surface-variant">Aujourd'hui, 14:32</td>
-<td class="p-4"><span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Succès</span></td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0941</td>
-<td class="p-4 text-on-surface-variant">Étiquette Code-Barres</td>
-<td class="p-4 text-on-surface-variant">Étiquettes Prod.</td>
-<td class="p-4 text-on-surface-variant">Aujourd'hui, 14:30</td>
-<td class="p-4"><span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Succès</span></td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors bg-error-container/20">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0940</td>
-<td class="p-4 text-on-surface-variant">Bordereau Livraison</td>
-<td class="p-4 text-on-surface-variant">Caisse Principale</td>
-<td class="p-4 text-on-surface-variant">Aujourd'hui, 13:15</td>
-<td class="p-4 flex items-center gap-2">
-<span class="bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Échec</span>
-<span class="material-symbols-outlined text-alert-critical text-[16px] cursor-help" title="Papier épuisé">error</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0939</td>
-<td class="p-4 text-on-surface-variant">Ticket Client</td>
-<td class="p-4 text-on-surface-variant">Caisse Principale</td>
-<td class="p-4 text-on-surface-variant">Aujourd'hui, 11:45</td>
-<td class="p-4"><span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Succès</span></td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0938</td>
-<td class="p-4 text-on-surface-variant">Clôture Caisse</td>
-<td class="p-4 text-on-surface-variant">Caisse Principale</td>
-<td class="p-4 text-on-surface-variant">Hier, 20:05</td>
-<td class="p-4"><span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Succès</span></td>
-</tr>
-<tr class="hover:bg-surface-bright transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0937</td>
-<td class="p-4 text-on-surface-variant">Ticket de Test</td>
-<td class="p-4 text-on-surface-variant">Étiquettes Prod.</td>
-<td class="p-4 text-on-surface-variant">Hier, 18:22</td>
-<td class="p-4"><span class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Succès</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Thermal Preview (Spans 4 cols) -->
-<div class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-full">
-<div class="flex justify-between items-center mb-4 border-b border-surface-container-highest pb-4">
-<h2 class="font-headline-md text-headline-md text-on-background">Aperçu du Ticket</h2>
-<div class="flex gap-2">
-<button class="p-1.5 bg-surface-container-high rounded text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">zoom_in</span></button>
-<button class="p-1.5 bg-surface-container-high rounded text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-[18px]">zoom_out</span></button>
-</div>
-</div>
-<div class="flex-1 bg-surface-container-highest rounded-lg flex justify-center py-6 overflow-y-auto relative shadow-inner">
-<!-- Thermal Receipt Simulation -->
-<div class="bg-surface-ticket w-[280px] p-4 shadow-md font-ticket-body text-ticket-body text-black thermal-preview mx-auto self-start">
-<div class="text-center mb-4">
-<h3 class="font-bold text-lg leading-tight uppercase">Fotall-Ma Pressing</h3>
-<p class="text-xs">123 Avenue de la République</p>
-<p class="text-xs">75011 Paris, France</p>
-<p class="text-xs">Tél: 01 23 45 67 89</p>
-</div>
-<div class="text-xs mb-2 flex justify-between font-data-mono">
-<span>Date: 24/10/2023</span>
-<span>Heure: 14:32</span>
-</div>
-<div class="text-xs mb-2 flex justify-between font-data-mono">
-<span>Ticket: #ORD-5892</span>
-<span>Caisse: 01</span>
-</div>
-<div class="receipt-dashed-line"></div>
-<table class="w-full text-xs text-left mb-2">
-<thead>
-<tr class="font-bold border-b border-black">
-<th class="py-1">QTE</th>
-<th class="py-1">ARTICLE</th>
-<th class="py-1 text-right">PRIX</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="py-1 font-data-mono">2</td>
-<td class="py-1">Chemise Homme Pliée</td>
-<td class="py-1 text-right font-data-mono">12.00</td>
-</tr>
-<tr>
-<td class="py-1 font-data-mono">1</td>
-<td class="py-1">Costume 2 Pièces</td>
-<td class="py-1 text-right font-data-mono">18.50</td>
-</tr>
-<tr>
-<td class="py-1 font-data-mono">3</td>
-<td class="py-1">Cravate Soie</td>
-<td class="py-1 text-right font-data-mono">15.00</td>
-</tr>
-</tbody>
-</table>
-<div class="receipt-dashed-line"></div>
-<div class="flex justify-between font-bold text-sm mb-1">
-<span>TOTAL NET</span>
-<span class="font-data-mono">45.50 EUR</span>
-</div>
-<div class="flex justify-between text-xs mb-4">
-<span>TVA (20%)</span>
-<span class="font-data-mono">9.10 EUR</span>
-</div>
-<div class="flex justify-between text-xs mb-1">
-<span>Paiement</span>
-<span>CARTE BANCAIRE</span>
-</div>
-<div class="flex justify-between text-xs mb-4">
-<span>Rendu</span>
-<span class="font-data-mono">0.00 EUR</span>
-</div>
-<div class="receipt-dashed-line"></div>
-<div class="text-center text-xs mt-4 mb-6">
-<p class="font-bold mb-1">MERCI DE VOTRE VISITE</p>
-<p>À conserver pour le retrait</p>
-</div>
-<!-- Barcode Simulation -->
-<div class="flex flex-col items-center mt-2">
-<div class="w-full h-10 flex bg-white justify-center items-end px-2 gap-[1px]">
-<div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-2 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-1 h-full bg-black"></div><div class="w-0.5 h-full bg-black"></div><div class="w-1.5 h-full bg-black"></div>
-</div>
-<span class="font-data-mono text-[10px] mt-1 tracking-widest">0058924510</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- BottomNavBar (Mobile) -->
-<nav class="fixed bottom-0 w-full z-50 md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant flex justify-around items-center px-4 py-2 shadow-lg pb-safe">
-<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
-<span class="material-symbols-outlined text-[24px]">home</span>
-<span class="font-label-caps text-label-caps mt-1">Accueil</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
-<span class="material-symbols-outlined text-[24px]">local_shipping</span>
-<span class="font-label-caps text-label-caps mt-1">Livraisons</span>
-</a>
-<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
-<span class="material-symbols-outlined text-[24px]">barcode_scanner</span>
-<span class="font-label-caps text-label-caps mt-1">Scan</span>
-</a>
-<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100" href="#">
-<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">person</span>
-<span class="font-label-caps text-label-caps mt-1">Profil</span>
-</a>
-</nav>
-<!-- Safe area padding for mobile bottom bar -->
-<style>
-        @supports (padding-bottom: env(safe-area-inset-bottom)) {
-            .pb-safe { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
+          </div>
+          <div class="overflow-x-auto h-[400px]">
+            <table class="w-full text-left border-collapse">
+              <thead
+                class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps sticky top-0 shadow-sm z-10"
+              >
+                <tr>
+                  <th class="p-4 font-semibold uppercase tracking-wider">ID Job</th>
+                  <th class="p-4 font-semibold uppercase tracking-wider">Type</th>
+                  <th class="p-4 font-semibold uppercase tracking-wider">Imprimante</th>
+                  <th class="p-4 font-semibold uppercase tracking-wider">Horodatage</th>
+                  <th class="p-4 font-semibold uppercase tracking-wider">Statut</th>
+                </tr>
+              </thead>
+              <tbody
+                class="divide-y divide-outline-variant font-body-md text-body-md bg-surface-container-lowest"
+              >
+                <tr class="hover:bg-surface-bright transition-colors">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0942</td>
+                  <td class="p-4 text-on-surface-variant">Ticket Client</td>
+                  <td class="p-4 text-on-surface-variant">Caisse Principale</td>
+                  <td class="p-4 text-on-surface-variant">Aujourd'hui, 14:32</td>
+                  <td class="p-4">
+                    <span
+                      class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Succès</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0941</td>
+                  <td class="p-4 text-on-surface-variant">Étiquette Code-Barres</td>
+                  <td class="p-4 text-on-surface-variant">Étiquettes Prod.</td>
+                  <td class="p-4 text-on-surface-variant">Aujourd'hui, 14:30</td>
+                  <td class="p-4">
+                    <span
+                      class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Succès</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors bg-error-container/20">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0940</td>
+                  <td class="p-4 text-on-surface-variant">Bordereau Livraison</td>
+                  <td class="p-4 text-on-surface-variant">Caisse Principale</td>
+                  <td class="p-4 text-on-surface-variant">Aujourd'hui, 13:15</td>
+                  <td class="p-4 flex items-center gap-2">
+                    <span
+                      class="bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Échec</span
+                    >
+                    <span
+                      class="material-symbols-outlined text-alert-critical text-[16px] cursor-help"
+                      title="Papier épuisé"
+                      >error</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0939</td>
+                  <td class="p-4 text-on-surface-variant">Ticket Client</td>
+                  <td class="p-4 text-on-surface-variant">Caisse Principale</td>
+                  <td class="p-4 text-on-surface-variant">Aujourd'hui, 11:45</td>
+                  <td class="p-4">
+                    <span
+                      class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Succès</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0938</td>
+                  <td class="p-4 text-on-surface-variant">Clôture Caisse</td>
+                  <td class="p-4 text-on-surface-variant">Caisse Principale</td>
+                  <td class="p-4 text-on-surface-variant">Hier, 20:05</td>
+                  <td class="p-4">
+                    <span
+                      class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Succès</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-bright transition-colors">
+                  <td class="p-4 font-data-mono text-data-mono text-on-background">#PRT-0937</td>
+                  <td class="p-4 text-on-surface-variant">Ticket de Test</td>
+                  <td class="p-4 text-on-surface-variant">Étiquettes Prod.</td>
+                  <td class="p-4 text-on-surface-variant">Hier, 18:22</td>
+                  <td class="p-4">
+                    <span
+                      class="bg-status-ready/10 text-status-ready font-label-caps text-label-caps px-2 py-1 rounded-full uppercase"
+                      >Succès</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Thermal Preview (Spans 4 cols) -->
+        <div
+          class="md:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-full"
+        >
+          <div
+            class="flex justify-between items-center mb-4 border-b border-surface-container-highest pb-4"
+          >
+            <h2 class="font-headline-md text-headline-md text-on-background">Aperçu du Ticket</h2>
+            <div class="flex gap-2">
+              <button
+                class="p-1.5 bg-surface-container-high rounded text-on-surface-variant hover:text-primary transition-colors"
+              >
+                <span class="material-symbols-outlined text-[18px]">zoom_in</span>
+              </button>
+              <button
+                class="p-1.5 bg-surface-container-high rounded text-on-surface-variant hover:text-primary transition-colors"
+              >
+                <span class="material-symbols-outlined text-[18px]">zoom_out</span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="flex-1 bg-surface-container-highest rounded-lg flex justify-center py-6 overflow-y-auto relative shadow-inner"
+          >
+            <!-- Thermal Receipt Simulation -->
+            <div
+              class="bg-surface-ticket w-[280px] p-4 shadow-md font-ticket-body text-ticket-body text-black thermal-preview mx-auto self-start"
+            >
+              <div class="text-center mb-4">
+                <h3 class="font-bold text-lg leading-tight uppercase">Fotall-Ma Pressing</h3>
+                <p class="text-xs">123 Avenue de la République</p>
+                <p class="text-xs">75011 Paris, France</p>
+                <p class="text-xs">Tél: 01 23 45 67 89</p>
+              </div>
+              <div class="text-xs mb-2 flex justify-between font-data-mono">
+                <span>Date: 24/10/2023</span>
+                <span>Heure: 14:32</span>
+              </div>
+              <div class="text-xs mb-2 flex justify-between font-data-mono">
+                <span>Ticket: #ORD-5892</span>
+                <span>Caisse: 01</span>
+              </div>
+              <div class="receipt-dashed-line"></div>
+              <table class="w-full text-xs text-left mb-2">
+                <thead>
+                  <tr class="font-bold border-b border-black">
+                    <th class="py-1">QTE</th>
+                    <th class="py-1">ARTICLE</th>
+                    <th class="py-1 text-right">PRIX</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="py-1 font-data-mono">2</td>
+                    <td class="py-1">Chemise Homme Pliée</td>
+                    <td class="py-1 text-right font-data-mono">12.00</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 font-data-mono">1</td>
+                    <td class="py-1">Costume 2 Pièces</td>
+                    <td class="py-1 text-right font-data-mono">18.50</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 font-data-mono">3</td>
+                    <td class="py-1">Cravate Soie</td>
+                    <td class="py-1 text-right font-data-mono">15.00</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="receipt-dashed-line"></div>
+              <div class="flex justify-between font-bold text-sm mb-1">
+                <span>TOTAL NET</span>
+                <span class="font-data-mono">45.50 EUR</span>
+              </div>
+              <div class="flex justify-between text-xs mb-4">
+                <span>TVA (20%)</span>
+                <span class="font-data-mono">9.10 EUR</span>
+              </div>
+              <div class="flex justify-between text-xs mb-1">
+                <span>Paiement</span>
+                <span>CARTE BANCAIRE</span>
+              </div>
+              <div class="flex justify-between text-xs mb-4">
+                <span>Rendu</span>
+                <span class="font-data-mono">0.00 EUR</span>
+              </div>
+              <div class="receipt-dashed-line"></div>
+              <div class="text-center text-xs mt-4 mb-6">
+                <p class="font-bold mb-1">MERCI DE VOTRE VISITE</p>
+                <p>À conserver pour le retrait</p>
+              </div>
+              <!-- Barcode Simulation -->
+              <div class="flex flex-col items-center mt-2">
+                <div class="w-full h-10 flex bg-white justify-center items-end px-2 gap-[1px]">
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-1.5 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-2 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-1.5 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-2 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-1 h-full bg-black"></div>
+                  <div class="w-0.5 h-full bg-black"></div>
+                  <div class="w-1.5 h-full bg-black"></div>
+                </div>
+                <span class="font-data-mono text-[10px] mt-1 tracking-widest">0058924510</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- BottomNavBar (Mobile) -->
+    <nav
+      class="fixed bottom-0 w-full z-50 md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant flex justify-around items-center px-4 py-2 shadow-lg pb-safe"
+    >
+      <a
+        class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">home</span>
+        <span class="font-label-caps text-label-caps mt-1">Accueil</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">local_shipping</span>
+        <span class="font-label-caps text-label-caps mt-1">Livraisons</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center text-on-surface-variant p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">barcode_scanner</span>
+        <span class="font-label-caps text-label-caps mt-1">Scan</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl p-2 active:bg-surface-variant touch-manipulation scale-95 transition-transform duration-100"
+        href="#"
+      >
+        <span
+          class="material-symbols-outlined text-[24px]"
+          style="font-variation-settings: 'FILL' 1"
+          >person</span
+        >
+        <span class="font-label-caps text-label-caps mt-1">Profil</span>
+      </a>
+    </nav>
+    <!-- Safe area padding for mobile bottom bar -->
+    <style>
+      @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        .pb-safe {
+          padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
         }
+      }
     </style>
-</body></html>
+  </body>
+</html>

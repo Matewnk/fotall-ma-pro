@@ -1,398 +1,603 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Fotall-Ma PRO - Gestion RH &amp; Rotation</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-error-container": "#93000a",
-                        "primary-fixed": "#d9e2ff",
-                        "on-secondary": "#ffffff",
-                        "surface-container": "#ededf6",
-                        "on-secondary-fixed": "#0b1c30",
-                        "on-surface-variant": "#434653",
-                        "tenant-accent": "var(--primary-color)",
-                        "error": "#ba1a1a",
-                        "on-primary-container": "#bcceff",
-                        "surface-container-low": "#f3f3fc",
-                        "primary-container": "#0f52ba",
-                        "secondary": "#505f76",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "status-pending": "#F59E0B",
-                        "on-secondary-container": "#54647a",
-                        "primary": "#003c90",
-                        "error-container": "#ffdad6",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "surface-ticket": "#F8FAFC",
-                        "surface-container-high": "#e7e7f1",
-                        "on-tertiary-container": "#ffc0a7",
-                        "outline-variant": "#c3c6d5",
-                        "on-primary-fixed-variant": "#00419c",
-                        "background": "#faf8ff",
-                        "on-background": "#191b22",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "tertiary-fixed": "#ffdbcd",
-                        "on-primary-fixed": "#001945",
-                        "surface-container-lowest": "#ffffff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "tertiary-container": "#993900",
-                        "inverse-primary": "#b0c6ff",
-                        "on-primary": "#ffffff",
-                        "on-surface": "#191b22",
-                        "inverse-on-surface": "#f0f0f9",
-                        "status-ready": "#10B981",
-                        "on-tertiary": "#ffffff",
-                        "surface": "#faf8ff",
-                        "status-progress": "#3B82F6",
-                        "surface-tint": "#1d59c1",
-                        "on-error": "#ffffff",
-                        "surface-dim": "#d9d9e2",
-                        "on-tertiary-fixed": "#360f00",
-                        "tertiary": "#732900",
-                        "inverse-surface": "#2e3037",
-                        "status-delivered": "#6366F1",
-                        "secondary-fixed": "#d3e4fe",
-                        "surface-bright": "#faf8ff",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "surface-container-highest": "#e1e2eb",
-                        "outline": "#737784",
-                        "surface-variant": "#e1e2eb",
-                        "alert-critical": "#EF4444",
-                        "secondary-container": "#d0e1fb"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "margin-desktop": "24px",
-                        "gutter": "16px",
-                        "margin-mobile": "16px",
-                        "base": "8px"
-                    },
-                    "fontFamily": {
-                        "headline-lg-mobile": ["Inter"],
-                        "label-caps": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "headline-md": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "body-md": ["Inter"],
-                        "ticket-body": ["Inter"],
-                        "headline-lg": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }]
-                    }
-                }
-            }
-        }
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Gestion RH &amp; Rotation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-error-container': '#93000a',
+              'primary-fixed': '#d9e2ff',
+              'on-secondary': '#ffffff',
+              'surface-container': '#ededf6',
+              'on-secondary-fixed': '#0b1c30',
+              'on-surface-variant': '#434653',
+              'tenant-accent': 'var(--primary-color)',
+              error: '#ba1a1a',
+              'on-primary-container': '#bcceff',
+              'surface-container-low': '#f3f3fc',
+              'primary-container': '#0f52ba',
+              secondary: '#505f76',
+              'secondary-fixed-dim': '#b7c8e1',
+              'status-pending': '#F59E0B',
+              'on-secondary-container': '#54647a',
+              primary: '#003c90',
+              'error-container': '#ffdad6',
+              'tertiary-fixed-dim': '#ffb596',
+              'surface-ticket': '#F8FAFC',
+              'surface-container-high': '#e7e7f1',
+              'on-tertiary-container': '#ffc0a7',
+              'outline-variant': '#c3c6d5',
+              'on-primary-fixed-variant': '#00419c',
+              background: '#faf8ff',
+              'on-background': '#191b22',
+              'on-secondary-fixed-variant': '#38485d',
+              'tertiary-fixed': '#ffdbcd',
+              'on-primary-fixed': '#001945',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'tertiary-container': '#993900',
+              'inverse-primary': '#b0c6ff',
+              'on-primary': '#ffffff',
+              'on-surface': '#191b22',
+              'inverse-on-surface': '#f0f0f9',
+              'status-ready': '#10B981',
+              'on-tertiary': '#ffffff',
+              surface: '#faf8ff',
+              'status-progress': '#3B82F6',
+              'surface-tint': '#1d59c1',
+              'on-error': '#ffffff',
+              'surface-dim': '#d9d9e2',
+              'on-tertiary-fixed': '#360f00',
+              tertiary: '#732900',
+              'inverse-surface': '#2e3037',
+              'status-delivered': '#6366F1',
+              'secondary-fixed': '#d3e4fe',
+              'surface-bright': '#faf8ff',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-container-highest': '#e1e2eb',
+              outline: '#737784',
+              'surface-variant': '#e1e2eb',
+              'alert-critical': '#EF4444',
+              'secondary-container': '#d0e1fb',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'container-max': '1440px',
+              'margin-desktop': '24px',
+              gutter: '16px',
+              'margin-mobile': '16px',
+              base: '8px',
+            },
+            fontFamily: {
+              'headline-lg-mobile': ['Inter'],
+              'label-caps': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-md': ['Inter'],
+              'kpi-display': ['Inter'],
+              'body-md': ['Inter'],
+              'ticket-body': ['Inter'],
+              'headline-lg': ['Inter'],
+            },
+            fontSize: {
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        :root {
-            --primary-color: #003c90;
-        }
-        body {
-            background-color: #faf8ff; /* surface */
-        }
-        /* Material Icons setup */
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        /* Custom scrollbar for bento grid */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f3f3fc; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c3c6d5; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #737784; 
-        }
+    <style>
+      :root {
+        --primary-color: #003c90;
+      }
+      body {
+        background-color: #faf8ff; /* surface */
+      }
+      /* Material Icons setup */
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+      /* Custom scrollbar for bento grid */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f3f3fc;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c3c6d5;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #737784;
+      }
     </style>
-</head>
-<body class="text-on-surface font-body-md bg-surface antialiased flex h-screen overflow-hidden">
-<!-- SideNavBar (Desktop) -->
-<aside class="hidden md:flex flex-col h-full py-base px-4 border-r border-outline-variant bg-surface-container-low w-64 fixed left-0 top-0 z-50">
-<!-- Brand Header -->
-<div class="flex items-center gap-3 mb-8 px-2 py-4">
-<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xl">
-                F
+  </head>
+  <body class="text-on-surface font-body-md bg-surface antialiased flex h-screen overflow-hidden">
+    <!-- SideNavBar (Desktop) -->
+    <aside
+      class="hidden md:flex flex-col h-full py-base px-4 border-r border-outline-variant bg-surface-container-low w-64 fixed left-0 top-0 z-50"
+    >
+      <!-- Brand Header -->
+      <div class="flex items-center gap-3 mb-8 px-2 py-4">
+        <div
+          class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xl"
+        >
+          F
+        </div>
+        <div>
+          <h1 class="font-headline-md text-headline-md font-black text-tenant-accent leading-none">
+            Fotall-Ma PRO
+          </h1>
+          <p class="font-label-caps text-label-caps text-on-surface-variant">Gestion Pressing</p>
+        </div>
+      </div>
+      <!-- Navigation Tabs -->
+      <nav class="flex-1 space-y-1">
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+          <span class="font-body-md text-body-md">Tableau de bord</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="local_laundry_service"
+            >local_laundry_service</span
+          >
+          <span class="font-body-md text-body-md">Commandes</span>
+        </a>
+        <!-- Active State: Clients -> Equipes/RH semantic match -->
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 bg-secondary-container text-on-secondary-container rounded-lg transition-all active:scale-95 duration-200 shadow-sm"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            data-icon="groups"
+            style="font-variation-settings: 'FILL' 1"
+            >groups</span
+          >
+          <span class="font-body-md text-body-md font-medium">Équipes &amp; RH</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="payments">payments</span>
+          <span class="font-body-md text-body-md">Finances</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="settings">settings</span>
+          <span class="font-body-md text-body-md">Paramètres</span>
+        </a>
+      </nav>
+      <!-- Footer Tab -->
+      <div class="mt-auto border-t border-outline-variant pt-4">
+        <a
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-all active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="logout">logout</span>
+          <span class="font-body-md text-body-md">Déconnexion</span>
+        </a>
+      </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 flex flex-col ml-0 md:ml-64 h-full relative">
+      <!-- TopNavBar -->
+      <header
+        class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-40 bg-surface-container-lowest h-16 shadow-sm"
+      >
+        <!-- Mobile Brand (Hidden on Desktop) -->
+        <div class="md:hidden flex items-center gap-2">
+          <h1 class="font-headline-md text-headline-md font-bold text-tenant-accent">
+            Fotall-Ma PRO
+          </h1>
+        </div>
+        <!-- Page Title (Desktop) -->
+        <div class="hidden md:block">
+          <h2 class="font-headline-md text-headline-md text-on-surface">Gestion Régionale RH</h2>
+        </div>
+        <!-- Trailing Actions -->
+        <div class="flex items-center gap-4">
+          <div
+            class="relative hidden sm:flex items-center bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant focus-within:border-primary"
+          >
+            <span class="material-symbols-outlined text-on-surface-variant mr-2" data-icon="search"
+              >search</span
+            >
+            <input
+              class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-48 text-on-surface placeholder-on-surface-variant"
+              placeholder="Rechercher employé..."
+              type="text"
+            />
+          </div>
+          <button
+            class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-primary relative"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-alert-critical rounded-full"></span>
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-primary hidden sm:block"
+          >
+            <span class="material-symbols-outlined" data-icon="help">help</span>
+          </button>
+          <div
+            class="w-8 h-8 rounded-full bg-primary-container overflow-hidden border border-outline-variant cursor-pointer"
+          >
+            <img
+              alt="User profile"
+              class="w-full h-full object-cover"
+              data-alt="Professional headshot of a regional manager in a clean, brightly lit modern office setting. Sharp focus, corporate aesthetic, subtle neutral background. High-key lighting emphasizing a reliable and approachable mood."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_lBxP72ZlDpiG0mNhXKBmjSXZkwQ0LmI98qL1cwT2vxTQTclfwK4kXIZh1ziCm5l7RwitVSoMNb2bhwhf9SE0m54nUGq9swlnpL1OFqe04BjH1ofB_Rw-geo8S3iVO-UvINuauPyEI2M6MWbjqmyD0rtCqAVHO4-kQu62dJg3tCPeRf4lRoH8zOnk0IRSBJ6W45D_irCM0nuDIWu_GWQriDPCxYPZsCwwLaag2X9NkxxIIlLSRwb-"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Scrollable Content Area -->
+      <div class="flex-1 overflow-y-auto p-4 md:p-margin-desktop space-y-6">
+        <!-- Dashboard Overview - Bento Grid -->
+        <section class="grid grid-cols-12 gap-4">
+          <!-- KPI: Total Staff Available -->
+          <div
+            class="col-span-12 sm:col-span-6 lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                >Effectif Disponible</span
+              >
+              <span class="material-symbols-outlined text-primary" data-icon="group">group</span>
             </div>
-<div>
-<h1 class="font-headline-md text-headline-md font-black text-tenant-accent leading-none">Fotall-Ma PRO</h1>
-<p class="font-label-caps text-label-caps text-on-surface-variant">Gestion Pressing</p>
-</div>
-</div>
-<!-- Navigation Tabs -->
-<nav class="flex-1 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-body-md text-body-md">Tableau de bord</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="local_laundry_service">local_laundry_service</span>
-<span class="font-body-md text-body-md">Commandes</span>
-</a>
-<!-- Active State: Clients -> Equipes/RH semantic match -->
-<a class="flex items-center gap-3 px-3 py-2.5 bg-secondary-container text-on-secondary-container rounded-lg transition-all active:scale-95 duration-200 shadow-sm" href="#">
-<span class="material-symbols-outlined" data-icon="groups" style="font-variation-settings: 'FILL' 1;">groups</span>
-<span class="font-body-md text-body-md font-medium">Équipes &amp; RH</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="payments">payments</span>
-<span class="font-body-md text-body-md">Finances</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-highest transition-all active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-body-md text-body-md">Paramètres</span>
-</a>
-</nav>
-<!-- Footer Tab -->
-<div class="mt-auto border-t border-outline-variant pt-4">
-<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-error hover:bg-error-container hover:text-on-error-container transition-all active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-<span class="font-body-md text-body-md">Déconnexion</span>
-</a>
-</div>
-</aside>
-<!-- Main Content Canvas -->
-<main class="flex-1 flex flex-col ml-0 md:ml-64 h-full relative">
-<!-- TopNavBar -->
-<header class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-40 bg-surface-container-lowest h-16 shadow-sm">
-<!-- Mobile Brand (Hidden on Desktop) -->
-<div class="md:hidden flex items-center gap-2">
-<h1 class="font-headline-md text-headline-md font-bold text-tenant-accent">Fotall-Ma PRO</h1>
-</div>
-<!-- Page Title (Desktop) -->
-<div class="hidden md:block">
-<h2 class="font-headline-md text-headline-md text-on-surface">Gestion Régionale RH</h2>
-</div>
-<!-- Trailing Actions -->
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:flex items-center bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant focus-within:border-primary">
-<span class="material-symbols-outlined text-on-surface-variant mr-2" data-icon="search">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-48 text-on-surface placeholder-on-surface-variant" placeholder="Rechercher employé..." type="text"/>
-</div>
-<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-primary relative">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-alert-critical rounded-full"></span>
-</button>
-<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-primary hidden sm:block">
-<span class="material-symbols-outlined" data-icon="help">help</span>
-</button>
-<div class="w-8 h-8 rounded-full bg-primary-container overflow-hidden border border-outline-variant cursor-pointer">
-<img alt="User profile" class="w-full h-full object-cover" data-alt="Professional headshot of a regional manager in a clean, brightly lit modern office setting. Sharp focus, corporate aesthetic, subtle neutral background. High-key lighting emphasizing a reliable and approachable mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_lBxP72ZlDpiG0mNhXKBmjSXZkwQ0LmI98qL1cwT2vxTQTclfwK4kXIZh1ziCm5l7RwitVSoMNb2bhwhf9SE0m54nUGq9swlnpL1OFqe04BjH1ofB_Rw-geo8S3iVO-UvINuauPyEI2M6MWbjqmyD0rtCqAVHO4-kQu62dJg3tCPeRf4lRoH8zOnk0IRSBJ6W45D_irCM0nuDIWu_GWQriDPCxYPZsCwwLaag2X9NkxxIIlLSRwb-"/>
-</div>
-</div>
-</header>
-<!-- Scrollable Content Area -->
-<div class="flex-1 overflow-y-auto p-4 md:p-margin-desktop space-y-6">
-<!-- Dashboard Overview - Bento Grid -->
-<section class="grid grid-cols-12 gap-4">
-<!-- KPI: Total Staff Available -->
-<div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Effectif Disponible</span>
-<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-on-surface">142</div>
-<div class="flex items-center gap-1 mt-1">
-<span class="material-symbols-outlined text-status-ready text-sm" data-icon="trending_up">trending_up</span>
-<span class="font-body-md text-body-md text-status-ready text-sm">+3 aujourd'hui</span>
-</div>
-</div>
-</div>
-<!-- KPI: Shops Critical Load -->
-<div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Boutiques en Tension</span>
-<span class="material-symbols-outlined text-alert-critical" data-icon="warning">warning</span>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-alert-critical">2</div>
-<div class="flex items-center gap-1 mt-1 text-sm text-on-surface-variant">
-<span>Boutique Nord, Centre-Ville</span>
-</div>
-</div>
-</div>
-<!-- Action Widget: Rotation Request -->
-<div class="col-span-12 lg:col-span-6 bg-primary-container rounded-xl p-4 flex items-center justify-between relative overflow-hidden border border-primary-fixed-dim shadow-sm">
-<!-- Abstract Background Graphic -->
-<div class="absolute right-0 top-0 w-32 h-32 bg-primary rounded-full opacity-10 -mr-10 -mt-10 blur-xl"></div>
-<div class="z-10 w-full">
-<h3 class="font-headline-md text-headline-md text-on-primary-container mb-1">Besoin de renfort urgent ?</h3>
-<p class="font-body-md text-body-md text-on-primary-container opacity-90 mb-4 max-w-sm">Déplacez rapidement un employé disponible vers une boutique en sous-effectif pour maintenir la cadence.</p>
-<button class="bg-on-primary-container text-primary-container px-6 py-2 rounded-lg font-medium hover:bg-surface-container-lowest transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
-                            Créer une rotation
-                        </button>
-</div>
-</div>
-</section>
-<!-- Main Operational Area: Split View -->
-<div class="grid grid-cols-12 gap-6 h-[600px]">
-<!-- Left Column: Boutique Status & Workload List -->
-<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-<div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
-<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Charge par Boutique</h3>
-<button class="text-primary hover:bg-surface-container-high p-1.5 rounded transition-colors">
-<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
-</button>
-</div>
-<div class="flex-1 overflow-y-auto p-2 space-y-2">
-<!-- Critical Shop -->
-<div class="p-3 border border-error-container bg-error-container/20 rounded-lg cursor-pointer hover:bg-error-container/40 transition-colors">
-<div class="flex justify-between items-center mb-2">
-<span class="font-label-caps text-label-caps font-bold text-on-surface">Boutique Nord</span>
-<span class="px-2 py-0.5 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-[10px]">TENSION</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Capacité: 80%</p>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Effectif: 3/5</p>
-</div>
-<div class="text-right">
-<p class="font-body-md text-body-md text-alert-critical font-medium">-2 Caissiers</p>
-</div>
-</div>
-</div>
-<!-- Normal Shop -->
-<div class="p-3 border border-outline-variant bg-surface-container-lowest rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors">
-<div class="flex justify-between items-center mb-2">
-<span class="font-label-caps text-label-caps font-bold text-on-surface">Centre-Ville Hub</span>
-<span class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-[10px]">OPTIMAL</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Capacité: 95%</p>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Effectif: 12/12</p>
-</div>
-<div class="text-right">
-<p class="font-body-md text-body-md text-status-ready font-medium">Complet</p>
-</div>
-</div>
-</div>
-<!-- Surplus Shop -->
-<div class="p-3 border border-outline-variant bg-surface-container-lowest rounded-lg cursor-pointer border-l-4 border-l-status-progress hover:bg-surface-container-low transition-colors">
-<div class="flex justify-between items-center mb-2">
-<span class="font-label-caps text-label-caps font-bold text-on-surface">Boutique Sud</span>
-<span class="px-2 py-0.5 rounded-full bg-status-progress/10 text-status-progress font-label-caps text-[10px]">SURPLUS</span>
-</div>
-<div class="flex justify-between items-end">
-<div>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Capacité: 60%</p>
-<p class="font-data-mono text-data-mono text-on-surface-variant text-xs">Effectif: 6/4</p>
-</div>
-<div class="text-right">
-<p class="font-body-md text-body-md text-status-progress font-medium">+2 Techniciens</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Right Column: Planning Canvas / Schedule -->
-<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden">
-<div class="p-4 border-b border-outline-variant flex flex-wrap gap-4 justify-between items-center bg-surface-container-lowest">
-<h3 class="font-headline-md text-headline-md text-on-surface text-lg">Planning de Rotation</h3>
-<div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant">
-<button class="px-3 py-1 rounded bg-surface-container-lowest shadow-sm font-label-caps text-label-caps text-on-surface">Aujourd'hui</button>
-<button class="px-3 py-1 rounded font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface">Semaine</button>
-</div>
-</div>
-<!-- Gantt-style simplified list -->
-<div class="flex-1 overflow-x-auto overflow-y-auto p-4">
-<div class="min-w-[600px] space-y-4">
-<!-- Employee Row -->
-<div class="flex items-center gap-4 bg-surface rounded-lg p-3 border border-surface-dim">
-<!-- Employee Info -->
-<div class="w-48 flex items-center gap-3 shrink-0">
-<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden">
-<img alt="Employee" class="w-full h-full object-cover" data-alt="Portrait of a young male dry cleaning technician wearing a neat uniform, looking focused. Clean minimalist background, crisp lighting, high quality corporate photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9dxymimPajqqG4Njff2yHvAyf7Khy0Oih2z-XUoHRjbZafN5UBMqnKxnG6Nx3mi4_bzXe5491xpD9C_f0h3r9m4eDFnA3IbER00FqyU1XHr7uhIsxo-4QdxrYYV4V1WHb2nZAzr-20X6jCIPwzQe1dmbnAVZNmhf1JxCBJsB4ip0a2hK2OamV-AAijzG1TmWCn1r4AX2pfmEAneM5GwurB9B2Q3VQWB3Lyiwgv3RAA-ecXAoE8Chk"/>
-</div>
-<div>
-<p class="font-body-md text-body-md font-medium text-on-surface">Marc L.</p>
-<p class="font-label-caps text-label-caps text-on-surface-variant">Technicien</p>
-</div>
-</div>
-<!-- Timeline Allocation -->
-<div class="flex-1 flex items-center gap-2 relative h-12 bg-surface-container-lowest border border-outline-variant border-dashed rounded px-2">
-<!-- Current Assignment -->
-<div class="h-8 bg-surface-container-high rounded border border-outline-variant flex items-center px-2 w-1/3 shrink-0">
-<span class="font-label-caps text-label-caps text-on-surface-variant truncate">Boutique Sud</span>
-</div>
-<!-- Temporary Transfer Action indicator -->
-<div class="w-8 flex justify-center text-status-pending">
-<span class="material-symbols-outlined">arrow_forward</span>
-</div>
-<!-- New Target Assignment (Draggable concept) -->
-<div class="h-8 bg-primary-fixed rounded border border-primary-fixed-dim flex items-center px-2 w-1/2 shrink-0 cursor-move shadow-sm">
-<span class="font-label-caps text-label-caps text-on-primary-fixed truncate">Boutique Nord (Urgent)</span>
-</div>
-</div>
-</div>
-<!-- Employee Row -->
-<div class="flex items-center gap-4 bg-surface rounded-lg p-3 border border-surface-dim">
-<!-- Employee Info -->
-<div class="w-48 flex items-center gap-3 shrink-0">
-<div class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden">
-<img alt="Employee" class="w-full h-full object-cover" data-alt="Portrait of a female cashier in a professional retail setting, warm smile, neat appearance. Clean minimalist background, crisp lighting, high quality corporate photo." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD110QRUifRW9L6tGjx6cjxvjb-Dc2c5fP5dI6dB5TaTwdRjh-CXDBxxoPHOmb8K7iirlU4H1CI03TKdWyIFnO5hTK67ihv8K-KVx_xjOFowVaBwTl7cnNB6F_hgYnnUtDH_G1OMAsDunR4DznqkdahxUXiS5DAcbdCYOY2-MfGjlNdQlmG4oa-7dvzLZCbtr8BZIGewa24FMIO_pdJ-_CHsTeolS3CF2rLl4ZswK6ftO9fLQjkomUN"/>
-</div>
-<div>
-<p class="font-body-md text-body-md font-medium text-on-surface">Sophie D.</p>
-<p class="font-label-caps text-label-caps text-on-surface-variant">Caissière</p>
-</div>
-</div>
-<!-- Timeline Allocation -->
-<div class="flex-1 flex items-center gap-2 relative h-12 bg-surface-container-lowest border border-outline-variant border-dashed rounded px-2">
-<!-- Current Assignment full day -->
-<div class="h-8 bg-surface-container-high rounded border border-outline-variant flex items-center px-2 w-full">
-<span class="font-label-caps text-label-caps text-on-surface-variant truncate">Centre-Ville Hub</span>
-</div>
-</div>
-</div>
-<!-- Empty slot to drop -->
-<div class="flex items-center justify-center h-16 border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-lowest/50 text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined">add</span>
-<span class="font-body-md text-body-md">Planifier un nouveau déplacement</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Script for subtle interactions if needed (omitted full logic for brevity, keeping simple UI focus) -->
-<script>
-        // Placeholder for drag-and-drop or modal interactions
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Fotall-Ma PRO RH Interface initialized.");
-        });
+            <div>
+              <div class="font-kpi-display text-kpi-display text-on-surface">142</div>
+              <div class="flex items-center gap-1 mt-1">
+                <span
+                  class="material-symbols-outlined text-status-ready text-sm"
+                  data-icon="trending_up"
+                  >trending_up</span
+                >
+                <span class="font-body-md text-body-md text-status-ready text-sm"
+                  >+3 aujourd'hui</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- KPI: Shops Critical Load -->
+          <div
+            class="col-span-12 sm:col-span-6 lg:col-span-3 bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-on-surface-variant uppercase"
+                >Boutiques en Tension</span
+              >
+              <span class="material-symbols-outlined text-alert-critical" data-icon="warning"
+                >warning</span
+              >
+            </div>
+            <div>
+              <div class="font-kpi-display text-kpi-display text-alert-critical">2</div>
+              <div class="flex items-center gap-1 mt-1 text-sm text-on-surface-variant">
+                <span>Boutique Nord, Centre-Ville</span>
+              </div>
+            </div>
+          </div>
+          <!-- Action Widget: Rotation Request -->
+          <div
+            class="col-span-12 lg:col-span-6 bg-primary-container rounded-xl p-4 flex items-center justify-between relative overflow-hidden border border-primary-fixed-dim shadow-sm"
+          >
+            <!-- Abstract Background Graphic -->
+            <div
+              class="absolute right-0 top-0 w-32 h-32 bg-primary rounded-full opacity-10 -mr-10 -mt-10 blur-xl"
+            ></div>
+            <div class="z-10 w-full">
+              <h3 class="font-headline-md text-headline-md text-on-primary-container mb-1">
+                Besoin de renfort urgent ?
+              </h3>
+              <p
+                class="font-body-md text-body-md text-on-primary-container opacity-90 mb-4 max-w-sm"
+              >
+                Déplacez rapidement un employé disponible vers une boutique en sous-effectif pour
+                maintenir la cadence.
+              </p>
+              <button
+                class="bg-on-primary-container text-primary-container px-6 py-2 rounded-lg font-medium hover:bg-surface-container-lowest transition-colors flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
+                Créer une rotation
+              </button>
+            </div>
+          </div>
+        </section>
+        <!-- Main Operational Area: Split View -->
+        <div class="grid grid-cols-12 gap-6 h-[600px]">
+          <!-- Left Column: Boutique Status & Workload List -->
+          <div
+            class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden"
+          >
+            <div
+              class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center"
+            >
+              <h3 class="font-headline-md text-headline-md text-on-surface text-lg">
+                Charge par Boutique
+              </h3>
+              <button
+                class="text-primary hover:bg-surface-container-high p-1.5 rounded transition-colors"
+              >
+                <span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+              </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-2 space-y-2">
+              <!-- Critical Shop -->
+              <div
+                class="p-3 border border-error-container bg-error-container/20 rounded-lg cursor-pointer hover:bg-error-container/40 transition-colors"
+              >
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-label-caps text-label-caps font-bold text-on-surface"
+                    >Boutique Nord</span
+                  >
+                  <span
+                    class="px-2 py-0.5 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-[10px]"
+                    >TENSION</span
+                  >
+                </div>
+                <div class="flex justify-between items-end">
+                  <div>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Capacité: 80%
+                    </p>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Effectif: 3/5
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-body-md text-body-md text-alert-critical font-medium">
+                      -2 Caissiers
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- Normal Shop -->
+              <div
+                class="p-3 border border-outline-variant bg-surface-container-lowest rounded-lg cursor-pointer hover:bg-surface-container-low transition-colors"
+              >
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-label-caps text-label-caps font-bold text-on-surface"
+                    >Centre-Ville Hub</span
+                  >
+                  <span
+                    class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-[10px]"
+                    >OPTIMAL</span
+                  >
+                </div>
+                <div class="flex justify-between items-end">
+                  <div>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Capacité: 95%
+                    </p>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Effectif: 12/12
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-body-md text-body-md text-status-ready font-medium">Complet</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Surplus Shop -->
+              <div
+                class="p-3 border border-outline-variant bg-surface-container-lowest rounded-lg cursor-pointer border-l-4 border-l-status-progress hover:bg-surface-container-low transition-colors"
+              >
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-label-caps text-label-caps font-bold text-on-surface"
+                    >Boutique Sud</span
+                  >
+                  <span
+                    class="px-2 py-0.5 rounded-full bg-status-progress/10 text-status-progress font-label-caps text-[10px]"
+                    >SURPLUS</span
+                  >
+                </div>
+                <div class="flex justify-between items-end">
+                  <div>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Capacité: 60%
+                    </p>
+                    <p class="font-data-mono text-data-mono text-on-surface-variant text-xs">
+                      Effectif: 6/4
+                    </p>
+                  </div>
+                  <div class="text-right">
+                    <p class="font-body-md text-body-md text-status-progress font-medium">
+                      +2 Techniciens
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right Column: Planning Canvas / Schedule -->
+          <div
+            class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col overflow-hidden"
+          >
+            <div
+              class="p-4 border-b border-outline-variant flex flex-wrap gap-4 justify-between items-center bg-surface-container-lowest"
+            >
+              <h3 class="font-headline-md text-headline-md text-on-surface text-lg">
+                Planning de Rotation
+              </h3>
+              <div
+                class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant"
+              >
+                <button
+                  class="px-3 py-1 rounded bg-surface-container-lowest shadow-sm font-label-caps text-label-caps text-on-surface"
+                >
+                  Aujourd'hui
+                </button>
+                <button
+                  class="px-3 py-1 rounded font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface"
+                >
+                  Semaine
+                </button>
+              </div>
+            </div>
+            <!-- Gantt-style simplified list -->
+            <div class="flex-1 overflow-x-auto overflow-y-auto p-4">
+              <div class="min-w-[600px] space-y-4">
+                <!-- Employee Row -->
+                <div
+                  class="flex items-center gap-4 bg-surface rounded-lg p-3 border border-surface-dim"
+                >
+                  <!-- Employee Info -->
+                  <div class="w-48 flex items-center gap-3 shrink-0">
+                    <div
+                      class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden"
+                    >
+                      <img
+                        alt="Employee"
+                        class="w-full h-full object-cover"
+                        data-alt="Portrait of a young male dry cleaning technician wearing a neat uniform, looking focused. Clean minimalist background, crisp lighting, high quality corporate photo."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9dxymimPajqqG4Njff2yHvAyf7Khy0Oih2z-XUoHRjbZafN5UBMqnKxnG6Nx3mi4_bzXe5491xpD9C_f0h3r9m4eDFnA3IbER00FqyU1XHr7uhIsxo-4QdxrYYV4V1WHb2nZAzr-20X6jCIPwzQe1dmbnAVZNmhf1JxCBJsB4ip0a2hK2OamV-AAijzG1TmWCn1r4AX2pfmEAneM5GwurB9B2Q3VQWB3Lyiwgv3RAA-ecXAoE8Chk"
+                      />
+                    </div>
+                    <div>
+                      <p class="font-body-md text-body-md font-medium text-on-surface">Marc L.</p>
+                      <p class="font-label-caps text-label-caps text-on-surface-variant">
+                        Technicien
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Timeline Allocation -->
+                  <div
+                    class="flex-1 flex items-center gap-2 relative h-12 bg-surface-container-lowest border border-outline-variant border-dashed rounded px-2"
+                  >
+                    <!-- Current Assignment -->
+                    <div
+                      class="h-8 bg-surface-container-high rounded border border-outline-variant flex items-center px-2 w-1/3 shrink-0"
+                    >
+                      <span class="font-label-caps text-label-caps text-on-surface-variant truncate"
+                        >Boutique Sud</span
+                      >
+                    </div>
+                    <!-- Temporary Transfer Action indicator -->
+                    <div class="w-8 flex justify-center text-status-pending">
+                      <span class="material-symbols-outlined">arrow_forward</span>
+                    </div>
+                    <!-- New Target Assignment (Draggable concept) -->
+                    <div
+                      class="h-8 bg-primary-fixed rounded border border-primary-fixed-dim flex items-center px-2 w-1/2 shrink-0 cursor-move shadow-sm"
+                    >
+                      <span class="font-label-caps text-label-caps text-on-primary-fixed truncate"
+                        >Boutique Nord (Urgent)</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Employee Row -->
+                <div
+                  class="flex items-center gap-4 bg-surface rounded-lg p-3 border border-surface-dim"
+                >
+                  <!-- Employee Info -->
+                  <div class="w-48 flex items-center gap-3 shrink-0">
+                    <div
+                      class="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden"
+                    >
+                      <img
+                        alt="Employee"
+                        class="w-full h-full object-cover"
+                        data-alt="Portrait of a female cashier in a professional retail setting, warm smile, neat appearance. Clean minimalist background, crisp lighting, high quality corporate photo."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuD110QRUifRW9L6tGjx6cjxvjb-Dc2c5fP5dI6dB5TaTwdRjh-CXDBxxoPHOmb8K7iirlU4H1CI03TKdWyIFnO5hTK67ihv8K-KVx_xjOFowVaBwTl7cnNB6F_hgYnnUtDH_G1OMAsDunR4DznqkdahxUXiS5DAcbdCYOY2-MfGjlNdQlmG4oa-7dvzLZCbtr8BZIGewa24FMIO_pdJ-_CHsTeolS3CF2rLl4ZswK6ftO9fLQjkomUN"
+                      />
+                    </div>
+                    <div>
+                      <p class="font-body-md text-body-md font-medium text-on-surface">Sophie D.</p>
+                      <p class="font-label-caps text-label-caps text-on-surface-variant">
+                        Caissière
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Timeline Allocation -->
+                  <div
+                    class="flex-1 flex items-center gap-2 relative h-12 bg-surface-container-lowest border border-outline-variant border-dashed rounded px-2"
+                  >
+                    <!-- Current Assignment full day -->
+                    <div
+                      class="h-8 bg-surface-container-high rounded border border-outline-variant flex items-center px-2 w-full"
+                    >
+                      <span class="font-label-caps text-label-caps text-on-surface-variant truncate"
+                        >Centre-Ville Hub</span
+                      >
+                    </div>
+                  </div>
+                </div>
+                <!-- Empty slot to drop -->
+                <div
+                  class="flex items-center justify-center h-16 border-2 border-dashed border-outline-variant rounded-lg bg-surface-container-lowest/50 text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer"
+                >
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined">add</span>
+                    <span class="font-body-md text-body-md">Planifier un nouveau déplacement</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Script for subtle interactions if needed (omitted full logic for brevity, keeping simple UI focus) -->
+    <script>
+      // Placeholder for drag-and-drop or modal interactions
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('Fotall-Ma PRO RH Interface initialized.');
+      });
     </script>
-</body></html>
+  </body>
+</html>

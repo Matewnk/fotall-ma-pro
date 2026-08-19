@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Fotall-Ma Pro",
+    "slug": "fotall-ma-pro",
+    "version": "0.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {}
+  }
+}

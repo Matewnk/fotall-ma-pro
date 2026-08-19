@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente ticket avec identité pressing, numéro unique, QR/code-barres, client, articles, services, prix, total, date prévue et mentions. Support ESC/POS 58/80 mm, PDF et partage. Tester confidentialité tenant.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

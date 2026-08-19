@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Construis l'onboarding en 3 étapes : identité pressing, tarifs de base, premier utilisateur/canal notification. Reprise persistante et non bloquante. Les tarifs pré-remplis doivent devenir de vraies données du tenant.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

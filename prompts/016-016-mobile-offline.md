@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Construis React Native+Expo avec SQLite/WatermelonDB. Offline-first commandes/caisse/statuts/clients synchronisés. Queue persistante, retry, UUID, ID temporaire→serveur. Conflits : caisse addition, statut plus avancé, client fusion champ par champ, commande = résolution ID. Documente `docs/sync-conflict-strategy.md` et teste coupures/réordonnancement.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

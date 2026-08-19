@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente clients : nom, téléphone, email, adresse/GPS, zone, canal notification, notes, statut, recherche, filtres, historique, statistiques, messages manuels et export CSV/PDF. Tout tenant-scoped. Tests CRUD/RBAC/isolation.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

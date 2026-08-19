@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente REST/OpenAPI pour clients, commandes, caisse/paiements et rapports. API keys tenant-bound, scopes, révocation, quotas par plan, webhooks et audit. Prouve qu'une clé d'un tenant ne voit jamais un autre tenant.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

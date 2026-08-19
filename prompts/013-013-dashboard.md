@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Construis dashboard tenant : commandes du jour, CA, articles en attente, livraisons, retards, revenus 7 jours, commandes récentes et alertes. Tester périodes, rôles et isolation.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;
