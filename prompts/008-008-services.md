@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente le catalogue du cahier : SRV-01 à SRV-05, LIV-01, LIV-02, avec tarifs et délais configurables par tenant. Tester calculs, permissions et isolation.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

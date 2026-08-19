@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Construis le back-office SUPER_ADMIN : tenants, plans, licences, abonnements, facturation globale, statistiques, quotas/usage, incidents et support. Accès détaillé tenant uniquement via support motivé et audité. ADMIN ne doit jamais accéder aux routes Super-Admin.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

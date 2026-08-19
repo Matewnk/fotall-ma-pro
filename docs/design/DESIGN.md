@@ -114,16 +114,19 @@ spacing:
 ---
 
 ## Brand & Style
+
 The design system for this SaaS platform is rooted in **Corporate / Modern** principles with a focus on **Utility-First Minimalism**. As a B2B tool for dry cleaning management, the UI must evoke reliability, precision, and cleanliness.
 
 The visual language prioritizes high-density information architecture to support rapid decision-making in high-frequency retail and logistics environments. The aesthetic is "invisible"—it recedes to let critical KPIs and order statuses lead the user's eye. Every element serves a functional purpose, utilizing subtle elevations and a disciplined grid to organize complex transactional data.
 
 **Key Stylistic Pillars:**
+
 - **Clarity over Decoration:** Use whitespace to separate logical groupings rather than heavy borders.
 - **Data-Driven Hierarchy:** Large, clear typography for financial metrics and order counts.
 - **Multi-Tenant Flexibility:** The system is designed to be brand-agnostic, allowing tenant-specific primary colors to integrate seamlessly without disrupting the core semantic logic.
 
 ## Colors
+
 The color strategy employs a **Semantic Mapping** model. While the primary blue represents the platform's reliability, the true intelligence of the system lies in its status-driven palette.
 
 - **Primary Blue:** Used for navigation, primary actions, and branding. In multi-tenant environments, this hex is replaced by the tenant's brand color.
@@ -132,7 +135,8 @@ The color strategy employs a **Semantic Mapping** model. While the primary blue 
 - **Neutrals:** A range of cool grays (Slate) provides structure without the harshness of pure black, maintaining a clean, professional "sterile" feel.
 
 ## Typography
-**Inter** is the workhorse of the system, chosen for its exceptional legibility on small screens and high-density data tables. 
+
+**Inter** is the workhorse of the system, chosen for its exceptional legibility on small screens and high-density data tables.
 
 - **KPI Display:** Large, bold weights are used for the Dashboard's primary counters.
 - **Monospacing:** **JetBrains Mono** is utilized for Order IDs, QR code references, and Service Codes (`SRV-01`). This ensures character distinction and alignment in technical contexts.
@@ -140,7 +144,8 @@ The color strategy employs a **Semantic Mapping** model. While the primary blue 
 - **Case Usage:** Labels for data headers should be in all-caps with slight letter spacing to differentiate them from interactive data points.
 
 ## Layout & Spacing
-The system uses an **8px linear scale** for consistent rhythm. 
+
+The system uses an **8px linear scale** for consistent rhythm.
 
 - **Desktop (Web):** A 12-column fluid grid. Dashboards use a "Bento Box" layout where widgets span 3, 6, or 12 columns based on priority.
 - **Tablet (Landscape):** The primary operating mode for point-of-sale. Uses a split-screen view: the left side for service selection and the right for the active "basket" or order summary.
@@ -148,6 +153,7 @@ The system uses an **8px linear scale** for consistent rhythm.
 - **Data Density:** In table views, use "Compact" (32px row height) for historical data and "Default" (48px row height) for active order management to facilitate touch interaction.
 
 ## Elevation & Depth
+
 Depth is used sparingly to maintain the clean, "flat" SaaS aesthetic. Hierarchy is established primarily through **Tonal Layering** and **Low-contrast Outlines**.
 
 - **Level 0 (Background):** The base canvas uses a subtle off-white (`#F8FAFC`) to reduce eye strain.
@@ -156,7 +162,8 @@ Depth is used sparingly to maintain the clean, "flat" SaaS aesthetic. Hierarchy 
 - **Z-Index Strategy:** Biometric and PIN entry screens occupy the highest layer, utilizing a background blur (12px) to obscure sensitive dashboard data behind the security prompt.
 
 ## Shapes
-The shape language is **Soft (0.25rem)**, reflecting a professional and structured environment. 
+
+The shape language is **Soft (0.25rem)**, reflecting a professional and structured environment.
 
 - **Standard Elements:** Buttons, input fields, and cards use the base 4px radius.
 - **Status Badges:** Use a "Pill" shape (full rounding) to clearly distinguish them as non-interactive status indicators vs. interactive square-ish buttons.
@@ -165,14 +172,17 @@ The shape language is **Soft (0.25rem)**, reflecting a professional and structur
 ## Components
 
 ### Status Badges & Multi-tenant Tokens
+
 - **Status Badges:** Pill-shaped, small-caps text, using a 10% opacity background of the semantic color with a 100% opacity text color for maximum readability.
 - **Tenant Accents:** Elements like the active-state sidebar indicator, primary buttons, and the login logo are mapped to the `tenant-accent` token.
 
 ### Transactional UI
+
 - **Order Cards:** Feature a "Header-Body-Footer" structure. Header contains the Order ID in `data-mono`; Body shows items; Footer contains the Status Badge and total price.
 - **Digital Receipts:** Emulate the physical thermal ticket layout within the app—centered text, dashed dividers, and high-contrast black text on a `surface-ticket` background.
 
 ### Navigation & Inputs
+
 - **Role-Based Navigation:** The sidebar dynamically filters links based on permissions (Admin, Caissier, Livreur). Use 20px monochrome icons with the `primary_color` applied only to the active state.
 - **KPI Widgets:** Large cards with a "Trend Indicator" (small green/red arrow) and the `kpi-display` font for the primary value.
 - **Search Inputs:** Should always include a "Scan" icon at the trailing edge on mobile/tablet to trigger the camera/barcode reader.

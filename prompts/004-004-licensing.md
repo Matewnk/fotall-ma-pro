@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Implémente licence avec essai FINAL de 15 jours, états ESSAI/ACTIVE/EXPIREE/SUSPENDUE, job automatique d'expiration, JournalLicence append-only, clé de licence, guards d'écriture, actions Super-Admin avec motif et idempotence, événement interne avant fin d'essai. Tests 15e/16e jour et permissions.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

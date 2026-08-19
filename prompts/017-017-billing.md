@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Intègre Stripe ou Mobile Money approuvé : souscription, renouvellement, changement plan, succès, échec, relances, suspension progressive et webhooks. Webhooks authentifiés, idempotents, tenant-scoped et résistants aux doublons/hors-ordre.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

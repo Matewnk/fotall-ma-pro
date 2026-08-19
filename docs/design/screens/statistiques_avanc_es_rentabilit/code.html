@@ -1,529 +1,721 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Fotall-Ma PRO - Statistiques Avancées &amp; Rentabilité</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-secondary": "#ffffff",
-                      "surface-container-high": "#e7e7f1",
-                      "alert-critical": "#EF4444",
-                      "secondary-container": "#d0e1fb",
-                      "surface-container-low": "#f3f3fc",
-                      "background": "#faf8ff",
-                      "tenant-accent": "var(--primary-color)",
-                      "on-primary-container": "#bcceff",
-                      "tertiary-fixed": "#ffdbcd",
-                      "primary": "#003c90",
-                      "error": "#ba1a1a",
-                      "on-secondary-container": "#54647a",
-                      "on-secondary-fixed": "#0b1c30",
-                      "on-tertiary-container": "#ffc0a7",
-                      "surface": "#faf8ff",
-                      "surface-variant": "#e1e2eb",
-                      "surface-tint": "#1d59c1",
-                      "on-primary": "#ffffff",
-                      "status-delivered": "#6366F1",
-                      "secondary": "#505f76",
-                      "on-primary-fixed": "#001945",
-                      "surface-dim": "#d9d9e2",
-                      "secondary-fixed": "#d3e4fe",
-                      "inverse-on-surface": "#f0f0f9",
-                      "error-container": "#ffdad6",
-                      "inverse-primary": "#b0c6ff",
-                      "surface-container-highest": "#e1e2eb",
-                      "on-tertiary-fixed-variant": "#7d2d00",
-                      "on-secondary-fixed-variant": "#38485d",
-                      "surface-bright": "#faf8ff",
-                      "on-error-container": "#93000a",
-                      "on-surface": "#191b22",
-                      "on-error": "#ffffff",
-                      "on-tertiary": "#ffffff",
-                      "primary-fixed-dim": "#b0c6ff",
-                      "on-tertiary-fixed": "#360f00",
-                      "surface-container": "#ededf6",
-                      "status-progress": "#3B82F6",
-                      "tertiary-fixed-dim": "#ffb596",
-                      "on-background": "#191b22",
-                      "outline": "#737784",
-                      "inverse-surface": "#2e3037",
-                      "surface-ticket": "#F8FAFC",
-                      "surface-container-lowest": "#ffffff",
-                      "primary-fixed": "#d9e2ff",
-                      "outline-variant": "#c3c6d5",
-                      "primary-container": "#0f52ba",
-                      "on-surface-variant": "#434653",
-                      "status-pending": "#F59E0B",
-                      "tertiary-container": "#993900",
-                      "on-primary-fixed-variant": "#00419c",
-                      "tertiary": "#732900",
-                      "status-ready": "#10B981",
-                      "secondary-fixed-dim": "#b7c8e1"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "gutter": "16px",
-                      "margin-desktop": "24px",
-                      "container-max": "1440px",
-                      "base": "8px",
-                      "margin-mobile": "16px"
-              },
-              "fontFamily": {
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "headline-lg-mobile": [
-                              "Inter"
-                      ],
-                      "ticket-body": [
-                              "Inter"
-                      ],
-                      "label-caps": [
-                              "Inter"
-                      ],
-                      "kpi-display": [
-                              "Inter"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ],
-                      "data-mono": [
-                              "JetBrains Mono"
-                      ],
-                      "headline-md": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "body-md": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "headline-lg-mobile": [
-                              "24px",
-                              {
-                                      "lineHeight": "30px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "ticket-body": [
-                              "14px",
-                              {
-                                      "lineHeight": "18px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "label-caps": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "kpi-display": [
-                              "48px",
-                              {
-                                      "lineHeight": "56px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "headline-lg": [
-                              "30px",
-                              {
-                                      "lineHeight": "38px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "data-mono": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-md": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "fontWeight": "600"
-                              }
-                      ]
-              }
-      },
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Statistiques Avancées &amp; Rentabilité</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-secondary': '#ffffff',
+              'surface-container-high': '#e7e7f1',
+              'alert-critical': '#EF4444',
+              'secondary-container': '#d0e1fb',
+              'surface-container-low': '#f3f3fc',
+              background: '#faf8ff',
+              'tenant-accent': 'var(--primary-color)',
+              'on-primary-container': '#bcceff',
+              'tertiary-fixed': '#ffdbcd',
+              primary: '#003c90',
+              error: '#ba1a1a',
+              'on-secondary-container': '#54647a',
+              'on-secondary-fixed': '#0b1c30',
+              'on-tertiary-container': '#ffc0a7',
+              surface: '#faf8ff',
+              'surface-variant': '#e1e2eb',
+              'surface-tint': '#1d59c1',
+              'on-primary': '#ffffff',
+              'status-delivered': '#6366F1',
+              secondary: '#505f76',
+              'on-primary-fixed': '#001945',
+              'surface-dim': '#d9d9e2',
+              'secondary-fixed': '#d3e4fe',
+              'inverse-on-surface': '#f0f0f9',
+              'error-container': '#ffdad6',
+              'inverse-primary': '#b0c6ff',
+              'surface-container-highest': '#e1e2eb',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'on-secondary-fixed-variant': '#38485d',
+              'surface-bright': '#faf8ff',
+              'on-error-container': '#93000a',
+              'on-surface': '#191b22',
+              'on-error': '#ffffff',
+              'on-tertiary': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-tertiary-fixed': '#360f00',
+              'surface-container': '#ededf6',
+              'status-progress': '#3B82F6',
+              'tertiary-fixed-dim': '#ffb596',
+              'on-background': '#191b22',
+              outline: '#737784',
+              'inverse-surface': '#2e3037',
+              'surface-ticket': '#F8FAFC',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed': '#d9e2ff',
+              'outline-variant': '#c3c6d5',
+              'primary-container': '#0f52ba',
+              'on-surface-variant': '#434653',
+              'status-pending': '#F59E0B',
+              'tertiary-container': '#993900',
+              'on-primary-fixed-variant': '#00419c',
+              tertiary: '#732900',
+              'status-ready': '#10B981',
+              'secondary-fixed-dim': '#b7c8e1',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              gutter: '16px',
+              'margin-desktop': '24px',
+              'container-max': '1440px',
+              base: '8px',
+              'margin-mobile': '16px',
+            },
+            fontFamily: {
+              'body-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'ticket-body': ['Inter'],
+              'label-caps': ['Inter'],
+              'kpi-display': ['Inter'],
+              'headline-lg': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '24px',
+                  fontWeight: '400',
+                },
+              ],
+              'headline-lg-mobile': [
+                '24px',
+                {
+                  lineHeight: '30px',
+                  fontWeight: '600',
+                },
+              ],
+              'ticket-body': [
+                '14px',
+                {
+                  lineHeight: '18px',
+                  fontWeight: '500',
+                },
+              ],
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '16px',
+                  letterSpacing: '0.05em',
+                  fontWeight: '700',
+                },
+              ],
+              'kpi-display': [
+                '48px',
+                {
+                  lineHeight: '56px',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700',
+                },
+              ],
+              'headline-lg': [
+                '30px',
+                {
+                  lineHeight: '38px',
+                  fontWeight: '600',
+                },
+              ],
+              'data-mono': [
+                '14px',
+                {
+                  lineHeight: '20px',
+                  fontWeight: '500',
+                },
+              ],
+              'headline-md': [
+                '24px',
+                {
+                  lineHeight: '32px',
+                  fontWeight: '600',
+                },
+              ],
+            },
           },
-        }
+        },
+      };
     </script>
-<style>
-        /* Custom styles for specific elements not easily handled by Tailwind alone */
-        :root {
-            --primary-color: #003c90; /* Tenant accent default */
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        /* Simulated Chart Styles for visual representation without external libs */
-        .chart-line-blue { stroke: #003c90; stroke-width: 2; fill: none; }
-        .chart-line-gray { stroke: #c3c6d5; stroke-width: 2; stroke-dasharray: 4; fill: none; }
-        .chart-point-blue { fill: #ffffff; stroke: #003c90; stroke-width: 2; }
-        
-        .bar-primary { fill: #003c90; }
-        .bar-secondary { fill: #d0e1fb; }
+    <style>
+      /* Custom styles for specific elements not easily handled by Tailwind alone */
+      :root {
+        --primary-color: #003c90; /* Tenant accent default */
+      }
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* Simulated Chart Styles for visual representation without external libs */
+      .chart-line-blue {
+        stroke: #003c90;
+        stroke-width: 2;
+        fill: none;
+      }
+      .chart-line-gray {
+        stroke: #c3c6d5;
+        stroke-width: 2;
+        stroke-dasharray: 4;
+        fill: none;
+      }
+      .chart-point-blue {
+        fill: #ffffff;
+        stroke: #003c90;
+        stroke-width: 2;
+      }
+
+      .bar-primary {
+        fill: #003c90;
+      }
+      .bar-secondary {
+        fill: #d0e1fb;
+      }
     </style>
-</head>
-<body class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex">
-<!-- SideNavBar -->
-<aside class="bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline h-screen w-64 fixed left-0 top-0 flex flex-col py-base z-50">
-<!-- Brand/Header -->
-<div class="px-margin-desktop py-4 mb-4">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">local_laundry_service</span>
-</div>
-<div>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight">Fotall-Ma PRO</h1>
-<p class="font-label-caps text-label-caps text-secondary">Management Suite</p>
-</div>
-</div>
-</div>
-<!-- CTA -->
-<div class="px-margin-desktop mb-6">
-<button class="w-full bg-tenant-accent text-on-primary py-2 rounded-lg font-body-md font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-<span class="material-symbols-outlined">add</span>
-                Nouvelle Commande
+  </head>
+  <body
+    class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex"
+  >
+    <!-- SideNavBar -->
+    <aside
+      class="bg-surface dark:bg-inverse-surface border-r border-outline-variant dark:border-outline h-screen w-64 fixed left-0 top-0 flex flex-col py-base z-50"
+    >
+      <!-- Brand/Header -->
+      <div class="px-margin-desktop py-4 mb-4">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1"
+              >local_laundry_service</span
+            >
+          </div>
+          <div>
+            <h1
+              class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary leading-tight"
+            >
+              Fotall-Ma PRO
+            </h1>
+            <p class="font-label-caps text-label-caps text-secondary">Management Suite</p>
+          </div>
+        </div>
+      </div>
+      <!-- CTA -->
+      <div class="px-margin-desktop mb-6">
+        <button
+          class="w-full bg-tenant-accent text-on-primary py-2 rounded-lg font-body-md font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+        >
+          <span class="material-symbols-outlined">add</span>
+          Nouvelle Commande
+        </button>
+      </div>
+      <!-- Navigation Tabs -->
+      <nav class="flex-1 overflow-y-auto hide-scrollbar px-3 space-y-1">
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">dashboard</span>
+          Dashboard
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">receipt_long</span>
+          Orders
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">group</span>
+          Customers
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">inventory_2</span>
+          Inventory
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-tenant-accent bg-primary-container/10 translate-x-1 transition-transform"
+          href="#"
+        >
+          <span class="material-symbols-outlined">assessment</span>
+          Reports
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          Settings
+        </a>
+      </nav>
+      <!-- Footer Tabs -->
+      <div class="px-3 pt-4 border-t border-outline-variant dark:border-outline mt-auto space-y-1">
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-high transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined">support_agent</span>
+          Support
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-high transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined">logout</span>
+          Sign Out
+        </a>
+      </div>
+    </aside>
+    <!-- Main Content Wrapper -->
+    <div class="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
+      <!-- TopNavBar -->
+      <header
+        class="bg-surface-container-lowest dark:bg-surface-dim border-b border-outline-variant dark:border-outline docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-margin-desktop"
+      >
+        <!-- Left: Search (from JSON config search_bar: on_left) -->
+        <div class="flex-1 max-w-md">
+          <div class="relative group">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+              >search</span
+            >
+            <input
+              class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-10 py-2 focus:ring-2 focus:ring-tenant-accent/50 transition-all text-body-md placeholder:text-on-surface-variant"
+              placeholder="Rechercher une commande, un client..."
+              type="text"
+            />
+            <!-- Scan icon mandated for mobile/tablet, adding here as a best practice for POS systems -->
+            <button
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors"
+            >
+              <span class="material-symbols-outlined text-[20px]">document_scanner</span>
             </button>
-</div>
-<!-- Navigation Tabs -->
-<nav class="flex-1 overflow-y-auto hide-scrollbar px-3 space-y-1">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-                Dashboard
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-                Orders
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">group</span>
-                Customers
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">inventory_2</span>
-                Inventory
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-tenant-accent bg-primary-container/10 translate-x-1 transition-transform" href="#">
-<span class="material-symbols-outlined">assessment</span>
-                Reports
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-inverse-primary hover:bg-surface-container-high dark:hover:bg-surface-variant transition-colors duration-200" href="#">
-<span class="material-symbols-outlined">settings</span>
-                Settings
-            </a>
-</nav>
-<!-- Footer Tabs -->
-<div class="px-3 pt-4 border-t border-outline-variant dark:border-outline mt-auto space-y-1">
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" href="#">
-<span class="material-symbols-outlined">support_agent</span>
-                Support
-            </a>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-high transition-colors" href="#">
-<span class="material-symbols-outlined">logout</span>
-                Sign Out
-            </a>
-</div>
-</aside>
-<!-- Main Content Wrapper -->
-<div class="flex-1 ml-64 flex flex-col h-screen overflow-hidden">
-<!-- TopNavBar -->
-<header class="bg-surface-container-lowest dark:bg-surface-dim border-b border-outline-variant dark:border-outline docked full-width top-0 sticky z-40 flex justify-between items-center h-16 px-margin-desktop">
-<!-- Left: Search (from JSON config search_bar: on_left) -->
-<div class="flex-1 max-w-md">
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full bg-surface-container-low border-none rounded-full pl-10 pr-10 py-2 focus:ring-2 focus:ring-tenant-accent/50 transition-all text-body-md placeholder:text-on-surface-variant" placeholder="Rechercher une commande, un client..." type="text"/>
-<!-- Scan icon mandated for mobile/tablet, adding here as a best practice for POS systems -->
-<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
-<span class="material-symbols-outlined text-[20px]">document_scanner</span>
-</button>
-</div>
-</div>
-<!-- Right: Actions & Profile -->
-<div class="flex items-center gap-4">
-<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-tenant-accent transition-colors">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-tenant-accent transition-colors">
-<span class="material-symbols-outlined">help_outline</span>
-</button>
-<div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
-<button class="text-secondary font-label-caps text-label-caps hover:text-primary transition-colors uppercase tracking-wider">
-                    Support
-                </button>
-<div class="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden ml-2 border border-outline-variant">
-<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a business manager, well-lit, corporate environment, modern light-mode aesthetic, facing forward with a subtle smile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Bi8-eJk-_XiayKzYJlNUFEEeJIozoy-fomQZuUyjBpDHfECuuilVE4FcMoz7ofiGFShxjBT1wN_jHEmfVsEQu6vTAYErywqQ2xpXzH39QE8JUV9sR1Hst6YLpmJ71jE50FAs238VSFRmepPES8OA00MyEtPLprzvTHpDJzs9LQEOgyGAxz-XQfNaVK1OD5tpLl7Lc5mG8gQ5TBTgqWOzZhdWEaRhBNzml-h1P5dEKfIeuAHVYWAj"/>
-</div>
-</div>
-</header>
-<!-- Page Canvas (Scrollable Data) -->
-<main class="flex-1 overflow-y-auto p-margin-desktop bg-surface">
-<!-- Page Header & Filters -->
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-background">Statistiques Avancées &amp; Rentabilité</h2>
-<p class="text-secondary mt-1">Vue d'ensemble des performances financières (Agence Principale)</p>
-</div>
-<div class="flex items-center gap-3">
-<select class="bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-tenant-accent/50">
-<option>Toutes les Agences</option>
-<option>Agence Centre-Ville</option>
-<option>Agence Nord</option>
-</select>
-<div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant">
-<button class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary">Auj.</button>
-<button class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary">Sem.</button>
-<button class="px-3 py-1 rounded bg-surface-container-lowest shadow-sm text-body-md font-medium text-primary border border-outline-variant/50">Mois</button>
-<button class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary">Année</button>
-</div>
-</div>
-</div>
-<!-- Bento Grid: KPI Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
-<!-- KPI 1: Revenue -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-secondary uppercase">Total Revenue</span>
-<div class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]">payments</span>
-</div>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-on-background">€24.5k</div>
-<div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
-<span class="material-symbols-outlined text-[16px]">trending_up</span>
-<span>+12.5% vs last month</span>
-</div>
-</div>
-</div>
-<!-- KPI 2: Margin -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-secondary uppercase">Net Profit Margin</span>
-<div class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]">percent</span>
-</div>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-on-background">32.8%</div>
-<div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
-<span class="material-symbols-outlined text-[16px]">trending_up</span>
-<span>+2.1% vs last month</span>
-</div>
-</div>
-</div>
-<!-- KPI 3: AOV -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-secondary uppercase">Avg. Order Value</span>
-<div class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]">shopping_basket</span>
-</div>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-on-background">€42.10</div>
-<div class="flex items-center gap-1 mt-2 text-alert-critical font-body-md">
-<span class="material-symbols-outlined text-[16px]">trending_down</span>
-<span>-1.2% vs last month</span>
-</div>
-</div>
-</div>
-<!-- KPI 4: CAC -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between">
-<div class="flex justify-between items-start mb-2">
-<span class="font-label-caps text-label-caps text-secondary uppercase">Customer Acq. Cost</span>
-<div class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]">person_add</span>
-</div>
-</div>
-<div>
-<div class="font-kpi-display text-kpi-display text-on-background">€14.50</div>
-<div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
-<span class="material-symbols-outlined text-[16px]">trending_down</span>
-<span>-5.4% (Improvement)</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Bento Grid: Charts & Tables -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-gutter">
-<!-- Main Chart (Spans 2 columns) -->
-<div class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
-<div class="flex justify-between items-center mb-6">
-<h3 class="font-headline-md text-headline-md text-on-background">Revenue vs Expenses (6 Months)</h3>
-<div class="flex gap-4">
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-primary"></div>
-<span class="font-label-caps text-label-caps text-secondary">Revenue</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
-<span class="font-label-caps text-label-caps text-secondary">Expenses</span>
-</div>
-</div>
-</div>
-<!-- SVG Chart Representation -->
-<div class="flex-1 relative w-full mt-4">
-<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 600 200">
-<!-- Grid lines -->
-<line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="40" y2="40"></line>
-<line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="80" y2="80"></line>
-<line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="120" y2="120"></line>
-<line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="160" y2="160"></line>
-<line stroke="#e1e2eb" stroke-width="2" x1="0" x2="600" y1="200" y2="200"></line>
-<!-- Expenses Line -->
-<path class="chart-line-gray" d="M 0,150 L 100,140 L 200,145 L 300,130 L 400,135 L 500,120 L 600,125"></path>
-<!-- Revenue Line -->
-<path class="chart-line-blue" d="M 0,100 L 100,80 L 200,95 L 300,60 L 400,70 L 500,40 L 600,30"></path>
-<!-- Points (Revenue) -->
-<circle class="chart-point-blue" cx="100" cy="80" r="4"></circle>
-<circle class="chart-point-blue" cx="200" cy="95" r="4"></circle>
-<circle class="chart-point-blue" cx="300" cy="60" r="4"></circle>
-<circle class="chart-point-blue" cx="400" cy="70" r="4"></circle>
-<circle class="chart-point-blue" cx="500" cy="40" r="4"></circle>
-<circle class="chart-point-blue" cx="600" cy="30" r="4"></circle>
-</svg>
-<!-- X-Axis Labels -->
-<div class="flex justify-between w-full mt-2 text-secondary font-data-mono text-data-mono text-xs">
-<span>Jan</span>
-<span>Feb</span>
-<span>Mar</span>
-<span>Apr</span>
-<span>May</span>
-<span>Jun</span>
-</div>
-</div>
-</div>
-<!-- Bar Chart (Spans 1 column) -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]">
-<h3 class="font-headline-md text-headline-md text-on-background mb-6">Top Services</h3>
-<div class="flex-1 flex flex-col justify-end gap-4">
-<!-- Bar 1 -->
-<div class="flex items-center gap-3 w-full">
-<span class="w-24 text-right font-body-md text-secondary truncate">Dry Cleaning</span>
-<div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
-<div class="h-full bg-primary" style="width: 85%"></div>
-</div>
-<span class="w-12 font-data-mono text-data-mono text-right text-on-background">85%</span>
-</div>
-<!-- Bar 2 -->
-<div class="flex items-center gap-3 w-full">
-<span class="w-24 text-right font-body-md text-secondary truncate">Laundry</span>
-<div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
-<div class="h-full bg-primary/70" style="width: 65%"></div>
-</div>
-<span class="w-12 font-data-mono text-data-mono text-right text-on-background">65%</span>
-</div>
-<!-- Bar 3 -->
-<div class="flex items-center gap-3 w-full">
-<span class="w-24 text-right font-body-md text-secondary truncate">Ironing</span>
-<div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
-<div class="h-full bg-primary/50" style="width: 45%"></div>
-</div>
-<span class="w-12 font-data-mono text-data-mono text-right text-on-background">45%</span>
-</div>
-<!-- Bar 4 -->
-<div class="flex items-center gap-3 w-full">
-<span class="w-24 text-right font-body-md text-secondary truncate">Repairs</span>
-<div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
-<div class="h-full bg-primary/30" style="width: 20%"></div>
-</div>
-<span class="w-12 font-data-mono text-data-mono text-right text-on-background">20%</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Service Profitability Table -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mb-8">
-<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
-<h3 class="font-headline-md text-headline-md text-on-background">Service Profitability</h3>
-<button class="text-primary hover:text-tenant-accent font-body-md font-medium flex items-center gap-1">
-<span class="material-symbols-outlined text-[20px]">download</span> Export CSV
-                    </button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low border-b border-outline-variant">
-<th class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold">Service Name</th>
-<th class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right">Volume (Orders)</th>
-<th class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right">Revenue</th>
-<th class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right">Margin %</th>
-<th class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-center">Status</th>
-</tr>
-</thead>
-<tbody class="font-data-mono text-data-mono text-on-background">
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors">
-<td class="py-4 px-6 font-body-md font-medium">Premium Dry Cleaning (Suits)</td>
-<td class="py-4 px-6 text-right">1,245</td>
-<td class="py-4 px-6 text-right">€18,675.00</td>
-<td class="py-4 px-6 text-right text-status-ready">42.5%</td>
-<td class="py-4 px-6 text-center">
-<span class="inline-block px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase">High</span>
-</td>
-</tr>
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors">
-<td class="py-4 px-6 font-body-md font-medium">Standard Laundry (Per Kg)</td>
-<td class="py-4 px-6 text-right">3,102</td>
-<td class="py-4 px-6 text-right">€9,306.00</td>
-<td class="py-4 px-6 text-right text-status-pending">25.0%</td>
-<td class="py-4 px-6 text-center">
-<span class="inline-block px-2 py-1 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps uppercase">Avg</span>
-</td>
-</tr>
-<tr class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors">
-<td class="py-4 px-6 font-body-md font-medium">Ironing Only (Shirts)</td>
-<td class="py-4 px-6 text-right">2,840</td>
-<td class="py-4 px-6 text-right">€7,100.00</td>
-<td class="py-4 px-6 text-right text-alert-critical">18.2%</td>
-<td class="py-4 px-6 text-center">
-<span class="inline-block px-2 py-1 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps uppercase">Low</span>
-</td>
-</tr>
-<tr class="hover:bg-surface-container-low/50 transition-colors">
-<td class="py-4 px-6 font-body-md font-medium">Wedding Dress Preservation</td>
-<td class="py-4 px-6 text-right">45</td>
-<td class="py-4 px-6 text-right">€4,050.00</td>
-<td class="py-4 px-6 text-right text-status-ready">65.0%</td>
-<td class="py-4 px-6 text-center">
-<span class="inline-block px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase">High</span>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+          </div>
+        </div>
+        <!-- Right: Actions & Profile -->
+        <div class="flex items-center gap-4">
+          <button
+            class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-tenant-accent transition-colors"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-tenant-accent transition-colors"
+          >
+            <span class="material-symbols-outlined">help_outline</span>
+          </button>
+          <div class="h-6 w-[1px] bg-outline-variant mx-2"></div>
+          <button
+            class="text-secondary font-label-caps text-label-caps hover:text-primary transition-colors uppercase tracking-wider"
+          >
+            Support
+          </button>
+          <div
+            class="w-8 h-8 rounded-full bg-primary-fixed overflow-hidden ml-2 border border-outline-variant"
+          >
+            <img
+              alt="User Profile Avatar"
+              class="w-full h-full object-cover"
+              data-alt="A professional headshot of a business manager, well-lit, corporate environment, modern light-mode aesthetic, facing forward with a subtle smile."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_Bi8-eJk-_XiayKzYJlNUFEEeJIozoy-fomQZuUyjBpDHfECuuilVE4FcMoz7ofiGFShxjBT1wN_jHEmfVsEQu6vTAYErywqQ2xpXzH39QE8JUV9sR1Hst6YLpmJ71jE50FAs238VSFRmepPES8OA00MyEtPLprzvTHpDJzs9LQEOgyGAxz-XQfNaVK1OD5tpLl7Lc5mG8gQ5TBTgqWOzZhdWEaRhBNzml-h1P5dEKfIeuAHVYWAj"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Page Canvas (Scrollable Data) -->
+      <main class="flex-1 overflow-y-auto p-margin-desktop bg-surface">
+        <!-- Page Header & Filters -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+        >
+          <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-background">
+              Statistiques Avancées &amp; Rentabilité
+            </h2>
+            <p class="text-secondary mt-1">
+              Vue d'ensemble des performances financières (Agence Principale)
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <select
+              class="bg-surface-container-lowest border border-outline-variant rounded-lg px-3 py-2 text-body-md focus:ring-2 focus:ring-tenant-accent/50"
+            >
+              <option>Toutes les Agences</option>
+              <option>Agence Centre-Ville</option>
+              <option>Agence Nord</option>
+            </select>
+            <div class="flex bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+              <button
+                class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary"
+              >
+                Auj.
+              </button>
+              <button
+                class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary"
+              >
+                Sem.
+              </button>
+              <button
+                class="px-3 py-1 rounded bg-surface-container-lowest shadow-sm text-body-md font-medium text-primary border border-outline-variant/50"
+              >
+                Mois
+              </button>
+              <button
+                class="px-3 py-1 rounded text-body-md font-medium text-secondary hover:text-primary"
+              >
+                Année
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Bento Grid: KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-gutter">
+          <!-- KPI 1: Revenue -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-secondary uppercase"
+                >Total Revenue</span
+              >
+              <div
+                class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-[20px]">payments</span>
+              </div>
+            </div>
+            <div>
+              <div class="font-kpi-display text-kpi-display text-on-background">€24.5k</div>
+              <div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
+                <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                <span>+12.5% vs last month</span>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 2: Margin -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-secondary uppercase"
+                >Net Profit Margin</span
+              >
+              <div
+                class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-[20px]">percent</span>
+              </div>
+            </div>
+            <div>
+              <div class="font-kpi-display text-kpi-display text-on-background">32.8%</div>
+              <div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
+                <span class="material-symbols-outlined text-[16px]">trending_up</span>
+                <span>+2.1% vs last month</span>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 3: AOV -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-secondary uppercase"
+                >Avg. Order Value</span
+              >
+              <div
+                class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-[20px]">shopping_basket</span>
+              </div>
+            </div>
+            <div>
+              <div class="font-kpi-display text-kpi-display text-on-background">€42.10</div>
+              <div class="flex items-center gap-1 mt-2 text-alert-critical font-body-md">
+                <span class="material-symbols-outlined text-[16px]">trending_down</span>
+                <span>-1.2% vs last month</span>
+              </div>
+            </div>
+          </div>
+          <!-- KPI 4: CAC -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col justify-between"
+          >
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-label-caps text-label-caps text-secondary uppercase"
+                >Customer Acq. Cost</span
+              >
+              <div
+                class="w-8 h-8 rounded bg-primary-container/10 flex items-center justify-center text-primary"
+              >
+                <span class="material-symbols-outlined text-[20px]">person_add</span>
+              </div>
+            </div>
+            <div>
+              <div class="font-kpi-display text-kpi-display text-on-background">€14.50</div>
+              <div class="flex items-center gap-1 mt-2 text-status-ready font-body-md">
+                <span class="material-symbols-outlined text-[16px]">trending_down</span>
+                <span>-5.4% (Improvement)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bento Grid: Charts & Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter mb-gutter">
+          <!-- Main Chart (Spans 2 columns) -->
+          <div
+            class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]"
+          >
+            <div class="flex justify-between items-center mb-6">
+              <h3 class="font-headline-md text-headline-md text-on-background">
+                Revenue vs Expenses (6 Months)
+              </h3>
+              <div class="flex gap-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-primary"></div>
+                  <span class="font-label-caps text-label-caps text-secondary">Revenue</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+                  <span class="font-label-caps text-label-caps text-secondary">Expenses</span>
+                </div>
+              </div>
+            </div>
+            <!-- SVG Chart Representation -->
+            <div class="flex-1 relative w-full mt-4">
+              <svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 600 200">
+                <!-- Grid lines -->
+                <line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="40" y2="40"></line>
+                <line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="80" y2="80"></line>
+                <line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="120" y2="120"></line>
+                <line stroke="#f0f0f9" stroke-width="1" x1="0" x2="600" y1="160" y2="160"></line>
+                <line stroke="#e1e2eb" stroke-width="2" x1="0" x2="600" y1="200" y2="200"></line>
+                <!-- Expenses Line -->
+                <path
+                  class="chart-line-gray"
+                  d="M 0,150 L 100,140 L 200,145 L 300,130 L 400,135 L 500,120 L 600,125"
+                ></path>
+                <!-- Revenue Line -->
+                <path
+                  class="chart-line-blue"
+                  d="M 0,100 L 100,80 L 200,95 L 300,60 L 400,70 L 500,40 L 600,30"
+                ></path>
+                <!-- Points (Revenue) -->
+                <circle class="chart-point-blue" cx="100" cy="80" r="4"></circle>
+                <circle class="chart-point-blue" cx="200" cy="95" r="4"></circle>
+                <circle class="chart-point-blue" cx="300" cy="60" r="4"></circle>
+                <circle class="chart-point-blue" cx="400" cy="70" r="4"></circle>
+                <circle class="chart-point-blue" cx="500" cy="40" r="4"></circle>
+                <circle class="chart-point-blue" cx="600" cy="30" r="4"></circle>
+              </svg>
+              <!-- X-Axis Labels -->
+              <div
+                class="flex justify-between w-full mt-2 text-secondary font-data-mono text-data-mono text-xs"
+              >
+                <span>Jan</span>
+                <span>Feb</span>
+                <span>Mar</span>
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+              </div>
+            </div>
+          </div>
+          <!-- Bar Chart (Spans 1 column) -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col h-[400px]"
+          >
+            <h3 class="font-headline-md text-headline-md text-on-background mb-6">Top Services</h3>
+            <div class="flex-1 flex flex-col justify-end gap-4">
+              <!-- Bar 1 -->
+              <div class="flex items-center gap-3 w-full">
+                <span class="w-24 text-right font-body-md text-secondary truncate"
+                  >Dry Cleaning</span
+                >
+                <div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
+                  <div class="h-full bg-primary" style="width: 85%"></div>
+                </div>
+                <span class="w-12 font-data-mono text-data-mono text-right text-on-background"
+                  >85%</span
+                >
+              </div>
+              <!-- Bar 2 -->
+              <div class="flex items-center gap-3 w-full">
+                <span class="w-24 text-right font-body-md text-secondary truncate">Laundry</span>
+                <div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
+                  <div class="h-full bg-primary/70" style="width: 65%"></div>
+                </div>
+                <span class="w-12 font-data-mono text-data-mono text-right text-on-background"
+                  >65%</span
+                >
+              </div>
+              <!-- Bar 3 -->
+              <div class="flex items-center gap-3 w-full">
+                <span class="w-24 text-right font-body-md text-secondary truncate">Ironing</span>
+                <div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
+                  <div class="h-full bg-primary/50" style="width: 45%"></div>
+                </div>
+                <span class="w-12 font-data-mono text-data-mono text-right text-on-background"
+                  >45%</span
+                >
+              </div>
+              <!-- Bar 4 -->
+              <div class="flex items-center gap-3 w-full">
+                <span class="w-24 text-right font-body-md text-secondary truncate">Repairs</span>
+                <div class="flex-1 h-6 bg-surface-container-low rounded overflow-hidden">
+                  <div class="h-full bg-primary/30" style="width: 20%"></div>
+                </div>
+                <span class="w-12 font-data-mono text-data-mono text-right text-on-background"
+                  >20%</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Service Profitability Table -->
+        <div
+          class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mb-8"
+        >
+          <div
+            class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-bright"
+          >
+            <h3 class="font-headline-md text-headline-md text-on-background">
+              Service Profitability
+            </h3>
+            <button
+              class="text-primary hover:text-tenant-accent font-body-md font-medium flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined text-[20px]">download</span> Export CSV
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-surface-container-low border-b border-outline-variant">
+                  <th
+                    class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold"
+                  >
+                    Service Name
+                  </th>
+                  <th
+                    class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right"
+                  >
+                    Volume (Orders)
+                  </th>
+                  <th
+                    class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right"
+                  >
+                    Revenue
+                  </th>
+                  <th
+                    class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right"
+                  >
+                    Margin %
+                  </th>
+                  <th
+                    class="py-3 px-6 font-label-caps text-label-caps text-secondary uppercase font-semibold text-center"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="font-data-mono text-data-mono text-on-background">
+                <tr
+                  class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors"
+                >
+                  <td class="py-4 px-6 font-body-md font-medium">Premium Dry Cleaning (Suits)</td>
+                  <td class="py-4 px-6 text-right">1,245</td>
+                  <td class="py-4 px-6 text-right">€18,675.00</td>
+                  <td class="py-4 px-6 text-right text-status-ready">42.5%</td>
+                  <td class="py-4 px-6 text-center">
+                    <span
+                      class="inline-block px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase"
+                      >High</span
+                    >
+                  </td>
+                </tr>
+                <tr
+                  class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors"
+                >
+                  <td class="py-4 px-6 font-body-md font-medium">Standard Laundry (Per Kg)</td>
+                  <td class="py-4 px-6 text-right">3,102</td>
+                  <td class="py-4 px-6 text-right">€9,306.00</td>
+                  <td class="py-4 px-6 text-right text-status-pending">25.0%</td>
+                  <td class="py-4 px-6 text-center">
+                    <span
+                      class="inline-block px-2 py-1 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps uppercase"
+                      >Avg</span
+                    >
+                  </td>
+                </tr>
+                <tr
+                  class="border-b border-outline-variant hover:bg-surface-container-low/50 transition-colors"
+                >
+                  <td class="py-4 px-6 font-body-md font-medium">Ironing Only (Shirts)</td>
+                  <td class="py-4 px-6 text-right">2,840</td>
+                  <td class="py-4 px-6 text-right">€7,100.00</td>
+                  <td class="py-4 px-6 text-right text-alert-critical">18.2%</td>
+                  <td class="py-4 px-6 text-center">
+                    <span
+                      class="inline-block px-2 py-1 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps uppercase"
+                      >Low</span
+                    >
+                  </td>
+                </tr>
+                <tr class="hover:bg-surface-container-low/50 transition-colors">
+                  <td class="py-4 px-6 font-body-md font-medium">Wedding Dress Preservation</td>
+                  <td class="py-4 px-6 text-right">45</td>
+                  <td class="py-4 px-6 text-right">€4,050.00</td>
+                  <td class="py-4 px-6 text-right text-status-ready">65.0%</td>
+                  <td class="py-4 px-6 text-center">
+                    <span
+                      class="inline-block px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase"
+                      >High</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

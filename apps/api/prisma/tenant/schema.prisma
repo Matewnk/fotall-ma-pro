@@ -1,0 +1,225 @@
+// Schema des donnees tenant-scoped. Applique tel quel dans un schema
+// PostgreSQL dedie par tenant (tenant_<id>), jamais dans le control-plane.
+// Un seul PrismaClient genere est reutilise pour tous les tenants : le nom
+// du schema PostgreSQL cible est fourni au runtime via le parametre
+// `schema` de la connection string (voir tenant-prisma.factory.ts).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/tenant-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Premiere entite tenant-scoped : preuve du mecanisme d'isolation et
+// support de la tracabilite exigee par la Constitution (VII). Les entites
+// metier (clients, commandes, caisse, ...) suivront le meme schema dans
+// leurs specs respectives (007+).
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  actorId    String   @map("actor_id")
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
+
+// Redefinis ici volontairement : ce schema est genere separement du
+// control-plane (voir tenant-prisma.factory.ts), les enums ne peuvent pas
+// etre partages entre les deux clients Prisma.
+enum CanalNotification {
+  PUSH
+  WHATSAPP
+  SMS
+}
+
+enum StatutClient {
+  ACTIF
+  INACTIF
+}
+
+// premiere entite metier tenant-scoped (007-customers). "historique des
+// commandes" et "historique des notifications" (cahier des charges §5.2)
+// sont differes : les entites Commande (009) et Notification (012)
+// n'existent pas encore.
+model Client {
+  id                String             @id @default(uuid())
+  nom               String
+  telephone         String
+  email             String?
+  adresse           String?
+  canalNotification CanalNotification? @map("canal_notification")
+  statut            StatutClient       @default(ACTIF)
+  notes             String?
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  commandes Commande[]
+
+  @@map("clients")
+}
+
+// Catalogue propre au tenant (008-services). Les 10 codes de reference
+// (SRV-01..08, LIV-01..02) sont proposes a l'onboarding (voir
+// onboarding.service.ts) avec des tarifs indicatifs, modifiables
+// immediatement (cahier des charges §6.1).
+model Service {
+  id             String   @id @default(uuid())
+  code           String   @unique
+  intitule       String
+  categorie      String
+  delaiHeures    Int?     @map("delai_heures")
+  tarif          Decimal  @db.Decimal(10, 2)
+  actif          Boolean  @default(true)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  articlesCommande CommandeArticle[]
+
+  @@map("services")
+}
+
+enum StatutCommande {
+  EN_ATTENTE
+  EN_COURS
+  PRET
+  LIVRE
+}
+
+enum ModeLivraison {
+  RETRAIT
+  LIVRAISON
+}
+
+// Commande (009-orders) : lie Client (007) et Service (008). Les totaux
+// sont toujours calcules cote serveur (commandes.service.ts), jamais
+// acceptes depuis le client. Le statut ne regresse jamais
+// (EN_ATTENTE < EN_COURS < PRET < LIVRE, cahier des charges §6.3).
+model Commande {
+  id               String          @id @default(uuid())
+  numero           Int             @unique @default(autoincrement())
+  clientId         String          @map("client_id")
+  statut           StatutCommande  @default(EN_ATTENTE)
+  sousTotal        Decimal         @db.Decimal(10, 2) @map("sous_total")
+  remise           Decimal         @default(0) @db.Decimal(10, 2)
+  total            Decimal         @db.Decimal(10, 2)
+  datePrevue       DateTime?       @map("date_prevue")
+  modeLivraison    ModeLivraison   @map("mode_livraison")
+  adresseLivraison String?         @map("adresse_livraison")
+  notes            String?
+  idempotencyKey   String?         @unique @map("idempotency_key")
+  // Positionne par la synchronisation offline (016) lors de la creation
+  // d'une commande hors ligne, avant reconciliation avec un numero
+  // definitif. false pour toute commande creee en ligne (011-tickets).
+  estProvisoire    Boolean         @default(false) @map("est_provisoire")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+
+  client   Client            @relation(fields: [clientId], references: [id])
+  articles CommandeArticle[]
+
+  @@map("commandes")
+}
+
+// Prix figes au moment de la commande (tarifUnitaire copie depuis
+// Service.tarif) : une modification ulterieure du tarif catalogue ne doit
+// jamais changer retroactivement le montant d'une commande existante.
+model CommandeArticle {
+  id            String  @id @default(uuid())
+  commandeId    String  @map("commande_id")
+  serviceId     String  @map("service_id")
+  quantite      Int
+  tarifUnitaire Decimal @db.Decimal(10, 2) @map("tarif_unitaire")
+  sousTotal     Decimal @db.Decimal(10, 2) @map("sous_total")
+
+  commande Commande @relation(fields: [commandeId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+
+  @@map("commande_articles")
+}
+
+enum TypeOperationCaisse {
+  OUVERTURE
+  ENCAISSEMENT
+  AVANCE
+  DEPENSE
+  REMBOURSEMENT
+  AJUSTEMENT_COMPENSATOIRE
+  CLOTURE
+}
+
+enum ModePaiement {
+  ESPECES
+  CARTE
+  MOBILE_MONEY
+  AUTRE
+}
+
+// Journal append-only (Constitution IV, cahier des charges §9). Aucune
+// mise a jour ni suppression n'est jamais exposee : une correction est un
+// nouvel evenement AJUSTEMENT_COMPENSATOIRE, jamais une modification d'une
+// ligne existante — d'ou l'absence volontaire de updatedAt.
+// Le solde est toujours recalcule en sommant les effets signes de chaque
+// evenement dans caisse.service.ts : deterministe et independant de
+// l'ordre d'arrivee (propriete necessaire a la synchronisation offline,
+// 016), jamais stocke comme un compteur mutable.
+model OperationCaisse {
+  id             String              @id @default(uuid())
+  type           TypeOperationCaisse
+  montant        Decimal             @db.Decimal(10, 2)
+  modePaiement   ModePaiement?       @map("mode_paiement")
+  reference      String?
+  operateurId    String              @map("operateur_id")
+  commandeId     String?             @map("commande_id")
+  clientId       String?             @map("client_id")
+  idempotencyKey String              @unique @map("idempotency_key")
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  @@map("operations_caisse")
+}
+
+enum TypeEvenementNotification {
+  COMMANDE_CREEE
+  COMMANDE_EN_COURS
+  COMMANDE_PRETE
+  LIVRAISON_PREVUE
+  COMMANDE_LIVREE
+  RAPPEL
+  LICENCE_PROCHE_EXPIRATION
+  // Hors liste du cahier des charges §8.2, ajoute pour l'etape 3 de
+  // l'onboarding (006) : "test de notification" sur le canal choisi.
+  TEST_CANAL
+}
+
+enum StatutEnvoiNotification {
+  ENVOYE
+  ECHEC
+  DRY_RUN
+}
+
+// Journal de toute tentative d'envoi (cahier des charges §8.3) : le domaine
+// metier emet des evenements internes (voir notifications-events.listener.ts),
+// ce service consomme et appelle les fournisseurs (FCM/WhatsApp/SMS) via des
+// adaptateurs interchangeables — jamais d'appel direct depuis Commande/
+// Licence/Onboarding. idempotencyKey deterministe par (evenement, entite) :
+// un evenement rejoue (retry applicatif, double emission) ne renvoie jamais
+// deux fois la meme notification.
+model NotificationLog {
+  id             String                     @id @default(uuid())
+  evenement      TypeEvenementNotification
+  canal          CanalNotification
+  destinataire   String
+  statut         StatutEnvoiNotification
+  tentatives     Int                        @default(1)
+  erreur         String?
+  idempotencyKey String                     @unique @map("idempotency_key")
+  createdAt      DateTime                   @default(now()) @map("created_at")
+
+  @@map("notification_logs")
+}

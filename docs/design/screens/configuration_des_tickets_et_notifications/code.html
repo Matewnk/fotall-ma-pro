@@ -1,320 +1,439 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Ticket &amp; Notification Settings - CleanManager Pro</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "error-container": "#ffdad6",
-                        "surface-container-high": "#e7e7f1",
-                        "inverse-on-surface": "#f0f0f9",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "secondary-container": "#d0e1fb",
-                        "tertiary-fixed": "#ffdbcd",
-                        "status-progress": "#3B82F6",
-                        "secondary-fixed": "#d3e4fe",
-                        "on-primary-fixed": "#001945",
-                        "on-primary-fixed-variant": "#00419c",
-                        "on-primary-container": "#bcceff",
-                        "surface-variant": "#e1e2eb",
-                        "background": "#faf8ff",
-                        "inverse-surface": "#2e3037",
-                        "on-tertiary": "#ffffff",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "surface-dim": "#d9d9e2",
-                        "tertiary-container": "#993900",
-                        "primary-fixed": "#d9e2ff",
-                        "outline": "#737784",
-                        "surface-container": "#ededf6",
-                        "status-pending": "#F59E0B",
-                        "on-background": "#191b22",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "error": "#ba1a1a",
-                        "on-error-container": "#93000a",
-                        "on-secondary-container": "#54647a",
-                        "on-surface": "#191b22",
-                        "on-primary": "#ffffff",
-                        "on-error": "#ffffff",
-                        "surface-container-low": "#f3f3fc",
-                        "alert-critical": "#EF4444",
-                        "on-secondary-fixed": "#0b1c30",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "on-surface-variant": "#434653",
-                        "primary": "#003c90",
-                        "inverse-primary": "#b0c6ff",
-                        "surface-tint": "#1d59c1",
-                        "tertiary": "#732900",
-                        "surface": "#faf8ff",
-                        "primary-container": "#0f52ba",
-                        "on-secondary": "#ffffff",
-                        "surface-bright": "#faf8ff",
-                        "surface-ticket": "#F8FAFC",
-                        "secondary": "#505f76",
-                        "on-tertiary-container": "#ffc0a7",
-                        "status-delivered": "#6366F1",
-                        "surface-container-highest": "#e1e2eb",
-                        "surface-container-lowest": "#ffffff",
-                        "outline-variant": "#c3c6d5",
-                        "status-ready": "#10B981",
-                        "on-tertiary-fixed": "#360f00",
-                        "tenant-accent": "var(--primary-color)"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "base": "8px",
-                        "margin-desktop": "24px",
-                        "gutter": "16px",
-                        "margin-mobile": "16px"
-                    },
-                    "fontFamily": {
-                        "body-md": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "ticket-body": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "label-caps": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
-                    }
-                },
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ticket &amp; Notification Settings - CleanManager Pro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'error-container': '#ffdad6',
+              'surface-container-high': '#e7e7f1',
+              'inverse-on-surface': '#f0f0f9',
+              'primary-fixed-dim': '#b0c6ff',
+              'secondary-fixed-dim': '#b7c8e1',
+              'secondary-container': '#d0e1fb',
+              'tertiary-fixed': '#ffdbcd',
+              'status-progress': '#3B82F6',
+              'secondary-fixed': '#d3e4fe',
+              'on-primary-fixed': '#001945',
+              'on-primary-fixed-variant': '#00419c',
+              'on-primary-container': '#bcceff',
+              'surface-variant': '#e1e2eb',
+              background: '#faf8ff',
+              'inverse-surface': '#2e3037',
+              'on-tertiary': '#ffffff',
+              'on-secondary-fixed-variant': '#38485d',
+              'surface-dim': '#d9d9e2',
+              'tertiary-container': '#993900',
+              'primary-fixed': '#d9e2ff',
+              outline: '#737784',
+              'surface-container': '#ededf6',
+              'status-pending': '#F59E0B',
+              'on-background': '#191b22',
+              'tertiary-fixed-dim': '#ffb596',
+              error: '#ba1a1a',
+              'on-error-container': '#93000a',
+              'on-secondary-container': '#54647a',
+              'on-surface': '#191b22',
+              'on-primary': '#ffffff',
+              'on-error': '#ffffff',
+              'surface-container-low': '#f3f3fc',
+              'alert-critical': '#EF4444',
+              'on-secondary-fixed': '#0b1c30',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'on-surface-variant': '#434653',
+              primary: '#003c90',
+              'inverse-primary': '#b0c6ff',
+              'surface-tint': '#1d59c1',
+              tertiary: '#732900',
+              surface: '#faf8ff',
+              'primary-container': '#0f52ba',
+              'on-secondary': '#ffffff',
+              'surface-bright': '#faf8ff',
+              'surface-ticket': '#F8FAFC',
+              secondary: '#505f76',
+              'on-tertiary-container': '#ffc0a7',
+              'status-delivered': '#6366F1',
+              'surface-container-highest': '#e1e2eb',
+              'surface-container-lowest': '#ffffff',
+              'outline-variant': '#c3c6d5',
+              'status-ready': '#10B981',
+              'on-tertiary-fixed': '#360f00',
+              'tenant-accent': 'var(--primary-color)',
             },
-        }
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'container-max': '1440px',
+              base: '8px',
+              'margin-desktop': '24px',
+              gutter: '16px',
+              'margin-mobile': '16px',
+            },
+            fontFamily: {
+              'body-md': ['Inter'],
+              'kpi-display': ['Inter'],
+              'headline-lg': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'ticket-body': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'label-caps': ['Inter'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
     </style>
-</head>
-<body class="bg-background text-on-background font-body-md min-h-screen flex">
-<!-- SideNavBar -->
-<nav class="bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col py-base z-50">
-<div class="px-margin-desktop py-4 mb-4">
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">CleanManager Pro</h1>
-<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Admin Console</p>
-</div>
-<ul class="flex-1 px-2 space-y-1">
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
-<span class="font-body-md text-body-md">Dashboard</span>
-</a>
-</li>
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
-<span class="font-body-md text-body-md">Orders</span>
-</a>
-</li>
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
-<span class="font-body-md text-body-md">Inventory</span>
-</a>
-</li>
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="group">group</span>
-<span class="font-body-md text-body-md">Customers</span>
-</a>
-</li>
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
-<span class="font-body-md text-body-md">Reports</span>
-</a>
-</li>
-<li>
-<a class="flex items-center px-4 py-3 rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-primary bg-surface-container-low cursor-pointer active:scale-95" href="#">
-<span class="material-symbols-outlined mr-3" data-icon="settings" data-weight="fill">settings</span>
-<span class="font-body-md text-body-md">Settings</span>
-</a>
-</li>
-</ul>
-<div class="p-4 mt-auto border-t border-outline-variant dark:border-outline">
-<div class="flex items-center">
-<img alt="Admin User Avatar" class="w-10 h-10 rounded-full object-cover mr-3 bg-surface-container-high" data-alt="A small circular avatar placeholder image for an admin user profile in a sleek modern UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbdf8Sa5rYhHH5Ujmuzre6F1iu-D4UGYmM_Al6rjLgCniNDBGYbANgSst4FX5liJrOZIvB0kUrXRwQFuKTcSfAMwikfcuTe26HH3pnxIU26iT4tTC0zRZFa7GkNfONs__AqSuotDWf1mdCXXG99_edt8UrBjjjrAnEvVuZwonenARiNL5f-a3SlXPMweMF_-lo5VfdcT7fZpQ73jx2cEa5yzLJ9p-GgCpZ4v_3W5vm5ejtoLGODVS3"/>
-<div>
-<p class="font-body-md text-body-md font-medium">Admin User</p>
-<p class="text-sm text-on-surface-variant">admin@cleanmanager.pro</p>
-</div>
-</div>
-</div>
-</nav>
-<!-- Main Content Area -->
-<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
-<!-- TopNavBar -->
-<header class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline h-16 flex justify-between items-center w-full px-margin-desktop sticky top-0 z-40 transition-all duration-200">
-<div class="flex items-center">
-<h2 class="font-headline-lg text-headline-lg hidden md:block">Settings</h2>
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:hidden">Settings</h2>
-</div>
-<div class="flex items-center space-x-4">
-<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high p-2 rounded-full transition-all">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high p-2 rounded-full transition-all">
-<span class="material-symbols-outlined" data-icon="help">help</span>
-</button>
-</div>
-</header>
-<!-- Canvas -->
-<div class="flex-1 overflow-y-auto p-margin-desktop bg-background">
-<div class="max-w-5xl mx-auto">
-<div class="mb-8">
-<h3 class="font-headline-md text-headline-md font-bold mb-2">Ticket &amp; Notification Settings</h3>
-<p class="text-on-surface-variant font-body-md text-body-md">Manage the templates for printed receipts and automated customer communications.</p>
-</div>
-<!-- Tabs -->
-<div class="border-b border-outline-variant mb-6">
-<nav aria-label="Tabs" class="-mb-px flex space-x-8">
-<button class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
-<span class="material-symbols-outlined text-xl" data-icon="receipt">receipt</span>
-                            Modèle de Ticket
-                        </button>
-<button class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
-<span class="material-symbols-outlined text-xl" data-icon="mail">mail</span>
-                            Modèles de Notifications
-                        </button>
-</nav>
-</div>
-<!-- Content: Modèle de Ticket -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
-<!-- Editor Left Panel -->
-<div class="lg:col-span-7 space-y-6">
-<div class="bg-surface rounded-xl border border-outline-variant p-6">
-<h4 class="font-headline-md text-headline-md text-lg mb-4">Header Configuration</h4>
-<div class="space-y-4">
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Store Name</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Le Pressing Élégant"/>
-</div>
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Store Address</label>
-<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all h-20 resize-none">123 Avenue des Champs-Élysées
+  </head>
+  <body class="bg-background text-on-background font-body-md min-h-screen flex">
+    <!-- SideNavBar -->
+    <nav
+      class="bg-surface dark:bg-inverse-surface h-screen w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col py-base z-50"
+    >
+      <div class="px-margin-desktop py-4 mb-4">
+        <h1
+          class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary"
+        >
+          CleanManager Pro
+        </h1>
+        <p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Admin Console</p>
+      </div>
+      <ul class="flex-1 px-2 space-y-1">
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+            <span class="font-body-md text-body-md">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="receipt_long"
+              >receipt_long</span
+            >
+            <span class="font-body-md text-body-md">Orders</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="inventory_2">inventory_2</span>
+            <span class="font-body-md text-body-md">Inventory</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="group">group</span>
+            <span class="font-body-md text-body-md">Customers</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="analytics">analytics</span>
+            <span class="font-body-md text-body-md">Reports</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center px-4 py-3 rounded-lg text-primary dark:text-inverse-primary font-bold border-r-4 border-primary bg-surface-container-low cursor-pointer active:scale-95"
+            href="#"
+          >
+            <span class="material-symbols-outlined mr-3" data-icon="settings" data-weight="fill"
+              >settings</span
+            >
+            <span class="font-body-md text-body-md">Settings</span>
+          </a>
+        </li>
+      </ul>
+      <div class="p-4 mt-auto border-t border-outline-variant dark:border-outline">
+        <div class="flex items-center">
+          <img
+            alt="Admin User Avatar"
+            class="w-10 h-10 rounded-full object-cover mr-3 bg-surface-container-high"
+            data-alt="A small circular avatar placeholder image for an admin user profile in a sleek modern UI context."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbdf8Sa5rYhHH5Ujmuzre6F1iu-D4UGYmM_Al6rjLgCniNDBGYbANgSst4FX5liJrOZIvB0kUrXRwQFuKTcSfAMwikfcuTe26HH3pnxIU26iT4tTC0zRZFa7GkNfONs__AqSuotDWf1mdCXXG99_edt8UrBjjjrAnEvVuZwonenARiNL5f-a3SlXPMweMF_-lo5VfdcT7fZpQ73jx2cEa5yzLJ9p-GgCpZ4v_3W5vm5ejtoLGODVS3"
+          />
+          <div>
+            <p class="font-body-md text-body-md font-medium">Admin User</p>
+            <p class="text-sm text-on-surface-variant">admin@cleanmanager.pro</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+      <!-- TopNavBar -->
+      <header
+        class="bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline h-16 flex justify-between items-center w-full px-margin-desktop sticky top-0 z-40 transition-all duration-200"
+      >
+        <div class="flex items-center">
+          <h2 class="font-headline-lg text-headline-lg hidden md:block">Settings</h2>
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:hidden">Settings</h2>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high p-2 rounded-full transition-all"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+          </button>
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high p-2 rounded-full transition-all"
+          >
+            <span class="material-symbols-outlined" data-icon="help">help</span>
+          </button>
+        </div>
+      </header>
+      <!-- Canvas -->
+      <div class="flex-1 overflow-y-auto p-margin-desktop bg-background">
+        <div class="max-w-5xl mx-auto">
+          <div class="mb-8">
+            <h3 class="font-headline-md text-headline-md font-bold mb-2">
+              Ticket &amp; Notification Settings
+            </h3>
+            <p class="text-on-surface-variant font-body-md text-body-md">
+              Manage the templates for printed receipts and automated customer communications.
+            </p>
+          </div>
+          <!-- Tabs -->
+          <div class="border-b border-outline-variant mb-6">
+            <nav aria-label="Tabs" class="-mb-px flex space-x-8">
+              <button
+                class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined text-xl" data-icon="receipt">receipt</span>
+                Modèle de Ticket
+              </button>
+              <button
+                class="border-transparent text-on-surface-variant hover:text-on-surface hover:border-outline-variant whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center gap-2"
+              >
+                <span class="material-symbols-outlined text-xl" data-icon="mail">mail</span>
+                Modèles de Notifications
+              </button>
+            </nav>
+          </div>
+          <!-- Content: Modèle de Ticket -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+            <!-- Editor Left Panel -->
+            <div class="lg:col-span-7 space-y-6">
+              <div class="bg-surface rounded-xl border border-outline-variant p-6">
+                <h4 class="font-headline-md text-headline-md text-lg mb-4">Header Configuration</h4>
+                <div class="space-y-4">
+                  <div>
+                    <label
+                      class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase"
+                      >Store Name</label
+                    >
+                    <input
+                      class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                      type="text"
+                      value="Le Pressing Élégant"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase"
+                      >Store Address</label
+                    >
+                    <textarea
+                      class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all h-20 resize-none"
+                    >
+123 Avenue des Champs-Élysées
 75008 Paris, France</textarea>
-</div>
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Contact Info</label>
-<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Tél: 01 23 45 67 89"/>
-</div>
-</div>
-</div>
-<div class="bg-surface rounded-xl border border-outline-variant p-6">
-<h4 class="font-headline-md text-headline-md text-lg mb-4">Footer Configuration</h4>
-<div class="space-y-4">
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">Custom Message</label>
-<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all h-20 resize-none">Merci de votre visite.
+                  </div>
+                  <div>
+                    <label
+                      class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase"
+                      >Contact Info</label
+                    >
+                    <input
+                      class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                      type="text"
+                      value="Tél: 01 23 45 67 89"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="bg-surface rounded-xl border border-outline-variant p-6">
+                <h4 class="font-headline-md text-headline-md text-lg mb-4">Footer Configuration</h4>
+                <div class="space-y-4">
+                  <div>
+                    <label
+                      class="block font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase"
+                      >Custom Message</label
+                    >
+                    <textarea
+                      class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-2 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all h-20 resize-none"
+                    >
+Merci de votre visite.
 Conservez ce ticket pour le retrait.</textarea>
-</div>
-<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg border border-outline-variant mt-4">
-<div>
-<p class="font-medium">Print QR Code</p>
-<p class="text-sm text-on-surface-variant">Include tracking QR on receipt</p>
-</div>
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" type="checkbox" value=""/>
-<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-</label>
-</div>
-</div>
-</div>
-<div class="flex justify-end gap-3">
-<button class="px-4 py-2 border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container-low transition-colors font-medium">Cancel</button>
-<button class="px-4 py-2 bg-primary text-on-primary rounded-lg hover:bg-primary-container transition-colors font-medium">Save Changes</button>
-</div>
-</div>
-<!-- Preview Right Panel -->
-<div class="lg:col-span-5 relative">
-<div class="sticky top-6">
-<h4 class="font-headline-md text-headline-md text-lg mb-4 text-center">Live Preview</h4>
-<!-- Thermal Receipt Emulation -->
-<div class="bg-surface-ticket shadow-sm border border-outline-variant mx-auto w-80 p-6 rounded-sm font-data-mono text-data-mono text-on-surface pb-12 relative overflow-hidden">
-<div class="text-center mb-6 border-b border-dashed border-outline-variant pb-4">
-<h5 class="font-bold text-lg mb-1">Le Pressing Élégant</h5>
-<p class="text-xs text-on-surface-variant">123 Avenue des Champs-Élysées</p>
-<p class="text-xs text-on-surface-variant">75008 Paris, France</p>
-<p class="text-xs text-on-surface-variant mt-1">Tél: 01 23 45 67 89</p>
-</div>
-<div class="mb-4">
-<div class="flex justify-between text-xs mb-1">
-<span>Ticket:</span>
-<span class="font-bold">#ORD-9823</span>
-</div>
-<div class="flex justify-between text-xs mb-1">
-<span>Date:</span>
-<span>24/10/2023 14:30</span>
-</div>
-<div class="flex justify-between text-xs mb-3">
-<span>Client:</span>
-<span>Jean Dupont</span>
-</div>
-</div>
-<table class="w-full text-xs mb-4">
-<thead>
-<tr class="border-b border-dashed border-outline-variant">
-<th class="text-left font-normal pb-1">Qté</th>
-<th class="text-left font-normal pb-1">Article</th>
-<th class="text-right font-normal pb-1">Prix</th>
-</tr>
-</thead>
-<tbody class="align-top">
-<tr>
-<td class="pt-2">2</td>
-<td class="pt-2">Chemise sur cintre</td>
-<td class="pt-2 text-right">12.00</td>
-</tr>
-<tr>
-<td class="pt-1">1</td>
-<td class="pt-1">Costume 2 pièces</td>
-<td class="pt-1 text-right">24.50</td>
-</tr>
-</tbody>
-</table>
-<div class="border-t border-dashed border-outline-variant pt-2 mb-6">
-<div class="flex justify-between font-bold">
-<span>TOTAL</span>
-<span>36.50 €</span>
-</div>
-</div>
-<div class="text-center mt-6 pt-4 border-t border-dashed border-outline-variant">
-<img alt="QR Code Preview" class="w-24 h-24 mx-auto mb-4 opacity-90 mix-blend-multiply" data-alt="A crisp, high-contrast, black and white QR code mockup designed to look like it was printed on a thermal receipt printer, set against a stark white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsLLAbqqPfgbUz4vP7IByOU8aXyBW5c6TFED6pwBMl7nk2KUEEiJeVJMVZ9SkKbo9LX7lTeud-4VWXGruBEfr32ZD1643RA2qJPnwJosdC0uOwvnNXz5qsANR7MlsV16nfEOcqV_axDnLYwvDK2hIuy52clB78nFg60xgOYPPtkcs1v5rfz02V8zHfFv84PPAdTYnPXJ2tD8Q9wD0t2i4iUDFr44_ddFbz59JQkCH8VpLmJTfC3-Pf"/>
-<p class="text-xs text-center leading-relaxed">Merci de votre visite.<br/>Conservez ce ticket pour le retrait.</p>
-</div>
-<!-- Jagged bottom edge effect -->
-<div class="absolute bottom-0 left-0 right-0 h-3 w-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PHBvbHlnb24gcG9pbnRzPSIwLDEwIDUsMCAxMCwxMCAiIGZpbGw9IiNmYWZhZmYiLz48L3N2Zz4=')] opacity-0"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</body></html>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-4 bg-surface-container-low rounded-lg border border-outline-variant mt-4"
+                  >
+                    <div>
+                      <p class="font-medium">Print QR Code</p>
+                      <p class="text-sm text-on-surface-variant">Include tracking QR on receipt</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                      <input checked="" class="sr-only peer" type="checkbox" value="" />
+                      <div
+                        class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"
+                      ></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end gap-3">
+                <button
+                  class="px-4 py-2 border border-outline-variant rounded-lg text-on-surface hover:bg-surface-container-low transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="px-4 py-2 bg-primary text-on-primary rounded-lg hover:bg-primary-container transition-colors font-medium"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+            <!-- Preview Right Panel -->
+            <div class="lg:col-span-5 relative">
+              <div class="sticky top-6">
+                <h4 class="font-headline-md text-headline-md text-lg mb-4 text-center">
+                  Live Preview
+                </h4>
+                <!-- Thermal Receipt Emulation -->
+                <div
+                  class="bg-surface-ticket shadow-sm border border-outline-variant mx-auto w-80 p-6 rounded-sm font-data-mono text-data-mono text-on-surface pb-12 relative overflow-hidden"
+                >
+                  <div class="text-center mb-6 border-b border-dashed border-outline-variant pb-4">
+                    <h5 class="font-bold text-lg mb-1">Le Pressing Élégant</h5>
+                    <p class="text-xs text-on-surface-variant">123 Avenue des Champs-Élysées</p>
+                    <p class="text-xs text-on-surface-variant">75008 Paris, France</p>
+                    <p class="text-xs text-on-surface-variant mt-1">Tél: 01 23 45 67 89</p>
+                  </div>
+                  <div class="mb-4">
+                    <div class="flex justify-between text-xs mb-1">
+                      <span>Ticket:</span>
+                      <span class="font-bold">#ORD-9823</span>
+                    </div>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span>Date:</span>
+                      <span>24/10/2023 14:30</span>
+                    </div>
+                    <div class="flex justify-between text-xs mb-3">
+                      <span>Client:</span>
+                      <span>Jean Dupont</span>
+                    </div>
+                  </div>
+                  <table class="w-full text-xs mb-4">
+                    <thead>
+                      <tr class="border-b border-dashed border-outline-variant">
+                        <th class="text-left font-normal pb-1">Qté</th>
+                        <th class="text-left font-normal pb-1">Article</th>
+                        <th class="text-right font-normal pb-1">Prix</th>
+                      </tr>
+                    </thead>
+                    <tbody class="align-top">
+                      <tr>
+                        <td class="pt-2">2</td>
+                        <td class="pt-2">Chemise sur cintre</td>
+                        <td class="pt-2 text-right">12.00</td>
+                      </tr>
+                      <tr>
+                        <td class="pt-1">1</td>
+                        <td class="pt-1">Costume 2 pièces</td>
+                        <td class="pt-1 text-right">24.50</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="border-t border-dashed border-outline-variant pt-2 mb-6">
+                    <div class="flex justify-between font-bold">
+                      <span>TOTAL</span>
+                      <span>36.50 €</span>
+                    </div>
+                  </div>
+                  <div class="text-center mt-6 pt-4 border-t border-dashed border-outline-variant">
+                    <img
+                      alt="QR Code Preview"
+                      class="w-24 h-24 mx-auto mb-4 opacity-90 mix-blend-multiply"
+                      data-alt="A crisp, high-contrast, black and white QR code mockup designed to look like it was printed on a thermal receipt printer, set against a stark white background."
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsLLAbqqPfgbUz4vP7IByOU8aXyBW5c6TFED6pwBMl7nk2KUEEiJeVJMVZ9SkKbo9LX7lTeud-4VWXGruBEfr32ZD1643RA2qJPnwJosdC0uOwvnNXz5qsANR7MlsV16nfEOcqV_axDnLYwvDK2hIuy52clB78nFg60xgOYPPtkcs1v5rfz02V8zHfFv84PPAdTYnPXJ2tD8Q9wD0t2i4iUDFr44_ddFbz59JQkCH8VpLmJTfC3-Pf"
+                    />
+                    <p class="text-xs text-center leading-relaxed">
+                      Merci de votre visite.<br />Conservez ce ticket pour le retrait.
+                    </p>
+                  </div>
+                  <!-- Jagged bottom edge effect -->
+                  <div
+                    class="absolute bottom-0 left-0 right-0 h-3 w-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCI+PHBvbHlnb24gcG9pbnRzPSIwLDEwIDUsMCAxMCwxMCAiIGZpbGw9IiNmYWZhZmYiLz48L3N2Zz4=')] opacity-0"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

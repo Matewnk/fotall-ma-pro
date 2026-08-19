@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Durcis audit, request ID, tenant context, RBAC, HTTPS, sessions, chiffrement, logs sans secrets, monitoring, alerting et quotas. Fais un audit cross-tenant complet et corrige les findings critiques/hauts avant validation, sauf décision humaine explicite.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

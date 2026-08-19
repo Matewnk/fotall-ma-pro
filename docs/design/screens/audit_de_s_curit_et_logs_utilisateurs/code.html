@@ -1,330 +1,497 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Fotall-Ma PRO - Audit de Sécurité &amp; Logs</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "status-progress": "#3B82F6",
-                        "inverse-surface": "#2e3037",
-                        "status-pending": "#F59E0B",
-                        "on-tertiary-fixed": "#360f00",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "surface-container-high": "#e7e7f1",
-                        "on-surface-variant": "#434653",
-                        "status-delivered": "#6366F1",
-                        "surface-container-lowest": "#ffffff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "on-error": "#ffffff",
-                        "alert-critical": "#EF4444",
-                        "secondary-fixed": "#d3e4fe",
-                        "primary": "#003c90",
-                        "on-secondary-container": "#54647a",
-                        "on-tertiary-container": "#ffc0a7",
-                        "on-tertiary": "#ffffff",
-                        "secondary-container": "#d0e1fb",
-                        "primary-fixed": "#d9e2ff",
-                        "surface-dim": "#d9d9e2",
-                        "tertiary-container": "#993900",
-                        "surface-container": "#ededf6",
-                        "tenant-accent": "var(--primary-color)",
-                        "surface-bright": "#faf8ff",
-                        "on-primary-container": "#bcceff",
-                        "inverse-primary": "#b0c6ff",
-                        "status-ready": "#10B981",
-                        "on-secondary": "#ffffff",
-                        "on-primary": "#ffffff",
-                        "surface-container-highest": "#e1e2eb",
-                        "surface-variant": "#e1e2eb",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "outline-variant": "#c3c6d5",
-                        "on-background": "#191b22",
-                        "error-container": "#ffdad6",
-                        "surface-container-low": "#f3f3fc",
-                        "primary-container": "#0f52ba",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "on-primary-fixed": "#001945",
-                        "on-secondary-fixed": "#0b1c30",
-                        "surface-ticket": "#F8FAFC",
-                        "error": "#ba1a1a",
-                        "surface": "#faf8ff",
-                        "surface-tint": "#1d59c1",
-                        "tertiary": "#732900",
-                        "on-error-container": "#93000a",
-                        "inverse-on-surface": "#f0f0f9",
-                        "background": "#faf8ff",
-                        "on-surface": "#191b22",
-                        "outline": "#737784",
-                        "tertiary-fixed": "#ffdbcd",
-                        "on-primary-fixed-variant": "#00419c",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "secondary": "#505f76"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "gutter": "16px",
-                        "base": "8px",
-                        "margin-mobile": "16px",
-                        "margin-desktop": "24px"
-                    },
-                    "fontFamily": {
-                        "label-caps": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-md": ["Inter"],
-                        "ticket-body": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "headline-lg": ["Inter"],
-                        "headline-md": ["Inter"]
-                    },
-                    "fontSize": {
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
-                    }
-                }
-            }
-        }
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Audit de Sécurité &amp; Logs</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'status-progress': '#3B82F6',
+              'inverse-surface': '#2e3037',
+              'status-pending': '#F59E0B',
+              'on-tertiary-fixed': '#360f00',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-container-high': '#e7e7f1',
+              'on-surface-variant': '#434653',
+              'status-delivered': '#6366F1',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-error': '#ffffff',
+              'alert-critical': '#EF4444',
+              'secondary-fixed': '#d3e4fe',
+              primary: '#003c90',
+              'on-secondary-container': '#54647a',
+              'on-tertiary-container': '#ffc0a7',
+              'on-tertiary': '#ffffff',
+              'secondary-container': '#d0e1fb',
+              'primary-fixed': '#d9e2ff',
+              'surface-dim': '#d9d9e2',
+              'tertiary-container': '#993900',
+              'surface-container': '#ededf6',
+              'tenant-accent': 'var(--primary-color)',
+              'surface-bright': '#faf8ff',
+              'on-primary-container': '#bcceff',
+              'inverse-primary': '#b0c6ff',
+              'status-ready': '#10B981',
+              'on-secondary': '#ffffff',
+              'on-primary': '#ffffff',
+              'surface-container-highest': '#e1e2eb',
+              'surface-variant': '#e1e2eb',
+              'secondary-fixed-dim': '#b7c8e1',
+              'outline-variant': '#c3c6d5',
+              'on-background': '#191b22',
+              'error-container': '#ffdad6',
+              'surface-container-low': '#f3f3fc',
+              'primary-container': '#0f52ba',
+              'on-secondary-fixed-variant': '#38485d',
+              'on-primary-fixed': '#001945',
+              'on-secondary-fixed': '#0b1c30',
+              'surface-ticket': '#F8FAFC',
+              error: '#ba1a1a',
+              surface: '#faf8ff',
+              'surface-tint': '#1d59c1',
+              tertiary: '#732900',
+              'on-error-container': '#93000a',
+              'inverse-on-surface': '#f0f0f9',
+              background: '#faf8ff',
+              'on-surface': '#191b22',
+              outline: '#737784',
+              'tertiary-fixed': '#ffdbcd',
+              'on-primary-fixed-variant': '#00419c',
+              'tertiary-fixed-dim': '#ffb596',
+              secondary: '#505f76',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'container-max': '1440px',
+              gutter: '16px',
+              base: '8px',
+              'margin-mobile': '16px',
+              'margin-desktop': '24px',
+            },
+            fontFamily: {
+              'label-caps': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'body-md': ['Inter'],
+              'ticket-body': ['Inter'],
+              'kpi-display': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-lg': ['Inter'],
+              'headline-md': ['Inter'],
+            },
+            fontSize: {
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        :root {
-            --primary-color: #003c90; /* Default tenant accent */
-        }
-        body {
-            background-color: #F8FAFC; /* Base canvas off-white */
-        }
+    <style>
+      :root {
+        --primary-color: #003c90; /* Default tenant accent */
+      }
+      body {
+        background-color: #f8fafc; /* Base canvas off-white */
+      }
     </style>
-</head>
-<body class="bg-[#F8FAFC] text-on-surface font-body-md h-screen overflow-hidden flex">
-<!-- SideNavBar -->
-<nav class="hidden md:flex h-full w-64 fixed left-0 top-0 overflow-y-auto border-r border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface flex-col py-base z-50">
-<div class="px-6 py-4 flex items-center justify-center">
-<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Fotall-Ma PRO</span>
-</div>
-<div class="px-6 pb-4 text-center">
-<span class="text-sm text-on-surface-variant dark:text-on-secondary-fixed-variant">Administration Centrale</span>
-</div>
-<div class="flex-1 px-4 space-y-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
-<span class="font-body-md text-body-md">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">local_laundry_service</span>
-<span class="font-body-md text-body-md">Commandes</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">groups</span>
-<span class="font-body-md text-body-md">Clients</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">local_shipping</span>
-<span class="font-body-md text-body-md">Logistique</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">analytics</span>
-<span class="font-body-md text-body-md">Rapports</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 cursor-pointer active:scale-95 duration-150" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
-<span class="font-body-md text-body-md font-medium">Paramètres</span>
-</a>
-</div>
-<div class="p-4 mt-auto">
-<button class="w-full py-3 bg-tenant-accent text-on-primary rounded-lg font-body-md text-body-md font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add</span>
-                Nouvelle Commande
+  </head>
+  <body class="bg-[#F8FAFC] text-on-surface font-body-md h-screen overflow-hidden flex">
+    <!-- SideNavBar -->
+    <nav
+      class="hidden md:flex h-full w-64 fixed left-0 top-0 overflow-y-auto border-r border-outline-variant dark:border-outline bg-surface dark:bg-inverse-surface flex-col py-base z-50"
+    >
+      <div class="px-6 py-4 flex items-center justify-center">
+        <span
+          class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary"
+          >Fotall-Ma PRO</span
+        >
+      </div>
+      <div class="px-6 pb-4 text-center">
+        <span class="text-sm text-on-surface-variant dark:text-on-secondary-fixed-variant"
+          >Administration Centrale</span
+        >
+      </div>
+      <div class="flex-1 px-4 space-y-1">
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >dashboard</span
+          >
+          <span class="font-body-md text-body-md">Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >local_laundry_service</span
+          >
+          <span class="font-body-md text-body-md">Commandes</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >groups</span
+          >
+          <span class="font-body-md text-body-md">Clients</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >local_shipping</span
+          >
+          <span class="font-body-md text-body-md">Logistique</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-variant dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >analytics</span
+          >
+          <span class="font-body-md text-body-md">Rapports</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-inverse-primary border-r-4 border-primary dark:border-inverse-primary bg-primary-container/10 cursor-pointer active:scale-95 duration-150"
+          href="#"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1"
+            >settings</span
+          >
+          <span class="font-body-md text-body-md font-medium">Paramètres</span>
+        </a>
+      </div>
+      <div class="p-4 mt-auto">
+        <button
+          class="w-full py-3 bg-tenant-accent text-on-primary rounded-lg font-body-md text-body-md font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+        >
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+            >add</span
+          >
+          Nouvelle Commande
+        </button>
+      </div>
+    </nav>
+    <!-- TopNavBar -->
+    <header
+      class="hidden md:flex fixed top-0 right-0 w-[calc(100%-256px)] z-40 bg-surface-container-lowest dark:bg-surface-container border-b border-outline-variant dark:border-outline flex items-center justify-between px-margin-desktop h-16"
+    >
+      <div class="flex items-center gap-4">
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+            >search</span
+          >
+          <input
+            class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md font-body-md focus:outline-none focus:border-primary w-64"
+            placeholder="Rechercher des logs..."
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4">
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all rounded-full p-2 active:scale-98"
+          >
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+              >notifications</span
+            >
+          </button>
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all rounded-full p-2 active:scale-98"
+          >
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0"
+              >help_outline</span
+            >
+          </button>
+        </div>
+        <div class="h-8 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-3">
+          <span class="font-body-md text-body-md text-on-surface-variant">Support</span>
+          <img
+            alt="Avatar de l'utilisateur"
+            class="w-8 h-8 rounded-full border border-outline-variant object-cover"
+            data-alt="A small, professional circular avatar portrait of a customer support agent in a modern light-filled office. High quality, clear, minimalist background."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxN4FSgLijFiHVG1wsY1WdJKiJYf_7v2zKxBrsJXsJXqVrVZ1k2mY8ggEHx9LvfFJu9P6ZpdWsbDPWWS2FHLo8bAmLpdo1MBjLIeLOCaUMchy3UeSiPjoZAoWfL8MQF8A-7a_qVcnXies8mY8Wy0LkE9CvExoDv9knZBXJOCtp6XEX5cr2_cDAlOON1yZraUgAed5dBzLIdBuC8IBy6tdkeCzNWrDsF0PwWQZeSw2-sLbeWnDYqlzq"
+          />
+        </div>
+      </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 md:ml-64 mt-16 p-margin-desktop overflow-y-auto w-full">
+      <!-- Header -->
+      <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface">
+            Audit de Sécurité &amp; Logs
+          </h1>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-1">
+            Surveillance des activités système et accès utilisateurs.
+          </p>
+        </div>
+        <button
+          class="px-4 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md hover:bg-surface-variant transition-colors flex items-center gap-2"
+        >
+          <span class="material-symbols-outlined text-sm">download</span>
+          Exporter (CSV)
+        </button>
+      </div>
+      <!-- Filters (Bento Grid Style) -->
+      <div class="grid grid-cols-12 gap-6 mb-8">
+        <div
+          class="col-span-12 lg:col-span-8 bg-surface border border-outline-variant rounded-xl p-4 flex flex-wrap gap-4 items-center"
+        >
+          <div
+            class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50"
+          >
+            <span class="material-symbols-outlined text-on-surface-variant text-sm"
+              >calendar_month</span
+            >
+            <select
+              class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer"
+            >
+              <option>Aujourd'hui</option>
+              <option>7 derniers jours</option>
+              <option>30 derniers jours</option>
+              <option>Période personnalisée...</option>
+            </select>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50"
+          >
+            <span class="material-symbols-outlined text-on-surface-variant text-sm"
+              >shield_person</span
+            >
+            <select
+              class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer"
+            >
+              <option>Tous les rôles</option>
+              <option>Admin</option>
+              <option>Caissier</option>
+              <option>Livreur</option>
+            </select>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50"
+          >
+            <span class="material-symbols-outlined text-on-surface-variant text-sm"
+              >filter_list</span
+            >
+            <select
+              class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer"
+            >
+              <option>Tous types d'actions</option>
+              <option>Connexion/Déconnexion</option>
+              <option>Modification de Tarif</option>
+              <option>Suppression de Commande</option>
+              <option>Encaissement</option>
+            </select>
+          </div>
+        </div>
+        <!-- Severity Toggles -->
+        <div
+          class="col-span-12 lg:col-span-4 bg-surface border border-outline-variant rounded-xl p-4 flex items-center justify-between"
+        >
+          <span class="font-body-md text-body-md font-medium text-on-surface">Criticité</span>
+          <div class="flex gap-2">
+            <button
+              class="px-3 py-1 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors"
+            >
+              Info
             </button>
-</div>
-</nav>
-<!-- TopNavBar -->
-<header class="hidden md:flex fixed top-0 right-0 w-[calc(100%-256px)] z-40 bg-surface-container-lowest dark:bg-surface-container border-b border-outline-variant dark:border-outline flex items-center justify-between px-margin-desktop h-16">
-<div class="flex items-center gap-4">
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md font-body-md focus:outline-none focus:border-primary w-64" placeholder="Rechercher des logs..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="flex items-center gap-4">
-<button class="text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all rounded-full p-2 active:scale-98">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
-</button>
-<button class="text-on-surface-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all rounded-full p-2 active:scale-98">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help_outline</span>
-</button>
-</div>
-<div class="h-8 w-px bg-outline-variant"></div>
-<div class="flex items-center gap-3">
-<span class="font-body-md text-body-md text-on-surface-variant">Support</span>
-<img alt="Avatar de l'utilisateur" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional circular avatar portrait of a customer support agent in a modern light-filled office. High quality, clear, minimalist background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxN4FSgLijFiHVG1wsY1WdJKiJYf_7v2zKxBrsJXsJXqVrVZ1k2mY8ggEHx9LvfFJu9P6ZpdWsbDPWWS2FHLo8bAmLpdo1MBjLIeLOCaUMchy3UeSiPjoZAoWfL8MQF8A-7a_qVcnXies8mY8Wy0LkE9CvExoDv9knZBXJOCtp6XEX5cr2_cDAlOON1yZraUgAed5dBzLIdBuC8IBy6tdkeCzNWrDsF0PwWQZeSw2-sLbeWnDYqlzq"/>
-</div>
-</div>
-</header>
-<!-- Main Content Canvas -->
-<main class="flex-1 md:ml-64 mt-16 p-margin-desktop overflow-y-auto w-full">
-<!-- Header -->
-<div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-<div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface">Audit de Sécurité &amp; Logs</h1>
-<p class="font-body-md text-body-md text-on-surface-variant mt-1">Surveillance des activités système et accès utilisateurs.</p>
-</div>
-<button class="px-4 py-2 bg-surface border border-outline-variant rounded-lg font-body-md text-body-md hover:bg-surface-variant transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">download</span>
-                Exporter (CSV)
+            <button
+              class="px-3 py-1 rounded-full border border-status-pending bg-status-pending/10 text-status-pending font-label-caps text-label-caps hover:bg-status-pending/20 transition-colors"
+            >
+              Warning
             </button>
-</div>
-<!-- Filters (Bento Grid Style) -->
-<div class="grid grid-cols-12 gap-6 mb-8">
-<div class="col-span-12 lg:col-span-8 bg-surface border border-outline-variant rounded-xl p-4 flex flex-wrap gap-4 items-center">
-<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">calendar_month</span>
-<select class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer">
-<option>Aujourd'hui</option>
-<option>7 derniers jours</option>
-<option>30 derniers jours</option>
-<option>Période personnalisée...</option>
-</select>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">shield_person</span>
-<select class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer">
-<option>Tous les rôles</option>
-<option>Admin</option>
-<option>Caissier</option>
-<option>Livreur</option>
-</select>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/50">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">filter_list</span>
-<select class="bg-transparent border-none text-body-md font-body-md focus:ring-0 p-0 text-on-surface cursor-pointer">
-<option>Tous types d'actions</option>
-<option>Connexion/Déconnexion</option>
-<option>Modification de Tarif</option>
-<option>Suppression de Commande</option>
-<option>Encaissement</option>
-</select>
-</div>
-</div>
-<!-- Severity Toggles -->
-<div class="col-span-12 lg:col-span-4 bg-surface border border-outline-variant rounded-xl p-4 flex items-center justify-between">
-<span class="font-body-md text-body-md font-medium text-on-surface">Criticité</span>
-<div class="flex gap-2">
-<button class="px-3 py-1 rounded-full border border-outline-variant bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors">Info</button>
-<button class="px-3 py-1 rounded-full border border-status-pending bg-status-pending/10 text-status-pending font-label-caps text-label-caps hover:bg-status-pending/20 transition-colors">Warning</button>
-<button class="px-3 py-1 rounded-full border border-alert-critical bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps hover:bg-alert-critical/20 transition-colors">Critical</button>
-</div>
-</div>
-</div>
-<!-- Logs Data Grid -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden">
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low border-b border-outline-variant">
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Horodatage (UTC)</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Utilisateur</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Action</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Détails (Objet)</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Adresse IP</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Statut</th>
-<th class="p-4 font-label-caps text-label-caps text-on-surface-variant text-right">Actions</th>
-</tr>
-</thead>
-<tbody class="font-body-md text-body-md divide-y divide-outline-variant/50">
-<!-- Row 1: Critical (Price Mod) -->
-<tr class="hover:bg-surface-container-lowest transition-colors group cursor-pointer">
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">2023-10-27 14:32:01</td>
-<td class="p-4">
-<div class="flex items-center gap-3">
-<img alt="User" class="w-6 h-6 rounded-full object-cover" data-alt="A tiny 24x24 pixel profile picture of a young male manager in a retail setting, smiling slightly, professional lighting, white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVVsuJFrr7_6ufWMMtFLz1LCzMQHHFKojtFf7TuU2KuQUIRiz5EvB3YnnF1RtBMecZb3ixEibngM2JNeXiyOC0eh2ARKWvabHxlXoixYg_efaFaLR2qd4RgVGUqYup0dQZsJrcgTIQzxbx12T6Z82j5SXIo6uerlLZ2sioB9ee50UBBLpTtnXdr_lHqCEFW0ENkfWSzUd93IHLy5K7OPTQYjOVm4qf74m9Z7ytkq12htnHcdg4PRhr"/>
-<div>
-<div class="text-on-surface font-medium">Marc Dubois</div>
-<div class="text-on-surface-variant text-xs">Manager</div>
-</div>
-</div>
-</td>
-<td class="p-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-alert-critical text-sm" style="font-variation-settings: 'FILL' 1;">edit_note</span>
-<span class="text-on-surface">Modification Tarif</span>
-</div>
-</td>
-<td class="p-4 text-on-surface-variant">Cmd #CMD-8902</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">192.168.1.104</td>
-<td class="p-4">
-<span class="px-2 py-0.5 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps">Critique</span>
-</td>
-<td class="p-4 text-right">
-<button class="text-primary hover:text-primary-fixed-dim transition-colors">
-<span class="material-symbols-outlined">visibility</span>
-</button>
-</td>
-</tr>
-<!-- Row 2: Info (Login) -->
-<tr class="hover:bg-surface-container-lowest transition-colors group">
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">2023-10-27 14:15:22</td>
-<td class="p-4">
-<div class="flex items-center gap-3">
-<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-xs text-on-surface-variant">SF</div>
-<div>
-<div class="text-on-surface font-medium">Sophie Faye</div>
-<div class="text-on-surface-variant text-xs">Caissier</div>
-</div>
-</div>
-</td>
-<td class="p-4">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-on-surface-variant text-sm">login</span>
-<span class="text-on-surface">Connexion Réussie</span>
-</div>
-</td>
-<td class="p-4 text-on-surface-variant">Terminal POS-02</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">192.168.1.102</td>
-<td class="p-4">
-<span class="px-2 py-0.5 rounded-full bg-outline-variant/30 text-on-surface-variant font-label-caps text-label-caps">Info</span>
-</td>
-<td class="p-4 text-right">
-<button class="text-outline hover:text-on-surface transition-colors">
-<span class="material-symbols-outlined">more_vert</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination -->
-<div class="p-4 border-t border-outline-variant flex items-center justify-between text-sm text-on-surface-variant">
-<span>Affichage 1-10 sur 245 entrées</span>
-<div class="flex gap-1">
-<button class="p-1 rounded hover:bg-surface-variant disabled:opacity-50" disabled=""><span class="material-symbols-outlined text-sm">chevron_left</span></button>
-<button class="p-1 rounded hover:bg-surface-variant"><span class="material-symbols-outlined text-sm">chevron_right</span></button>
-</div>
-</div>
-</div>
-</main>
-<!-- BottomNavBar (Mobile only) -->
-<nav class="fixed bottom-0 w-full z-50 md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center px-4 py-2">
-<!-- Not rendering specific tabs as Settings is active, which implies a sub-menu or non-core mobile destination, but rendering shell as requested -->
-</nav>
-</body></html>
+            <button
+              class="px-3 py-1 rounded-full border border-alert-critical bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps hover:bg-alert-critical/20 transition-colors"
+            >
+              Critical
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Logs Data Grid -->
+      <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low border-b border-outline-variant">
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">
+                  Horodatage (UTC)
+                </th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">
+                  Utilisateur
+                </th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Action</th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">
+                  Détails (Objet)
+                </th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">
+                  Adresse IP
+                </th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Statut</th>
+                <th class="p-4 font-label-caps text-label-caps text-on-surface-variant text-right">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="font-body-md text-body-md divide-y divide-outline-variant/50">
+              <!-- Row 1: Critical (Price Mod) -->
+              <tr class="hover:bg-surface-container-lowest transition-colors group cursor-pointer">
+                <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                  2023-10-27 14:32:01
+                </td>
+                <td class="p-4">
+                  <div class="flex items-center gap-3">
+                    <img
+                      alt="User"
+                      class="w-6 h-6 rounded-full object-cover"
+                      data-alt="A tiny 24x24 pixel profile picture of a young male manager in a retail setting, smiling slightly, professional lighting, white background."
+                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVVsuJFrr7_6ufWMMtFLz1LCzMQHHFKojtFf7TuU2KuQUIRiz5EvB3YnnF1RtBMecZb3ixEibngM2JNeXiyOC0eh2ARKWvabHxlXoixYg_efaFaLR2qd4RgVGUqYup0dQZsJrcgTIQzxbx12T6Z82j5SXIo6uerlLZ2sioB9ee50UBBLpTtnXdr_lHqCEFW0ENkfWSzUd93IHLy5K7OPTQYjOVm4qf74m9Z7ytkq12htnHcdg4PRhr"
+                    />
+                    <div>
+                      <div class="text-on-surface font-medium">Marc Dubois</div>
+                      <div class="text-on-surface-variant text-xs">Manager</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="material-symbols-outlined text-alert-critical text-sm"
+                      style="font-variation-settings: 'FILL' 1"
+                      >edit_note</span
+                    >
+                    <span class="text-on-surface">Modification Tarif</span>
+                  </div>
+                </td>
+                <td class="p-4 text-on-surface-variant">Cmd #CMD-8902</td>
+                <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                  192.168.1.104
+                </td>
+                <td class="p-4">
+                  <span
+                    class="px-2 py-0.5 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps"
+                    >Critique</span
+                  >
+                </td>
+                <td class="p-4 text-right">
+                  <button class="text-primary hover:text-primary-fixed-dim transition-colors">
+                    <span class="material-symbols-outlined">visibility</span>
+                  </button>
+                </td>
+              </tr>
+              <!-- Row 2: Info (Login) -->
+              <tr class="hover:bg-surface-container-lowest transition-colors group">
+                <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                  2023-10-27 14:15:22
+                </td>
+                <td class="p-4">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-xs text-on-surface-variant"
+                    >
+                      SF
+                    </div>
+                    <div>
+                      <div class="text-on-surface font-medium">Sophie Faye</div>
+                      <div class="text-on-surface-variant text-xs">Caissier</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-on-surface-variant text-sm"
+                      >login</span
+                    >
+                    <span class="text-on-surface">Connexion Réussie</span>
+                  </div>
+                </td>
+                <td class="p-4 text-on-surface-variant">Terminal POS-02</td>
+                <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                  192.168.1.102
+                </td>
+                <td class="p-4">
+                  <span
+                    class="px-2 py-0.5 rounded-full bg-outline-variant/30 text-on-surface-variant font-label-caps text-label-caps"
+                    >Info</span
+                  >
+                </td>
+                <td class="p-4 text-right">
+                  <button class="text-outline hover:text-on-surface transition-colors">
+                    <span class="material-symbols-outlined">more_vert</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination -->
+        <div
+          class="p-4 border-t border-outline-variant flex items-center justify-between text-sm text-on-surface-variant"
+        >
+          <span>Affichage 1-10 sur 245 entrées</span>
+          <div class="flex gap-1">
+            <button class="p-1 rounded hover:bg-surface-variant disabled:opacity-50" disabled="">
+              <span class="material-symbols-outlined text-sm">chevron_left</span>
+            </button>
+            <button class="p-1 rounded hover:bg-surface-variant">
+              <span class="material-symbols-outlined text-sm">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- BottomNavBar (Mobile only) -->
+    <nav
+      class="fixed bottom-0 w-full z-50 md:hidden bg-surface/95 backdrop-blur-md border-t border-outline-variant dark:border-outline shadow-lg flex justify-around items-center px-4 py-2"
+    >
+      <!-- Not rendering specific tabs as Settings is active, which implies a sub-menu or non-core mobile destination, but rendering shell as requested -->
+    </nav>
+  </body>
+</html>
