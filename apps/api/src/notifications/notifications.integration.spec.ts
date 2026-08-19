@@ -62,10 +62,12 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       .post('/clients')
       .set('Authorization', bearer)
       .send({ nom: 'Client Notif', telephone: '+221701112233', canalNotification: 'WHATSAPP' });
+    expect(client.status).toBe(201);
     const service = await request(app.getHttpServer())
       .post('/services')
       .set('Authorization', bearer)
-      .send({ code: 'SRV-NOTIF', intitule: 'Repassage notif', categorie: 'REPASSAGE', tarif: 800 });
+      .send({ code: 'SRV-30', intitule: 'Repassage notif', categorie: 'REPASSAGE', tarif: 800 });
+    expect(service.status).toBe(201);
 
     const commande = await request(app.getHttpServer())
       .post('/commandes')
@@ -99,10 +101,12 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       .post('/clients')
       .set('Authorization', bearer)
       .send({ nom: 'Client Livraison', telephone: '+221702223344' });
+    expect(client.status).toBe(201);
     const service = await request(app.getHttpServer())
       .post('/services')
       .set('Authorization', bearer)
-      .send({ code: 'SRV-LIV', intitule: 'Lavage livraison', categorie: 'LAVAGE', tarif: 1200 });
+      .send({ code: 'SRV-31', intitule: 'Lavage livraison', categorie: 'LAVAGE', tarif: 1200 });
+    expect(service.status).toBe(201);
 
     const commande = await request(app.getHttpServer())
       .post('/commandes')
@@ -153,10 +157,12 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       .post('/clients')
       .set('Authorization', bearerA)
       .send({ nom: 'Client Iso', telephone: '+221703334455' });
+    expect(client.status).toBe(201);
     const service = await request(app.getHttpServer())
       .post('/services')
       .set('Authorization', bearerA)
-      .send({ code: 'SRV-ISO', intitule: 'Nettoyage iso', categorie: 'LAVAGE', tarif: 900 });
+      .send({ code: 'SRV-32', intitule: 'Nettoyage iso', categorie: 'LAVAGE', tarif: 900 });
+    expect(service.status).toBe(201);
     await request(app.getHttpServer())
       .post('/commandes')
       .set('Authorization', bearerA)
