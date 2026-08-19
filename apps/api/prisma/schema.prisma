@@ -1,5 +1,6 @@
-// Fondation Prisma — aucun modèle métier ici.
-// Les entités Tenant/Utilisateur seront ajoutées en spec 002-identity-tenancy.
+// Control-plane Prisma schema (base de contrôle globale — voir ADR-001).
+// Les entités metier tenant-scoped (clients, commandes, caisse, ...) vivront
+// dans des schemas PostgreSQL dedies par tenant, provisionnes en 003-tenant-isolation.
 
 generator client {
   provider = "prisma-client-js"
@@ -8,4 +9,56 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  CAISSIER
+  TECHNICIEN
+  LIVREUR
+}
+
+enum StatutLicence {
+  ESSAI
+  ACTIVE
+  EXPIREE
+  SUSPENDUE
+}
+
+model Tenant {
+  id            String        @id @default(uuid())
+  nomPressing   String        @map("nom_pressing")
+  sousDomaine   String        @unique @map("sous_domaine")
+  plan          String        @default("STARTER")
+  statutLicence StatutLicence @default(ESSAI) @map("statut_licence")
+  langue        String        @default("fr")
+  devise        String        @default("XOF")
+  fuseauHoraire String        @default("Africa/Dakar") @map("fuseau_horaire")
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  users User[]
+
+  @@map("tenants")
+}
+
+// tenantId est nullable uniquement pour SUPER_ADMIN (perimetre plateforme,
+// hors tenant). Tous les autres roles exigent un tenantId (impose en
+// application, cf. auth.service.ts).
+model User {
+  id             String   @id @default(uuid())
+  tenantId       String?  @map("tenant_id")
+  role           Role
+  email          String
+  motDePasseHash String   @map("mot_de_passe_hash")
+  pinHash        String?  @map("pin_hash")
+  actif          Boolean  @default(true)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, email])
+  @@map("users")
 }
