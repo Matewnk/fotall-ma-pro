@@ -29,3 +29,36 @@ model AuditLog {
 
   @@map("audit_logs")
 }
+
+// Redefinis ici volontairement : ce schema est genere separement du
+// control-plane (voir tenant-prisma.factory.ts), les enums ne peuvent pas
+// etre partages entre les deux clients Prisma.
+enum CanalNotification {
+  PUSH
+  WHATSAPP
+  SMS
+}
+
+enum StatutClient {
+  ACTIF
+  INACTIF
+}
+
+// premiere entite metier tenant-scoped (007-customers). "historique des
+// commandes" et "historique des notifications" (cahier des charges §5.2)
+// sont differes : les entites Commande (009) et Notification (012)
+// n'existent pas encore.
+model Client {
+  id                String             @id @default(uuid())
+  nom               String
+  telephone         String
+  email             String?
+  adresse           String?
+  canalNotification CanalNotification? @map("canal_notification")
+  statut            StatutClient       @default(ACTIF)
+  notes             String?
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+
+  @@map("clients")
+}
