@@ -5,6 +5,7 @@ dist/
 build/
 coverage/
 .expo/
+**/src/generated/
 .DS_Store
 *.log
 *.tmp
