@@ -5,14 +5,22 @@ import * as bcrypt from 'bcryptjs';
 import { AuthService } from './auth.service';
 
 type PrismaTx = {
-  tenant: { create: jest.Mock; findUnique: jest.Mock };
-  user: { create: jest.Mock; findUnique: jest.Mock };
+  tenant: { create: jest.Mock; findUnique: jest.Mock; delete: jest.Mock };
+  user: { create: jest.Mock; findUnique: jest.Mock; delete: jest.Mock };
 };
 
 function makePrismaMock() {
   const tx: PrismaTx = {
-    tenant: { create: jest.fn(), findUnique: jest.fn() },
-    user: { create: jest.fn(), findUnique: jest.fn() },
+    tenant: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+      delete: jest.fn().mockResolvedValue(undefined),
+    },
+    user: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+      delete: jest.fn().mockResolvedValue(undefined),
+    },
   };
   return {
     ...tx,
@@ -20,15 +28,24 @@ function makePrismaMock() {
   };
 }
 
+function makeSchemaProvisionerMock() {
+  return {
+    provision: jest.fn().mockResolvedValue(undefined),
+    drop: jest.fn().mockResolvedValue(undefined),
+  };
+}
+
 describe('AuthService', () => {
   let prisma: ReturnType<typeof makePrismaMock>;
+  let schemaProvisioner: ReturnType<typeof makeSchemaProvisionerMock>;
   let jwt: JwtService;
   let service: AuthService;
 
   beforeEach(() => {
     prisma = makePrismaMock();
+    schemaProvisioner = makeSchemaProvisionerMock();
     jwt = new JwtService({ secret: 'test-secret', signOptions: { expiresIn: '1h' } });
-    service = new AuthService(prisma as never, jwt);
+    service = new AuthService(prisma as never, jwt, schemaProvisioner as never);
   });
 
   describe('register', () => {
@@ -56,6 +73,7 @@ describe('AuthService', () => {
           data: expect.objectContaining({ tenantId: 'tenant-1', role: Role.ADMIN }),
         }),
       );
+      expect(schemaProvisioner.provision).toHaveBeenCalledWith('tenant-1');
       expect(result.tenant).toEqual({
         id: 'tenant-1',
         nomPressing: 'Pressing Test',
@@ -63,6 +81,32 @@ describe('AuthService', () => {
       });
       const decoded = jwt.verify(result.accessToken);
       expect(decoded).toMatchObject({ sub: 'user-1', tenantId: 'tenant-1', role: Role.ADMIN });
+    });
+
+    it('rolls back le tenant et l’utilisateur si le provisioning du schéma échoue', async () => {
+      prisma.tenant.create.mockResolvedValue({
+        id: 'tenant-1',
+        nomPressing: 'Pressing Test',
+        sousDomaine: 'pressing-test',
+      });
+      prisma.user.create.mockResolvedValue({
+        id: 'user-1',
+        email: 'admin@test.dev',
+        role: Role.ADMIN,
+      });
+      schemaProvisioner.provision.mockRejectedValue(new Error('DB indisponible'));
+
+      await expect(
+        service.register({
+          nomPressing: 'Pressing Test',
+          sousDomaine: 'pressing-test',
+          email: 'admin@test.dev',
+          motDePasse: 'super-secret-1',
+        }),
+      ).rejects.toThrow('DB indisponible');
+
+      expect(prisma.user.delete).toHaveBeenCalledWith({ where: { id: 'user-1' } });
+      expect(prisma.tenant.delete).toHaveBeenCalledWith({ where: { id: 'tenant-1' } });
     });
 
     it('rejects a duplicate sousDomaine with a ConflictException', async () => {

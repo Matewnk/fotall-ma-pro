@@ -1,0 +1,31 @@
+// Schema des donnees tenant-scoped. Applique tel quel dans un schema
+// PostgreSQL dedie par tenant (tenant_<id>), jamais dans le control-plane.
+// Un seul PrismaClient genere est reutilise pour tous les tenants : le nom
+// du schema PostgreSQL cible est fourni au runtime via le parametre
+// `schema` de la connection string (voir tenant-prisma.factory.ts).
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../src/generated/tenant-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Premiere entite tenant-scoped : preuve du mecanisme d'isolation et
+// support de la tracabilite exigee par la Constitution (VII). Les entites
+// metier (clients, commandes, caisse, ...) suivront le meme schema dans
+// leurs specs respectives (007+).
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String   @map("entity_id")
+  actorId    String   @map("actor_id")
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("audit_logs")
+}
