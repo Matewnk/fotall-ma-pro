@@ -7,6 +7,7 @@ import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
 import { CashModule } from './cash/cash.module';
 import { ClientsModule } from './clients/clients.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 import { LicenceModule } from './licence/licence.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
@@ -35,6 +36,7 @@ import { TicketsModule } from './tickets/tickets.module';
     OrdersModule,
     CashModule,
     TicketsModule,
+    DashboardModule,
   ],
   controllers: [AppController],
 })
