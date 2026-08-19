@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClientsModule } from './clients/clients.module';
 import { LicenceModule } from './licence/licence.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
+import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
@@ -27,6 +28,7 @@ import { TenancyModule } from './tenancy/tenancy.module';
     AuditModule,
     SuperAdminModule,
     ClientsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
 })

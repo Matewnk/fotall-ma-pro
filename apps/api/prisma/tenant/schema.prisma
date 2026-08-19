@@ -60,6 +60,8 @@ model Client {
   createdAt         DateTime           @default(now()) @map("created_at")
   updatedAt         DateTime           @updatedAt @map("updated_at")
 
+  commandes Commande[]
+
   @@map("clients")
 }
 
@@ -78,5 +80,62 @@ model Service {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
+  articlesCommande CommandeArticle[]
+
   @@map("services")
+}
+
+enum StatutCommande {
+  EN_ATTENTE
+  EN_COURS
+  PRET
+  LIVRE
+}
+
+enum ModeLivraison {
+  RETRAIT
+  LIVRAISON
+}
+
+// Commande (009-orders) : lie Client (007) et Service (008). Les totaux
+// sont toujours calcules cote serveur (commandes.service.ts), jamais
+// acceptes depuis le client. Le statut ne regresse jamais
+// (EN_ATTENTE < EN_COURS < PRET < LIVRE, cahier des charges §6.3).
+model Commande {
+  id               String          @id @default(uuid())
+  numero           Int             @unique @default(autoincrement())
+  clientId         String          @map("client_id")
+  statut           StatutCommande  @default(EN_ATTENTE)
+  sousTotal        Decimal         @db.Decimal(10, 2) @map("sous_total")
+  remise           Decimal         @default(0) @db.Decimal(10, 2)
+  total            Decimal         @db.Decimal(10, 2)
+  datePrevue       DateTime?       @map("date_prevue")
+  modeLivraison    ModeLivraison   @map("mode_livraison")
+  adresseLivraison String?         @map("adresse_livraison")
+  notes            String?
+  idempotencyKey   String?         @unique @map("idempotency_key")
+  createdAt        DateTime        @default(now()) @map("created_at")
+  updatedAt        DateTime        @updatedAt @map("updated_at")
+
+  client   Client            @relation(fields: [clientId], references: [id])
+  articles CommandeArticle[]
+
+  @@map("commandes")
+}
+
+// Prix figes au moment de la commande (tarifUnitaire copie depuis
+// Service.tarif) : une modification ulterieure du tarif catalogue ne doit
+// jamais changer retroactivement le montant d'une commande existante.
+model CommandeArticle {
+  id            String  @id @default(uuid())
+  commandeId    String  @map("commande_id")
+  serviceId     String  @map("service_id")
+  quantite      Int
+  tarifUnitaire Decimal @db.Decimal(10, 2) @map("tarif_unitaire")
+  sousTotal     Decimal @db.Decimal(10, 2) @map("sous_total")
+
+  commande Commande @relation(fields: [commandeId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+
+  @@map("commande_articles")
 }
