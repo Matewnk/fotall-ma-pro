@@ -7,6 +7,7 @@ import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
 import { LicenceModule } from './licence/licence.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { TenancyModule } from './tenancy/tenancy.module';
     LicenceModule,
     AuthModule,
     AuditModule,
+    SuperAdminModule,
   ],
   controllers: [AppController],
 })

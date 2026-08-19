@@ -47,8 +47,9 @@ model Tenant {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  users   User[]
-  licence Licence?
+  users           User[]
+  licence         Licence?
+  supportSessions SupportSession[]
 
   @@map("tenants")
 }
@@ -110,4 +111,20 @@ model JournalLicence {
 
   @@unique([licenceId, evenement, idempotencyKey])
   @@map("journal_licences")
+}
+
+// L'audit de debut EST la creation de la ligne (started_at, motif) ;
+// l'audit de fin EST sa cloture (ended_at). Append-only au sens metier :
+// une session n'est jamais supprimee, seulement cloturee.
+model SupportSession {
+  id           String    @id @default(uuid())
+  tenantId     String    @map("tenant_id")
+  superAdminId String    @map("super_admin_id")
+  motif        String
+  startedAt    DateTime  @default(now()) @map("started_at")
+  endedAt      DateTime? @map("ended_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("support_sessions")
 }
