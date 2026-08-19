@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Prisma, Role } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { LicenceService } from '../licence/licence.service';
+import { OnboardingService } from '../onboarding/onboarding.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TenantSchemaProvisioner } from '../tenancy/tenant-schema.provisioner';
 import { LoginDto } from './dto/login.dto';
@@ -26,6 +27,7 @@ export class AuthService {
     private readonly jwt: JwtService,
     private readonly schemaProvisioner: TenantSchemaProvisioner,
     private readonly licenceService: LicenceService,
+    private readonly onboardingService: OnboardingService,
   ) {}
 
   async register(dto: RegisterDto): Promise<SessionResult> {
@@ -53,6 +55,7 @@ export class AuthService {
         });
 
         await this.licenceService.creerEssai(tx, tenant.id, tenant.plan);
+        await this.onboardingService.initier(tx, tenant.id);
 
         return { tenant, user };
       }));

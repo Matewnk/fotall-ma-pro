@@ -44,12 +44,16 @@ model Tenant {
   langue        String   @default("fr")
   devise        String   @default("XOF")
   fuseauHoraire String   @default("Africa/Dakar") @map("fuseau_horaire")
+  adresse       String?
+  telephone     String?
+  logoUrl       String?  @map("logo_url")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
   users           User[]
   licence         Licence?
   supportSessions SupportSession[]
+  onboarding      OnboardingState?
 
   @@map("tenants")
 }
@@ -127,4 +131,44 @@ model SupportSession {
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@map("support_sessions")
+}
+
+enum EtapeOnboarding {
+  IDENTITE
+  TARIFS
+  UTILISATEUR_NOTIFICATION
+  TERMINE
+}
+
+enum ChoixCatalogue {
+  CATALOGUE_STANDARD
+  GRILLE_VIERGE
+}
+
+enum CanalNotification {
+  PUSH
+  WHATSAPP
+  SMS
+}
+
+// Un seul enregistrement par tenant. Reprenable : chaque etape peut etre
+// rappelee independamment, etape_courante n'avance jamais en arriere.
+// Ne bloque jamais l'usage normal de l'application (aucun guard n'en
+// depend) — seulement informatif pour reprendre le parcours.
+model OnboardingState {
+  id                      String              @id @default(uuid())
+  tenantId                String              @unique @map("tenant_id")
+  etapeCourante           EtapeOnboarding     @default(IDENTITE) @map("etape_courante")
+  identiteCompleteeAt     DateTime?           @map("identite_completee_at")
+  tarifsCompletesAt       DateTime?           @map("tarifs_completes_at")
+  choixCatalogue          ChoixCatalogue?     @map("choix_catalogue")
+  notificationCompleteeAt DateTime?           @map("notification_completee_at")
+  canalPreference         CanalNotification?  @map("canal_preference")
+  termineAt               DateTime?           @map("termine_at")
+  createdAt               DateTime            @default(now()) @map("created_at")
+  updatedAt               DateTime            @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("onboarding_states")
 }
