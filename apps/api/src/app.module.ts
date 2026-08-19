@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
+import { CashModule } from './cash/cash.module';
 import { ClientsModule } from './clients/clients.module';
 import { LicenceModule } from './licence/licence.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
@@ -29,6 +30,7 @@ import { TenancyModule } from './tenancy/tenancy.module';
     SuperAdminModule,
     ClientsModule,
     OrdersModule,
+    CashModule,
   ],
   controllers: [AppController],
 })
