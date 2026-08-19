@@ -1,9 +1,11 @@
 ## Résumé
 
 ## Spec concernée
+
 - [ ] `specs/NNN-...`
 
 ## Checklist
+
 - [ ] Constitution respectée
 - [ ] Tests unitaires
 - [ ] Tests intégration

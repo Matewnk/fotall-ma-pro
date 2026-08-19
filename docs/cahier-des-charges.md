@@ -89,20 +89,20 @@ plateforme, mais chacun dispose d'un périmètre de données strictement isolé.
 
 ## 1.3 Périmètre
 
-| Domaine | Fonction |
-|---|---|
-| Tableau de bord | KPIs, alertes, commandes récentes |
-| Clients | fiches, recherche, historique |
-| Services | catalogue, tarifs, délais |
-| Commandes | dépôt, articles, statut, livraison/retrait |
-| Tickets | ticket numérique, PDF, QR/barcode, ESC/POS |
-| Notifications | Push, WhatsApp, SMS selon configuration |
-| Caisse | ouverture, encaissement, dépenses, remboursement, clôture |
-| Rapports | activité, caisse, recettes, clients, services |
-| Administration tenant | utilisateurs, configuration, tarifs |
-| SaaS | tenants, licences, plans, abonnements, facturation |
-| Sécurité | RBAC, isolation, audit, sauvegardes |
-| Offline | opérations critiques et synchronisation |
+| Domaine               | Fonction                                                  |
+| --------------------- | --------------------------------------------------------- |
+| Tableau de bord       | KPIs, alertes, commandes récentes                         |
+| Clients               | fiches, recherche, historique                             |
+| Services              | catalogue, tarifs, délais                                 |
+| Commandes             | dépôt, articles, statut, livraison/retrait                |
+| Tickets               | ticket numérique, PDF, QR/barcode, ESC/POS                |
+| Notifications         | Push, WhatsApp, SMS selon configuration                   |
+| Caisse                | ouverture, encaissement, dépenses, remboursement, clôture |
+| Rapports              | activité, caisse, recettes, clients, services             |
+| Administration tenant | utilisateurs, configuration, tarifs                       |
+| SaaS                  | tenants, licences, plans, abonnements, facturation        |
+| Sécurité              | RBAC, isolation, audit, sauvegardes                       |
+| Offline               | opérations critiques et synchronisation                   |
 
 ---
 
@@ -115,6 +115,7 @@ plateforme, mais chacun dispose d'un périmètre de données strictement isolé.
 Périmètre : plateforme entière.
 
 Peut :
+
 - créer et gérer les tenants ;
 - consulter les statistiques globales ;
 - gérer les plans ;
@@ -131,6 +132,7 @@ explicite**, avec motif obligatoire et audit.
 Périmètre : **un seul pressing**.
 
 Peut :
+
 - configurer le pressing ;
 - gérer les utilisateurs de son tenant ;
 - gérer les tarifs et services ;
@@ -176,11 +178,11 @@ Toutes les permissions sont contrôlées côté serveur.
 
 ## 3.1 Plateformes
 
-| Plateforme | Cible |
-|---|---|
-| Mobile | iOS 16+, Android 10+ |
-| Tablette | iPadOS et Android Tablet |
-| Web | Chrome, Firefox, Edge, Safari récents |
+| Plateforme | Cible                                 |
+| ---------- | ------------------------------------- |
+| Mobile     | iOS 16+, Android 10+                  |
+| Tablette   | iPadOS et Android Tablet              |
+| Web        | Chrome, Firefox, Edge, Safari récents |
 
 ## 3.2 Expérience
 

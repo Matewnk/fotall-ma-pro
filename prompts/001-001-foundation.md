@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Établis le monorepo pnpm/Turborepo : apps/api NestJS+Prisma, apps/web React+Vite, apps/mobile Expo, packages/shared-types, Docker Postgres 16+Redis, TypeScript strict, ESLint/Prettier, CI GitHub Actions. Aucun métier. Vérifie install/build/lint/typecheck/tests.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;

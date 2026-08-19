@@ -1,519 +1,699 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Transfert de Stock - Fotall-Ma PRO</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "on-error-container": "#93000a",
-                      "primary-fixed": "#d9e2ff",
-                      "on-secondary": "#ffffff",
-                      "surface-container": "#ededf6",
-                      "on-secondary-fixed": "#0b1c30",
-                      "on-surface-variant": "#434653",
-                      "tenant-accent": "var(--primary-color)",
-                      "error": "#ba1a1a",
-                      "on-primary-container": "#bcceff",
-                      "surface-container-low": "#f3f3fc",
-                      "primary-container": "#0f52ba",
-                      "secondary": "#505f76",
-                      "secondary-fixed-dim": "#b7c8e1",
-                      "status-pending": "#F59E0B",
-                      "on-secondary-container": "#54647a",
-                      "primary": "#003c90",
-                      "error-container": "#ffdad6",
-                      "tertiary-fixed-dim": "#ffb596",
-                      "surface-ticket": "#F8FAFC",
-                      "surface-container-high": "#e7e7f1",
-                      "on-tertiary-container": "#ffc0a7",
-                      "outline-variant": "#c3c6d5",
-                      "on-primary-fixed-variant": "#00419c",
-                      "background": "#faf8ff",
-                      "on-background": "#191b22",
-                      "on-secondary-fixed-variant": "#38485d",
-                      "tertiary-fixed": "#ffdbcd",
-                      "on-primary-fixed": "#001945",
-                      "surface-container-lowest": "#ffffff",
-                      "primary-fixed-dim": "#b0c6ff",
-                      "tertiary-container": "#993900",
-                      "inverse-primary": "#b0c6ff",
-                      "on-primary": "#ffffff",
-                      "on-surface": "#191b22",
-                      "inverse-on-surface": "#f0f0f9",
-                      "status-ready": "#10B981",
-                      "on-tertiary": "#ffffff",
-                      "surface": "#faf8ff",
-                      "status-progress": "#3B82F6",
-                      "surface-tint": "#1d59c1",
-                      "on-error": "#ffffff",
-                      "surface-dim": "#d9d9e2",
-                      "on-tertiary-fixed": "#360f00",
-                      "tertiary": "#732900",
-                      "inverse-surface": "#2e3037",
-                      "status-delivered": "#6366F1",
-                      "secondary-fixed": "#d3e4fe",
-                      "surface-bright": "#faf8ff",
-                      "on-tertiary-fixed-variant": "#7d2d00",
-                      "surface-container-highest": "#e1e2eb",
-                      "outline": "#737784",
-                      "surface-variant": "#e1e2eb",
-                      "alert-critical": "#EF4444",
-                      "secondary-container": "#d0e1fb"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "container-max": "1440px",
-                      "margin-desktop": "24px",
-                      "gutter": "16px",
-                      "margin-mobile": "16px",
-                      "base": "8px"
-              },
-              "fontFamily": {
-                      "headline-lg-mobile": [
-                              "Inter"
-                      ],
-                      "label-caps": [
-                              "Inter"
-                      ],
-                      "data-mono": [
-                              "JetBrains Mono"
-                      ],
-                      "headline-md": [
-                              "Inter"
-                      ],
-                      "kpi-display": [
-                              "Inter"
-                      ],
-                      "body-md": [
-                              "Inter"
-                      ],
-                      "ticket-body": [
-                              "Inter"
-                      ],
-                      "headline-lg": [
-                              "Inter"
-                      ]
-              },
-              "fontSize": {
-                      "headline-lg-mobile": [
-                              "24px",
-                              {
-                                      "lineHeight": "30px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "label-caps": [
-                              "12px",
-                              {
-                                      "lineHeight": "16px",
-                                      "letterSpacing": "0.05em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "data-mono": [
-                              "14px",
-                              {
-                                      "lineHeight": "20px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-md": [
-                              "24px",
-                              {
-                                      "lineHeight": "32px",
-                                      "fontWeight": "600"
-                              }
-                      ],
-                      "kpi-display": [
-                              "48px",
-                              {
-                                      "lineHeight": "56px",
-                                      "letterSpacing": "-0.02em",
-                                      "fontWeight": "700"
-                              }
-                      ],
-                      "body-md": [
-                              "16px",
-                              {
-                                      "lineHeight": "24px",
-                                      "fontWeight": "400"
-                              }
-                      ],
-                      "ticket-body": [
-                              "14px",
-                              {
-                                      "lineHeight": "18px",
-                                      "fontWeight": "500"
-                              }
-                      ],
-                      "headline-lg": [
-                              "30px",
-                              {
-                                      "lineHeight": "38px",
-                                      "fontWeight": "600"
-                              }
-                      ]
-              }
-      },
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Transfert de Stock - Fotall-Ma PRO</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-error-container': '#93000a',
+              'primary-fixed': '#d9e2ff',
+              'on-secondary': '#ffffff',
+              'surface-container': '#ededf6',
+              'on-secondary-fixed': '#0b1c30',
+              'on-surface-variant': '#434653',
+              'tenant-accent': 'var(--primary-color)',
+              error: '#ba1a1a',
+              'on-primary-container': '#bcceff',
+              'surface-container-low': '#f3f3fc',
+              'primary-container': '#0f52ba',
+              secondary: '#505f76',
+              'secondary-fixed-dim': '#b7c8e1',
+              'status-pending': '#F59E0B',
+              'on-secondary-container': '#54647a',
+              primary: '#003c90',
+              'error-container': '#ffdad6',
+              'tertiary-fixed-dim': '#ffb596',
+              'surface-ticket': '#F8FAFC',
+              'surface-container-high': '#e7e7f1',
+              'on-tertiary-container': '#ffc0a7',
+              'outline-variant': '#c3c6d5',
+              'on-primary-fixed-variant': '#00419c',
+              background: '#faf8ff',
+              'on-background': '#191b22',
+              'on-secondary-fixed-variant': '#38485d',
+              'tertiary-fixed': '#ffdbcd',
+              'on-primary-fixed': '#001945',
+              'surface-container-lowest': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'tertiary-container': '#993900',
+              'inverse-primary': '#b0c6ff',
+              'on-primary': '#ffffff',
+              'on-surface': '#191b22',
+              'inverse-on-surface': '#f0f0f9',
+              'status-ready': '#10B981',
+              'on-tertiary': '#ffffff',
+              surface: '#faf8ff',
+              'status-progress': '#3B82F6',
+              'surface-tint': '#1d59c1',
+              'on-error': '#ffffff',
+              'surface-dim': '#d9d9e2',
+              'on-tertiary-fixed': '#360f00',
+              tertiary: '#732900',
+              'inverse-surface': '#2e3037',
+              'status-delivered': '#6366F1',
+              'secondary-fixed': '#d3e4fe',
+              'surface-bright': '#faf8ff',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-container-highest': '#e1e2eb',
+              outline: '#737784',
+              'surface-variant': '#e1e2eb',
+              'alert-critical': '#EF4444',
+              'secondary-container': '#d0e1fb',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'container-max': '1440px',
+              'margin-desktop': '24px',
+              gutter: '16px',
+              'margin-mobile': '16px',
+              base: '8px',
+            },
+            fontFamily: {
+              'headline-lg-mobile': ['Inter'],
+              'label-caps': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-md': ['Inter'],
+              'kpi-display': ['Inter'],
+              'body-md': ['Inter'],
+              'ticket-body': ['Inter'],
+              'headline-lg': ['Inter'],
+            },
+            fontSize: {
+              'headline-lg-mobile': [
+                '24px',
+                {
+                  lineHeight: '30px',
+                  fontWeight: '600',
+                },
+              ],
+              'label-caps': [
+                '12px',
+                {
+                  lineHeight: '16px',
+                  letterSpacing: '0.05em',
+                  fontWeight: '700',
+                },
+              ],
+              'data-mono': [
+                '14px',
+                {
+                  lineHeight: '20px',
+                  fontWeight: '500',
+                },
+              ],
+              'headline-md': [
+                '24px',
+                {
+                  lineHeight: '32px',
+                  fontWeight: '600',
+                },
+              ],
+              'kpi-display': [
+                '48px',
+                {
+                  lineHeight: '56px',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700',
+                },
+              ],
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '24px',
+                  fontWeight: '400',
+                },
+              ],
+              'ticket-body': [
+                '14px',
+                {
+                  lineHeight: '18px',
+                  fontWeight: '500',
+                },
+              ],
+              'headline-lg': [
+                '30px',
+                {
+                  lineHeight: '38px',
+                  fontWeight: '600',
+                },
+              ],
+            },
           },
-        }
+        },
+      };
     </script>
-<style>
-        :root {
-            --primary-color: #003c90; /* Default primary for tenant accent fallback */
+    <style>
+      :root {
+        --primary-color: #003c90; /* Default primary for tenant accent fallback */
+      }
+      body {
+        background-color: #f8fafc;
+      }
+      .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+      }
+      .bento-item-full {
+        grid-column: span 12;
+      }
+      .bento-item-half {
+        grid-column: span 12;
+      }
+      @media (min-width: 1024px) {
+        .bento-item-half {
+          grid-column: span 6;
         }
-        body {
-            background-color: #F8FAFC;
+        .bento-item-main {
+          grid-column: span 8;
         }
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 24px;
+        .bento-item-side {
+          grid-column: span 4;
         }
-        .bento-item-full { grid-column: span 12; }
-        .bento-item-half { grid-column: span 12; }
-        @media (min-width: 1024px) {
-            .bento-item-half { grid-column: span 6; }
-            .bento-item-main { grid-column: span 8; }
-            .bento-item-side { grid-column: span 4; }
-        }
+      }
     </style>
-</head>
-<body class="font-body-md text-body-md text-on-surface antialiased bg-background flex">
-<!-- SideNavBar (Desktop Only) -->
-<nav class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-base px-4 border-r border-outline-variant dark:border-outline bg-surface-container-low dark:bg-inverse-surface z-50">
-<div class="mb-8 mt-4 flex items-center gap-3 px-2">
-<div class="h-10 w-10 rounded bg-tenant-accent text-on-primary flex items-center justify-center font-bold font-headline-md">F</div>
-<div>
-<h1 class="font-headline-md text-headline-md font-black text-tenant-accent leading-none">Fotall-Ma PRO</h1>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Gestion Pressing</p>
-</div>
-</div>
-<ul class="flex flex-col gap-2 flex-grow">
-<li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-label-caps text-label-caps">Tableau de bord</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="local_laundry_service">local_laundry_service</span>
-<span class="font-label-caps text-label-caps">Commandes</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="groups">groups</span>
-<span class="font-label-caps text-label-caps">Clients</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="payments">payments</span>
-<span class="font-label-caps text-label-caps">Finances</span>
-</a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-label-caps text-label-caps">Paramètres</span>
-</a>
-</li>
-</ul>
-<div class="mt-auto pt-4 border-t border-outline-variant dark:border-outline">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200" href="#">
-<span class="material-symbols-outlined" data-icon="logout">logout</span>
-<span class="font-label-caps text-label-caps">Déconnexion</span>
-</a>
-</div>
-</nav>
-<!-- Main Content Area -->
-<main class="flex-1 md:ml-64 min-h-screen pb-24 md:pb-8">
-<!-- TopNavBar (Mobile & Desktop) -->
-<header class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-40 h-16 bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
-<div class="flex items-center gap-4 md:hidden">
-<span class="font-headline-md text-headline-md font-bold text-tenant-accent">Fotall-Ma PRO</span>
-</div>
-<!-- Search Bar -->
-<div class="hidden md:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-96">
-<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
-<input class="bg-transparent border-none outline-none w-full text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant focus:ring-0" placeholder="Rechercher un transfert, article..." type="text"/>
-</div>
-<!-- Actions -->
-<div class="flex items-center gap-4">
-<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80">
-<span class="material-symbols-outlined" data-icon="help">help</span>
-</button>
-<button class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80 md:hidden">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-</button>
-<img alt="User profile" class="h-8 w-8 rounded-full border border-outline-variant object-cover ml-2" data-alt="A small circular avatar placeholder image showing a silhouette of a person on a neutral grey background, representing a generic user profile picture in a modern SaaS interface. Professional, clean, light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi8amZy4S90fv5Kjp0_w-cjueArEt9ZlkCNWS6kFONqmekehHZox74Moud6U-06gTv7BIvkM-twt_eCN7iE15NTIwQst5YjOjflJ3xbbMYkZaSZswDj4X31gKqUIGRLTIL00BDM1K8rQ8eemZeSPvsa2Li87h30Itj8iHKuArqGa1O1Ii2Lnc3f7lPDSAJYTC1hwNZowNFSXsP32zby1g3x4KDgUOCdgjj-SYUCZjnk7_vwDE6DJft"/>
-</div>
-</header>
-<!-- Page Content -->
-<div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto">
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-background">Transfert de Stock</h2>
-<p class="text-on-surface-variant mt-1">Gérez les mouvements de consommables entre vos boutiques.</p>
-</div>
-<button class="bg-tenant-accent text-on-primary px-6 py-3 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:opacity-90 transition-opacity shadow-sm">
-<span class="material-symbols-outlined">add</span>
-                    NOUVEAU TRANSFERT
+  </head>
+  <body class="font-body-md text-body-md text-on-surface antialiased bg-background flex">
+    <!-- SideNavBar (Desktop Only) -->
+    <nav
+      class="hidden md:flex flex-col h-screen w-64 fixed left-0 top-0 py-base px-4 border-r border-outline-variant dark:border-outline bg-surface-container-low dark:bg-inverse-surface z-50"
+    >
+      <div class="mb-8 mt-4 flex items-center gap-3 px-2">
+        <div
+          class="h-10 w-10 rounded bg-tenant-accent text-on-primary flex items-center justify-center font-bold font-headline-md"
+        >
+          F
+        </div>
+        <div>
+          <h1 class="font-headline-md text-headline-md font-black text-tenant-accent leading-none">
+            Fotall-Ma PRO
+          </h1>
+          <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">
+            Gestion Pressing
+          </p>
+        </div>
+      </div>
+      <ul class="flex flex-col gap-2 flex-grow">
+        <li>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            <span class="font-label-caps text-label-caps">Tableau de bord</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined" data-icon="local_laundry_service"
+              >local_laundry_service</span
+            >
+            <span class="font-label-caps text-label-caps">Commandes</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary cursor-pointer active:scale-95 duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined" data-icon="groups">groups</span>
+            <span class="font-label-caps text-label-caps">Clients</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined" data-icon="payments">payments</span>
+            <span class="font-label-caps text-label-caps">Finances</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200"
+            href="#"
+          >
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-caps text-label-caps">Paramètres</span>
+          </a>
+        </li>
+      </ul>
+      <div class="mt-auto pt-4 border-t border-outline-variant dark:border-outline">
+        <a
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all cursor-pointer active:scale-95 duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="logout">logout</span>
+          <span class="font-label-caps text-label-caps">Déconnexion</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="flex-1 md:ml-64 min-h-screen pb-24 md:pb-8">
+      <!-- TopNavBar (Mobile & Desktop) -->
+      <header
+        class="flex justify-between items-center px-margin-desktop w-full sticky top-0 z-40 h-16 bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline"
+      >
+        <div class="flex items-center gap-4 md:hidden">
+          <span class="font-headline-md text-headline-md font-bold text-tenant-accent"
+            >Fotall-Ma PRO</span
+          >
+        </div>
+        <!-- Search Bar -->
+        <div
+          class="hidden md:flex items-center bg-surface-container-high rounded-full px-4 py-2 w-96"
+        >
+          <span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+          <input
+            class="bg-transparent border-none outline-none w-full text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant focus:ring-0"
+            placeholder="Rechercher un transfert, article..."
+            type="text"
+          />
+        </div>
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+          </button>
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80"
+          >
+            <span class="material-symbols-outlined" data-icon="help">help</span>
+          </button>
+          <button
+            class="text-on-surface-variant hover:bg-surface-container-high p-2 rounded-full transition-colors active:opacity-80 md:hidden"
+          >
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+          </button>
+          <img
+            alt="User profile"
+            class="h-8 w-8 rounded-full border border-outline-variant object-cover ml-2"
+            data-alt="A small circular avatar placeholder image showing a silhouette of a person on a neutral grey background, representing a generic user profile picture in a modern SaaS interface. Professional, clean, light mode aesthetic."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi8amZy4S90fv5Kjp0_w-cjueArEt9ZlkCNWS6kFONqmekehHZox74Moud6U-06gTv7BIvkM-twt_eCN7iE15NTIwQst5YjOjflJ3xbbMYkZaSZswDj4X31gKqUIGRLTIL00BDM1K8rQ8eemZeSPvsa2Li87h30Itj8iHKuArqGa1O1Ii2Lnc3f7lPDSAJYTC1hwNZowNFSXsP32zby1g3x4KDgUOCdgjj-SYUCZjnk7_vwDE6DJft"
+          />
+        </div>
+      </header>
+      <!-- Page Content -->
+      <div class="p-margin-mobile md:p-margin-desktop max-w-container-max mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4"
+        >
+          <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-background">Transfert de Stock</h2>
+            <p class="text-on-surface-variant mt-1">
+              Gérez les mouvements de consommables entre vos boutiques.
+            </p>
+          </div>
+          <button
+            class="bg-tenant-accent text-on-primary px-6 py-3 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:opacity-90 transition-opacity shadow-sm"
+          >
+            <span class="material-symbols-outlined">add</span>
+            NOUVEAU TRANSFERT
+          </button>
+        </div>
+        <div class="bento-grid">
+          <!-- Transfer Form (Bento Main) -->
+          <section
+            class="bento-item-main bg-surface-container-lowest border border-outline-variant rounded-xl p-6"
+          >
+            <h3 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">local_shipping</span>
+              Créer un Transfert
+            </h3>
+            <form class="space-y-6">
+              <!-- Origin / Destination -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                <div>
+                  <label class="block font-label-caps text-label-caps text-on-surface-variant mb-2"
+                    >Boutique Départ</label
+                  >
+                  <select
+                    class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md"
+                  >
+                    <option>Boutique Centre-Ville (Stock Principal)</option>
+                    <option>Boutique Nord</option>
+                    <option>Boutique Sud</option>
+                  </select>
+                </div>
+                <!-- Swap Icon (Visual only) -->
+                <div
+                  class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 h-8 w-8 bg-surface-container-high rounded-full items-center justify-center border border-outline-variant z-10"
+                >
+                  <span class="material-symbols-outlined text-on-surface-variant text-[20px]"
+                    >swap_horiz</span
+                  >
+                </div>
+                <div>
+                  <label class="block font-label-caps text-label-caps text-on-surface-variant mb-2"
+                    >Boutique Destination</label
+                  >
+                  <select
+                    class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md"
+                  >
+                    <option>Boutique Nord</option>
+                    <option>Boutique Centre-Ville (Stock Principal)</option>
+                    <option>Boutique Sud</option>
+                  </select>
+                </div>
+              </div>
+              <hr class="border-outline-variant border-dashed" />
+              <!-- Items List -->
+              <div>
+                <div class="flex justify-between items-center mb-4">
+                  <label class="font-label-caps text-label-caps text-on-surface-variant"
+                    >Articles à Transférer</label
+                  >
+                  <button
+                    class="text-primary font-label-caps text-label-caps flex items-center gap-1 hover:underline"
+                    type="button"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">add_circle</span>
+                    Ajouter Ligne
+                  </button>
+                </div>
+                <div class="space-y-3">
+                  <!-- Item Row 1 -->
+                  <div class="flex gap-3 items-center">
+                    <div class="flex-grow">
+                      <select
+                        class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md"
+                      >
+                        <option>Cintres Métal (Carton de 500)</option>
+                        <option>Housses Plastique (Rouleau)</option>
+                        <option>Lessive Poudre Pro (25kg)</option>
+                      </select>
+                    </div>
+                    <div class="w-24">
+                      <input
+                        class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-data-mono text-center"
+                        min="1"
+                        type="number"
+                        value="2"
+                      />
+                    </div>
+                    <button
+                      class="p-2 text-on-surface-variant hover:text-error transition-colors"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                  <!-- Item Row 2 -->
+                  <div class="flex gap-3 items-center">
+                    <div class="flex-grow">
+                      <select
+                        class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md"
+                      >
+                        <option>Housses Plastique (Rouleau)</option>
+                        <option>Cintres Métal (Carton de 500)</option>
+                        <option>Lessive Poudre Pro (25kg)</option>
+                      </select>
+                    </div>
+                    <div class="w-24">
+                      <input
+                        class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-data-mono text-center"
+                        min="1"
+                        type="number"
+                        value="5"
+                      />
+                    </div>
+                    <button
+                      class="p-2 text-on-surface-variant hover:text-error transition-colors"
+                      type="button"
+                    >
+                      <span class="material-symbols-outlined">delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-end pt-4">
+                <button
+                  class="bg-surface-container-high text-on-surface px-6 py-3 rounded-lg font-label-caps text-label-caps hover:bg-surface-container-highest transition-colors mr-3"
+                  type="button"
+                >
+                  ANNULER
                 </button>
-</div>
-<div class="bento-grid">
-<!-- Transfer Form (Bento Main) -->
-<section class="bento-item-main bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
-<h3 class="font-headline-md text-headline-md mb-6 flex items-center gap-2">
-<span class="material-symbols-outlined text-primary">local_shipping</span>
-                        Créer un Transfert
-                    </h3>
-<form class="space-y-6">
-<!-- Origin / Destination -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Boutique Départ</label>
-<select class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md">
-<option>Boutique Centre-Ville (Stock Principal)</option>
-<option>Boutique Nord</option>
-<option>Boutique Sud</option>
-</select>
-</div>
-<!-- Swap Icon (Visual only) -->
-<div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-2 h-8 w-8 bg-surface-container-high rounded-full items-center justify-center border border-outline-variant z-10">
-<span class="material-symbols-outlined text-on-surface-variant text-[20px]">swap_horiz</span>
-</div>
-<div>
-<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Boutique Destination</label>
-<select class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md">
-<option>Boutique Nord</option>
-<option>Boutique Centre-Ville (Stock Principal)</option>
-<option>Boutique Sud</option>
-</select>
-</div>
-</div>
-<hr class="border-outline-variant border-dashed"/>
-<!-- Items List -->
-<div>
-<div class="flex justify-between items-center mb-4">
-<label class="font-label-caps text-label-caps text-on-surface-variant">Articles à Transférer</label>
-<button class="text-primary font-label-caps text-label-caps flex items-center gap-1 hover:underline" type="button">
-<span class="material-symbols-outlined text-[18px]">add_circle</span>
-                                    Ajouter Ligne
-                                </button>
-</div>
-<div class="space-y-3">
-<!-- Item Row 1 -->
-<div class="flex gap-3 items-center">
-<div class="flex-grow">
-<select class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md">
-<option>Cintres Métal (Carton de 500)</option>
-<option>Housses Plastique (Rouleau)</option>
-<option>Lessive Poudre Pro (25kg)</option>
-</select>
-</div>
-<div class="w-24">
-<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-data-mono text-center" min="1" type="number" value="2"/>
-</div>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors" type="button">
-<span class="material-symbols-outlined">delete</span>
-</button>
-</div>
-<!-- Item Row 2 -->
-<div class="flex gap-3 items-center">
-<div class="flex-grow">
-<select class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-body-md">
-<option>Housses Plastique (Rouleau)</option>
-<option>Cintres Métal (Carton de 500)</option>
-<option>Lessive Poudre Pro (25kg)</option>
-</select>
-</div>
-<div class="w-24">
-<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-2 focus:border-primary focus:ring-1 focus:ring-primary text-on-surface font-data-mono text-center" min="1" type="number" value="5"/>
-</div>
-<button class="p-2 text-on-surface-variant hover:text-error transition-colors" type="button">
-<span class="material-symbols-outlined">delete</span>
-</button>
-</div>
-</div>
-</div>
-<div class="flex justify-end pt-4">
-<button class="bg-surface-container-high text-on-surface px-6 py-3 rounded-lg font-label-caps text-label-caps hover:bg-surface-container-highest transition-colors mr-3" type="button">
-                                ANNULER
-                            </button>
-<button class="bg-tenant-accent text-on-primary px-6 py-3 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:opacity-90 transition-opacity shadow-sm" type="button">
-<span class="material-symbols-outlined">send</span>
-                                VALIDER LE TRANSFERT
-                            </button>
-</div>
-</form>
-</section>
-<!-- Status/Stats (Bento Side) -->
-<section class="bento-item-side flex flex-col gap-6">
-<!-- KPI Widget -->
-<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex items-center justify-between">
-<div>
-<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">Transferts en Cours</p>
-<p class="font-kpi-display text-kpi-display text-on-background">4</p>
-</div>
-<div class="h-12 w-12 rounded-full bg-status-progress/10 flex items-center justify-center">
-<span class="material-symbols-outlined text-status-progress text-[28px]">pending_actions</span>
-</div>
-</div>
-<!-- Quick Actions -->
-<div class="bg-surface-container-low border border-outline-variant rounded-xl p-6 flex-grow">
-<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4">Actions Rapides</h4>
-<div class="space-y-3">
-<button class="w-full flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:border-primary transition-colors text-left group">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">inventory_2</span>
-<span class="font-body-md text-on-surface">Inventaire Global</span>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
-</button>
-<button class="w-full flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:border-primary transition-colors text-left group">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">history</span>
-<span class="font-body-md text-on-surface">Historique des Transferts</span>
-</div>
-<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
-</button>
-</div>
-</div>
-</section>
-<!-- Active Transfers Table (Bento Full) -->
-<section class="bento-item-full bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mt-2">
-<div class="p-6 border-b border-outline-variant flex justify-between items-center">
-<h3 class="font-headline-md text-headline-md">Suivi des Transferts</h3>
-<button class="text-primary font-label-caps text-label-caps hover:underline flex items-center gap-1">
-                            VOIR TOUT <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
-</button>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps border-b border-outline-variant">
-<th class="p-4">ID Transfert</th>
-<th class="p-4">Date Création</th>
-<th class="p-4">Trajet</th>
-<th class="p-4">Articles</th>
-<th class="p-4">Statut</th>
-<th class="p-4 text-right">Actions</th>
-</tr>
-</thead>
-<tbody class="font-body-md text-on-surface divide-y divide-outline-variant">
-<!-- Row 1 -->
-<tr class="hover:bg-surface/50 transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">TRF-8492</td>
-<td class="p-4 text-on-surface-variant">Aujourd'hui, 08:30</td>
-<td class="p-4">
-<div class="flex items-center gap-2">
-<span>Centre-Ville</span>
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_forward</span>
-<span class="font-semibold">Nord</span>
-</div>
-</td>
-<td class="p-4 font-data-mono">2 refs (7 qté)</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-progress/10 text-status-progress">
-                                            EN TRANSIT
-                                        </span>
-</td>
-<td class="p-4 text-right">
-<button class="text-on-surface-variant hover:text-primary transition-colors" title="Générer Bordereau">
-<span class="material-symbols-outlined">receipt_long</span>
-</button>
-</td>
-</tr>
-<!-- Row 2 -->
-<tr class="hover:bg-surface/50 transition-colors">
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">TRF-8491</td>
-<td class="p-4 text-on-surface-variant">Hier, 16:45</td>
-<td class="p-4">
-<div class="flex items-center gap-2">
-<span>Sud</span>
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_forward</span>
-<span class="font-semibold">Centre-Ville</span>
-</div>
-</td>
-<td class="p-4 font-data-mono">1 ref (10 qté)</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-pending/10 text-status-pending">
-                                            EN PRÉPARATION
-                                        </span>
-</td>
-<td class="p-4 text-right">
-<button class="text-on-surface-variant hover:text-primary transition-colors" title="Générer Bordereau">
-<span class="material-symbols-outlined">receipt_long</span>
-</button>
-</td>
-</tr>
-<!-- Row 3 -->
-<tr class="hover:bg-surface/50 transition-colors opacity-70">
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant">TRF-8488</td>
-<td class="p-4 text-on-surface-variant">12 Oct, 10:15</td>
-<td class="p-4">
-<div class="flex items-center gap-2">
-<span>Centre-Ville</span>
-<span class="material-symbols-outlined text-on-surface-variant text-[16px]">arrow_forward</span>
-<span class="font-semibold">Sud</span>
-</div>
-</td>
-<td class="p-4 font-data-mono">4 refs (25 qté)</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-ready/10 text-status-ready">
-                                            RÉCEPTIONNÉ
-                                        </span>
-</td>
-<td class="p-4 text-right">
-<button class="text-on-surface-variant hover:text-primary transition-colors" title="Voir Détails">
-<span class="material-symbols-outlined">visibility</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-</div>
-</div>
-</main>
-<!-- BottomNavBar (Mobile Only) -->
-<nav class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant flex justify-around items-center h-16 pb-safe z-50">
-<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary" href="#">
-<span class="material-symbols-outlined text-[24px]">dashboard</span>
-<span class="text-[10px] font-medium mt-1">Tableau</span>
-</a>
-<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary" href="#">
-<span class="material-symbols-outlined text-[24px]">local_laundry_service</span>
-<span class="text-[10px] font-medium mt-1">Cmds</span>
-</a>
-<a class="flex flex-col items-center justify-center w-full h-full text-primary font-bold" href="#">
-<span class="material-symbols-outlined text-[24px]">local_shipping</span>
-<span class="text-[10px] font-medium mt-1">Transferts</span>
-</a>
-<a class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary" href="#">
-<span class="material-symbols-outlined text-[24px]">inventory_2</span>
-<span class="text-[10px] font-medium mt-1">Stock</span>
-</a>
-</nav>
-</body></html>
+                <button
+                  class="bg-tenant-accent text-on-primary px-6 py-3 rounded-lg font-label-caps text-label-caps flex items-center gap-2 hover:opacity-90 transition-opacity shadow-sm"
+                  type="button"
+                >
+                  <span class="material-symbols-outlined">send</span>
+                  VALIDER LE TRANSFERT
+                </button>
+              </div>
+            </form>
+          </section>
+          <!-- Status/Stats (Bento Side) -->
+          <section class="bento-item-side flex flex-col gap-6">
+            <!-- KPI Widget -->
+            <div
+              class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex items-center justify-between"
+            >
+              <div>
+                <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">
+                  Transferts en Cours
+                </p>
+                <p class="font-kpi-display text-kpi-display text-on-background">4</p>
+              </div>
+              <div
+                class="h-12 w-12 rounded-full bg-status-progress/10 flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-status-progress text-[28px]"
+                  >pending_actions</span
+                >
+              </div>
+            </div>
+            <!-- Quick Actions -->
+            <div
+              class="bg-surface-container-low border border-outline-variant rounded-xl p-6 flex-grow"
+            >
+              <h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4">
+                Actions Rapides
+              </h4>
+              <div class="space-y-3">
+                <button
+                  class="w-full flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:border-primary transition-colors text-left group"
+                >
+                  <div class="flex items-center gap-3">
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
+                      >inventory_2</span
+                    >
+                    <span class="font-body-md text-on-surface">Inventaire Global</span>
+                  </div>
+                  <span class="material-symbols-outlined text-on-surface-variant"
+                    >chevron_right</span
+                  >
+                </button>
+                <button
+                  class="w-full flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border border-outline-variant hover:border-primary transition-colors text-left group"
+                >
+                  <div class="flex items-center gap-3">
+                    <span
+                      class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors"
+                      >history</span
+                    >
+                    <span class="font-body-md text-on-surface">Historique des Transferts</span>
+                  </div>
+                  <span class="material-symbols-outlined text-on-surface-variant"
+                    >chevron_right</span
+                  >
+                </button>
+              </div>
+            </div>
+          </section>
+          <!-- Active Transfers Table (Bento Full) -->
+          <section
+            class="bento-item-full bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden mt-2"
+          >
+            <div class="p-6 border-b border-outline-variant flex justify-between items-center">
+              <h3 class="font-headline-md text-headline-md">Suivi des Transferts</h3>
+              <button
+                class="text-primary font-label-caps text-label-caps hover:underline flex items-center gap-1"
+              >
+                VOIR TOUT <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps border-b border-outline-variant"
+                  >
+                    <th class="p-4">ID Transfert</th>
+                    <th class="p-4">Date Création</th>
+                    <th class="p-4">Trajet</th>
+                    <th class="p-4">Articles</th>
+                    <th class="p-4">Statut</th>
+                    <th class="p-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="font-body-md text-on-surface divide-y divide-outline-variant">
+                  <!-- Row 1 -->
+                  <tr class="hover:bg-surface/50 transition-colors">
+                    <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                      TRF-8492
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Aujourd'hui, 08:30</td>
+                    <td class="p-4">
+                      <div class="flex items-center gap-2">
+                        <span>Centre-Ville</span>
+                        <span class="material-symbols-outlined text-on-surface-variant text-[16px]"
+                          >arrow_forward</span
+                        >
+                        <span class="font-semibold">Nord</span>
+                      </div>
+                    </td>
+                    <td class="p-4 font-data-mono">2 refs (7 qté)</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-progress/10 text-status-progress"
+                      >
+                        EN TRANSIT
+                      </span>
+                    </td>
+                    <td class="p-4 text-right">
+                      <button
+                        class="text-on-surface-variant hover:text-primary transition-colors"
+                        title="Générer Bordereau"
+                      >
+                        <span class="material-symbols-outlined">receipt_long</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- Row 2 -->
+                  <tr class="hover:bg-surface/50 transition-colors">
+                    <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                      TRF-8491
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Hier, 16:45</td>
+                    <td class="p-4">
+                      <div class="flex items-center gap-2">
+                        <span>Sud</span>
+                        <span class="material-symbols-outlined text-on-surface-variant text-[16px]"
+                          >arrow_forward</span
+                        >
+                        <span class="font-semibold">Centre-Ville</span>
+                      </div>
+                    </td>
+                    <td class="p-4 font-data-mono">1 ref (10 qté)</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-pending/10 text-status-pending"
+                      >
+                        EN PRÉPARATION
+                      </span>
+                    </td>
+                    <td class="p-4 text-right">
+                      <button
+                        class="text-on-surface-variant hover:text-primary transition-colors"
+                        title="Générer Bordereau"
+                      >
+                        <span class="material-symbols-outlined">receipt_long</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <!-- Row 3 -->
+                  <tr class="hover:bg-surface/50 transition-colors opacity-70">
+                    <td class="p-4 font-data-mono text-data-mono text-on-surface-variant">
+                      TRF-8488
+                    </td>
+                    <td class="p-4 text-on-surface-variant">12 Oct, 10:15</td>
+                    <td class="p-4">
+                      <div class="flex items-center gap-2">
+                        <span>Centre-Ville</span>
+                        <span class="material-symbols-outlined text-on-surface-variant text-[16px]"
+                          >arrow_forward</span
+                        >
+                        <span class="font-semibold">Sud</span>
+                      </div>
+                    </td>
+                    <td class="p-4 font-data-mono">4 refs (25 qté)</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex items-center px-2.5 py-1 rounded-full text-label-caps font-label-caps bg-status-ready/10 text-status-ready"
+                      >
+                        RÉCEPTIONNÉ
+                      </span>
+                    </td>
+                    <td class="p-4 text-right">
+                      <button
+                        class="text-on-surface-variant hover:text-primary transition-colors"
+                        title="Voir Détails"
+                      >
+                        <span class="material-symbols-outlined">visibility</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+      class="md:hidden fixed bottom-0 w-full bg-surface-container-lowest border-t border-outline-variant flex justify-around items-center h-16 pb-safe z-50"
+    >
+      <a
+        class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">dashboard</span>
+        <span class="text-[10px] font-medium mt-1">Tableau</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">local_laundry_service</span>
+        <span class="text-[10px] font-medium mt-1">Cmds</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center w-full h-full text-primary font-bold"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">local_shipping</span>
+        <span class="text-[10px] font-medium mt-1">Transferts</span>
+      </a>
+      <a
+        class="flex flex-col items-center justify-center w-full h-full text-on-surface-variant hover:text-primary"
+        href="#"
+      >
+        <span class="material-symbols-outlined text-[24px]">inventory_2</span>
+        <span class="text-[10px] font-medium mt-1">Stock</span>
+      </a>
+    </nav>
+  </body>
+</html>

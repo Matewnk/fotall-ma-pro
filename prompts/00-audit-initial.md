@@ -4,6 +4,7 @@ Lis `CLAUDE.md`, Constitution, cahier des charges, instructions Claude Code,
 architecture, stratégie de tests et specs/roadmap.
 
 Vérifie :
+
 - Git/branche ;
 - Node/pnpm ;
 - Spec Kit ;

@@ -1,357 +1,595 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Activation et Gestion des Licences - Fotall-Ma PRO</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-dim": "#d9d9e2",
-                        "on-tertiary-fixed": "#360f00",
-                        "inverse-surface": "#2e3037",
-                        "tenant-accent": "var(--primary-color)",
-                        "on-tertiary": "#ffffff",
-                        "surface-container-high": "#e7e7f1",
-                        "on-background": "#191b22",
-                        "on-surface-variant": "#434653",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "background": "#faf8ff",
-                        "on-surface": "#191b22",
-                        "status-ready": "#10B981",
-                        "surface-bright": "#faf8ff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "on-error": "#ffffff",
-                        "outline": "#737784",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "on-error-container": "#93000a",
-                        "tertiary-container": "#993900",
-                        "surface-container-low": "#f3f3fc",
-                        "on-primary": "#ffffff",
-                        "primary-fixed": "#d9e2ff",
-                        "on-primary-fixed": "#001945",
-                        "on-primary-container": "#bcceff",
-                        "surface": "#faf8ff",
-                        "outline-variant": "#c3c6d5",
-                        "tertiary-fixed": "#ffdbcd",
-                        "surface-container-highest": "#e1e2eb",
-                        "secondary-fixed": "#d3e4fe",
-                        "primary": "#003c90",
-                        "tertiary": "#732900",
-                        "inverse-on-surface": "#f0f0f9",
-                        "on-primary-fixed-variant": "#00419c",
-                        "surface-container-lowest": "#ffffff",
-                        "on-tertiary-container": "#ffc0a7",
-                        "status-delivered": "#6366F1",
-                        "error": "#ba1a1a",
-                        "surface-ticket": "#F8FAFC",
-                        "inverse-primary": "#b0c6ff",
-                        "surface-variant": "#e1e2eb",
-                        "surface-container": "#ededf6",
-                        "surface-tint": "#1d59c1",
-                        "error-container": "#ffdad6",
-                        "status-pending": "#F59E0B",
-                        "on-secondary": "#ffffff",
-                        "secondary": "#505f76",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "on-secondary-fixed": "#0b1c30",
-                        "alert-critical": "#EF4444",
-                        "status-progress": "#3B82F6",
-                        "secondary-container": "#d0e1fb",
-                        "on-secondary-container": "#54647a",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "primary-container": "#0f52ba"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "margin-mobile": "16px",
-                        "margin-desktop": "24px",
-                        "container-max": "1440px",
-                        "gutter": "16px",
-                        "base": "8px"
-                    },
-                    "fontFamily": {
-                        "ticket-body": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "label-caps": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "data-mono": ["JetBrains Mono"]
-                    },
-                    "fontSize": {
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
-                    }
-                }
-            }
-        }
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Activation et Gestion des Licences - Fotall-Ma PRO</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'surface-dim': '#d9d9e2',
+              'on-tertiary-fixed': '#360f00',
+              'inverse-surface': '#2e3037',
+              'tenant-accent': 'var(--primary-color)',
+              'on-tertiary': '#ffffff',
+              'surface-container-high': '#e7e7f1',
+              'on-background': '#191b22',
+              'on-surface-variant': '#434653',
+              'secondary-fixed-dim': '#b7c8e1',
+              background: '#faf8ff',
+              'on-surface': '#191b22',
+              'status-ready': '#10B981',
+              'surface-bright': '#faf8ff',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-error': '#ffffff',
+              outline: '#737784',
+              'tertiary-fixed-dim': '#ffb596',
+              'on-error-container': '#93000a',
+              'tertiary-container': '#993900',
+              'surface-container-low': '#f3f3fc',
+              'on-primary': '#ffffff',
+              'primary-fixed': '#d9e2ff',
+              'on-primary-fixed': '#001945',
+              'on-primary-container': '#bcceff',
+              surface: '#faf8ff',
+              'outline-variant': '#c3c6d5',
+              'tertiary-fixed': '#ffdbcd',
+              'surface-container-highest': '#e1e2eb',
+              'secondary-fixed': '#d3e4fe',
+              primary: '#003c90',
+              tertiary: '#732900',
+              'inverse-on-surface': '#f0f0f9',
+              'on-primary-fixed-variant': '#00419c',
+              'surface-container-lowest': '#ffffff',
+              'on-tertiary-container': '#ffc0a7',
+              'status-delivered': '#6366F1',
+              error: '#ba1a1a',
+              'surface-ticket': '#F8FAFC',
+              'inverse-primary': '#b0c6ff',
+              'surface-variant': '#e1e2eb',
+              'surface-container': '#ededf6',
+              'surface-tint': '#1d59c1',
+              'error-container': '#ffdad6',
+              'status-pending': '#F59E0B',
+              'on-secondary': '#ffffff',
+              secondary: '#505f76',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'on-secondary-fixed': '#0b1c30',
+              'alert-critical': '#EF4444',
+              'status-progress': '#3B82F6',
+              'secondary-container': '#d0e1fb',
+              'on-secondary-container': '#54647a',
+              'on-secondary-fixed-variant': '#38485d',
+              'primary-container': '#0f52ba',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              'margin-mobile': '16px',
+              'margin-desktop': '24px',
+              'container-max': '1440px',
+              gutter: '16px',
+              base: '8px',
+            },
+            fontFamily: {
+              'ticket-body': ['Inter'],
+              'body-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'headline-md': ['Inter'],
+              'label-caps': ['Inter'],
+              'headline-lg': ['Inter'],
+              'kpi-display': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+            },
+            fontSize: {
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        :root {
-            --primary-color: #003c90;
-        }
+    <style>
+      :root {
+        --primary-color: #003c90;
+      }
     </style>
-</head>
-<body class="bg-background text-on-background font-body-md text-body-md antialiased flex h-screen overflow-hidden">
-<!-- SideNavBar -->
-<nav class="bg-surface-container-low dark:bg-inverse-surface text-primary dark:text-inverse-primary font-label-caps text-label-caps h-screen w-64 fixed left-0 top-0 flex flex-col py-base px-4 border-r border-outline-variant dark:border-outline z-50">
-<div class="flex items-center gap-3 mb-8 px-2 mt-4">
-<span class="material-symbols-outlined text-4xl text-tenant-accent" data-icon="water_drop">water_drop</span>
-<div>
-<h1 class="font-headline-md text-headline-md font-black text-tenant-accent">Fotall-Ma PRO</h1>
-<p class="text-on-surface-variant opacity-80 text-xs">Gestion Pressing</p>
-</div>
-</div>
-<div class="flex-1 flex flex-col gap-2">
-<!-- Inactive -->
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group" href="#">
-<span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors" data-icon="dashboard">dashboard</span>
-<span>Tableau de bord</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group" href="#">
-<span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors" data-icon="local_laundry_service">local_laundry_service</span>
-<span>Commandes</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group" href="#">
-<span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors" data-icon="groups">groups</span>
-<span>Clients</span>
-</a>
-<!-- Active (assuming Settings/Licenses falls under Admin or Settings equivalent context since 'Licenses' isn't explicitly in JSON tab_labels, I will map it to Settings based on Intent Fallback rule, but the prompt asks to show 'Licenses' as active. Wait, JSON says: "Tableau de bord", "Commandes", "Clients", "Finances", "Paramètres". Admin/Licenses fits best under Paramètres for a generic sidebar, but I am forced to use exact labels. I will highlight 'Paramètres') -->
-<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg transition-transform duration-200 active:scale-95" href="#">
-<span class="material-symbols-outlined text-xl" data-icon="settings" data-weight="fill" style="font-variation-settings: 'FILL' 1;">settings</span>
-<span>Paramètres</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group" href="#">
-<span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors" data-icon="payments">payments</span>
-<span>Finances</span>
-</a>
-</div>
-<div class="mt-auto pt-4 border-t border-outline-variant dark:border-outline mb-4">
-<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group" href="#">
-<span class="material-symbols-outlined text-xl group-hover:text-error transition-colors" data-icon="logout">logout</span>
-<span>Déconnexion</span>
-</a>
-</div>
-</nav>
-<!-- Main Canvas -->
-<main class="ml-64 flex-1 flex flex-col h-full bg-surface">
-<!-- TopNavBar equivalent header for canvas area -->
-<header class="h-16 flex justify-between items-center px-margin-desktop sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant">
-<h2 class="font-headline-md text-headline-md text-on-background">Activation et Gestion des Licences</h2>
-<div class="flex items-center gap-4">
-<div class="relative hidden md:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
-<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary text-ticket-body font-ticket-body w-64 placeholder:text-on-surface-variant" placeholder="Rechercher un tenant..." type="text"/>
-</div>
-<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-</button>
-<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A small, circular avatar image of a professional business executive in a well-lit modern office setting. The executive is smiling slightly, facing forward. The background is slightly blurred with soft natural lighting coming from a window, evoking a clean, corporate, modern SaaS style with cool tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZma2DEkVn8TY8-gTBtdRuo83hMeWRCfJRCfJoRI_cFTFdoZbiiQrfv9u_t3iTZpITvK-WAD1V_TyReyTqPGZsGy4FMEj5qzCRfT8Bmj1RSdR55LNohAQyl6UMDQmMvrq2W2ftXLp0fNkaRkLD6-SzCfkw7tKG-altLDeTsZlyMJxwJI8J1sEshtIYZH-Tj5P7H2DEusoJTb7clHF4ul9KLNu7ZwFzJ1VU9LvENGmlgyGVOHaQtOBr"/>
-</div>
-</header>
-<!-- Content Area -->
-<div class="flex-1 overflow-auto p-margin-desktop space-y-6">
-<!-- Bento Top Row: Summary & Actions -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<!-- Summary Card -->
-<div class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between">
-<div>
-<div class="flex justify-between items-start mb-4">
-<h3 class="font-body-md text-body-md text-on-surface-variant font-medium">Licences expirant bientôt</h3>
-<span class="material-symbols-outlined text-status-pending bg-status-pending/10 p-2 rounded-full" data-icon="warning">warning</span>
-</div>
-<div class="font-kpi-display text-kpi-display text-on-background">12</div>
-<p class="text-ticket-body font-ticket-body text-on-surface-variant mt-2">Dans les 30 prochains jours</p>
-</div>
-<button class="mt-6 text-primary hover:text-on-primary-fixed-variant font-ticket-body text-ticket-body text-left flex items-center gap-1 transition-colors">
-                        Voir les détails <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-<!-- KPI: Total Active -->
-<div class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between">
-<div>
-<div class="flex justify-between items-start mb-4">
-<h3 class="font-body-md text-body-md text-on-surface-variant font-medium">Licences Actives</h3>
-<span class="material-symbols-outlined text-status-ready bg-status-ready/10 p-2 rounded-full" data-icon="check_circle">check_circle</span>
-</div>
-<div class="font-kpi-display text-kpi-display text-on-background">148</div>
-<div class="flex items-center gap-1 mt-2 text-status-ready text-ticket-body font-ticket-body">
-<span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
-<span>+5% ce mois</span>
-</div>
-</div>
-</div>
-<!-- Quick Action -->
-<div class="md:col-span-4 bg-primary rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group">
-<div class="absolute inset-0 bg-primary-container opacity-0 group-hover:opacity-20 transition-opacity"></div>
-<span class="material-symbols-outlined text-4xl text-on-primary mb-4" data-icon="add_business">add_business</span>
-<h3 class="font-headline-md text-headline-md text-on-primary mb-2">Nouvelle Licence</h3>
-<p class="text-primary-fixed font-ticket-body text-ticket-body mb-6">Activer un nouveau tenant sur la plateforme.</p>
-<button class="bg-on-primary text-primary px-6 py-2 rounded-full font-label-caps text-label-caps hover:bg-surface-container-lowest transition-colors shadow-sm">
-                        Activer une Licence
-                    </button>
-</div>
-</div>
-<!-- Table Section -->
-<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col">
-<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest">
-<h3 class="font-headline-md text-headline-md text-on-background text-lg">Répertoire des Tenants</h3>
-<div class="flex gap-2">
-<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-md hover:bg-surface-container-high transition-colors text-ticket-body font-ticket-body text-on-surface-variant">
-<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span> Filtrer
-                        </button>
-<button class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-md hover:bg-surface-container-high transition-colors text-ticket-body font-ticket-body text-on-surface-variant">
-<span class="material-symbols-outlined text-sm" data-icon="download">download</span> Exporter
-                        </button>
-</div>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps border-b border-outline-variant">
-<th class="p-4 font-medium uppercase tracking-wider">Tenant</th>
-<th class="p-4 font-medium uppercase tracking-wider">Plan</th>
-<th class="p-4 font-medium uppercase tracking-wider">Statut</th>
-<th class="p-4 font-medium uppercase tracking-wider">Début</th>
-<th class="p-4 font-medium uppercase tracking-wider">Expiration</th>
-<th class="p-4 font-medium uppercase tracking-wider text-right">Actions</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant">
-<!-- Row 1: Active -->
-<tr class="hover:bg-surface-container-lowest transition-colors h-[48px]">
-<td class="p-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm">PL</div>
-<div>
-<p class="font-ticket-body text-ticket-body text-on-background">Pressing Lumière</p>
-<p class="font-data-mono text-data-mono text-xs text-on-surface-variant">ID: TEN-8832</p>
-</div>
-</div>
-</td>
-<td class="p-4">
-<span class="text-ticket-body font-ticket-body text-on-background">Pro</span>
-</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps whitespace-nowrap">
-                                        Active
-                                    </span>
-</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">01 Jan 2023</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">01 Jan 2024</td>
-<td class="p-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Renouveler">
-<span class="material-symbols-outlined text-[20px]" data-icon="autorenew">autorenew</span>
-</button>
-<button class="p-1.5 text-on-surface-variant hover:text-alert-critical hover:bg-error-container rounded transition-colors" title="Suspendre">
-<span class="material-symbols-outlined text-[20px]" data-icon="block">block</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 2: Expired -->
-<tr class="hover:bg-surface-container-lowest transition-colors h-[48px] bg-surface-container-lowest/50">
-<td class="p-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-sm">CE</div>
-<div>
-<p class="font-ticket-body text-ticket-body text-on-background">Clean Express</p>
-<p class="font-data-mono text-data-mono text-xs text-on-surface-variant">ID: TEN-7104</p>
-</div>
-</div>
-</td>
-<td class="p-4">
-<span class="text-ticket-body font-ticket-body text-on-background">Starter</span>
-</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps whitespace-nowrap">
-                                        Expirée
-                                    </span>
-</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">15 Sep 2022</td>
-<td class="p-4 font-data-mono text-data-mono text-alert-critical text-sm">15 Sep 2023</td>
-<td class="p-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" title="Renouveler">
-<span class="material-symbols-outlined text-[20px]" data-icon="autorenew">autorenew</span>
-</button>
-</div>
-</td>
-</tr>
-<!-- Row 3: Trial -->
-<tr class="hover:bg-surface-container-lowest transition-colors h-[48px]">
-<td class="p-4">
-<div class="flex items-center gap-3">
-<div class="w-8 h-8 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm">EB</div>
-<div>
-<p class="font-ticket-body text-ticket-body text-on-background">Eco Blanc</p>
-<p class="font-data-mono text-data-mono text-xs text-on-surface-variant">ID: TEN-9921</p>
-</div>
-</div>
-</td>
-<td class="p-4">
-<span class="text-ticket-body font-ticket-body text-on-background">Business</span>
-</td>
-<td class="p-4">
-<span class="inline-flex items-center px-2 py-1 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps whitespace-nowrap">
-                                        En Essai
-                                    </span>
-</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">01 Nov 2023</td>
-<td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">15 Nov 2023</td>
-<td class="p-4 text-right">
-<div class="flex justify-end gap-2">
-<button class="p-1.5 text-on-surface-variant hover:text-status-ready hover:bg-surface-container rounded transition-colors" title="Activer">
-<span class="material-symbols-outlined text-[20px]" data-icon="play_arrow">play_arrow</span>
-</button>
-<button class="p-1.5 text-on-surface-variant hover:text-alert-critical hover:bg-error-container rounded transition-colors" title="Suspendre">
-<span class="material-symbols-outlined text-[20px]" data-icon="block">block</span>
-</button>
-</div>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<!-- Pagination -->
-<div class="p-4 border-t border-outline-variant flex justify-between items-center text-ticket-body font-ticket-body text-on-surface-variant">
-<span>Affichage 1-3 sur 148 tenants</span>
-<div class="flex gap-1">
-<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors disabled:opacity-50" disabled="">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
-</button>
-<button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary">1</button>
-<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors">2</button>
-<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors">3</button>
-<button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</main>
-</body></html>
+  </head>
+  <body
+    class="bg-background text-on-background font-body-md text-body-md antialiased flex h-screen overflow-hidden"
+  >
+    <!-- SideNavBar -->
+    <nav
+      class="bg-surface-container-low dark:bg-inverse-surface text-primary dark:text-inverse-primary font-label-caps text-label-caps h-screen w-64 fixed left-0 top-0 flex flex-col py-base px-4 border-r border-outline-variant dark:border-outline z-50"
+    >
+      <div class="flex items-center gap-3 mb-8 px-2 mt-4">
+        <span class="material-symbols-outlined text-4xl text-tenant-accent" data-icon="water_drop"
+          >water_drop</span
+        >
+        <div>
+          <h1 class="font-headline-md text-headline-md font-black text-tenant-accent">
+            Fotall-Ma PRO
+          </h1>
+          <p class="text-on-surface-variant opacity-80 text-xs">Gestion Pressing</p>
+        </div>
+      </div>
+      <div class="flex-1 flex flex-col gap-2">
+        <!-- Inactive -->
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl group-hover:text-primary transition-colors"
+            data-icon="dashboard"
+            >dashboard</span
+          >
+          <span>Tableau de bord</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl group-hover:text-primary transition-colors"
+            data-icon="local_laundry_service"
+            >local_laundry_service</span
+          >
+          <span>Commandes</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl group-hover:text-primary transition-colors"
+            data-icon="groups"
+            >groups</span
+          >
+          <span>Clients</span>
+        </a>
+        <!-- Active (assuming Settings/Licenses falls under Admin or Settings equivalent context since 'Licenses' isn't explicitly in JSON tab_labels, I will map it to Settings based on Intent Fallback rule, but the prompt asks to show 'Licenses' as active. Wait, JSON says: "Tableau de bord", "Commandes", "Clients", "Finances", "Paramètres". Admin/Licenses fits best under Paramètres for a generic sidebar, but I am forced to use exact labels. I will highlight 'Paramètres') -->
+        <a
+          class="flex items-center gap-3 px-3 py-2 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg transition-transform duration-200 active:scale-95"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl"
+            data-icon="settings"
+            data-weight="fill"
+            style="font-variation-settings: 'FILL' 1"
+            >settings</span
+          >
+          <span>Paramètres</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl group-hover:text-primary transition-colors"
+            data-icon="payments"
+            >payments</span
+          >
+          <span>Finances</span>
+        </a>
+      </div>
+      <div class="mt-auto pt-4 border-t border-outline-variant dark:border-outline mb-4">
+        <a
+          class="flex items-center gap-3 px-3 py-2 text-on-surface-variant dark:text-surface-variant hover:text-on-surface hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all rounded-lg transition-transform duration-200 active:scale-95 group"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined text-xl group-hover:text-error transition-colors"
+            data-icon="logout"
+            >logout</span
+          >
+          <span>Déconnexion</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Main Canvas -->
+    <main class="ml-64 flex-1 flex flex-col h-full bg-surface">
+      <!-- TopNavBar equivalent header for canvas area -->
+      <header
+        class="h-16 flex justify-between items-center px-margin-desktop sticky top-0 z-40 bg-surface-container-lowest border-b border-outline-variant"
+      >
+        <h2 class="font-headline-md text-headline-md text-on-background">
+          Activation et Gestion des Licences
+        </h2>
+        <div class="flex items-center gap-4">
+          <div class="relative hidden md:block">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+              data-icon="search"
+              >search</span
+            >
+            <input
+              class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary text-ticket-body font-ticket-body w-64 placeholder:text-on-surface-variant"
+              placeholder="Rechercher un tenant..."
+              type="text"
+            />
+          </div>
+          <button
+            class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-surface-variant"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+          </button>
+          <img
+            class="w-10 h-10 rounded-full object-cover border border-outline-variant"
+            data-alt="A small, circular avatar image of a professional business executive in a well-lit modern office setting. The executive is smiling slightly, facing forward. The background is slightly blurred with soft natural lighting coming from a window, evoking a clean, corporate, modern SaaS style with cool tones."
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZma2DEkVn8TY8-gTBtdRuo83hMeWRCfJRCfJoRI_cFTFdoZbiiQrfv9u_t3iTZpITvK-WAD1V_TyReyTqPGZsGy4FMEj5qzCRfT8Bmj1RSdR55LNohAQyl6UMDQmMvrq2W2ftXLp0fNkaRkLD6-SzCfkw7tKG-altLDeTsZlyMJxwJI8J1sEshtIYZH-Tj5P7H2DEusoJTb7clHF4ul9KLNu7ZwFzJ1VU9LvENGmlgyGVOHaQtOBr"
+          />
+        </div>
+      </header>
+      <!-- Content Area -->
+      <div class="flex-1 overflow-auto p-margin-desktop space-y-6">
+        <!-- Bento Top Row: Summary & Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Summary Card -->
+          <div
+            class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="font-body-md text-body-md text-on-surface-variant font-medium">
+                  Licences expirant bientôt
+                </h3>
+                <span
+                  class="material-symbols-outlined text-status-pending bg-status-pending/10 p-2 rounded-full"
+                  data-icon="warning"
+                  >warning</span
+                >
+              </div>
+              <div class="font-kpi-display text-kpi-display text-on-background">12</div>
+              <p class="text-ticket-body font-ticket-body text-on-surface-variant mt-2">
+                Dans les 30 prochains jours
+              </p>
+            </div>
+            <button
+              class="mt-6 text-primary hover:text-on-primary-fixed-variant font-ticket-body text-ticket-body text-left flex items-center gap-1 transition-colors"
+            >
+              Voir les détails
+              <span class="material-symbols-outlined text-sm" data-icon="arrow_forward"
+                >arrow_forward</span
+              >
+            </button>
+          </div>
+          <!-- KPI: Total Active -->
+          <div
+            class="md:col-span-4 bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex flex-col justify-between"
+          >
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <h3 class="font-body-md text-body-md text-on-surface-variant font-medium">
+                  Licences Actives
+                </h3>
+                <span
+                  class="material-symbols-outlined text-status-ready bg-status-ready/10 p-2 rounded-full"
+                  data-icon="check_circle"
+                  >check_circle</span
+                >
+              </div>
+              <div class="font-kpi-display text-kpi-display text-on-background">148</div>
+              <div
+                class="flex items-center gap-1 mt-2 text-status-ready text-ticket-body font-ticket-body"
+              >
+                <span class="material-symbols-outlined text-sm" data-icon="trending_up"
+                  >trending_up</span
+                >
+                <span>+5% ce mois</span>
+              </div>
+            </div>
+          </div>
+          <!-- Quick Action -->
+          <div
+            class="md:col-span-4 bg-primary rounded-xl p-6 flex flex-col justify-center items-center text-center relative overflow-hidden group"
+          >
+            <div
+              class="absolute inset-0 bg-primary-container opacity-0 group-hover:opacity-20 transition-opacity"
+            ></div>
+            <span
+              class="material-symbols-outlined text-4xl text-on-primary mb-4"
+              data-icon="add_business"
+              >add_business</span
+            >
+            <h3 class="font-headline-md text-headline-md text-on-primary mb-2">Nouvelle Licence</h3>
+            <p class="text-primary-fixed font-ticket-body text-ticket-body mb-6">
+              Activer un nouveau tenant sur la plateforme.
+            </p>
+            <button
+              class="bg-on-primary text-primary px-6 py-2 rounded-full font-label-caps text-label-caps hover:bg-surface-container-lowest transition-colors shadow-sm"
+            >
+              Activer une Licence
+            </button>
+          </div>
+        </div>
+        <!-- Table Section -->
+        <div
+          class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col"
+        >
+          <div
+            class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-lowest"
+          >
+            <h3 class="font-headline-md text-headline-md text-on-background text-lg">
+              Répertoire des Tenants
+            </h3>
+            <div class="flex gap-2">
+              <button
+                class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-md hover:bg-surface-container-high transition-colors text-ticket-body font-ticket-body text-on-surface-variant"
+              >
+                <span class="material-symbols-outlined text-sm" data-icon="filter_list"
+                  >filter_list</span
+                >
+                Filtrer
+              </button>
+              <button
+                class="flex items-center gap-2 px-3 py-1.5 border border-outline-variant rounded-md hover:bg-surface-container-high transition-colors text-ticket-body font-ticket-body text-on-surface-variant"
+              >
+                <span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                Exporter
+              </button>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr
+                  class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps border-b border-outline-variant"
+                >
+                  <th class="p-4 font-medium uppercase tracking-wider">Tenant</th>
+                  <th class="p-4 font-medium uppercase tracking-wider">Plan</th>
+                  <th class="p-4 font-medium uppercase tracking-wider">Statut</th>
+                  <th class="p-4 font-medium uppercase tracking-wider">Début</th>
+                  <th class="p-4 font-medium uppercase tracking-wider">Expiration</th>
+                  <th class="p-4 font-medium uppercase tracking-wider text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-outline-variant">
+                <!-- Row 1: Active -->
+                <tr class="hover:bg-surface-container-lowest transition-colors h-[48px]">
+                  <td class="p-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm"
+                      >
+                        PL
+                      </div>
+                      <div>
+                        <p class="font-ticket-body text-ticket-body text-on-background">
+                          Pressing Lumière
+                        </p>
+                        <p class="font-data-mono text-data-mono text-xs text-on-surface-variant">
+                          ID: TEN-8832
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4">
+                    <span class="text-ticket-body font-ticket-body text-on-background">Pro</span>
+                  </td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps whitespace-nowrap"
+                    >
+                      Active
+                    </span>
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">
+                    01 Jan 2023
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">
+                    01 Jan 2024
+                  </td>
+                  <td class="p-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors"
+                        title="Renouveler"
+                      >
+                        <span class="material-symbols-outlined text-[20px]" data-icon="autorenew"
+                          >autorenew</span
+                        >
+                      </button>
+                      <button
+                        class="p-1.5 text-on-surface-variant hover:text-alert-critical hover:bg-error-container rounded transition-colors"
+                        title="Suspendre"
+                      >
+                        <span class="material-symbols-outlined text-[20px]" data-icon="block"
+                          >block</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 2: Expired -->
+                <tr
+                  class="hover:bg-surface-container-lowest transition-colors h-[48px] bg-surface-container-lowest/50"
+                >
+                  <td class="p-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-surface-container-high text-on-surface-variant flex items-center justify-center font-bold text-sm"
+                      >
+                        CE
+                      </div>
+                      <div>
+                        <p class="font-ticket-body text-ticket-body text-on-background">
+                          Clean Express
+                        </p>
+                        <p class="font-data-mono text-data-mono text-xs text-on-surface-variant">
+                          ID: TEN-7104
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4">
+                    <span class="text-ticket-body font-ticket-body text-on-background"
+                      >Starter</span
+                    >
+                  </td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full bg-alert-critical/10 text-alert-critical font-label-caps text-label-caps whitespace-nowrap"
+                    >
+                      Expirée
+                    </span>
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">
+                    15 Sep 2022
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-alert-critical text-sm">
+                    15 Sep 2023
+                  </td>
+                  <td class="p-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors"
+                        title="Renouveler"
+                      >
+                        <span class="material-symbols-outlined text-[20px]" data-icon="autorenew"
+                          >autorenew</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <!-- Row 3: Trial -->
+                <tr class="hover:bg-surface-container-lowest transition-colors h-[48px]">
+                  <td class="p-4">
+                    <div class="flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm"
+                      >
+                        EB
+                      </div>
+                      <div>
+                        <p class="font-ticket-body text-ticket-body text-on-background">
+                          Eco Blanc
+                        </p>
+                        <p class="font-data-mono text-data-mono text-xs text-on-surface-variant">
+                          ID: TEN-9921
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4">
+                    <span class="text-ticket-body font-ticket-body text-on-background"
+                      >Business</span
+                    >
+                  </td>
+                  <td class="p-4">
+                    <span
+                      class="inline-flex items-center px-2 py-1 rounded-full bg-status-pending/10 text-status-pending font-label-caps text-label-caps whitespace-nowrap"
+                    >
+                      En Essai
+                    </span>
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">
+                    01 Nov 2023
+                  </td>
+                  <td class="p-4 font-data-mono text-data-mono text-on-surface-variant text-sm">
+                    15 Nov 2023
+                  </td>
+                  <td class="p-4 text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="p-1.5 text-on-surface-variant hover:text-status-ready hover:bg-surface-container rounded transition-colors"
+                        title="Activer"
+                      >
+                        <span class="material-symbols-outlined text-[20px]" data-icon="play_arrow"
+                          >play_arrow</span
+                        >
+                      </button>
+                      <button
+                        class="p-1.5 text-on-surface-variant hover:text-alert-critical hover:bg-error-container rounded transition-colors"
+                        title="Suspendre"
+                      >
+                        <span class="material-symbols-outlined text-[20px]" data-icon="block"
+                          >block</span
+                        >
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div
+            class="p-4 border-t border-outline-variant flex justify-between items-center text-ticket-body font-ticket-body text-on-surface-variant"
+          >
+            <span>Affichage 1-3 sur 148 tenants</span>
+            <div class="flex gap-1">
+              <button
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors disabled:opacity-50"
+                disabled=""
+              >
+                <span class="material-symbols-outlined text-sm" data-icon="chevron_left"
+                  >chevron_left</span
+                >
+              </button>
+              <button
+                class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary"
+              >
+                1
+              </button>
+              <button
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors"
+              >
+                2
+              </button>
+              <button
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors"
+              >
+                3
+              </button>
+              <button
+                class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container transition-colors"
+              >
+                <span class="material-symbols-outlined text-sm" data-icon="chevron_right"
+                  >chevron_right</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

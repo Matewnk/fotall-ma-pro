@@ -1,447 +1,711 @@
-<!DOCTYPE html>
+<!doctype html>
 
-<html class="light" lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Facturation &amp; Abonnements SaaS</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Facturation &amp; Abonnements SaaS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
     </style>
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-background": "#191b22",
-                        "on-primary-container": "#bcceff",
-                        "primary": "#003c90",
-                        "on-secondary": "#ffffff",
-                        "on-tertiary-container": "#ffc0a7",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "inverse-surface": "#2e3037",
-                        "status-pending": "#F59E0B",
-                        "surface-container-high": "#e7e7f1",
-                        "alert-critical": "#EF4444",
-                        "secondary-fixed": "#d3e4fe",
-                        "on-tertiary": "#ffffff",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "status-ready": "#10B981",
-                        "outline-variant": "#c3c6d5",
-                        "surface-ticket": "#F8FAFC",
-                        "on-surface": "#191b22",
-                        "background": "#faf8ff",
-                        "error": "#ba1a1a",
-                        "primary-container": "#0f52ba",
-                        "surface-container-low": "#f3f3fc",
-                        "secondary": "#505f76",
-                        "primary-fixed": "#d9e2ff",
-                        "status-delivered": "#6366F1",
-                        "surface-container-lowest": "#ffffff",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "outline": "#737784",
-                        "tertiary-container": "#993900",
-                        "on-error": "#ffffff",
-                        "secondary-container": "#d0e1fb",
-                        "on-primary": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "surface-container": "#ededf6",
-                        "error-container": "#ffdad6",
-                        "surface-bright": "#faf8ff",
-                        "tertiary-fixed": "#ffdbcd",
-                        "inverse-primary": "#b0c6ff",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "surface": "#faf8ff",
-                        "on-secondary-fixed": "#0b1c30",
-                        "surface-tint": "#1d59c1",
-                        "status-progress": "#3B82F6",
-                        "on-surface-variant": "#434653",
-                        "surface-container-highest": "#e1e2eb",
-                        "inverse-on-surface": "#f0f0f9",
-                        "surface-dim": "#d9d9e2",
-                        "on-tertiary-fixed": "#360f00",
-                        "surface-variant": "#e1e2eb",
-                        "on-secondary-container": "#54647a",
-                        "on-primary-fixed": "#001945",
-                        "on-primary-fixed-variant": "#00419c",
-                        "tertiary": "#732900",
-                        "tenant-accent": "var(--primary-color)"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem",
-                        "full": "0.75rem"
-                    },
-                    "spacing": {
-                        "base": "8px",
-                        "gutter": "16px",
-                        "container-max": "1440px",
-                        "margin-mobile": "16px",
-                        "margin-desktop": "24px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Inter"],
-                        "body-md": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "headline-lg-mobile": ["Inter"],
-                        "label-caps": ["Inter"],
-                        "kpi-display": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "ticket-body": ["Inter"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
-                        "headline-lg-mobile": ["24px", { "lineHeight": "30px", "fontWeight": "600" }],
-                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "kpi-display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "headline-lg": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }]
-                    }
-                },
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-background': '#191b22',
+              'on-primary-container': '#bcceff',
+              primary: '#003c90',
+              'on-secondary': '#ffffff',
+              'on-tertiary-container': '#ffc0a7',
+              'on-secondary-fixed-variant': '#38485d',
+              'inverse-surface': '#2e3037',
+              'status-pending': '#F59E0B',
+              'surface-container-high': '#e7e7f1',
+              'alert-critical': '#EF4444',
+              'secondary-fixed': '#d3e4fe',
+              'on-tertiary': '#ffffff',
+              'primary-fixed-dim': '#b0c6ff',
+              'status-ready': '#10B981',
+              'outline-variant': '#c3c6d5',
+              'surface-ticket': '#F8FAFC',
+              'on-surface': '#191b22',
+              background: '#faf8ff',
+              error: '#ba1a1a',
+              'primary-container': '#0f52ba',
+              'surface-container-low': '#f3f3fc',
+              secondary: '#505f76',
+              'primary-fixed': '#d9e2ff',
+              'status-delivered': '#6366F1',
+              'surface-container-lowest': '#ffffff',
+              'tertiary-fixed-dim': '#ffb596',
+              outline: '#737784',
+              'tertiary-container': '#993900',
+              'on-error': '#ffffff',
+              'secondary-container': '#d0e1fb',
+              'on-primary': '#ffffff',
+              'on-error-container': '#93000a',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-container': '#ededf6',
+              'error-container': '#ffdad6',
+              'surface-bright': '#faf8ff',
+              'tertiary-fixed': '#ffdbcd',
+              'inverse-primary': '#b0c6ff',
+              'secondary-fixed-dim': '#b7c8e1',
+              surface: '#faf8ff',
+              'on-secondary-fixed': '#0b1c30',
+              'surface-tint': '#1d59c1',
+              'status-progress': '#3B82F6',
+              'on-surface-variant': '#434653',
+              'surface-container-highest': '#e1e2eb',
+              'inverse-on-surface': '#f0f0f9',
+              'surface-dim': '#d9d9e2',
+              'on-tertiary-fixed': '#360f00',
+              'surface-variant': '#e1e2eb',
+              'on-secondary-container': '#54647a',
+              'on-primary-fixed': '#001945',
+              'on-primary-fixed-variant': '#00419c',
+              tertiary: '#732900',
+              'tenant-accent': 'var(--primary-color)',
             },
-        }
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              base: '8px',
+              gutter: '16px',
+              'container-max': '1440px',
+              'margin-mobile': '16px',
+              'margin-desktop': '24px',
+            },
+            fontFamily: {
+              'headline-md': ['Inter'],
+              'body-md': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'headline-lg-mobile': ['Inter'],
+              'label-caps': ['Inter'],
+              'kpi-display': ['Inter'],
+              'headline-lg': ['Inter'],
+              'ticket-body': ['Inter'],
+            },
+            fontSize: {
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden flex h-screen">
-<!-- SideNavBar -->
-<nav class="bg-surface-container-low dark:bg-surface-container-low h-full w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col py-gutter px-4 z-50">
-<!-- Brand Header -->
-<div class="flex items-center gap-3 mb-8 px-2">
-<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-on-primary-container" data-weight="fill" style="font-variation-settings: 'FILL' 1;">local_laundry_service</span>
-</div>
-<div>
-<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed truncate">Fotall-Ma PRO</h1>
-<p class="font-label-caps text-label-caps text-on-surface-variant truncate">Management Suite</p>
-</div>
-</div>
-<!-- CTA -->
-<button class="w-full bg-primary text-on-primary rounded-lg py-2 mb-6 font-body-md text-body-md font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-<span class="material-symbols-outlined">add</span>
-            Nouvelle Commande
-        </button>
-<!-- Navigation Links -->
-<div class="flex-1 overflow-y-auto">
-<ul class="space-y-1">
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">dashboard</span>
-                        Dashboard
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">receipt_long</span>
-                        Orders
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">group</span>
-                        Customers
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">inventory_2</span>
-                        Inventory
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">assessment</span>
-                        Reports
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-primary-fixed-dim font-bold border-l-4 border-primary dark:border-primary-fixed-dim bg-secondary-container/30 transition-all duration-150" href="#">
-<span class="material-symbols-outlined">settings</span>
-                        Settings
-                    </a>
-</li>
-</ul>
-</div>
-<!-- Footer Links -->
-<div class="mt-auto pt-4 border-t border-outline-variant/30">
-<ul class="space-y-1">
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">help</span>
-                        Aide
-                    </a>
-</li>
-<li>
-<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors" href="#">
-<span class="material-symbols-outlined">logout</span>
-                        Déconnexion
-                    </a>
-</li>
-</ul>
-</div>
-</nav>
-<!-- Main Content Area -->
-<div class="flex-1 ml-64 flex flex-col h-screen overflow-hidden bg-surface-ticket">
-<!-- TopAppBar -->
-<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex justify-between items-center h-16 w-full px-margin-desktop z-40 shrink-0">
-<!-- Search Bar (on_left as per JSON) -->
-<div class="flex-1 max-w-md relative">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-<input class="w-full pl-10 pr-4 py-2 rounded-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant" placeholder="Rechercher..." type="text"/>
-</div>
-<!-- Actions -->
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-highest transition-transform hover:scale-95">
-<span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-highest transition-transform hover:scale-95">
-<span class="material-symbols-outlined">qr_code_scanner</span>
-</button>
-<div class="ml-4 w-9 h-9 rounded-full overflow-hidden border border-outline-variant shrink-0 cursor-pointer">
-<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a business owner in a well-lit, modern office environment. High-key lighting, corporate and trustworthy aesthetic, subtle cool tones matching the UI palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2vPo75j9TW2DBONh6H6E4h2kIvx3uhanaqFpI5FHPdeZB_PDnVk4wva8C-rTnhKz3xgdMsy__A3DCtO3Ujk4VUJ_J8NFOIlo8bOOUhxlxWp1BV_GqvTrQ8Lu3JspfZzpjBA0mO2pu3-QPEtGJKAkn02hEjRGR8gbdeuvGknKDBD-UO5maOGlvuEV24cfwrbsZ6hTxc53g45TpJUqmEHPAQ_jegWD0qvfiwT1FneGmoa3-Cu7eCjUn"/>
-</div>
-</div>
-</header>
-<!-- Canvas / Dashboard -->
-<main class="flex-1 overflow-y-auto p-margin-desktop">
-<div class="max-w-[container-max] mx-auto space-y-6">
-<!-- Page Title -->
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-background">Facturation &amp; Abonnements SaaS</h2>
-<p class="text-on-surface-variant font-body-md text-body-md mt-1">Gérez votre forfait, vos moyens de paiement et consultez votre historique.</p>
-</div>
-<!-- Top Row: Current Plan & Payment Method (Bento Layout) -->
-<div class="grid grid-cols-12 gap-6">
-<!-- Current Plan -->
-<div class="col-span-12 md:col-span-8 bg-surface border border-outline-variant rounded-xl p-6 flex flex-col justify-between">
-<div class="flex justify-between items-start">
-<div>
-<div class="flex items-center gap-3 mb-2">
-<h3 class="font-headline-md text-headline-md text-primary">Pro Plan</h3>
-<span class="px-2.5 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider">Actif</span>
-</div>
-<p class="text-on-surface-variant font-body-md text-body-md">Idéal pour les pressings en pleine croissance nécessitant une gestion avancée.</p>
-</div>
-<div class="text-right">
-<div class="font-headline-md text-headline-md text-on-background">49€ <span class="text-on-surface-variant font-body-md text-body-md">/ mois</span></div>
-</div>
-</div>
-<div class="mt-8 pt-6 border-t border-surface-container-high flex flex-wrap gap-x-8 gap-y-4">
-<div>
-<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">PROCHAIN PRÉLÈVEMENT</p>
-<p class="font-body-md text-body-md font-medium text-on-background">15 Octobre 2023</p>
-</div>
-<div>
-<p class="font-label-caps text-label-caps text-on-surface-variant mb-1">PÉRIODICITÉ</p>
-<p class="font-body-md text-body-md font-medium text-on-background">Mensuelle</p>
-</div>
-</div>
-</div>
-<!-- Payment Method -->
-<div class="col-span-12 md:col-span-4 bg-surface border border-outline-variant rounded-xl p-6 flex flex-col justify-between relative overflow-hidden">
-<!-- Decorative background element -->
-<div class="absolute -right-6 -top-6 w-24 h-24 bg-primary-container/20 rounded-full blur-2xl pointer-events-none"></div>
-<div>
-<div class="flex justify-between items-center mb-6">
-<h3 class="font-body-md text-body-md font-semibold text-on-background">Moyen de paiement</h3>
-<button class="text-primary hover:text-primary-fixed-dim font-body-md text-body-md font-medium transition-colors">Modifier</button>
-</div>
-<div class="bg-surface-container-low border border-outline-variant/50 rounded-lg p-4 flex items-center gap-4">
-<div class="w-12 h-8 bg-surface rounded border border-outline-variant flex items-center justify-center shrink-0">
-<!-- Visa placeholder icon -->
-<span class="font-headline-md text-primary italic font-bold text-sm tracking-tighter">VISA</span>
-</div>
-<div>
-<p class="font-data-mono text-data-mono text-on-background">**** **** **** 1234</p>
-<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Expire 12/25</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Usage Metrics -->
-<div class="grid grid-cols-12 gap-6">
-<div class="col-span-12 bg-surface border border-outline-variant rounded-xl p-6">
-<h3 class="font-body-md text-body-md font-semibold text-on-background mb-6">Utilisation du forfait ce mois</h3>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<!-- Orders Metric -->
-<div>
-<div class="flex justify-between items-end mb-2">
-<div>
-<p class="font-label-caps text-label-caps text-on-surface-variant">COMMANDES TRAITÉES</p>
-<div class="flex items-baseline gap-2 mt-1">
-<span class="font-headline-md text-headline-md text-on-background">450</span>
-<span class="text-on-surface-variant font-body-md text-body-md">/ 500 incluses</span>
-</div>
-</div>
-<span class="text-status-pending font-body-md text-body-md font-medium">90%</span>
-</div>
-<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
-<div class="h-full bg-status-pending rounded-full" style="width: 90%;"></div>
-</div>
-</div>
-<!-- Users Metric -->
-<div>
-<div class="flex justify-between items-end mb-2">
-<div>
-<p class="font-label-caps text-label-caps text-on-surface-variant">COMPTES UTILISATEURS</p>
-<div class="flex items-baseline gap-2 mt-1">
-<span class="font-headline-md text-headline-md text-on-background">3</span>
-<span class="text-on-surface-variant font-body-md text-body-md">/ 5 inclus</span>
-</div>
-</div>
-<span class="text-status-ready font-body-md text-body-md font-medium">60%</span>
-</div>
-<div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
-<div class="h-full bg-status-ready rounded-full" style="width: 60%;"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Billing History -->
-<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden">
-<div class="p-6 border-b border-surface-container-high flex justify-between items-center">
-<h3 class="font-body-md text-body-md font-semibold text-on-background">Historique de facturation</h3>
-</div>
-<div class="overflow-x-auto">
-<table class="w-full text-left border-collapse">
-<thead>
-<tr class="bg-surface-container-low border-b border-surface-container-high">
-<th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">DATE</th>
-<th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">N° FACTURE</th>
-<th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">MONTANT</th>
-<th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">STATUT</th>
-<th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant text-right">ACTION</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-surface-container-high">
-<tr class="hover:bg-surface-ticket transition-colors h-12">
-<td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">15 Sep 2023</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">INV-2023-09</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-background">49.00 €</td>
-<td class="px-6 py-2">
-<span class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block">Payée</span>
-</td>
-<td class="px-6 py-2 text-right">
-<button class="text-secondary hover:text-primary transition-colors p-1" title="Télécharger">
-<span class="material-symbols-outlined text-[20px]">download</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-ticket transition-colors h-12">
-<td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">15 Aoû 2023</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">INV-2023-08</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-background">49.00 €</td>
-<td class="px-6 py-2">
-<span class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block">Payée</span>
-</td>
-<td class="px-6 py-2 text-right">
-<button class="text-secondary hover:text-primary transition-colors p-1" title="Télécharger">
-<span class="material-symbols-outlined text-[20px]">download</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-ticket transition-colors h-12">
-<td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">15 Jui 2023</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">INV-2023-07</td>
-<td class="px-6 py-2 font-data-mono text-data-mono text-on-background">49.00 €</td>
-<td class="px-6 py-2">
-<span class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block">Payée</span>
-</td>
-<td class="px-6 py-2 text-right">
-<button class="text-secondary hover:text-primary transition-colors p-1" title="Télécharger">
-<span class="material-symbols-outlined text-[20px]">download</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Plan Comparison / Upgrade -->
-<div class="mb-12">
-<h3 class="font-headline-md text-headline-md text-on-background mb-6 text-center mt-12">Faites évoluer votre pressing</h3>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Starter Plan -->
-<div class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col hover:border-outline transition-colors">
-<h4 class="font-body-md text-body-md font-semibold text-on-background">Starter</h4>
-<div class="mt-4 mb-6">
-<span class="font-headline-md text-headline-md text-on-background">29€</span>
-<span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
-</div>
-<ul class="space-y-3 mb-8 flex-1">
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> Jusqu'à 150 commandes
-                                </li>
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> 1 Compte utilisateur
-                                </li>
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> Support par email
-                                </li>
-</ul>
-<button class="w-full py-2 px-4 rounded-lg border border-outline-variant text-on-surface-variant font-body-md text-body-md font-medium hover:bg-surface-container-low transition-colors">Rétrograder</button>
-</div>
-<!-- Pro Plan (Current) -->
-<div class="bg-primary-container/5 border-2 border-primary rounded-xl p-6 flex flex-col relative">
-<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps tracking-wider uppercase">Plan Actuel</div>
-<h4 class="font-body-md text-body-md font-semibold text-primary mt-2">Pro</h4>
-<div class="mt-4 mb-6">
-<span class="font-headline-md text-headline-md text-on-background">49€</span>
-<span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
-</div>
-<ul class="space-y-3 mb-8 flex-1">
-<li class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span> Jusqu'à 500 commandes
-                                </li>
-<li class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span> 5 Comptes utilisateurs
-                                </li>
-<li class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span> Support prioritaire
-                                </li>
-<li class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span> Statistiques avancées
-                                </li>
-</ul>
-<button class="w-full py-2 px-4 rounded-lg bg-surface-container text-on-surface-variant font-body-md text-body-md font-medium cursor-default">Forfait en cours</button>
-</div>
-<!-- Business Plan -->
-<div class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col hover:border-primary/50 transition-colors">
-<h4 class="font-body-md text-body-md font-semibold text-on-background">Business</h4>
-<div class="mt-4 mb-6">
-<span class="font-headline-md text-headline-md text-on-background">99€</span>
-<span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
-</div>
-<ul class="space-y-3 mb-8 flex-1">
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> Commandes illimitées
-                                </li>
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> Utilisateurs illimités
-                                </li>
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> API Access
-                                </li>
-<li class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md">
-<span class="material-symbols-outlined text-status-ready text-[20px]">check</span> Gestion Multi-boutiques
-                                </li>
-</ul>
-<button class="w-full py-2 px-4 rounded-lg bg-primary text-on-primary font-body-md text-body-md font-medium hover:opacity-90 transition-opacity">Passer à Business</button>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div>
-</body></html>
+  </head>
+  <body
+    class="bg-background text-on-background font-body-md text-body-md antialiased overflow-hidden flex h-screen"
+  >
+    <!-- SideNavBar -->
+    <nav
+      class="bg-surface-container-low dark:bg-surface-container-low h-full w-64 fixed left-0 top-0 border-r border-outline-variant dark:border-outline flex flex-col py-gutter px-4 z-50"
+    >
+      <!-- Brand Header -->
+      <div class="flex items-center gap-3 mb-8 px-2">
+        <div
+          class="w-10 h-10 rounded bg-primary-container flex items-center justify-center shrink-0"
+        >
+          <span
+            class="material-symbols-outlined text-on-primary-container"
+            data-weight="fill"
+            style="font-variation-settings: 'FILL' 1"
+            >local_laundry_service</span
+          >
+        </div>
+        <div>
+          <h1
+            class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed truncate"
+          >
+            Fotall-Ma PRO
+          </h1>
+          <p class="font-label-caps text-label-caps text-on-surface-variant truncate">
+            Management Suite
+          </p>
+        </div>
+      </div>
+      <!-- CTA -->
+      <button
+        class="w-full bg-primary text-on-primary rounded-lg py-2 mb-6 font-body-md text-body-md font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+      >
+        <span class="material-symbols-outlined">add</span>
+        Nouvelle Commande
+      </button>
+      <!-- Navigation Links -->
+      <div class="flex-1 overflow-y-auto">
+        <ul class="space-y-1">
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">dashboard</span>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">receipt_long</span>
+              Orders
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">group</span>
+              Customers
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">inventory_2</span>
+              Inventory
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">assessment</span>
+              Reports
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary dark:text-primary-fixed-dim font-bold border-l-4 border-primary dark:border-primary-fixed-dim bg-secondary-container/30 transition-all duration-150"
+              href="#"
+            >
+              <span class="material-symbols-outlined">settings</span>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Footer Links -->
+      <div class="mt-auto pt-4 border-t border-outline-variant/30">
+        <ul class="space-y-1">
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">help</span>
+              Aide
+            </a>
+          </li>
+          <li>
+            <a
+              class="flex items-center gap-3 px-3 py-2 rounded-lg text-secondary dark:text-secondary-fixed-dim hover:text-primary dark:hover:text-primary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors"
+              href="#"
+            >
+              <span class="material-symbols-outlined">logout</span>
+              Déconnexion
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 ml-64 flex flex-col h-screen overflow-hidden bg-surface-ticket">
+      <!-- TopAppBar -->
+      <header
+        class="bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex justify-between items-center h-16 w-full px-margin-desktop z-40 shrink-0"
+      >
+        <!-- Search Bar (on_left as per JSON) -->
+        <div class="flex-1 max-w-md relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant"
+            >search</span
+          >
+          <input
+            class="w-full pl-10 pr-4 py-2 rounded-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary text-body-md font-body-md text-on-surface placeholder:text-on-surface-variant"
+            placeholder="Rechercher..."
+            type="text"
+          />
+        </div>
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button
+            class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-highest transition-transform hover:scale-95"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button
+            class="p-2 rounded-full text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-highest transition-transform hover:scale-95"
+          >
+            <span class="material-symbols-outlined">qr_code_scanner</span>
+          </button>
+          <div
+            class="ml-4 w-9 h-9 rounded-full overflow-hidden border border-outline-variant shrink-0 cursor-pointer"
+          >
+            <img
+              alt="User Profile Avatar"
+              class="w-full h-full object-cover"
+              data-alt="A professional headshot of a business owner in a well-lit, modern office environment. High-key lighting, corporate and trustworthy aesthetic, subtle cool tones matching the UI palette."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2vPo75j9TW2DBONh6H6E4h2kIvx3uhanaqFpI5FHPdeZB_PDnVk4wva8C-rTnhKz3xgdMsy__A3DCtO3Ujk4VUJ_J8NFOIlo8bOOUhxlxWp1BV_GqvTrQ8Lu3JspfZzpjBA0mO2pu3-QPEtGJKAkn02hEjRGR8gbdeuvGknKDBD-UO5maOGlvuEV24cfwrbsZ6hTxc53g45TpJUqmEHPAQ_jegWD0qvfiwT1FneGmoa3-Cu7eCjUn"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Canvas / Dashboard -->
+      <main class="flex-1 overflow-y-auto p-margin-desktop">
+        <div class="max-w-[container-max] mx-auto space-y-6">
+          <!-- Page Title -->
+          <div>
+            <h2 class="font-headline-lg text-headline-lg text-on-background">
+              Facturation &amp; Abonnements SaaS
+            </h2>
+            <p class="text-on-surface-variant font-body-md text-body-md mt-1">
+              Gérez votre forfait, vos moyens de paiement et consultez votre historique.
+            </p>
+          </div>
+          <!-- Top Row: Current Plan & Payment Method (Bento Layout) -->
+          <div class="grid grid-cols-12 gap-6">
+            <!-- Current Plan -->
+            <div
+              class="col-span-12 md:col-span-8 bg-surface border border-outline-variant rounded-xl p-6 flex flex-col justify-between"
+            >
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="flex items-center gap-3 mb-2">
+                    <h3 class="font-headline-md text-headline-md text-primary">Pro Plan</h3>
+                    <span
+                      class="px-2.5 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider"
+                      >Actif</span
+                    >
+                  </div>
+                  <p class="text-on-surface-variant font-body-md text-body-md">
+                    Idéal pour les pressings en pleine croissance nécessitant une gestion avancée.
+                  </p>
+                </div>
+                <div class="text-right">
+                  <div class="font-headline-md text-headline-md text-on-background">
+                    49€
+                    <span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="mt-8 pt-6 border-t border-surface-container-high flex flex-wrap gap-x-8 gap-y-4"
+              >
+                <div>
+                  <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">
+                    PROCHAIN PRÉLÈVEMENT
+                  </p>
+                  <p class="font-body-md text-body-md font-medium text-on-background">
+                    15 Octobre 2023
+                  </p>
+                </div>
+                <div>
+                  <p class="font-label-caps text-label-caps text-on-surface-variant mb-1">
+                    PÉRIODICITÉ
+                  </p>
+                  <p class="font-body-md text-body-md font-medium text-on-background">Mensuelle</p>
+                </div>
+              </div>
+            </div>
+            <!-- Payment Method -->
+            <div
+              class="col-span-12 md:col-span-4 bg-surface border border-outline-variant rounded-xl p-6 flex flex-col justify-between relative overflow-hidden"
+            >
+              <!-- Decorative background element -->
+              <div
+                class="absolute -right-6 -top-6 w-24 h-24 bg-primary-container/20 rounded-full blur-2xl pointer-events-none"
+              ></div>
+              <div>
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="font-body-md text-body-md font-semibold text-on-background">
+                    Moyen de paiement
+                  </h3>
+                  <button
+                    class="text-primary hover:text-primary-fixed-dim font-body-md text-body-md font-medium transition-colors"
+                  >
+                    Modifier
+                  </button>
+                </div>
+                <div
+                  class="bg-surface-container-low border border-outline-variant/50 rounded-lg p-4 flex items-center gap-4"
+                >
+                  <div
+                    class="w-12 h-8 bg-surface rounded border border-outline-variant flex items-center justify-center shrink-0"
+                  >
+                    <!-- Visa placeholder icon -->
+                    <span
+                      class="font-headline-md text-primary italic font-bold text-sm tracking-tighter"
+                      >VISA</span
+                    >
+                  </div>
+                  <div>
+                    <p class="font-data-mono text-data-mono text-on-background">
+                      **** **** **** 1234
+                    </p>
+                    <p class="font-label-caps text-label-caps text-on-surface-variant mt-1">
+                      Expire 12/25
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Usage Metrics -->
+          <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-12 bg-surface border border-outline-variant rounded-xl p-6">
+              <h3 class="font-body-md text-body-md font-semibold text-on-background mb-6">
+                Utilisation du forfait ce mois
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Orders Metric -->
+                <div>
+                  <div class="flex justify-between items-end mb-2">
+                    <div>
+                      <p class="font-label-caps text-label-caps text-on-surface-variant">
+                        COMMANDES TRAITÉES
+                      </p>
+                      <div class="flex items-baseline gap-2 mt-1">
+                        <span class="font-headline-md text-headline-md text-on-background"
+                          >450</span
+                        >
+                        <span class="text-on-surface-variant font-body-md text-body-md"
+                          >/ 500 incluses</span
+                        >
+                      </div>
+                    </div>
+                    <span class="text-status-pending font-body-md text-body-md font-medium"
+                      >90%</span
+                    >
+                  </div>
+                  <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+                    <div class="h-full bg-status-pending rounded-full" style="width: 90%"></div>
+                  </div>
+                </div>
+                <!-- Users Metric -->
+                <div>
+                  <div class="flex justify-between items-end mb-2">
+                    <div>
+                      <p class="font-label-caps text-label-caps text-on-surface-variant">
+                        COMPTES UTILISATEURS
+                      </p>
+                      <div class="flex items-baseline gap-2 mt-1">
+                        <span class="font-headline-md text-headline-md text-on-background">3</span>
+                        <span class="text-on-surface-variant font-body-md text-body-md"
+                          >/ 5 inclus</span
+                        >
+                      </div>
+                    </div>
+                    <span class="text-status-ready font-body-md text-body-md font-medium">60%</span>
+                  </div>
+                  <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+                    <div class="h-full bg-status-ready rounded-full" style="width: 60%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Billing History -->
+          <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden">
+            <div
+              class="p-6 border-b border-surface-container-high flex justify-between items-center"
+            >
+              <h3 class="font-body-md text-body-md font-semibold text-on-background">
+                Historique de facturation
+              </h3>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-surface-container-low border-b border-surface-container-high">
+                    <th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">
+                      DATE
+                    </th>
+                    <th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">
+                      N° FACTURE
+                    </th>
+                    <th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">
+                      MONTANT
+                    </th>
+                    <th class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant">
+                      STATUT
+                    </th>
+                    <th
+                      class="px-6 py-3 font-label-caps text-label-caps text-on-surface-variant text-right"
+                    >
+                      ACTION
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-surface-container-high">
+                  <tr class="hover:bg-surface-ticket transition-colors h-12">
+                    <td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">
+                      15 Sep 2023
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">
+                      INV-2023-09
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-background">
+                      49.00 €
+                    </td>
+                    <td class="px-6 py-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block"
+                        >Payée</span
+                      >
+                    </td>
+                    <td class="px-6 py-2 text-right">
+                      <button
+                        class="text-secondary hover:text-primary transition-colors p-1"
+                        title="Télécharger"
+                      >
+                        <span class="material-symbols-outlined text-[20px]">download</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-ticket transition-colors h-12">
+                    <td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">
+                      15 Aoû 2023
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">
+                      INV-2023-08
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-background">
+                      49.00 €
+                    </td>
+                    <td class="px-6 py-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block"
+                        >Payée</span
+                      >
+                    </td>
+                    <td class="px-6 py-2 text-right">
+                      <button
+                        class="text-secondary hover:text-primary transition-colors p-1"
+                        title="Télécharger"
+                      >
+                        <span class="material-symbols-outlined text-[20px]">download</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-ticket transition-colors h-12">
+                    <td class="px-6 py-2 font-ticket-body text-ticket-body text-on-background">
+                      15 Jui 2023
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-surface-variant">
+                      INV-2023-07
+                    </td>
+                    <td class="px-6 py-2 font-data-mono text-data-mono text-on-background">
+                      49.00 €
+                    </td>
+                    <td class="px-6 py-2">
+                      <span
+                        class="px-2 py-0.5 rounded-full bg-status-ready/10 text-status-ready font-label-caps text-label-caps uppercase tracking-wider inline-block"
+                        >Payée</span
+                      >
+                    </td>
+                    <td class="px-6 py-2 text-right">
+                      <button
+                        class="text-secondary hover:text-primary transition-colors p-1"
+                        title="Télécharger"
+                      >
+                        <span class="material-symbols-outlined text-[20px]">download</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Plan Comparison / Upgrade -->
+          <div class="mb-12">
+            <h3 class="font-headline-md text-headline-md text-on-background mb-6 text-center mt-12">
+              Faites évoluer votre pressing
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Starter Plan -->
+              <div
+                class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col hover:border-outline transition-colors"
+              >
+                <h4 class="font-body-md text-body-md font-semibold text-on-background">Starter</h4>
+                <div class="mt-4 mb-6">
+                  <span class="font-headline-md text-headline-md text-on-background">29€</span>
+                  <span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
+                </div>
+                <ul class="space-y-3 mb-8 flex-1">
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    Jusqu'à 150 commandes
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    1 Compte utilisateur
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    Support par email
+                  </li>
+                </ul>
+                <button
+                  class="w-full py-2 px-4 rounded-lg border border-outline-variant text-on-surface-variant font-body-md text-body-md font-medium hover:bg-surface-container-low transition-colors"
+                >
+                  Rétrograder
+                </button>
+              </div>
+              <!-- Pro Plan (Current) -->
+              <div
+                class="bg-primary-container/5 border-2 border-primary rounded-xl p-6 flex flex-col relative"
+              >
+                <div
+                  class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps tracking-wider uppercase"
+                >
+                  Plan Actuel
+                </div>
+                <h4 class="font-body-md text-body-md font-semibold text-primary mt-2">Pro</h4>
+                <div class="mt-4 mb-6">
+                  <span class="font-headline-md text-headline-md text-on-background">49€</span>
+                  <span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
+                </div>
+                <ul class="space-y-3 mb-8 flex-1">
+                  <li
+                    class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium"
+                  >
+                    <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                    Jusqu'à 500 commandes
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium"
+                  >
+                    <span class="material-symbols-outlined text-primary text-[20px]">check</span> 5
+                    Comptes utilisateurs
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium"
+                  >
+                    <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                    Support prioritaire
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-background font-body-md text-body-md font-medium"
+                  >
+                    <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                    Statistiques avancées
+                  </li>
+                </ul>
+                <button
+                  class="w-full py-2 px-4 rounded-lg bg-surface-container text-on-surface-variant font-body-md text-body-md font-medium cursor-default"
+                >
+                  Forfait en cours
+                </button>
+              </div>
+              <!-- Business Plan -->
+              <div
+                class="bg-surface border border-outline-variant rounded-xl p-6 flex flex-col hover:border-primary/50 transition-colors"
+              >
+                <h4 class="font-body-md text-body-md font-semibold text-on-background">Business</h4>
+                <div class="mt-4 mb-6">
+                  <span class="font-headline-md text-headline-md text-on-background">99€</span>
+                  <span class="text-on-surface-variant font-body-md text-body-md">/ mois</span>
+                </div>
+                <ul class="space-y-3 mb-8 flex-1">
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    Commandes illimitées
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    Utilisateurs illimités
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    API Access
+                  </li>
+                  <li
+                    class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md"
+                  >
+                    <span class="material-symbols-outlined text-status-ready text-[20px]"
+                      >check</span
+                    >
+                    Gestion Multi-boutiques
+                  </li>
+                </ul>
+                <button
+                  class="w-full py-2 px-4 rounded-lg bg-primary text-on-primary font-body-md text-body-md font-medium hover:opacity-90 transition-opacity"
+                >
+                  Passer à Business
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

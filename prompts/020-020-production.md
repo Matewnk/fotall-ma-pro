@@ -8,9 +8,11 @@ Avant modification, indique la spec active, les fichiers attendus, les ambiguït
 et l'impact tenant/sécurité.
 
 ## Mission
+
 Prépare production : Docker, CI/CD, migrations, secrets, backups quotidiens, restauration tenant par tenant, monitoring, alerting, logs, quotas, déploiement API/Web et publication mobile. Fais la recette finale de toutes les exigences. Aucun release blocker ne doit rester.
 
 ## Règles
+
 - respecte `CLAUDE.md` et les documents de référence ;
 - ne déborde pas sur les specs futures ;
 - ne change pas l'architecture sans décision/ADR ;
