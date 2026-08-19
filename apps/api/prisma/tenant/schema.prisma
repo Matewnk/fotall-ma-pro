@@ -114,6 +114,10 @@ model Commande {
   adresseLivraison String?         @map("adresse_livraison")
   notes            String?
   idempotencyKey   String?         @unique @map("idempotency_key")
+  // Positionne par la synchronisation offline (016) lors de la creation
+  // d'une commande hors ligne, avant reconciliation avec un numero
+  // definitif. false pour toute commande creee en ligne (011-tickets).
+  estProvisoire    Boolean         @default(false) @map("est_provisoire")
   createdAt        DateTime        @default(now()) @map("created_at")
   updatedAt        DateTime        @updatedAt @map("updated_at")
 

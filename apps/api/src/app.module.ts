@@ -14,6 +14,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
+import { TicketsModule } from './tickets/tickets.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { TenancyModule } from './tenancy/tenancy.module';
     ClientsModule,
     OrdersModule,
     CashModule,
+    TicketsModule,
   ],
   controllers: [AppController],
 })
