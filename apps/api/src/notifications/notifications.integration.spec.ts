@@ -40,6 +40,24 @@ describe('Notifications (012) — PostgreSQL réel', () => {
     await app.close();
   });
 
+  // OrdersService/LicenceService utilisent events.emit() (fire-and-forget) :
+  // la réponse HTTP ne garantit pas que NotificationsEventsListener ait fini
+  // d'écrire son journal (plusieurs allers-retours DB). On attend donc
+  // activement la condition attendue plutôt qu'un simple setImmediate.
+  async function attendreLogs<T>(
+    requete: () => Promise<T[]>,
+    estAttendu: (logs: T[]) => boolean,
+    timeoutMs = 5000,
+  ): Promise<T[]> {
+    const debut = Date.now();
+    let logs = await requete();
+    while (!estAttendu(logs) && Date.now() - debut < timeoutMs) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
+      logs = await requete();
+    }
+    return logs;
+  }
+
   async function registerTenant(sousDomainePrefix: string) {
     const suffix = randomUUID().slice(0, 8);
     const res = await request(app.getHttpServer())
@@ -80,11 +98,10 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       });
     expect(commande.status).toBe(201);
 
-    // La notification est émise de façon asynchrone (event listener) — on
-    // laisse la microtask queue se vider avant de lire le journal.
-    await new Promise((resolve) => setImmediate(resolve));
-
-    const logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({});
+    const logs = await attendreLogs(
+      () => tenantPrisma.forTenant(tenantId).notificationLog.findMany({}),
+      (l) => l.length >= 1,
+    );
     expect(logs).toHaveLength(1);
     expect(logs[0]?.evenement).toBe(TypeEvenementNotification.COMMANDE_CREEE);
     expect(logs[0]?.canal).toBe(CanalNotification.WHATSAPP);
@@ -132,11 +149,13 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       .send({ statut: 'PRET' });
     expect(passagePret.status).toBe(200);
 
-    await new Promise((resolve) => setImmediate(resolve));
-
-    const logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({
-      orderBy: { createdAt: 'asc' },
-    });
+    const logs = await attendreLogs(
+      () =>
+        tenantPrisma
+          .forTenant(tenantId)
+          .notificationLog.findMany({ orderBy: { createdAt: 'asc' } }),
+      (l) => l.length >= 4,
+    );
     const evenements = logs.map((log) => log.evenement);
     expect(evenements).toEqual(
       expect.arrayContaining([
@@ -173,9 +192,10 @@ describe('Notifications (012) — PostgreSQL réel', () => {
         idempotencyKey: randomUUID(),
       });
 
-    await new Promise((resolve) => setImmediate(resolve));
-
-    const logsA = await tenantPrisma.forTenant(tenantAId).notificationLog.findMany({});
+    const logsA = await attendreLogs(
+      () => tenantPrisma.forTenant(tenantAId).notificationLog.findMany({}),
+      (l) => l.length >= 1,
+    );
     const logsB = await tenantPrisma.forTenant(tenantBId).notificationLog.findMany({});
     expect(logsA.length).toBeGreaterThan(0);
     expect(logsB).toHaveLength(0);
@@ -199,11 +219,13 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       .send({ canalPreference: 'SMS' });
     expect(etape3.status).toBe(201);
 
-    await new Promise((resolve) => setImmediate(resolve));
-
-    const logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({
-      where: { evenement: TypeEvenementNotification.TEST_CANAL },
-    });
+    const logs = await attendreLogs(
+      () =>
+        tenantPrisma.forTenant(tenantId).notificationLog.findMany({
+          where: { evenement: TypeEvenementNotification.TEST_CANAL },
+        }),
+      (l) => l.length >= 1,
+    );
     expect(logs).toHaveLength(1);
     expect(logs[0]?.canal).toBe(CanalNotification.SMS);
     expect(logs[0]?.destinataire).toBe('+221704445566');
@@ -219,9 +241,11 @@ describe('Notifications (012) — PostgreSQL réel', () => {
       data: { dateFinEssai: dansMoins24h },
     });
 
-    // Sans téléphone/canal de préférence connus, l'alerte est ignorée (pas de crash).
+    // Sans téléphone/canal de préférence connus, l'alerte est ignorée (pas de
+    // crash) : rien n'est jamais écrit sur ce chemin, une courte attente
+    // fixe suffit (pas de condition positive à attendre).
     await licenceService.traiterEcheancesEssai();
-    await new Promise((resolve) => setImmediate(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 300));
     let logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({
       where: { evenement: TypeEvenementNotification.LICENCE_PROCHE_EXPIRATION },
     });
@@ -238,19 +262,24 @@ describe('Notifications (012) — PostgreSQL réel', () => {
     await prisma.licence.update({ where: { id: licence.id }, data: { alerte48hEnvoyeeAt: null } });
 
     await licenceService.traiterEcheancesEssai();
-    await new Promise((resolve) => setImmediate(resolve));
 
-    logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({
-      where: { evenement: TypeEvenementNotification.LICENCE_PROCHE_EXPIRATION },
-    });
+    logs = await attendreLogs(
+      () =>
+        tenantPrisma.forTenant(tenantId).notificationLog.findMany({
+          where: { evenement: TypeEvenementNotification.LICENCE_PROCHE_EXPIRATION },
+        }),
+      (l) => l.length >= 1,
+    );
     expect(logs).toHaveLength(1);
     expect(logs[0]?.canal).toBe(CanalNotification.SMS);
 
     // Rejouer le job après l'envoi ne duplique pas l'alerte (idempotence par
-    // clé déterministe LICENCE_PROCHE_EXPIRATION:<licenceId>).
+    // clé déterministe LICENCE_PROCHE_EXPIRATION:<licenceId>) : on attend un
+    // délai fixe (une seule ligne existe déjà, on vérifie qu'aucune seconde
+    // n'apparaît, pas qu'une condition positive se réalise).
     await prisma.licence.update({ where: { id: licence.id }, data: { alerte48hEnvoyeeAt: null } });
     await licenceService.traiterEcheancesEssai();
-    await new Promise((resolve) => setImmediate(resolve));
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     logs = await tenantPrisma.forTenant(tenantId).notificationLog.findMany({
       where: { evenement: TypeEvenementNotification.LICENCE_PROCHE_EXPIRATION },
