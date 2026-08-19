@@ -1,4 +1,5 @@
 import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ModeLivraison, Prisma, StatutCommande } from '../generated/tenant-client';
 import { OrdersService } from './orders.service';
 
@@ -24,11 +25,13 @@ function makeTenantPrismaFactoryMock() {
 
 describe('OrdersService', () => {
   let tenantPrisma: ReturnType<typeof makeTenantPrismaFactoryMock>;
+  let events: EventEmitter2;
   let ordersService: OrdersService;
 
   beforeEach(() => {
     tenantPrisma = makeTenantPrismaFactoryMock();
-    ordersService = new OrdersService(tenantPrisma as never);
+    events = new EventEmitter2();
+    ordersService = new OrdersService(tenantPrisma as never, events);
   });
 
   describe('create', () => {
@@ -51,7 +54,10 @@ describe('OrdersService', () => {
       );
     });
 
-    it('calcule sous_total et total côté serveur à partir du catalogue', async () => {
+    it('calcule sous_total et total côté serveur à partir du catalogue, et émet commande.creee', async () => {
+      const spy = jest.fn();
+      events.on('commande.creee', spy);
+
       const resultat = await ordersService.create('tenant-1', dtoBase);
 
       expect((resultat.sousTotal as Prisma.Decimal).toString()).toBe('2000');
@@ -59,6 +65,9 @@ describe('OrdersService', () => {
       expect(tenantPrisma.service.findMany).toHaveBeenCalledWith({
         where: { id: { in: ['service-1'] } },
       });
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ tenantId: 'tenant-1', commandeId: 'commande-1' }),
+      );
     });
 
     it('applique une remise sans dépasser le sous-total', async () => {
@@ -99,13 +108,18 @@ describe('OrdersService', () => {
   });
 
   describe('updateStatut', () => {
-    it('autorise une progression', async () => {
+    it('autorise une progression et émet commande.en_cours', async () => {
+      const spy = jest.fn();
+      events.on('commande.en_cours', spy);
       tenantPrisma.commande.findUnique.mockResolvedValue({
         id: 'commande-1',
         statut: StatutCommande.EN_ATTENTE,
       });
       tenantPrisma.commande.update.mockResolvedValue({
         id: 'commande-1',
+        clientId: 'client-1',
+        numero: 1,
+        modeLivraison: ModeLivraison.RETRAIT,
         statut: StatutCommande.EN_COURS,
       });
 
@@ -114,6 +128,7 @@ describe('OrdersService', () => {
       });
 
       expect(resultat.statut).toBe(StatutCommande.EN_COURS);
+      expect(spy).toHaveBeenCalledWith(expect.objectContaining({ commandeId: 'commande-1' }));
     });
 
     it('refuse toute régression de statut', async () => {

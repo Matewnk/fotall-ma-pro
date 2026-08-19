@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { CashModule } from './cash/cash.module';
 import { ClientsModule } from './clients/clients.module';
 import { LicenceModule } from './licence/licence.module';
+import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -25,6 +26,7 @@ import { TicketsModule } from './tickets/tickets.module';
     TenancyModule,
     LicenceModule,
     ServicesModule,
+    NotificationsModule,
     OnboardingModule,
     AuthModule,
     AuditModule,

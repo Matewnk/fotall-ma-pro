@@ -42,10 +42,11 @@ Définir et implémenter la fonctionnalité **Licensing** conformément au cahie
   orders, cash arrivent en 007+). Chaque spec qui ajoute une écriture métier posera ce décorateur
   sur ses endpoints.
 - Job planifié horaire (`@nestjs/schedule`) : expire les essais échus, émet l'événement
-  `licence.essai.bientot_expire` (48h avant échéance, via `@nestjs/event-emitter`) — écouté pour
-  l'instant par un listener qui journalise seulement (le branchement FCM/WhatsApp/SMS réel est le
-  périmètre de la spec 012-notifications, cohérent avec l'architecture événementielle §8.3 : le
-  domaine métier n'appelle jamais directement un fournisseur).
+  `licence.essai.bientot_expire` (48h avant échéance, via `@nestjs/event-emitter`) —
+  ~~écouté pour l'instant par un listener qui journalise seulement~~ **résolu par la spec
+  012-notifications** : `NotificationsEventsListener` envoie désormais un envoi réel (dry-run par
+  défaut) sur le canal de préférence choisi à l'onboarding, cohérent avec l'architecture
+  événementielle §8.3 (le domaine métier n'appelle jamais directement un fournisseur).
 
 ## Périmètre différé
 

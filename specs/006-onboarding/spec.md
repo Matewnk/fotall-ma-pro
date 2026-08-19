@@ -46,8 +46,9 @@ UTILISATEUR_NOTIFICATION → TERMINE`), un timestamp par étape complétée, jam
   désormais réellement les 10 codes de référence quand le tenant choisit `CATALOGUE_STANDARD`.
 - `logoUrl` est un simple champ texte (URL) : aucun système d'upload/stockage de fichiers n'existe
   encore (specs 011/014+).
-- Le « test de notification » (étape 3) n'envoie rien réellement : écouté par un listener qui
-  journalise seulement, en attendant le module Notifications (012), même schéma que 004.
+- ~~Le « test de notification » (étape 3) n'envoie rien réellement : écouté par un listener qui
+  journalise seulement~~ — **résolu par la spec 012-notifications** : `TEST_CANAL` est désormais
+  envoyé (dry-run par défaut) vers le téléphone du tenant, même schéma que 004.
 
 ## Critères d’acceptation
 
