@@ -5,17 +5,30 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ModeLivraison, Prisma, StatutCommande } from '../generated/tenant-client';
 import { TenantPrismaFactory } from '../tenancy/tenant-prisma.factory';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { estProgression } from './orders.constants';
 
+// Evenement emis pour chaque statut atteint (sauf EN_ATTENTE, l'etat
+// initial). Consomme par NotificationsEventsListener (012) : ce service
+// n'appelle jamais un fournisseur de notification directement.
+const EVENEMENT_PAR_STATUT: Partial<Record<StatutCommande, string>> = {
+  [StatutCommande.EN_COURS]: 'commande.en_cours',
+  [StatutCommande.PRET]: 'commande.prete',
+  [StatutCommande.LIVRE]: 'commande.livree',
+};
+
 @Injectable()
 export class OrdersService {
   private readonly logger = new Logger(OrdersService.name);
 
-  constructor(private readonly tenantPrisma: TenantPrismaFactory) {}
+  constructor(
+    private readonly tenantPrisma: TenantPrismaFactory,
+    private readonly events: EventEmitter2,
+  ) {}
 
   async create(tenantId: string, dto: CreateOrderDto) {
     const client = this.tenantPrisma.forTenant(tenantId);
@@ -71,7 +84,7 @@ export class OrdersService {
     }
     const total = sousTotal.sub(remise);
 
-    return client.commande.create({
+    const commande = await client.commande.create({
       data: {
         clientId: dto.clientId,
         sousTotal,
@@ -86,6 +99,16 @@ export class OrdersService {
       },
       include: { articles: true },
     });
+
+    this.events.emit('commande.creee', {
+      tenantId,
+      commandeId: commande.id,
+      clientId: commande.clientId,
+      numero: commande.numero,
+      modeLivraison: commande.modeLivraison,
+    });
+
+    return commande;
   }
 
   list(tenantId: string, statut?: StatutCommande, clientId?: string) {
@@ -120,10 +143,23 @@ export class OrdersService {
       );
     }
 
-    return this.tenantPrisma.forTenant(tenantId).commande.update({
+    const misAJour = await this.tenantPrisma.forTenant(tenantId).commande.update({
       where: { id },
       data: { statut: dto.statut },
       include: { articles: true },
     });
+
+    const nomEvenement = EVENEMENT_PAR_STATUT[dto.statut];
+    if (nomEvenement) {
+      this.events.emit(nomEvenement, {
+        tenantId,
+        commandeId: misAJour.id,
+        clientId: misAJour.clientId,
+        numero: misAJour.numero,
+        modeLivraison: misAJour.modeLivraison,
+      });
+    }
+
+    return misAJour;
   }
 }

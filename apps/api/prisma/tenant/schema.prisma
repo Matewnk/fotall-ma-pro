@@ -183,3 +183,43 @@ model OperationCaisse {
 
   @@map("operations_caisse")
 }
+
+enum TypeEvenementNotification {
+  COMMANDE_CREEE
+  COMMANDE_EN_COURS
+  COMMANDE_PRETE
+  LIVRAISON_PREVUE
+  COMMANDE_LIVREE
+  RAPPEL
+  LICENCE_PROCHE_EXPIRATION
+  // Hors liste du cahier des charges §8.2, ajoute pour l'etape 3 de
+  // l'onboarding (006) : "test de notification" sur le canal choisi.
+  TEST_CANAL
+}
+
+enum StatutEnvoiNotification {
+  ENVOYE
+  ECHEC
+  DRY_RUN
+}
+
+// Journal de toute tentative d'envoi (cahier des charges §8.3) : le domaine
+// metier emet des evenements internes (voir notifications-events.listener.ts),
+// ce service consomme et appelle les fournisseurs (FCM/WhatsApp/SMS) via des
+// adaptateurs interchangeables — jamais d'appel direct depuis Commande/
+// Licence/Onboarding. idempotencyKey deterministe par (evenement, entite) :
+// un evenement rejoue (retry applicatif, double emission) ne renvoie jamais
+// deux fois la meme notification.
+model NotificationLog {
+  id             String                     @id @default(uuid())
+  evenement      TypeEvenementNotification
+  canal          CanalNotification
+  destinataire   String
+  statut         StatutEnvoiNotification
+  tentatives     Int                        @default(1)
+  erreur         String?
+  idempotencyKey String                     @unique @map("idempotency_key")
+  createdAt      DateTime                   @default(now()) @map("created_at")
+
+  @@map("notification_logs")
+}
