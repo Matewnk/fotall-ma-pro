@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EtapeOnboarding, OnboardingState } from '@prisma/client';
+import { ChoixCatalogue, EtapeOnboarding, OnboardingState } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { ServicesService } from '../services/services.service';
 import { CompleteStep1Dto } from './dto/complete-step1.dto';
 import { CompleteStep2Dto } from './dto/complete-step2.dto';
 import { CompleteStep3Dto } from './dto/complete-step3.dto';
@@ -26,6 +27,7 @@ export class OnboardingService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly events: EventEmitter2,
+    private readonly servicesService: ServicesService,
   ) {}
 
   async initier(
@@ -65,6 +67,12 @@ export class OnboardingService {
 
   async completerEtape2(tenantId: string, dto: CompleteStep2Dto): Promise<OnboardingState> {
     const etat = await this.findOrThrow(tenantId);
+
+    // Idempotent (skipDuplicates sur le code) : rappeler l'étape 2 après
+    // correction ne duplique jamais le catalogue.
+    if (dto.choix === ChoixCatalogue.CATALOGUE_STANDARD) {
+      await this.servicesService.seedCatalogueStandard(tenantId);
+    }
 
     return this.prisma.onboardingState.update({
       where: { id: etat.id },

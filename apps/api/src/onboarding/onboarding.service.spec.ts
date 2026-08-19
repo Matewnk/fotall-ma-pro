@@ -10,15 +10,21 @@ function makePrismaMock() {
   };
 }
 
+function makeServicesServiceMock() {
+  return { seedCatalogueStandard: jest.fn().mockResolvedValue(undefined) };
+}
+
 describe('OnboardingService', () => {
   let prisma: ReturnType<typeof makePrismaMock>;
   let events: EventEmitter2;
+  let servicesService: ReturnType<typeof makeServicesServiceMock>;
   let service: OnboardingService;
 
   beforeEach(() => {
     prisma = makePrismaMock();
     events = new EventEmitter2();
-    service = new OnboardingService(prisma as never, events);
+    servicesService = makeServicesServiceMock();
+    service = new OnboardingService(prisma as never, events, servicesService as never);
   });
 
   it('initier crée un état IDENTITE', async () => {
@@ -76,6 +82,21 @@ describe('OnboardingService', () => {
 
     expect(resultat.etapeCourante).toBe(EtapeOnboarding.UTILISATEUR_NOTIFICATION);
     expect(resultat.choixCatalogue).toBe(ChoixCatalogue.CATALOGUE_STANDARD);
+    expect(servicesService.seedCatalogueStandard).toHaveBeenCalledWith('tenant-1');
+  });
+
+  it('étape 2 avec GRILLE_VIERGE ne sème aucun catalogue', async () => {
+    prisma.onboardingState.findUnique.mockResolvedValue({
+      id: 'onb-1',
+      etapeCourante: EtapeOnboarding.TARIFS,
+    });
+    prisma.onboardingState.update.mockImplementation(
+      ({ data }: { data: Record<string, unknown> }) => Promise.resolve({ id: 'onb-1', ...data }),
+    );
+
+    await service.completerEtape2('tenant-1', { choix: ChoixCatalogue.GRILLE_VIERGE });
+
+    expect(servicesService.seedCatalogueStandard).not.toHaveBeenCalled();
   });
 
   it('étape 3 termine le parcours et émet un événement de test de notification', async () => {
