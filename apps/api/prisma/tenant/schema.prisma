@@ -139,3 +139,43 @@ model CommandeArticle {
 
   @@map("commande_articles")
 }
+
+enum TypeOperationCaisse {
+  OUVERTURE
+  ENCAISSEMENT
+  AVANCE
+  DEPENSE
+  REMBOURSEMENT
+  AJUSTEMENT_COMPENSATOIRE
+  CLOTURE
+}
+
+enum ModePaiement {
+  ESPECES
+  CARTE
+  MOBILE_MONEY
+  AUTRE
+}
+
+// Journal append-only (Constitution IV, cahier des charges §9). Aucune
+// mise a jour ni suppression n'est jamais exposee : une correction est un
+// nouvel evenement AJUSTEMENT_COMPENSATOIRE, jamais une modification d'une
+// ligne existante — d'ou l'absence volontaire de updatedAt.
+// Le solde est toujours recalcule en sommant les effets signes de chaque
+// evenement dans caisse.service.ts : deterministe et independant de
+// l'ordre d'arrivee (propriete necessaire a la synchronisation offline,
+// 016), jamais stocke comme un compteur mutable.
+model OperationCaisse {
+  id             String              @id @default(uuid())
+  type           TypeOperationCaisse
+  montant        Decimal             @db.Decimal(10, 2)
+  modePaiement   ModePaiement?       @map("mode_paiement")
+  reference      String?
+  operateurId    String              @map("operateur_id")
+  commandeId     String?             @map("commande_id")
+  clientId       String?             @map("client_id")
+  idempotencyKey String              @unique @map("idempotency_key")
+  createdAt      DateTime            @default(now()) @map("created_at")
+
+  @@map("operations_caisse")
+}
