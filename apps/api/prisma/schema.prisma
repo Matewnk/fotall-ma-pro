@@ -26,19 +26,29 @@ enum StatutLicence {
   SUSPENDUE
 }
 
-model Tenant {
-  id            String        @id @default(uuid())
-  nomPressing   String        @map("nom_pressing")
-  sousDomaine   String        @unique @map("sous_domaine")
-  plan          String        @default("STARTER")
-  statutLicence StatutLicence @default(ESSAI) @map("statut_licence")
-  langue        String        @default("fr")
-  devise        String        @default("XOF")
-  fuseauHoraire String        @default("Africa/Dakar") @map("fuseau_horaire")
-  createdAt     DateTime      @default(now()) @map("created_at")
-  updatedAt     DateTime      @updatedAt @map("updated_at")
+enum EvenementLicence {
+  CREATION
+  ACTIVATION
+  RENOUVELLEMENT
+  SUSPENSION
+  REACTIVATION
+  REVOCATION
+  EXPIRATION_AUTOMATIQUE
+}
 
-  users User[]
+model Tenant {
+  id            String   @id @default(uuid())
+  nomPressing   String   @map("nom_pressing")
+  sousDomaine   String   @unique @map("sous_domaine")
+  plan          String   @default("STARTER")
+  langue        String   @default("fr")
+  devise        String   @default("XOF")
+  fuseauHoraire String   @default("Africa/Dakar") @map("fuseau_horaire")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  users   User[]
+  licence Licence?
 
   @@map("tenants")
 }
@@ -61,4 +71,43 @@ model User {
 
   @@unique([tenantId, email])
   @@map("users")
+}
+
+// Statut = source de verite unique (le champ Tenant.statutLicence de 002 est
+// retire au profit de ce modele dedie, conforme au modele de 004-licensing).
+model Licence {
+  id                     String        @id @default(uuid())
+  tenantId               String        @unique @map("tenant_id")
+  statut                 StatutLicence @default(ESSAI)
+  dateDebutEssai         DateTime      @map("date_debut_essai")
+  dateFinEssai           DateTime      @map("date_fin_essai")
+  dateActivation         DateTime?     @map("date_activation")
+  dateExpirationCourante DateTime?     @map("date_expiration_courante")
+  cleLicenceJwt          String?       @map("cle_licence_jwt")
+  derniereVerificationAt DateTime?     @map("derniere_verification_at")
+  alerte48hEnvoyeeAt     DateTime?     @map("alerte_48h_envoyee_at")
+  createdAt              DateTime      @default(now()) @map("created_at")
+  updatedAt              DateTime      @updatedAt @map("updated_at")
+
+  tenant  Tenant           @relation(fields: [tenantId], references: [id])
+  journal JournalLicence[]
+
+  @@map("licences")
+}
+
+// Append-only : aucune mise a jour ni suppression d'une entree existante.
+model JournalLicence {
+  id             String           @id @default(uuid())
+  tenantId       String           @map("tenant_id")
+  licenceId      String           @map("licence_id")
+  evenement      EvenementLicence
+  effectuePar    String?          @map("effectue_par")
+  motif          String?
+  idempotencyKey String?          @map("idempotency_key")
+  createdAt      DateTime         @default(now()) @map("created_at")
+
+  licence Licence @relation(fields: [licenceId], references: [id])
+
+  @@unique([licenceId, evenement, idempotencyKey])
+  @@map("journal_licences")
 }
