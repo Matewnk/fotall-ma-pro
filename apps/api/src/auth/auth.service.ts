@@ -2,6 +2,7 @@ import { ConflictException, Injectable, Logger, UnauthorizedException } from '@n
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, Role } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
+import { LicenceService } from '../licence/licence.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TenantSchemaProvisioner } from '../tenancy/tenant-schema.provisioner';
 import { LoginDto } from './dto/login.dto';
@@ -24,6 +25,7 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
     private readonly schemaProvisioner: TenantSchemaProvisioner,
+    private readonly licenceService: LicenceService,
   ) {}
 
   async register(dto: RegisterDto): Promise<SessionResult> {
@@ -49,6 +51,8 @@ export class AuthService {
             motDePasseHash,
           },
         });
+
+        await this.licenceService.creerEssai(tx, tenant.id, tenant.plan);
 
         return { tenant, user };
       }));

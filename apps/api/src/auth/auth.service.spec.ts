@@ -35,17 +35,28 @@ function makeSchemaProvisionerMock() {
   };
 }
 
+function makeLicenceServiceMock() {
+  return { creerEssai: jest.fn().mockResolvedValue(undefined) };
+}
+
 describe('AuthService', () => {
   let prisma: ReturnType<typeof makePrismaMock>;
   let schemaProvisioner: ReturnType<typeof makeSchemaProvisionerMock>;
+  let licenceService: ReturnType<typeof makeLicenceServiceMock>;
   let jwt: JwtService;
   let service: AuthService;
 
   beforeEach(() => {
     prisma = makePrismaMock();
     schemaProvisioner = makeSchemaProvisionerMock();
+    licenceService = makeLicenceServiceMock();
     jwt = new JwtService({ secret: 'test-secret', signOptions: { expiresIn: '1h' } });
-    service = new AuthService(prisma as never, jwt, schemaProvisioner as never);
+    service = new AuthService(
+      prisma as never,
+      jwt,
+      schemaProvisioner as never,
+      licenceService as never,
+    );
   });
 
   describe('register', () => {

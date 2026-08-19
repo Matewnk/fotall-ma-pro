@@ -20,7 +20,7 @@ jobs:
       - run: pnpm build
       - run: pnpm test
 
-  tenant-isolation:
+  integration:
     runs-on: ubuntu-latest
     services:
       postgres:
