@@ -3,7 +3,6 @@ import {
   Controller,
   ForbiddenException,
   Get,
-  Header,
   Param,
   Query,
   Res,
@@ -18,6 +17,16 @@ import { AuthenticatedContext } from '../auth/types';
 import { LargeurTicketMm } from './escpos.builder';
 import { TicketsService } from './tickets.service';
 
+// Interface structurelle minimale (evite une dependance directe a
+// @types/express) : Nest serialise en JSON tout Buffer retourne
+// "normalement" (y compris avec @Res({ passthrough: true })). Pour envoyer
+// des octets bruts (PDF, ESC/POS), il faut prendre le controle complet de
+// la reponse et appeler res.send() explicitement.
+type ReponseBrute = {
+  set: (field: string, value: string) => ReponseBrute;
+  send: (corps: Buffer) => void;
+};
+
 // Lecture seule (rendu d'une commande existante) : ouvert aux mêmes rôles
 // que la consultation des commandes (009). Jamais bloqué par
 // LicenceActiveGuard — imprimer/réimprimer un ticket reste une lecture.
@@ -28,28 +37,34 @@ export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Get('pdf')
-  @Header('Content-Type', 'application/pdf')
   async pdf(
     @CurrentTenant() context: AuthenticatedContext,
     @Param('id') id: string,
-    @Res({ passthrough: true }) res: { set: (field: string, value: string) => void },
+    @Res() res: ReponseBrute,
   ) {
     this.requireTenant(context);
     const buffer = await this.ticketsService.genererPdf(context.tenantId as string, id);
-    res.set('Content-Disposition', `inline; filename="ticket-${id}.pdf"`);
-    return buffer;
+    res
+      .set('Content-Type', 'application/pdf')
+      .set('Content-Disposition', `inline; filename="ticket-${id}.pdf"`)
+      .send(buffer);
   }
 
   @Get('escpos')
-  @Header('Content-Type', 'application/octet-stream')
   async escpos(
     @CurrentTenant() context: AuthenticatedContext,
     @Param('id') id: string,
     @Query('largeur') largeur: string | undefined,
+    @Res() res: ReponseBrute,
   ) {
     this.requireTenant(context);
     const largeurMm = this.parseLargeur(largeur);
-    return this.ticketsService.genererEscPos(context.tenantId as string, id, largeurMm);
+    const buffer = await this.ticketsService.genererEscPos(
+      context.tenantId as string,
+      id,
+      largeurMm,
+    );
+    res.set('Content-Type', 'application/octet-stream').send(buffer);
   }
 
   private parseLargeur(valeur: string | undefined): LargeurTicketMm {
