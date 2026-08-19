@@ -9,6 +9,7 @@ import { ClientsModule } from './clients/clients.module';
 import { LicenceModule } from './licence/licence.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 
@@ -20,6 +21,7 @@ import { TenancyModule } from './tenancy/tenancy.module';
     PrismaModule,
     TenancyModule,
     LicenceModule,
+    ServicesModule,
     OnboardingModule,
     AuthModule,
     AuditModule,

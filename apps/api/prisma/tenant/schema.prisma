@@ -62,3 +62,21 @@ model Client {
 
   @@map("clients")
 }
+
+// Catalogue propre au tenant (008-services). Les 10 codes de reference
+// (SRV-01..08, LIV-01..02) sont proposes a l'onboarding (voir
+// onboarding.service.ts) avec des tarifs indicatifs, modifiables
+// immediatement (cahier des charges §6.1).
+model Service {
+  id             String   @id @default(uuid())
+  code           String   @unique
+  intitule       String
+  categorie      String
+  delaiHeures    Int?     @map("delai_heures")
+  tarif          Decimal  @db.Decimal(10, 2)
+  actif          Boolean  @default(true)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("services")
+}

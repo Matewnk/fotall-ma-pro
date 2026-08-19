@@ -41,10 +41,9 @@ UTILISATEUR_NOTIFICATION → TERMINE`), un timestamp par étape complétée, jam
 
 ## Périmètre différé
 
-- Le choix `CATALOGUE_STANDARD` / `GRILLE_VIERGE` est **stocké**, mais aucun catalogue de services
-  n'est réellement créé : l'entité `Service`/tarif n'existe pas encore (spec 008-services). Quand
-  008 sera implémentée, elle pourra lire `OnboardingState.choixCatalogue` pour décider de
-  pré-remplir ou non le catalogue du tenant.
+- ~~Le choix `CATALOGUE_STANDARD` / `GRILLE_VIERGE` est stocké, mais aucun catalogue de services
+  n'est réellement créé~~ — **résolu par la spec 008-services** : `completerEtape2` sème
+  désormais réellement les 10 codes de référence quand le tenant choisit `CATALOGUE_STANDARD`.
 - `logoUrl` est un simple champ texte (URL) : aucun système d'upload/stockage de fichiers n'existe
   encore (specs 011/014+).
 - Le « test de notification » (étape 3) n'envoie rien réellement : écouté par un listener qui
