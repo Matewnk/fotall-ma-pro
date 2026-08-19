@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { readFileSync } from 'fs';
+import { readdirSync, readFileSync, statSync } from 'fs';
 import { join } from 'path';
 import { Client } from 'pg';
 import { schemaNameForTenant } from './schema-name';
@@ -8,21 +8,22 @@ import { schemaNameForTenant } from './schema-name';
 // __dirname pointe vers src/tenancy en dev (ts-node) et dist/tenancy en
 // build ; dans les deux cas prisma/ est deux niveaux au-dessus, a la racine
 // du package apps/api.
-const MIGRATION_SQL_PATH = join(
-  __dirname,
-  '..',
-  '..',
-  'prisma',
-  'tenant',
-  'migrations',
-  '20260819130000_init_audit_log',
-  'migration.sql',
-);
+const TENANT_MIGRATIONS_DIR = join(__dirname, '..', '..', 'prisma', 'tenant', 'migrations');
+
+function tenantMigrationFiles(): string[] {
+  return readdirSync(TENANT_MIGRATIONS_DIR)
+    .filter((entry) => statSync(join(TENANT_MIGRATIONS_DIR, entry)).isDirectory())
+    .sort()
+    .map((dir) => join(TENANT_MIGRATIONS_DIR, dir, 'migration.sql'));
+}
 
 // Isolation physique V1 (ADR-001) : chaque tenant a son propre schema
 // PostgreSQL. Provisionne au moment de la creation du tenant, jamais
 // paresseusement au premier acces, pour ne jamais servir de requete
-// tenant-scoped sans schema pret.
+// tenant-scoped sans schema pret. Applique toutes les migrations
+// tenant-scoped connues, dans l'ordre chronologique — chaque nouvelle
+// entite metier tenant-scoped (Commande, Caisse, ...) ajoute sa propre
+// migration ici, appliquee automatiquement aux nouveaux tenants.
 @Injectable()
 export class TenantSchemaProvisioner {
   private readonly logger = new Logger(TenantSchemaProvisioner.name);
@@ -36,8 +37,9 @@ export class TenantSchemaProvisioner {
     try {
       await client.query(`CREATE SCHEMA IF NOT EXISTS "${schema}"`);
       await client.query(`SET search_path TO "${schema}"`);
-      const migrationSql = readFileSync(MIGRATION_SQL_PATH, 'utf-8');
-      await client.query(migrationSql);
+      for (const migrationFile of tenantMigrationFiles()) {
+        await client.query(readFileSync(migrationFile, 'utf-8'));
+      }
       this.logger.log(`Schema tenant provisionné : ${schema}`);
     } finally {
       await client.end();
