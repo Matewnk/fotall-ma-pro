@@ -5,7 +5,10 @@ import { useAuth } from '../lib/auth-context';
 // Ossature distincte d'AppShell (jamais partagée — Constitution II,
 // rôles jamais fusionnés) : pas d'identité de tenant à afficher (une
 // session SUPER_ADMIN n'en a pas), navigation propre à la console SaaS.
-const NAV_LINKS = [{ to: '/super-admin', label: 'Vue globale', icon: 'dashboard' }];
+const NAV_LINKS = [
+  { to: '/super-admin', label: 'Vue globale', icon: 'dashboard' },
+  { to: '/super-admin/tenants', label: 'Tenants', icon: 'store' },
+];
 
 function classesNav(actif: boolean): string {
   const base = 'flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors';

@@ -12,9 +12,9 @@
       backend users/* ; tranche 6 : branding, nouveau backend
       tenant-settings/* ; tranche 7 : fondation console super-admin —
       connexion SUPER_ADMIN, nouveau backend POST /auth/super-admin/login,
-      vue globale)
+      vue globale ; tranche 8 : liste des tenants, licences et
+      facturation super-admin)
 - [x] Tests verts
-- [ ] Converge (reste : licences, facturation, audit/logs, centre de
-      support super-admin, sur cette fondation — PRs suivantes ;
-      notifications retirée du périmètre web, aucun endpoint de
-      configuration n'existe)
+- [ ] Converge (reste : audit/logs, centre de support super-admin —
+      PRs suivantes ; notifications retirée du périmètre web, aucun
+      endpoint de configuration n'existe)

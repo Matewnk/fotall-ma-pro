@@ -180,18 +180,34 @@ que de les laisser inaccessibles.
   bientôt non repris : `stats.controller.ts` ne calcule que le total de
   tenants et la répartition par statut de licence.
 
+## Tranche 8 — liste des tenants, licences et facturation super-admin
+
+Ajoute `SuperAdminTenantsPage` (`/super-admin/tenants`, `GET
+/super-admin/tenants` : liste avec plan/statut licence/date de création)
+et `SuperAdminTenantDetailPage` (`/super-admin/tenants/:id`) qui
+regroupe les actions de licence (activer/renouveler/suspendre/réactiver/
+révoquer via `super-admin/tenants/:id/licence/*`, idempotencyKey générée
+côté client), le changement de plan (`PATCH .../plan`) et la facturation
+(`GET`/`POST /super-admin/facturation/:id`, gère le cas "aucun
+abonnement" — 404 — avec un formulaire de création). Regroupées sur un
+seul écran de détail plutôt que deux séparés : les deux maquettes de
+référence (`gestion_des_licences_super_admin`,
+`facturation_abonnements_saas_tenant`) agissent toutes deux sur un même
+tenant sélectionné depuis une liste — cohérent avec leur modèle
+"liste puis détail".
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
 tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
 tranche 3 (caisse, tickets) + tranche 4 (rapports) + tranche 5
 (utilisateurs/rôles) + tranche 6 (branding) + tranche 7 (fondation
-console super-admin) livrées. Restent à faire, en PRs séparées
-réutilisant cette même architecture :
+console super-admin) + tranche 8 (tenants/licences/facturation)
+livrées. Restent à faire, en PRs séparées réutilisant cette même
+architecture :
 
-- Écrans facturation/abonnement (017), licences super-admin (004/005),
-  audit/logs (018), centre de support (005) — sur la fondation console
-  super-admin de la tranche 7.
+- Écrans audit/logs (018), centre de support (005) — sur la fondation
+  console super-admin de la tranche 7.
 - Notifications (012) : aucun backend de configuration n'existe (voir
   correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
   backend avant tout écran.
