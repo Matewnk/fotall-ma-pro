@@ -1,8 +1,13 @@
+import type { Role } from '@fotall/shared-types';
 import type { ReactNode } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth-context';
 
-const NAV_LINKS = [
+// `roles` absent = visible à tous les rôles authentifiés. Premier lien
+// effectivement restreint (/utilisateurs, réservé ADMIN côté API) : le
+// masquage n'est jamais une autorisation, seulement pour éviter un lien
+// menant systématiquement à un 403.
+const NAV_LINKS: { to: string; label: string; icon: string; roles?: Role[] }[] = [
   { to: '/', label: 'Tableau de bord', icon: 'dashboard' },
   { to: '/commandes', label: 'Commandes', icon: 'receipt_long' },
   { to: '/clients', label: 'Clients', icon: 'group' },
@@ -10,6 +15,7 @@ const NAV_LINKS = [
   { to: '/caisse', label: 'Caisse', icon: 'point_of_sale' },
   { to: '/tickets', label: 'Tickets', icon: 'print' },
   { to: '/rapports', label: 'Rapports', icon: 'analytics' },
+  { to: '/utilisateurs', label: 'Utilisateurs', icon: 'manage_accounts', roles: ['ADMIN'] },
 ];
 
 function classesNav(actif: boolean): string {
@@ -41,7 +47,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span className="block text-xs text-on-surface-variant">Console Admin</span>
         </div>
         <div className="flex flex-col gap-1 flex-grow">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter(
+            (link) => !link.roles || (session && link.roles.includes(session.user.role)),
+          ).map((link) => (
             <NavLink
               key={link.to}
               to={link.to}

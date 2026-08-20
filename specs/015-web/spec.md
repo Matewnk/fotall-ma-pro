@@ -105,17 +105,43 @@ tenant dans une future spec si besoin" — pas encore fait). Aucun écran
 de configuration n'est donc possible sans un nouveau backend ; retirée
 de la liste "prête" et déplacée ci-dessous.
 
+## Tranche 5 — utilisateurs et rôles (nouveau backend)
+
+Ajoute `UsersPage` (§2.1 "ADMIN gère les utilisateurs") et le backend qui
+manquait pour la rendre possible : `apps/api/src/users/*`
+(`UsersController`/`UsersService`, `@Controller('users')`, ADMIN
+uniquement, aucun `LicenceActiveGuard` — administrer les comptes doit
+rester possible même tenant bloqué). Aucune migration Prisma requise
+(`User` existe déjà au plan de contrôle depuis 002).
+
+- `POST /users` : création (email + mot de passe provisoire + rôle),
+  rôle limité à `ADMIN|CAISSIER|TECHNICIEN|LIVREUR` (jamais
+  `SUPER_ADMIN` — un ADMIN ne peut jamais créer un compte plateforme).
+- `GET /users` : liste scopée au tenant, hash jamais exposé.
+- `PATCH /users/:id` : changement de rôle et/ou activation/désactivation.
+  Jamais de suppression : un compte désactivé conserve son historique
+  dans les journaux existants (`OperationCaisse.operateurId`,
+  `AuditLog.actorId`, ...) — supprimer casserait ces références. Un
+  ADMIN ne peut pas se désactiver lui-même (verrou anti-lockout minimal).
+- `AppShell` : premier lien de navigation réellement filtré par rôle
+  (`/utilisateurs`, ADMIN uniquement) — affichage seulement, le RBAC réel
+  reste appliqué côté API à chaque requête.
+
+Maquette de référence : `docs/design/screens/gestion_des_utilisateurs_et_r_les`
+— "dernière connexion" non repris (aucun champ de ce type sur `User`).
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
 tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
-tranche 3 (caisse, tickets) + tranche 4 (rapports) livrées. Restent à
-faire, en PRs séparées réutilisant cette même architecture :
+tranche 3 (caisse, tickets) + tranche 4 (rapports) + tranche 5
+(utilisateurs/rôles) livrées. Restent à faire, en PRs séparées
+réutilisant cette même architecture :
 
 - Écrans facturation/abonnement (017), licences super-admin (004/005),
-  administration/utilisateurs (nouveau backend requis), branding/tenant
-  (nouveau backend requis), audit/logs (018), centre de support (005),
-  tableau de bord super-admin (005).
+  branding/tenant (nouveau backend requis — `PATCH /tenant` n'existe pas
+  encore), audit/logs (018), centre de support (005), tableau de bord
+  super-admin (005).
 - Notifications (012) : aucun backend de configuration n'existe (voir
   correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
   backend avant tout écran.
