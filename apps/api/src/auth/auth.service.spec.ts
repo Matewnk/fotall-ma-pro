@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 
 type PrismaTx = {
   tenant: { create: jest.Mock; findUnique: jest.Mock; delete: jest.Mock };
-  user: { create: jest.Mock; findUnique: jest.Mock; delete: jest.Mock };
+  user: { create: jest.Mock; findUnique: jest.Mock; findFirst: jest.Mock; delete: jest.Mock };
 };
 
 function makePrismaMock() {
@@ -19,6 +19,7 @@ function makePrismaMock() {
     user: {
       create: jest.fn(),
       findUnique: jest.fn(),
+      findFirst: jest.fn(),
       delete: jest.fn().mockResolvedValue(undefined),
     },
   };
@@ -213,6 +214,75 @@ describe('AuthService', () => {
 
       const decoded = jwt.verify(result.accessToken);
       expect(decoded).toMatchObject({ sub: 'user-1', tenantId: 'tenant-1', role: Role.ADMIN });
+    });
+  });
+
+  describe('loginSuperAdmin', () => {
+    it('rejects when no SUPER_ADMIN account matches this email', async () => {
+      prisma.user.findFirst.mockResolvedValue(null);
+
+      await expect(
+        service.loginSuperAdmin({ email: 'inconnu@fotall.dev', motDePasse: 'x' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('cherche uniquement parmi les comptes tenantId=null et role=SUPER_ADMIN', async () => {
+      prisma.user.findFirst.mockResolvedValue(null);
+
+      await service
+        .loginSuperAdmin({ email: 'super@fotall.dev', motDePasse: 'x' })
+        .catch(() => undefined);
+
+      expect(prisma.user.findFirst).toHaveBeenCalledWith({
+        where: { tenantId: null, email: 'super@fotall.dev', role: Role.SUPER_ADMIN },
+      });
+    });
+
+    it('rejects when the password does not match', async () => {
+      prisma.user.findFirst.mockResolvedValue({
+        id: 'super-1',
+        email: 'super@fotall.dev',
+        actif: true,
+        role: Role.SUPER_ADMIN,
+        motDePasseHash: await bcrypt.hash('le-bon-mot-de-passe', 4),
+      });
+
+      await expect(
+        service.loginSuperAdmin({ email: 'super@fotall.dev', motDePasse: 'faux' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('rejects a deactivated super-admin even with the correct password', async () => {
+      prisma.user.findFirst.mockResolvedValue({
+        id: 'super-1',
+        email: 'super@fotall.dev',
+        actif: false,
+        role: Role.SUPER_ADMIN,
+        motDePasseHash: await bcrypt.hash('le-bon-mot-de-passe', 4),
+      });
+
+      await expect(
+        service.loginSuperAdmin({ email: 'super@fotall.dev', motDePasse: 'le-bon-mot-de-passe' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('issues a tenant-less session for valid, active credentials', async () => {
+      prisma.user.findFirst.mockResolvedValue({
+        id: 'super-1',
+        email: 'super@fotall.dev',
+        actif: true,
+        role: Role.SUPER_ADMIN,
+        motDePasseHash: await bcrypt.hash('le-bon-mot-de-passe', 4),
+      });
+
+      const result = await service.loginSuperAdmin({
+        email: 'super@fotall.dev',
+        motDePasse: 'le-bon-mot-de-passe',
+      });
+
+      expect(result.tenant).toBeUndefined();
+      const decoded = jwt.verify(result.accessToken);
+      expect(decoded).toMatchObject({ sub: 'super-1', tenantId: null, role: Role.SUPER_ADMIN });
     });
   });
 });

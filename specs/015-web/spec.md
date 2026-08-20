@@ -150,17 +150,48 @@ repris : aucun champ correspondant sur `Tenant`, et aucun backend de
 stockage de fichiers n'existe dans ce projet (`docs/production-checklist.md`).
 `logoUrl` reste une simple URL texte, jamais un upload.
 
+## Tranche 7 — fondation console super-admin (nouveau backend)
+
+Les 5 écrans restants (licences, facturation, audit/logs, centre de
+support, tableau de bord SaaS) exigent tous une authentification
+SUPER_ADMIN — or aucun flux de connexion n'existait pour ce rôle :
+`LoginDto` exige un `sousDomaine` pour résoudre le tenant, et un
+SUPER_ADMIN a `tenantId: null` par construction (jamais associé à un
+tenant). Décision explicite avec l'utilisateur (le login super-admin est
+une pièce structurelle plus grande que les deux petits ajouts backend
+précédents 5/6) : construire cette fondation avant les 5 écrans, plutôt
+que de les laisser inaccessibles.
+
+- Backend : `POST /auth/super-admin/login` (email + mot de passe, sans
+  sousDomaine) — recherche directe par email parmi les comptes
+  `tenantId: null` et `role: SUPER_ADMIN`, jamais via l'index unique
+  `(tenantId, email)` (Postgres traite chaque `NULL` comme distinct, cet
+  index ne garantit pas l'unicité entre comptes SUPER_ADMIN).
+  `AuthService.SessionResult.tenant` devient optionnel (absent pour une
+  session SUPER_ADMIN).
+- Frontend : `SuperAdminLoginPage` (`/super-admin/connexion`),
+  `SuperAdminRoute` (redirige si absent ou si `role !== SUPER_ADMIN`),
+  `SuperAdminShell` (jamais partagé avec `AppShell` — Constitution II,
+  rôles jamais fusionnés ; pas d'identité de tenant à afficher),
+  `SuperAdminDashboardPage` (`/super-admin`, `GET /super-admin/stats` :
+  total tenants + répartition par statut de licence). Maquette de
+  référence : `docs/design/screens/tableau_de_bord_super_admin_saas` —
+  revenu récurrent mensuel, commandes globales et licences expirant
+  bientôt non repris : `stats.controller.ts` ne calcule que le total de
+  tenants et la répartition par statut de licence.
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
 tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
 tranche 3 (caisse, tickets) + tranche 4 (rapports) + tranche 5
-(utilisateurs/rôles) + tranche 6 (branding) livrées. Restent à faire, en
-PRs séparées réutilisant cette même architecture :
+(utilisateurs/rôles) + tranche 6 (branding) + tranche 7 (fondation
+console super-admin) livrées. Restent à faire, en PRs séparées
+réutilisant cette même architecture :
 
 - Écrans facturation/abonnement (017), licences super-admin (004/005),
-  audit/logs (018), centre de support (005), tableau de bord super-admin
-  (005).
+  audit/logs (018), centre de support (005) — sur la fondation console
+  super-admin de la tranche 7.
 - Notifications (012) : aucun backend de configuration n'existe (voir
   correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
   backend avant tout écran.

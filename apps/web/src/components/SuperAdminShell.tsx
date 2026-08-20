@@ -1,23 +1,11 @@
-import type { Role } from '@fotall/shared-types';
 import type { ReactNode } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth-context';
 
-// `roles` absent = visible à tous les rôles authentifiés. Premier lien
-// effectivement restreint (/utilisateurs, réservé ADMIN côté API) : le
-// masquage n'est jamais une autorisation, seulement pour éviter un lien
-// menant systématiquement à un 403.
-const NAV_LINKS: { to: string; label: string; icon: string; roles?: Role[] }[] = [
-  { to: '/', label: 'Tableau de bord', icon: 'dashboard' },
-  { to: '/commandes', label: 'Commandes', icon: 'receipt_long' },
-  { to: '/clients', label: 'Clients', icon: 'group' },
-  { to: '/services', label: 'Tarifs & services', icon: 'sell' },
-  { to: '/caisse', label: 'Caisse', icon: 'point_of_sale' },
-  { to: '/tickets', label: 'Tickets', icon: 'print' },
-  { to: '/rapports', label: 'Rapports', icon: 'analytics' },
-  { to: '/utilisateurs', label: 'Utilisateurs', icon: 'manage_accounts', roles: ['ADMIN'] },
-  { to: '/branding', label: 'Branding', icon: 'palette', roles: ['ADMIN'] },
-];
+// Ossature distincte d'AppShell (jamais partagée — Constitution II,
+// rôles jamais fusionnés) : pas d'identité de tenant à afficher (une
+// session SUPER_ADMIN n'en a pas), navigation propre à la console SaaS.
+const NAV_LINKS = [{ to: '/super-admin', label: 'Vue globale', icon: 'dashboard' }];
 
 function classesNav(actif: boolean): string {
   const base = 'flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-colors';
@@ -26,31 +14,24 @@ function classesNav(actif: boolean): string {
     : `${base} text-on-surface-variant hover:bg-surface-container-high`;
 }
 
-// Ossature partagée par tout écran authentifié : navigation latérale
-// (filtrée par rôle — le masquage n'est jamais une autorisation, chaque
-// route sert son propre RBAC serveur) + en-tête avec identité du tenant.
-export function AppShell({ children }: { children: ReactNode }) {
+export function SuperAdminShell({ children }: { children: ReactNode }) {
   const { session, logout } = useAuth();
   const navigate = useNavigate();
 
   function handleLogout() {
     logout();
-    navigate('/connexion');
+    navigate('/super-admin/connexion');
   }
 
   return (
     <div className="flex h-screen bg-surface-container-lowest">
       <nav className="w-64 shrink-0 border-r border-outline-variant bg-surface p-4 flex flex-col">
         <div className="mb-8 px-2 mt-2">
-          <span className="block text-lg font-bold text-primary">
-            {session?.tenant?.nomPressing}
-          </span>
-          <span className="block text-xs text-on-surface-variant">Console Admin</span>
+          <span className="block text-lg font-bold text-primary">Fotall-Ma Pro</span>
+          <span className="block text-xs text-on-surface-variant">Console Super-Admin</span>
         </div>
         <div className="flex flex-col gap-1 flex-grow">
-          {NAV_LINKS.filter(
-            (link) => !link.roles || (session && link.roles.includes(session.user.role)),
-          ).map((link) => (
+          {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
