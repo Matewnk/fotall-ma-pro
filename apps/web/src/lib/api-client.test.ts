@@ -1,0 +1,45 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { reponseJson } from '../test-utils';
+import { apiFetch, ApiError } from './api-client';
+
+describe('apiFetch', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
+  });
+
+  it('ajoute le Bearer token quand fourni', async () => {
+    vi.mocked(fetch).mockResolvedValue(reponseJson({ ok: true }));
+
+    await apiFetch('/dashboard', { token: 'abc123' });
+
+    const [, options] = vi.mocked(fetch).mock.calls[0] as [string, RequestInit];
+    expect((options.headers as Record<string, string>).Authorization).toBe('Bearer abc123');
+  });
+
+  it('n’ajoute pas d’en-tête Authorization sans token', async () => {
+    vi.mocked(fetch).mockResolvedValue(reponseJson({ ok: true }));
+
+    await apiFetch('/dashboard');
+
+    const [, options] = vi.mocked(fetch).mock.calls[0] as [string, RequestInit];
+    expect((options.headers as Record<string, string>).Authorization).toBeUndefined();
+  });
+
+  it('lève une ApiError avec le message Nest sur une réponse en erreur', async () => {
+    vi.mocked(fetch).mockResolvedValue(
+      reponseJson({ statusCode: 400, message: ['champ requis'], error: 'Bad Request' }, 400),
+    );
+
+    await expect(apiFetch('/clients', { method: 'POST', body: {} })).rejects.toMatchObject(
+      new ApiError(400, 'champ requis'),
+    );
+  });
+
+  it('retourne le corps JSON parsé sur succès', async () => {
+    vi.mocked(fetch).mockResolvedValue(reponseJson({ id: 'x-1' }));
+
+    const resultat = await apiFetch<{ id: string }>('/clients/x-1');
+
+    expect(resultat).toEqual({ id: 'x-1' });
+  });
+});
