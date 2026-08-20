@@ -2,10 +2,18 @@ import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { creerMiddlewareHttps } from './https-redirect.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // §19.1 "HTTPS" : en-têtes de sécurité standard (HSTS, X-Content-Type-
+  // Options, X-Frame-Options, ...) — sans configuration propre à un
+  // fournisseur, applicable quel que soit l'hébergement retenu.
+  app.use(helmet());
+  app.use(creerMiddlewareHttps(process.env.NODE_ENV));
+
   // Web (015) tourne sur une autre origine en dev (Vite :5173) et en
   // production (hébergement statique séparé) — l'auth par Bearer token
   // (jamais de cookie) rend le partage de credentials inutile ici.
