@@ -6,6 +6,7 @@ import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import request from 'supertest';
 import { AppModule } from '../app.module';
+import { PrismaService } from '../prisma/prisma.service';
 
 // Spec 015-web (tranche 6) — nouveau backend requis pour l'écran
 // "personnalisation du branding" : aucun endpoint self-service tenant
@@ -13,6 +14,7 @@ import { AppModule } from '../app.module';
 // SUPER_ADMIN). Preuve réelle contre PostgreSQL (pas de mock).
 describe('TenantSettings (015-web tranche 6) — PostgreSQL réel', () => {
   let app: INestApplication;
+  let prisma: PrismaService;
   let jwtSecret: string;
 
   let tokenAdminA: string;
@@ -26,6 +28,7 @@ describe('TenantSettings (015-web tranche 6) — PostgreSQL réel', () => {
     );
     await app.init();
 
+    prisma = moduleRef.get(PrismaService);
     jwtSecret = moduleRef.get(ConfigService).getOrThrow<string>('JWT_SECRET');
 
     const suffix = randomUUID().slice(0, 8);
@@ -104,8 +107,16 @@ describe('TenantSettings (015-web tranche 6) — PostgreSQL réel', () => {
       .set('Authorization', `Bearer ${tokenAdminA}`);
     const tenantAId = meA.body.tenantId;
 
+    const caissier = await prisma.user.create({
+      data: {
+        tenantId: tenantAId,
+        role: Role.CAISSIER,
+        email: `caissier-rbac-${randomUUID().slice(0, 8)}@pressing-branding-a.dev`,
+        motDePasseHash: 'n/a',
+      },
+    });
     const tokenCaissier = new JwtService({ secret: jwtSecret }).sign({
-      sub: randomUUID(),
+      sub: caissier.id,
       tenantId: tenantAId,
       role: Role.CAISSIER,
     });
