@@ -65,6 +65,18 @@ export type OperationCaisse = {
   createdAt: string;
 };
 
+export type TenantSettings = {
+  id: string;
+  nomPressing: string;
+  sousDomaine: string;
+  adresse?: string;
+  telephone?: string;
+  logoUrl?: string;
+  langue: string;
+  devise: string;
+  fuseauHoraire: string;
+};
+
 export type Dashboard = {
   kpis: {
     commandesDuJour: number;

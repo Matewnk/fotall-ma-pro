@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/AppShell';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { BrandingPage } from './pages/BrandingPage';
 import { CashPage } from './pages/CashPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { DashboardPage } from './pages/DashboardPage';
@@ -93,6 +94,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <UsersPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/branding"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <BrandingPage />
             </AppShell>
           </ProtectedRoute>
         }
