@@ -2,6 +2,7 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import request from 'supertest';
@@ -24,6 +25,12 @@ describe('Open API (019) — PostgreSQL réel', () => {
     app.useGlobalPipes(
       new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
     );
+    // main.ts n'est jamais exécuté par le harnais de test (l'app est
+    // construite directement depuis AppModule) : le montage de Swagger
+    // doit être reproduit ici pour que le test de fumée sur /docs porte
+    // sur le même code que la production.
+    const document = SwaggerModule.createDocument(app, new DocumentBuilder().build());
+    SwaggerModule.setup('docs', app, document);
     await app.init();
 
     prisma = moduleRef.get(PrismaService);
