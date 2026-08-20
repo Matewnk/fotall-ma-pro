@@ -21,6 +21,7 @@ import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { TicketsModule } from './tickets/tickets.module';
     BillingModule,
     OpenApiModule,
     BackupModule,
+    UsersModule,
   ],
   controllers: [AppController],
 })

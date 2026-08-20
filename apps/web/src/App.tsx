@@ -10,6 +10,7 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { TicketsPage } from './pages/TicketsPage';
+import { UsersPage } from './pages/UsersPage';
 
 export function App() {
   return (
@@ -82,6 +83,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <ReportsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/utilisateurs"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <UsersPage />
             </AppShell>
           </ProtectedRoute>
         }
