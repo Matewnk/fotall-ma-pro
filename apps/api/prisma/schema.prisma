@@ -65,6 +65,7 @@ model Tenant {
   supportSessions SupportSession[]
   onboarding      OnboardingState?
   abonnement      Abonnement?
+  apiKeys         ApiKey[]
 
   @@map("tenants")
 }
@@ -245,4 +246,30 @@ model JournalPaiement {
   abonnement Abonnement @relation(fields: [abonnementId], references: [id])
 
   @@map("journal_paiements")
+}
+
+// §17 "API ouverte" : chaque clé appartient à un seul tenant, possède des
+// scopes, peut être révoquée, est soumise à un quota. Stockée hachée
+// (SHA-256, cf. api-key.service.ts) — jamais en clair, jamais retrouvable
+// après création (seul le préfixe reste affichable pour identification).
+// Quota "glissant par jour" implémenté sans table séparée : le compteur
+// est remis à zéro dès que compteur_reinitialise_a n'est plus le jour
+// courant (voir api-key.guard.ts).
+model ApiKey {
+  id                    String    @id @default(uuid())
+  tenantId              String    @map("tenant_id")
+  nom                   String
+  cleHachee             String    @unique @map("cle_hachee")
+  clePrefixe            String    @map("cle_prefixe")
+  scopes                String[]
+  quotaJour             Int       @default(1000) @map("quota_jour")
+  compteurJour          Int       @default(0) @map("compteur_jour")
+  compteurReinitialiseA DateTime  @default(now()) @map("compteur_reinitialise_a")
+  revoqueeAt            DateTime? @map("revoquee_at")
+  derniereUtilisationAt DateTime? @map("derniere_utilisation_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("api_keys")
 }

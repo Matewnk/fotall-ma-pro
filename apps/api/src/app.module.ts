@@ -12,6 +12,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { LicenceModule } from './licence/licence.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
+import { OpenApiModule } from './open-api/open-api.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { ReportsModule } from './reports/reports.module';
@@ -41,6 +42,7 @@ import { TicketsModule } from './tickets/tickets.module';
     DashboardModule,
     ReportsModule,
     BillingModule,
+    OpenApiModule,
   ],
   controllers: [AppController],
 })
