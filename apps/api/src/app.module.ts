@@ -13,6 +13,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { OrdersModule } from './orders/orders.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ReportsModule } from './reports/reports.module';
 import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
@@ -37,6 +38,7 @@ import { TicketsModule } from './tickets/tickets.module';
     CashModule,
     TicketsModule,
     DashboardModule,
+    ReportsModule,
   ],
   controllers: [AppController],
 })
