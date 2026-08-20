@@ -54,9 +54,12 @@ Définir et implémenter la fonctionnalité **Licensing** conformément au cahie
   d'intégration de cette spec, un `SUPER_ADMIN` est créé directement via Prisma (pas d'API
   publique), ce qui est cohérent avec la décision de 002 (seul un ADMIN est créé via
   `/auth/register`).
-- Politique exacte de facturation (durée de plan, montants) : spec 017-billing. `renouveler`
+- ~~Politique exacte de facturation (durée de plan, montants) : spec 017-billing. `renouveler`
   accepte pour l'instant une durée en jours fournie par le Super-Admin, sans lien avec un plan
-  commercial facturé.
+  commercial facturé.~~ — **résolu par la spec 017-billing** : `BillingService` appelle
+  désormais `activer`/`renouveler`/`suspendre`/`reactiver` en réaction aux évènements de
+  paiement (webhook, idempotent), avec un cycle de facturation mensuel (§14.1). Les montants
+  restent fournis explicitement par le Super-Admin (§14 ne fixe aucun prix de référence).
 
 ## Critères d’acceptation
 

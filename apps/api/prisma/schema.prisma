@@ -36,24 +36,35 @@ enum EvenementLicence {
   EXPIRATION_AUTOMATIQUE
 }
 
+// §14 : trois plans de référence. Remplace l'ancien champ texte libre
+// (contrainte déjà appliquée en application via IsIn, désormais garantie
+// aussi par la base — cohérent avec "jamais de confiance dans le
+// frontend" appliqué symétriquement côté validation serveur).
+enum PlanCommercial {
+  STARTER
+  PRO
+  BUSINESS
+}
+
 model Tenant {
-  id            String   @id @default(uuid())
-  nomPressing   String   @map("nom_pressing")
-  sousDomaine   String   @unique @map("sous_domaine")
-  plan          String   @default("STARTER")
-  langue        String   @default("fr")
-  devise        String   @default("XOF")
-  fuseauHoraire String   @default("Africa/Dakar") @map("fuseau_horaire")
+  id            String         @id @default(uuid())
+  nomPressing   String         @map("nom_pressing")
+  sousDomaine   String         @unique @map("sous_domaine")
+  plan          PlanCommercial @default(STARTER)
+  langue        String         @default("fr")
+  devise        String         @default("XOF")
+  fuseauHoraire String         @default("Africa/Dakar") @map("fuseau_horaire")
   adresse       String?
   telephone     String?
-  logoUrl       String?  @map("logo_url")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  logoUrl       String?        @map("logo_url")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
 
   users           User[]
   licence         Licence?
   supportSessions SupportSession[]
   onboarding      OnboardingState?
+  abonnement      Abonnement?
 
   @@map("tenants")
 }
@@ -171,4 +182,67 @@ model OnboardingState {
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@map("onboarding_states")
+}
+
+enum ModePaiementFacturation {
+  CARTE
+  MOBILE_MONEY
+  VIREMENT
+}
+
+enum StatutAbonnement {
+  ACTIF
+  EN_RETARD
+  ANNULE
+}
+
+// §14.1 : un seul abonnement actif par tenant (comme Licence, 1:1). En V1
+// le tenant ne modifie jamais directement son abonnement — seul le
+// SUPER_ADMIN le provisionne, et les évènements de paiement (webhook,
+// simulé pour l'instant faute de credentials Stripe/Mobile Money réelles
+// dans ce projet — voir specs/017-billing/spec.md) le font évoluer.
+model Abonnement {
+  id                       String                  @id @default(uuid())
+  tenantId                 String                  @unique @map("tenant_id")
+  plan                     PlanCommercial
+  modePaiement             ModePaiementFacturation @map("mode_paiement")
+  montant                  Decimal                 @db.Decimal(10, 2)
+  devise                   String                  @default("XOF")
+  statut                   StatutAbonnement        @default(ACTIF)
+  dateProchaineFacturation DateTime                @map("date_prochaine_facturation")
+  referenceProvider        String?                 @map("reference_provider")
+  createdAt                DateTime                @default(now()) @map("created_at")
+  updatedAt                DateTime                @updatedAt @map("updated_at")
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id])
+  journal JournalPaiement[]
+
+  @@map("abonnements")
+}
+
+enum TypeEvenementPaiement {
+  PAIEMENT_REUSSI
+  PAIEMENT_ECHEC
+  RELANCE_ENVOYEE
+}
+
+// Append-only, même principe que JournalLicence (004) : aucune mise à
+// jour ni suppression d'une entrée existante. idempotencyKey unique car
+// un évènement de paiement porte un identifiant globalement unique côté
+// fournisseur (webhook), contrairement aux clés d'action de JournalLicence
+// qui sont générées par l'appelant pour une action donnée.
+model JournalPaiement {
+  id                 String                 @id @default(uuid())
+  tenantId           String                 @map("tenant_id")
+  abonnementId       String                 @map("abonnement_id")
+  type               TypeEvenementPaiement
+  montant            Decimal?               @db.Decimal(10, 2)
+  devise             String?
+  referenceProvider  String?                @map("reference_provider")
+  idempotencyKey     String                 @unique @map("idempotency_key")
+  createdAt          DateTime               @default(now()) @map("created_at")
+
+  abonnement Abonnement @relation(fields: [abonnementId], references: [id])
+
+  @@map("journal_paiements")
 }
