@@ -120,9 +120,15 @@ describe('Backup/Restore (020) — PostgreSQL réel', () => {
       'ClientAvantSauvegarde',
     );
 
-    const audit = await request(app.getHttpServer()).get('/audit').set('Authorization', bearer);
-    const actions = audit.body.map((entree: { action: string }) => entree.action);
-    expect(actions).toEqual(expect.arrayContaining(['TENANT_SAUVEGARDE', 'TENANT_RESTAURE']));
+    // Le journal des sauvegardes vit au plan de contrôle (JournalSauvegarde),
+    // pas dans l'AuditLog du tenant : une restauration remplace
+    // intégralement le schéma restauré, y compris son AuditLog local, ce
+    // qui aurait effacé la preuve de la sauvegarde elle-même.
+    const journal = await prisma.journalSauvegarde.findMany({
+      where: { tenantId },
+      orderBy: { createdAt: 'asc' },
+    });
+    expect(journal.map((entree) => entree.action)).toEqual(['SAUVEGARDE', 'RESTAURATION']);
   });
 
   it('rejette une restauration sans la confirmation exacte', async () => {

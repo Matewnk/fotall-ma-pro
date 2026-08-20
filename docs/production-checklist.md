@@ -18,12 +18,17 @@ voir spec 020-production).
 | HTTPS (en-têtes de sécurité)        | `helmet()` (HSTS, X-Content-Type-Options, X-Frame-Options, ...)                                                                                                 | `main.ts`                                                                                                       |
 | HTTPS (redirection)                 | `creerMiddlewareHttps` — redirige tout trafic non chiffré en production, s'appuie sur `X-Forwarded-Proto` (terminaison TLS en amont, hors périmètre applicatif) | `https-redirect.middleware.spec.ts`                                                                             |
 | Sessions sécurisées                 | JWT signé serveur, jamais de secret client de confiance, ré-vérification de l'appartenance tenant à chaque requête (004/002)                                    | `jwt.strategy.spec.ts`                                                                                          |
-| Audit                               | `AuditLog` tenant-scoped + journaux append-only dédiés (licence 004, financier 010/017, support 005)                                                            | 018-audit-security                                                                                              |
+| Audit                               | `AuditLog` tenant-scoped + journaux append-only dédiés (licence 004, financier 010/017, support 005, sauvegarde/restauration 020 — voir note ci-dessous)        | 018-audit-security                                                                                              |
 | Backups quotidiens (mécanisme)      | `BackupService.sauvegarderTenant` (`pg_dump --schema=<tenant>`)                                                                                                 | `backup.service.spec.ts`, `backup.integration.spec.ts`                                                          |
-| Restauration tenant par tenant      | `BackupService.restaurerTenant` (`DROP SCHEMA` + restauration depuis la sauvegarde), confirmation explicite exigée, audité                                      | `backup.integration.spec.ts` (round-trip complet : sauvegarde → corruption → restauration → données retrouvées) |
+| Restauration tenant par tenant      | `BackupService.restaurerTenant` (`DROP SCHEMA` + restauration depuis la sauvegarde), confirmation explicite exigée, audité dans `JournalSauvegarde`             | `backup.integration.spec.ts` (round-trip complet : sauvegarde → corruption → restauration → données retrouvées) |
 | Monitoring (sonde de disponibilité) | `GET /health` vérifie une vraie connexion base (pas seulement que le processus répond)                                                                          | `health.integration.spec.ts`                                                                                    |
 | Quotas API                          | `ApiKey.quotaJour`, glissant par jour (019)                                                                                                                     | `api-key.service.spec.ts`                                                                                       |
 | Tests de sécurité                   | Suite consolidée cross-tenant (accès direct par ID, LIST/recherche, UPDATE/DELETE, JWT falsifié, export, job planifié, RBAC)                                    | `security.integration.spec.ts` (018)                                                                            |
+
+> **Note** : `JournalSauvegarde` vit au plan de contrôle, pas dans le schéma
+> du tenant. Une restauration remplace intégralement ce schéma, y compris
+> son `AuditLog` local — un journal qui y vivrait effacerait donc la preuve
+> de sa propre restauration. Même raison que `SupportSession` (005).
 
 ## ⏸ Exige une décision ou un provisionnement humain
 

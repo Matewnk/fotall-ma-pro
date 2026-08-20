@@ -1,11 +1,11 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
-import { Role } from '@prisma/client';
-import { AuditService } from '../audit/audit.service';
+import { ActionSauvegarde, Role } from '@prisma/client';
 import { CurrentTenant } from '../auth/current-tenant.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AuthenticatedContext } from '../auth/types';
+import { PrismaService } from '../prisma/prisma.service';
 import { BackupService } from './backup.service';
 import { RestoreTenantDto } from './dto/restore-tenant.dto';
 
@@ -18,17 +18,18 @@ type ReponseBrute = {
 };
 
 // §15.8 / §13.6 : sauvegarde et restauration tenant par tenant, réservées
-// au SUPER_ADMIN (même prérogative que la gestion des tenants). Chaque
-// opération est auditée dans l'AuditLog du tenant concerné (§19.4
-// "actions administratives"), même schéma que TenantsController.updatePlan
-// (018).
+// au SUPER_ADMIN (même prérogative que la gestion des tenants). Journalisées
+// dans JournalSauvegarde (plan de contrôle), jamais dans l'AuditLog du
+// tenant : une restauration remplace intégralement le schéma du tenant, y
+// compris son AuditLog local, ce qui effacerait la preuve de la
+// sauvegarde/restauration elle-même si elle y était écrite.
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.SUPER_ADMIN)
 @Controller('super-admin/tenants/:id')
 export class BackupController {
   constructor(
     private readonly backupService: BackupService,
-    private readonly auditService: AuditService,
+    private readonly prisma: PrismaService,
   ) {}
 
   @Post('backup')
@@ -38,11 +39,13 @@ export class BackupController {
     @Res() res: ReponseBrute,
   ) {
     const dump = await this.backupService.sauvegarderTenant(tenantId);
-    await this.auditService.create(tenantId, actor.userId, {
-      action: 'TENANT_SAUVEGARDE',
-      entityType: 'Tenant',
-      entityId: tenantId,
-      metadata: { tailleOctets: dump.length },
+    await this.prisma.journalSauvegarde.create({
+      data: {
+        tenantId,
+        action: ActionSauvegarde.SAUVEGARDE,
+        effectuePar: actor.userId,
+        tailleOctets: dump.length,
+      },
     });
     res
       .set('Content-Type', 'application/sql')
@@ -58,11 +61,13 @@ export class BackupController {
   ) {
     const dump = Buffer.from(dto.dumpBase64, 'base64');
     await this.backupService.restaurerTenant(tenantId, dump);
-    await this.auditService.create(tenantId, actor.userId, {
-      action: 'TENANT_RESTAURE',
-      entityType: 'Tenant',
-      entityId: tenantId,
-      metadata: { tailleOctets: dump.length },
+    await this.prisma.journalSauvegarde.create({
+      data: {
+        tenantId,
+        action: ActionSauvegarde.RESTAURATION,
+        effectuePar: actor.userId,
+        tailleOctets: dump.length,
+      },
     });
     return { ok: true };
   }
