@@ -20,6 +20,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ServicesModule } from './services/services.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
+import { TenantSettingsModule } from './tenant-settings/tenant-settings.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { UsersModule } from './users/users.module';
 
@@ -47,6 +48,7 @@ import { UsersModule } from './users/users.module';
     OpenApiModule,
     BackupModule,
     UsersModule,
+    TenantSettingsModule,
   ],
   controllers: [AppController],
 })

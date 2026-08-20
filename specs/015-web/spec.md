@@ -130,18 +130,37 @@ rester possible même tenant bloqué). Aucune migration Prisma requise
 Maquette de référence : `docs/design/screens/gestion_des_utilisateurs_et_r_les`
 — "dernière connexion" non repris (aucun champ de ce type sur `User`).
 
+## Tranche 6 — branding (nouveau backend)
+
+Ajoute `BrandingPage` et le backend qui manquait pour la rendre possible :
+`apps/api/src/tenant-settings/*` (`TenantSettingsController`/`Service`,
+`@Controller('tenant')`, ADMIN uniquement, aucun `LicenceActiveGuard` —
+consulter/corriger ces informations doit rester possible même tenant
+bloqué). Aucune migration Prisma requise (les champs existent déjà sur
+`Tenant` depuis 002).
+
+- `GET /tenant`, `PATCH /tenant` : nom, adresse, téléphone, logo (URL),
+  langue, devise, fuseau horaire. `sousDomaine` (routage de connexion) et
+  `plan` (géré par 017/super-admin) volontairement exclus du DTO — non
+  éditables en self-service.
+
+Maquette de référence : `docs/design/screens/personnalisation_du_branding`
+— email de contact, upload de fichier logo et couleur d'accent non
+repris : aucun champ correspondant sur `Tenant`, et aucun backend de
+stockage de fichiers n'existe dans ce projet (`docs/production-checklist.md`).
+`logoUrl` reste une simple URL texte, jamais un upload.
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
 tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
 tranche 3 (caisse, tickets) + tranche 4 (rapports) + tranche 5
-(utilisateurs/rôles) livrées. Restent à faire, en PRs séparées
-réutilisant cette même architecture :
+(utilisateurs/rôles) + tranche 6 (branding) livrées. Restent à faire, en
+PRs séparées réutilisant cette même architecture :
 
 - Écrans facturation/abonnement (017), licences super-admin (004/005),
-  branding/tenant (nouveau backend requis — `PATCH /tenant` n'existe pas
-  encore), audit/logs (018), centre de support (005), tableau de bord
-  super-admin (005).
+  audit/logs (018), centre de support (005), tableau de bord super-admin
+  (005).
 - Notifications (012) : aucun backend de configuration n'existe (voir
   correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
   backend avant tout écran.

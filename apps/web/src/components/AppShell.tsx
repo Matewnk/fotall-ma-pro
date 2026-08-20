@@ -16,6 +16,7 @@ const NAV_LINKS: { to: string; label: string; icon: string; roles?: Role[] }[] =
   { to: '/tickets', label: 'Tickets', icon: 'print' },
   { to: '/rapports', label: 'Rapports', icon: 'analytics' },
   { to: '/utilisateurs', label: 'Utilisateurs', icon: 'manage_accounts', roles: ['ADMIN'] },
+  { to: '/branding', label: 'Branding', icon: 'palette', roles: ['ADMIN'] },
 ];
 
 function classesNav(actif: boolean): string {
