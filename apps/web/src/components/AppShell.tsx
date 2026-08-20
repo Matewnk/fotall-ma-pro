@@ -7,6 +7,8 @@ const NAV_LINKS = [
   { to: '/commandes', label: 'Commandes', icon: 'receipt_long' },
   { to: '/clients', label: 'Clients', icon: 'group' },
   { to: '/services', label: 'Tarifs & services', icon: 'sell' },
+  { to: '/caisse', label: 'Caisse', icon: 'point_of_sale' },
+  { to: '/tickets', label: 'Tickets', icon: 'print' },
 ];
 
 function classesNav(actif: boolean): string {

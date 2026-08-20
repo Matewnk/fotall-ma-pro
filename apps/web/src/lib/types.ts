@@ -44,6 +44,27 @@ export type Commande = {
   createdAt: string;
 };
 
+export type TypeOperationCaisse =
+  | 'OUVERTURE'
+  | 'ENCAISSEMENT'
+  | 'AVANCE'
+  | 'DEPENSE'
+  | 'REMBOURSEMENT'
+  | 'AJUSTEMENT_COMPENSATOIRE'
+  | 'CLOTURE';
+export type ModePaiement = 'ESPECES' | 'CARTE' | 'MOBILE_MONEY' | 'AUTRE';
+
+export type OperationCaisse = {
+  id: string;
+  type: TypeOperationCaisse;
+  montant: string;
+  modePaiement?: ModePaiement;
+  reference?: string;
+  commandeId?: string;
+  clientId?: string;
+  createdAt: string;
+};
+
 export type Dashboard = {
   kpis: {
     commandesDuJour: number;

@@ -50,3 +50,24 @@ export async function apiFetch<T>(
   }
   return corps as T;
 }
+
+// Pour les réponses binaires (PDF, ESC/POS) : mêmes en-têtes que apiFetch,
+// mais sans tenter de parser le corps en JSON (voir tickets.controller.ts,
+// qui renvoie des octets bruts via @Res()).
+export async function apiFetchBlob(
+  path: string,
+  options: { token?: string | null | undefined } = {},
+): Promise<Blob> {
+  const headers: Record<string, string> = {};
+  if (options.token) {
+    headers.Authorization = `Bearer ${options.token}`;
+  }
+
+  const res = await fetch(`${BASE_URL}${path}`, { headers });
+  if (!res.ok) {
+    const texte = await res.text();
+    const corps: unknown = texte ? JSON.parse(texte) : undefined;
+    throw new ApiError(res.status, extraireMessage(corps));
+  }
+  return res.blob();
+}

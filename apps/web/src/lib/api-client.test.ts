@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { reponseJson } from '../test-utils';
-import { apiFetch, ApiError } from './api-client';
+import { apiFetch, apiFetchBlob, ApiError } from './api-client';
 
 describe('apiFetch', () => {
   beforeEach(() => {
@@ -41,5 +41,39 @@ describe('apiFetch', () => {
     const resultat = await apiFetch<{ id: string }>('/clients/x-1');
 
     expect(resultat).toEqual({ id: 'x-1' });
+  });
+});
+
+describe('apiFetchBlob', () => {
+  beforeEach(() => {
+    vi.stubGlobal('fetch', vi.fn());
+  });
+
+  it('retourne le corps en Blob sur succès', async () => {
+    // Construire un vrai Response(blob) puis relire via .blob() perd le
+    // contenu/type dans cet environnement de test (jsdom) : on mocke
+    // directement la forme utilisée par apiFetchBlob (ok + blob()) plutôt
+    // que de dépendre de ce round-trip.
+    const blobAttendu = new Blob(['%PDF-1.4'], { type: 'application/pdf' });
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      blob: () => Promise.resolve(blobAttendu),
+    } as Response);
+
+    const resultat = await apiFetchBlob('/commandes/1/ticket/pdf', { token: 'abc123' });
+
+    expect(resultat).toBe(blobAttendu);
+    const [, options] = vi.mocked(fetch).mock.calls[0] as [string, RequestInit];
+    expect((options.headers as Record<string, string>).Authorization).toBe('Bearer abc123');
+  });
+
+  it('lève une ApiError avec le message Nest sur une réponse en erreur', async () => {
+    vi.mocked(fetch).mockResolvedValue(
+      reponseJson({ statusCode: 404, message: 'Commande introuvable', error: 'Not Found' }, 404),
+    );
+
+    await expect(apiFetchBlob('/commandes/x/ticket/pdf')).rejects.toMatchObject(
+      new ApiError(404, 'Commande introuvable'),
+    );
   });
 });

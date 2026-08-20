@@ -65,18 +65,33 @@ création, édition, suppression). Maquettes de référence :
 `configuration_des_tarifs_tenant_admin` — fidélité/points/palier de la
 première maquette non repris (aucun champ correspondant côté API).
 
+## Tranche 3 — caisse, tickets
+
+Ajoute `CashPage` (010-cash : solde en caisse, journal des opérations en
+lecture, enregistrement d'une nouvelle opération — jamais d'édition ni de
+suppression, le journal est append-only par construction, Constitution
+IV) et `TicketsPage` (011-tickets-printing : réimpression/téléchargement
+du ticket PDF ou ESC/POS 58mm/80mm d'une commande existante). Maquettes
+de référence : `journal_de_caisse_et_rapports_financiers` et
+`gestion_de_l_impression_thermique` — cette dernière suppose un parc
+d'imprimantes réseau surveillé (état matériel, file de jobs) qui n'a
+aucun backend ; adapté à ce qui existe réellement (génération de ticket à
+la demande pour une commande donnée). Ajout de `apiFetchBlob` dans
+`api-client.ts` pour les réponses binaires (PDF/ESC-POS), à côté de
+`apiFetch` (JSON) — même contrat d'auth/erreur.
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
-tableau de bord, commandes) + tranche 2 (clients, tarifs/services)
-livrées. Restent à faire, en PRs séparées réutilisant cette même
-architecture :
+tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
+tranche 3 (caisse, tickets) livrées. Restent à faire, en PRs séparées
+réutilisant cette même architecture :
 
-- Écrans caisse (010), tickets (011), rapports (014), notifications
-  (012), facturation/abonnement (017), licences super-admin (004/005),
-  administration/utilisateurs (nouveau backend requis), branding/tenant
-  (nouveau backend requis), audit/logs (018), centre de support (005),
-  tableau de bord super-admin (005).
+- Écrans rapports (014), notifications (012), facturation/abonnement
+  (017), licences super-admin (004/005), administration/utilisateurs
+  (nouveau backend requis), branding/tenant (nouveau backend requis),
+  audit/logs (018), centre de support (005), tableau de bord super-admin
+  (005).
 - 8 maquettes sans backend existant (stocks/consommables,
   multi-boutiques réseau, RH/rotations, maintenance machines, transfert
   de stock, tarification par zone géographique) — hors périmètre tant
