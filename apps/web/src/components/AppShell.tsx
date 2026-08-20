@@ -5,6 +5,8 @@ import { useAuth } from '../lib/auth-context';
 const NAV_LINKS = [
   { to: '/', label: 'Tableau de bord', icon: 'dashboard' },
   { to: '/commandes', label: 'Commandes', icon: 'receipt_long' },
+  { to: '/clients', label: 'Clients', icon: 'group' },
+  { to: '/services', label: 'Tarifs & services', icon: 'sell' },
 ];
 
 function classesNav(actif: boolean): string {

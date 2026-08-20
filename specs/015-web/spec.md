@@ -54,15 +54,36 @@ caisse, tickets, rapports, administration, licence) réutiliseront.
   librement pour React + données réelles (pas un portage pixel-perfect
   du HTML).
 
+## Tranche 2 — clients, tarifs/services
+
+Ajoute deux écrans CRUD complets réutilisant l'architecture MVP sans la
+modifier : `ClientsPage` (007-customers : liste filtrable par nom,
+création, édition, suppression avec confirmation) et `ServicesPage`
+(008-services : liste, KPI dérivés — services actifs/catégories —,
+création, édition, suppression). Maquettes de référence :
+`docs/design/screens/gestion_des_clients_et_fid_lit` et
+`configuration_des_tarifs_tenant_admin` — fidélité/points/palier de la
+première maquette non repris (aucun champ correspondant côté API).
+
 ## Périmètre différé
 
-Cette spec **n'est pas convergée** : seule la tranche MVP (connexion,
-inscription, tableau de bord, commandes) est livrée. Restent à faire,
-en PRs séparées réutilisant cette même architecture :
+Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
+tableau de bord, commandes) + tranche 2 (clients, tarifs/services)
+livrées. Restent à faire, en PRs séparées réutilisant cette même
+architecture :
 
-- Écrans clients (007), services (008), caisse (010), tickets (011),
-  rapports (014), administration/utilisateurs (§11), licence/facturation
-  (004/017).
+- Écrans caisse (010), tickets (011), rapports (014), notifications
+  (012), facturation/abonnement (017), licences super-admin (004/005),
+  administration/utilisateurs (nouveau backend requis), branding/tenant
+  (nouveau backend requis), audit/logs (018), centre de support (005),
+  tableau de bord super-admin (005).
+- 8 maquettes sans backend existant (stocks/consommables,
+  multi-boutiques réseau, RH/rotations, maintenance machines, transfert
+  de stock, tarification par zone géographique) — hors périmètre tant
+  qu'aucune spec backend ne les couvre, décision explicite avec
+  l'utilisateur.
+- Écrans mobiles des maquettes (caissier, portail client, technicien/
+  livreur) — traités dans la phase mobile, après convergence web.
 - Navigation filtrée par rôle au-delà de la redirection non-authentifiée
   (ex. LIVREUR ne devrait voir qu'un sous-ensemble de la navigation) —
   affichage seulement, jamais une autorisation.
