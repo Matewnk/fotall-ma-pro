@@ -162,7 +162,8 @@ describe('Reports (014) — PostgreSQL réel', () => {
         .set('Authorization', bearer);
       expect(res.status).toBe(200);
       expect(res.body.lignes).toHaveLength(1);
-      expect(res.body.lignes[0]).toMatchObject([expect.any(Number), 'Client Rapport']);
+      expect(typeof res.body.lignes[0][0]).toBe('number');
+      expect(res.body.lignes[0][1]).toBe('Client Rapport');
     });
 
     it('paiements répartit les encaissements par mode de paiement', async () => {
