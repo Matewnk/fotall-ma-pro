@@ -6,7 +6,13 @@
     "jsx": "react-jsx",
     "noEmit": true,
     "isolatedModules": true,
-    "lib": ["ES2022"]
+    "lib": ["ES2022"],
+    // WatermelonDB (016) utilise les décorateurs legacy (@field, @date, ...)
+    // sur ses classes Model — incompatible avec les champs de classe
+    // "own property" (useDefineForClassFields) activés par défaut à partir
+    // de la cible ES2022.
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
