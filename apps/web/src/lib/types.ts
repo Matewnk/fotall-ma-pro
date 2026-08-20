@@ -79,6 +79,64 @@ export type TenantSettings = {
   fuseauHoraire: string;
 };
 
+export type PlanCommercial = 'STARTER' | 'PRO' | 'BUSINESS';
+export type StatutLicence = 'ESSAI' | 'ACTIVE' | 'EXPIREE' | 'SUSPENDUE';
+
+export type TenantListe = {
+  id: string;
+  nomPressing: string;
+  sousDomaine: string;
+  plan: PlanCommercial;
+  createdAt: string;
+  licence: {
+    statut: StatutLicence;
+    dateFinEssai: string;
+    dateExpirationCourante?: string;
+  } | null;
+};
+
+export type TenantDetail = {
+  id: string;
+  nomPressing: string;
+  sousDomaine: string;
+  plan: PlanCommercial;
+  langue: string;
+  devise: string;
+  fuseauHoraire: string;
+  createdAt: string;
+  licence: {
+    statut: StatutLicence;
+    dateDebutEssai: string;
+    dateFinEssai: string;
+    dateActivation?: string;
+    dateExpirationCourante?: string;
+  } | null;
+};
+
+export type ModePaiementFacturation = 'CARTE' | 'MOBILE_MONEY' | 'VIREMENT';
+export type StatutAbonnement = 'ACTIF' | 'EN_RETARD' | 'ANNULE';
+
+export type JournalPaiementEntry = {
+  id: string;
+  type: string;
+  montant?: string;
+  devise?: string;
+  createdAt: string;
+};
+
+export type Abonnement = {
+  id: string;
+  tenantId: string;
+  plan: PlanCommercial;
+  modePaiement: ModePaiementFacturation;
+  montant: string;
+  devise: string;
+  statut: StatutAbonnement;
+  dateProchaineFacturation: string;
+  referenceProvider?: string;
+  journal: JournalPaiementEntry[];
+};
+
 export type Dashboard = {
   kpis: {
     commandesDuJour: number;

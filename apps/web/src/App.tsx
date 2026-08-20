@@ -14,6 +14,8 @@ import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
+import { SuperAdminTenantDetailPage } from './pages/SuperAdminTenantDetailPage';
+import { SuperAdminTenantsPage } from './pages/SuperAdminTenantsPage';
 import { TicketsPage } from './pages/TicketsPage';
 import { UsersPage } from './pages/UsersPage';
 
@@ -119,6 +121,26 @@ export function App() {
           <SuperAdminRoute>
             <SuperAdminShell>
               <SuperAdminDashboardPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/tenants"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminTenantsPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/tenants/:id"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminTenantDetailPage />
             </SuperAdminShell>
           </SuperAdminRoute>
         }
