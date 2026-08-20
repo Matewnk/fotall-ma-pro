@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppShell } from './components/AppShell';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { SuperAdminRoute } from './components/SuperAdminRoute';
+import { SuperAdminShell } from './components/SuperAdminShell';
 import { BrandingPage } from './pages/BrandingPage';
 import { CashPage } from './pages/CashPage';
 import { ClientsPage } from './pages/ClientsPage';
@@ -10,6 +12,8 @@ import { OrdersPage } from './pages/OrdersPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
+import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
+import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
 import { TicketsPage } from './pages/TicketsPage';
 import { UsersPage } from './pages/UsersPage';
 
@@ -106,6 +110,17 @@ export function App() {
               <BrandingPage />
             </AppShell>
           </ProtectedRoute>
+        }
+      />
+      <Route path="/super-admin/connexion" element={<SuperAdminLoginPage />} />
+      <Route
+        path="/super-admin"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminDashboardPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
         }
       />
     </Routes>

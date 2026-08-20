@@ -8,13 +8,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TenantSchemaProvisioner } from '../tenancy/tenant-schema.provisioner';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { SuperAdminLoginDto } from './dto/super-admin-login.dto';
 import { JwtPayload } from './types';
 
 const BCRYPT_ROUNDS = 12;
 
 type SessionResult = {
   accessToken: string;
-  tenant: { id: string; nomPressing: string; sousDomaine: string };
+  // Absent uniquement pour une session SUPER_ADMIN (tenantId null par
+  // construction, cf. loginSuperAdmin) : le frontend distingue les deux
+  // (voir apps/web/src/lib/auth-context.tsx).
+  tenant?: { id: string; nomPressing: string; sousDomaine: string };
   user: { id: string; email: string; role: Role };
 };
 
@@ -118,6 +122,32 @@ export class AuthService {
       user.email,
       user.role,
     );
+  }
+
+  // §2.1/§13.6 : un SUPER_ADMIN n'a pas de sousDomaine (tenantId null par
+  // construction) — le flux LoginDto (résolution du tenant par
+  // sousDomaine) ne peut pas s'appliquer. Recherche directe par email
+  // parmi les comptes tenantId=null, jamais via l'index unique
+  // (tenantId, email) : Postgres traite chaque NULL comme distinct, cet
+  // index ne garantit donc pas l'unicité entre comptes SUPER_ADMIN.
+  async loginSuperAdmin(dto: SuperAdminLoginDto): Promise<SessionResult> {
+    const user = await this.prisma.user.findFirst({
+      where: { tenantId: null, email: dto.email, role: Role.SUPER_ADMIN },
+    });
+    if (!user || !user.actif) {
+      throw new UnauthorizedException('Identifiants invalides.');
+    }
+
+    const passwordValid = await bcrypt.compare(dto.motDePasse, user.motDePasseHash);
+    if (!passwordValid) {
+      throw new UnauthorizedException('Identifiants invalides.');
+    }
+
+    const payload: JwtPayload = { sub: user.id, tenantId: null, role: user.role };
+    return {
+      accessToken: this.jwt.sign(payload),
+      user: { id: user.id, email: user.email, role: user.role },
+    };
   }
 
   private issueSession(

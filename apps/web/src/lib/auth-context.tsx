@@ -13,6 +13,7 @@ type AuthContextValue = {
     email: string,
     motDePasse: string,
   ) => Promise<void>;
+  loginSuperAdmin: (email: string, motDePasse: string) => Promise<void>;
   logout: () => void;
 };
 
@@ -53,6 +54,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const resultat = await apiFetch<Session>('/auth/register', {
           method: 'POST',
           body: { nomPressing, sousDomaine, email, motDePasse },
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
+        setSession(resultat);
+      },
+      async loginSuperAdmin(email, motDePasse) {
+        const resultat = await apiFetch<Session>('/auth/super-admin/login', {
+          method: 'POST',
+          body: { email, motDePasse },
         });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
         setSession(resultat);

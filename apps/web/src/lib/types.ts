@@ -2,7 +2,9 @@ import type { Role } from '@fotall/shared-types';
 
 export type Session = {
   accessToken: string;
-  tenant: { id: string; nomPressing: string; sousDomaine: string };
+  // Absent uniquement pour une session SUPER_ADMIN (aucun tenant
+  // associé) — voir auth-context.tsx#loginSuperAdmin.
+  tenant?: { id: string; nomPressing: string; sousDomaine: string };
   user: { id: string; email: string; role: Role };
 };
 
