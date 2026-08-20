@@ -10,6 +10,7 @@ Définir et implémenter la fonctionnalité **Web** conformément au cahier des 
 - `.specify/memory/constitution.md`
 - `docs/architecture/architecture.md`
 - `docs/testing/test-strategy.md`
+- `docs/design/DESIGN.md` (tokens visuels), `docs/design/screens/*` (maquettes de référence)
 
 ## Exigences
 
@@ -18,11 +19,75 @@ Définir et implémenter la fonctionnalité **Web** conformément au cahier des 
 - Les jobs et exports conservent le contexte tenant.
 - Les opérations critiques sont idempotentes.
 
+## Mécanisme implémenté
+
+**Première tranche verticale (MVP)**, décision explicite pour ne pas
+livrer un seul PR massif couvrant tous les écrans : authentification +
+tableau de bord + commandes (liste + création), en établissant
+l'architecture frontend que les écrans suivants (clients, services,
+caisse, tickets, rapports, administration, licence) réutiliseront.
+
+- **Stack ajoutée** (React + Vite déjà verrouillé) : `react-router-dom`
+  (routage), `@tanstack/react-query` (cache/état de chargement des appels
+  API), Tailwind CSS v4 via `@tailwindcss/vite` (tokens de
+  `docs/design/DESIGN.md` portés dans `src/index.css` via `@theme`).
+- **`api-client.ts`** : point d'entrée HTTP unique, injecte le Bearer
+  token, normalise les erreurs Nest (`{statusCode, message, error}`) en
+  `ApiError`.
+- **`auth-context.tsx`** : session (token + tenant + user) en mémoire,
+  persistée dans `localStorage` pour survivre à un rechargement — jamais
+  de logique d'autorisation ici, uniquement de l'affichage conditionnel
+  (le frontend n'est jamais une autorité de sécurité, chaque appel API
+  revalide indépendamment JWT + rôle côté serveur).
+- **Écrans** : connexion, inscription (essai 15 jours), tableau de bord
+  (KPIs/alertes/commandes récentes du `GET /dashboard`, 013), commandes
+  (liste + création via `GET`/`POST /commandes`, 009).
+- **CORS** activé côté API (`app.enableCors()`, `main.ts`) — nécessaire
+  dès qu'un frontend tourne sur une origine différente ; authentification
+  par Bearer token (jamais de cookie), donc `credentials: false`.
+- **Fidélité visuelle** : tokens de couleur/typographie/espacement de
+  `docs/design/DESIGN.md` portés fidèlement (Tailwind `@theme`), polices
+  Google Fonts (Inter, JetBrains Mono, Material Symbols Outlined) comme
+  dans les maquettes. Structure de page (barre latérale + en-tête,
+  grille de cartes KPI, tableau des commandes récentes) inspirée de
+  `docs/design/screens/tableau_de_bord_administrateur_tenant_1`, adaptée
+  librement pour React + données réelles (pas un portage pixel-perfect
+  du HTML).
+
+## Périmètre différé
+
+Cette spec **n'est pas convergée** : seule la tranche MVP (connexion,
+inscription, tableau de bord, commandes) est livrée. Restent à faire,
+en PRs séparées réutilisant cette même architecture :
+
+- Écrans clients (007), services (008), caisse (010), tickets (011),
+  rapports (014), administration/utilisateurs (§11), licence/facturation
+  (004/017).
+- Navigation filtrée par rôle au-delà de la redirection non-authentifiée
+  (ex. LIVREUR ne devrait voir qu'un sous-ensemble de la navigation) —
+  affichage seulement, jamais une autorisation.
+- Vérification navigateur interactive complète : cet environnement ne
+  dispose ni d'un outil de contrôle de navigateur, ni d'un PostgreSQL
+  local (les tests d'intégration de ce projet ne s'exécutent réellement
+  qu'en CI, cf. tous les specs précédents). Vérifié à la place : suite de
+  composants (15 tests, API simulée), `tsc --noEmit`, build de
+  production Vite réussi, et un test de fumée du serveur de dev (démarrage
+  réel, transformation sans erreur de `main.tsx`/`App.tsx`/`index.css`).
+  Un passage manuel en navigateur reste recommandé avant mise en
+  production.
+- Pas de gestion de token expiré/refresh (401 renvoie une erreur brute
+  pour l'instant, pas de redirection automatique vers `/connexion`).
+
 ## Critères d’acceptation
 
-- [ ] Fonctionnalité conforme à la spec.
-- [ ] Tests unitaires.
-- [ ] Tests intégration.
-- [ ] Tests sécurité/RBAC.
-- [ ] Tests tenant isolation si applicable.
-- [ ] Documentation mise à jour.
+- [x] Fonctionnalité conforme à la spec (pour le périmètre MVP livré).
+- [x] Tests unitaires/composants (15 tests : `api-client`, `auth-context`,
+      `ProtectedRoute`, `App` routing, `DashboardPage`, `OrdersPage`).
+- [ ] Tests intégration (pas de suite E2E navigateur dans ce projet à ce
+      stade — hors périmètre de cette tranche).
+- [x] Tests sécurité/RBAC (le frontend ne fait qu'un affichage
+      conditionnel ; le RBAC réel est déjà testé côté API pour chaque
+      endpoint consommé).
+- [ ] Tests tenant isolation (non applicable côté frontend — l'isolation
+      est déjà garantie et testée côté API).
+- [x] Documentation mise à jour.
