@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { TicketsPage } from './pages/TicketsPage';
 
@@ -71,6 +72,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <TicketsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/rapports"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <ReportsPage />
             </AppShell>
           </ProtectedRoute>
         }

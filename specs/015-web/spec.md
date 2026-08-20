@@ -80,18 +80,45 @@ la demande pour une commande donnée). Ajout de `apiFetchBlob` dans
 `api-client.ts` pour les réponses binaires (PDF/ESC-POS), à côté de
 `apiFetch` (JSON) — même contrat d'auth/erreur.
 
+## Tranche 4 — rapports
+
+Ajoute `ReportsPage` (014-reports) : sélecteur parmi les 8 rapports
+exposés par l'API, filtre de plage de dates pour les rapports qui le
+supportent, tableau générique (colonnes/lignes), cartes de résumé quand
+le rapport en fournit un, export CSV/PDF (réutilise `apiFetchBlob` de la
+tranche 3). Maquette de référence :
+`docs/design/screens/statistiques_avanc_es_rentabilit` — celle-ci
+présente des graphiques et des KPI (marge nette, coût d'acquisition
+client, valeur moyenne de commande) qu'aucun rapport ne calcule côté
+API : l'API expose un contrat tabulaire générique unique
+(`TableauRapport`, `reports.types.ts`), adapté fidèlement à ce contrat
+plutôt qu'à des métriques inventées.
+
+**Correction de périmètre** : la maquette
+`configuration_des_tickets_et_notifications` avait été classée comme
+"couverte par une API existante" lors du cadrage initial de cette spec.
+Vérification faite à l'implémentation : le module `notifications`
+(012) n'expose aucun contrôleur HTTP — c'est un pur listener d'événements
+internes, les templates de message sont codés en dur globalement
+(`notification-templates.ts`, explicitement noté "configurable par
+tenant dans une future spec si besoin" — pas encore fait). Aucun écran
+de configuration n'est donc possible sans un nouveau backend ; retirée
+de la liste "prête" et déplacée ci-dessous.
+
 ## Périmètre différé
 
 Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
 tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
-tranche 3 (caisse, tickets) livrées. Restent à faire, en PRs séparées
-réutilisant cette même architecture :
+tranche 3 (caisse, tickets) + tranche 4 (rapports) livrées. Restent à
+faire, en PRs séparées réutilisant cette même architecture :
 
-- Écrans rapports (014), notifications (012), facturation/abonnement
-  (017), licences super-admin (004/005), administration/utilisateurs
-  (nouveau backend requis), branding/tenant (nouveau backend requis),
-  audit/logs (018), centre de support (005), tableau de bord super-admin
-  (005).
+- Écrans facturation/abonnement (017), licences super-admin (004/005),
+  administration/utilisateurs (nouveau backend requis), branding/tenant
+  (nouveau backend requis), audit/logs (018), centre de support (005),
+  tableau de bord super-admin (005).
+- Notifications (012) : aucun backend de configuration n'existe (voir
+  correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
+  backend avant tout écran.
 - 8 maquettes sans backend existant (stocks/consommables,
   multi-boutiques réseau, RH/rotations, maintenance machines, transfert
   de stock, tarification par zone géographique) — hors périmètre tant

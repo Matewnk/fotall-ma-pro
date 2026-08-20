@@ -2,22 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { apiFetch, apiFetchBlob } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { declencherTelechargement, ouvrirBlobDansNouvelOnglet } from '../lib/download';
 import type { Commande } from '../lib/types';
-
-function ouvrirPdf(blob: Blob): void {
-  const url = URL.createObjectURL(blob);
-  window.open(url, '_blank');
-  setTimeout(() => URL.revokeObjectURL(url), 60_000);
-}
-
-function declencherTelechargement(blob: Blob, nomFichier: string): void {
-  const url = URL.createObjectURL(blob);
-  const lien = document.createElement('a');
-  lien.href = url;
-  lien.download = nomFichier;
-  lien.click();
-  URL.revokeObjectURL(url);
-}
 
 // Écran §011 (tickets/impression) — maquette de référence :
 // docs/design/screens/gestion_de_l_impression_thermique. La maquette
@@ -41,7 +27,7 @@ export function TicketsPage() {
     setEnCours(`${commande.id}-pdf`);
     try {
       const blob = await apiFetchBlob(`/commandes/${commande.id}/ticket/pdf`, { token });
-      ouvrirPdf(blob);
+      ouvrirBlobDansNouvelOnglet(blob);
     } catch {
       setErreur(`Impossible de générer le ticket PDF de la commande #${commande.numero}.`);
     } finally {

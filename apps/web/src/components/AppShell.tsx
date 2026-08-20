@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: '/services', label: 'Tarifs & services', icon: 'sell' },
   { to: '/caisse', label: 'Caisse', icon: 'point_of_sale' },
   { to: '/tickets', label: 'Tickets', icon: 'print' },
+  { to: '/rapports', label: 'Rapports', icon: 'analytics' },
 ];
 
 function classesNav(actif: boolean): string {
