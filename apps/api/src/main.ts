@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -11,6 +12,21 @@ async function bootstrap() {
   // Allow-list stricte par domaine : périmètre de la mise en production
   // (020-production).
   app.enableCors({ origin: true, credentials: false });
+
+  // §17 "API ouverte" / stack verrouillée "REST + OpenAPI/Swagger" :
+  // schéma généré à partir des DTO existants (plugin CLI @nestjs/swagger,
+  // voir nest-cli.json) — aucune annotation manuelle @ApiProperty requise
+  // sur les ~40 DTO déjà écrits (001-018).
+  const config = new DocumentBuilder()
+    .setTitle('Fotall-Ma Pro API')
+    .setDescription('API REST — gestion de pressing multi-tenant')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .addApiKey({ type: 'apiKey', name: 'X-Api-Key', in: 'header' }, 'api-key')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('docs', app, document);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
