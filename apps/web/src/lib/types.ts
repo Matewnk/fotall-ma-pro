@@ -113,6 +113,25 @@ export type TenantDetail = {
   } | null;
 };
 
+export type EntreeAudit = {
+  id: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  actorId: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+};
+
+export type SessionSupport = {
+  id: string;
+  tenantId: string;
+  superAdminId: string;
+  motif: string;
+  startedAt: string;
+  endedAt?: string;
+};
+
 export type ModePaiementFacturation = 'CARTE' | 'MOBILE_MONEY' | 'VIREMENT';
 export type StatutAbonnement = 'ACTIF' | 'EN_RETARD' | 'ANNULE';
 

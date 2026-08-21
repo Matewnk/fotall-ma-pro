@@ -13,8 +13,10 @@
       tenant-settings/* ; tranche 7 : fondation console super-admin —
       connexion SUPER_ADMIN, nouveau backend POST /auth/super-admin/login,
       vue globale ; tranche 8 : liste des tenants, licences et
-      facturation super-admin)
+      facturation super-admin ; tranche 9 : audit/logs (tenant), centre
+      de support (super-admin))
 - [x] Tests verts
-- [ ] Converge (reste : audit/logs, centre de support super-admin —
-      PRs suivantes ; notifications retirée du périmètre web, aucun
-      endpoint de configuration n'existe)
+- [x] Converge (tous les écrans du périmètre approuvé livrés — voir
+      "Périmètre définitivement hors 015-web" dans spec.md pour ce qui
+      reste volontairement exclu : notifications sans backend, 8
+      maquettes sans backend, maquettes mobiles)
