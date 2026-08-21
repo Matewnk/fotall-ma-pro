@@ -6,9 +6,16 @@
 // modules natifs). `projects` permet aux deux de cohabiter sous un seul
 // `pnpm test`.
 module.exports = {
-  // Option globale (CLI-level), pas par-projet — voir jest.config.js
-  // historique et le commentaire sur l'adaptateur LokiJS ci-dessous.
+  // Options globales (CLI-level) : Jest refuse silencieusement
+  // ("Unknown option") toute option qui n'est pas per-projet à
+  // l'intérieur d'une entrée de `projects` — forceExit et testTimeout en
+  // font partie (contrairement à testTimeout défini par projet, qui n'a
+  // aucun effet et échoue silencieusement, comme observé en CI). Elles
+  // doivent rester ici, au niveau racine, et s'appliquent aux deux
+  // projets — sans risque pour "offline", dont les tests sont bien plus
+  // rapides que ce plafond.
   forceExit: true,
+  testTimeout: 15000,
   projects: [
     {
       displayName: 'offline',
@@ -47,12 +54,6 @@ module.exports = {
       transformIgnorePatterns: [
         'node_modules/(?!.*(react-native|expo|react-navigation|unimodules|sentry-expo|native-base|watermelondb))',
       ],
-      // Défaut Jest (5000ms) trop juste : ce projet tourne en parallèle du
-      // projet "offline" (WatermelonDB/LokiJS, cold-start lui-même lent),
-      // et sous contention CPU (observé en CI) le test entier peut dépasser
-      // 5000ms alors même que le waitFor() interne n'a pas encore atteint
-      // son propre délai — les deux budgets sont indépendants dans Jest.
-      testTimeout: 15000,
     },
   ],
 };
