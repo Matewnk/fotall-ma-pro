@@ -77,7 +77,7 @@ describe('PublicTracking (016-mobile-offline tranche 5) — PostgreSQL réel', (
     expect(res.status).toBe(201);
     expect(res.body.numero).toBe(numeroA);
     expect(res.body.statut).toBe('EN_ATTENTE');
-    expect(res.body.articles).toEqual([{ intitule: 'Lavage', quantite: 2, sousTotal: '2000.00' }]);
+    expect(res.body.articles).toEqual([{ intitule: 'Lavage', quantite: 2, sousTotal: '2000' }]);
     expect(res.body.pressing.nomPressing).toBe('Pressing Suivi A');
   });
 
