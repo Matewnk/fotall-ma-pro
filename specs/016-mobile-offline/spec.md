@@ -109,13 +109,37 @@ nécessaire avant mise en production.
   offline-first (ex. nouvelle commande CAISSIER) est différé à la
   tranche qui construira cet écran.
 
+## Tranche 3 — écran CAISSIER (nouvelle commande)
+
+`NewOrderScreen` (mockup
+`interface_caissier_nouvelle_commande_mobile`) : recherche/sélection
+client (`GET /clients?nom=`), sélection d'articles au tarif catalogue
+(`GET /services?actif=true`) avec panier local, choix retrait/livraison,
+validation (`POST /commandes`, 009, même contrat que
+`apps/web/src/pages/OrdersPage.tsx`). Le total affiché avant validation
+est une **estimation client** (tarif × quantité), jamais autoritaire —
+le total réel (`sousTotal`/`total`) est toujours recalculé et renvoyé
+par le serveur (§9, jamais de confiance dans le frontend). Toujours en
+ligne (voir note ci-dessus, moteur offline non branché).
+`RootNavigator` fait atterrir un CAISSIER directement sur cet écran
+(`initialRouteName`), les autres rôles restent sur `Compte` en
+attendant l'écran technicien/livreur.
+
+**Dépendance corrigée — `@tanstack/react-query`** : cet écran est le
+premier de l'app mobile à utiliser `useQuery`/`useMutation`. La
+bibliothèque n'était pas déclarée dans `apps/mobile/package.json` mais
+se résolvait quand même via le hoisting pnpm (elle est déclarée pour
+`apps/web`) — une dépendance fantôme qui aurait cassé au premier
+changement de topologie du lockfile. Ajoutée explicitement en
+dépendance directe. `App.tsx` et `test-utils.tsx` gagnent un
+`QueryClientProvider` (absent jusqu'ici : `LoginScreen`/`AccountScreen`
+n'en avaient pas besoin, appelant `apiFetch` directement).
+
 ## Périmètre différé
 
-- **Écrans métier** : nouvelle commande CAISSIER (mockup
-  `interface_caissier_nouvelle_commande_mobile`, backend déjà prêt —
-  `POST /commandes`, 009) et suivi TECHNICIEN/LIVREUR (mockup
+- **Écran suivi TECHNICIEN/LIVREUR** (mockup
   `suivi_technicien_livreur_mobile`, backend déjà prêt — `PATCH
-/commandes/:id/statut`, 009) — PRs séparées, sur la fondation de cette
+/commandes/:id/statut`, 009) — PR séparée, sur la fondation de cette
   tranche.
 - **Portail client** (mockup `portail_client_suivi_de_commande_mobile`) :
   écran public, sans connexion (numéro de commande + téléphone). Décision
@@ -141,12 +165,12 @@ nécessaire avant mise en production.
 ## Critères d’acceptation
 
 - [x] Fonctionnalité conforme à la spec (couche de données offline +
-      fondation des écrans livrées).
+      fondation des écrans + écran CAISSIER livrés).
 - [x] Tests unitaires/composants : `conflict-resolution.spec.ts` (9
       tests), `sync-engine.spec.ts` (12 tests, vrai `Database`
       WatermelonDB en mémoire), `LoginScreen.test.tsx` +
-      `AccountScreen.test.tsx` (3 tests, React Native Testing Library) —
-      24 au total.
+      `AccountScreen.test.tsx` + `NewOrderScreen.test.tsx` (4 tests,
+      React Native Testing Library) — 25 au total.
 - [ ] Tests intégration (pas d'appel réseau réel — le moteur offline est
       testé contre un `ApiClient` simulé, les écrans contre un `fetch`
       simulé ; l'intégration avec l'API réelle sera testée lors du
