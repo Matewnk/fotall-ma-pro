@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ApiError } from '../lib/api-client';
@@ -6,9 +7,11 @@ import { useAuth } from '../lib/auth-context';
 // Écran de connexion staff (CAISSIER/TECHNICIEN/LIVREUR/ADMIN) —
 // équivalent mobile de apps/web/src/pages/LoginPage.tsx, même contrat
 // POST /auth/login (sous-domaine + email + mot de passe). Le portail
-// client (public, sans connexion) est un écran séparé — voir spec.md.
+// client (public, sans connexion) est un écran séparé accessible sans
+// authentification — voir spec.md.
 export function LoginScreen() {
   const { login } = useAuth();
+  const navigation = useNavigation();
   const [sousDomaine, setSousDomaine] = useState('');
   const [email, setEmail] = useState('');
   const [motDePasse, setMotDePasse] = useState('');
@@ -72,6 +75,13 @@ export function LoginScreen() {
           <Text style={styles.boutonTexte}>Se connecter</Text>
         )}
       </Pressable>
+
+      <Pressable
+        onPress={() => navigation.navigate('SuiviClient' as never)}
+        accessibilityRole="button"
+      >
+        <Text style={styles.lien}>Suivre ma commande</Text>
+      </Pressable>
     </View>
   );
 }
@@ -96,4 +106,5 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   boutonTexte: { color: '#fff', fontWeight: '600' },
+  lien: { color: '#1e3a8a', textAlign: 'center', marginTop: 4 },
 });
