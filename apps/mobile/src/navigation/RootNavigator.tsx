@@ -5,6 +5,7 @@ import { useAuth } from '../lib/auth-context';
 import { AccountScreen } from '../screens/AccountScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
+import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,14 +17,20 @@ function BoutonCompte({ onPress }: { onPress: () => void }) {
   );
 }
 
+function routeInitiale(role: string | undefined): 'NouvelleCommande' | 'Suivi' | 'Compte' {
+  if (role === 'CAISSIER') return 'NouvelleCommande';
+  if (role === 'TECHNICIEN' || role === 'LIVREUR') return 'Suivi';
+  return 'Compte';
+}
+
 // Redirection côté client uniquement (confort UX) — jamais une garantie
 // de sécurité : chaque écran authentifié appelle une API qui revalide le
 // JWT et le rôle indépendamment (RBAC serveur). Équivalent mobile de
 // ProtectedRoute (apps/web/src/components/ProtectedRoute.tsx), adapté au
 // modèle de navigation par pile de React Navigation plutôt que par route
-// URL. Atterrissage par rôle : CAISSIER → nouvelle commande (009), les
-// autres rôles → Compte en attendant l'écran technicien/livreur (tranche
-// suivante) — affichage seulement, jamais une autorisation.
+// URL. Atterrissage par rôle : CAISSIER → nouvelle commande (009),
+// TECHNICIEN/LIVREUR → suivi des commandes (009), ADMIN → Compte —
+// affichage seulement, jamais une autorisation.
 export function RootNavigator() {
   const { session, chargement } = useAuth();
 
@@ -37,9 +44,7 @@ export function RootNavigator() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName={session?.user.role === 'CAISSIER' ? 'NouvelleCommande' : 'Compte'}
-      >
+      <Stack.Navigator initialRouteName={routeInitiale(session?.user.role)}>
         {session ? (
           <>
             <Stack.Screen
@@ -47,6 +52,14 @@ export function RootNavigator() {
               component={NewOrderScreen}
               options={({ navigation }) => ({
                 title: 'Nouvelle commande',
+                headerRight: () => <BoutonCompte onPress={() => navigation.navigate('Compte')} />,
+              })}
+            />
+            <Stack.Screen
+              name="Suivi"
+              component={OrdersStatusScreen}
+              options={({ navigation }) => ({
+                title: 'Suivi des commandes',
                 headerRight: () => <BoutonCompte onPress={() => navigation.navigate('Compte')} />,
               })}
             />

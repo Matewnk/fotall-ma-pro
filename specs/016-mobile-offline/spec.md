@@ -135,12 +135,24 @@ dépendance directe. `App.tsx` et `test-utils.tsx` gagnent un
 `QueryClientProvider` (absent jusqu'ici : `LoginScreen`/`AccountScreen`
 n'en avaient pas besoin, appelant `apiFetch` directement).
 
+## Tranche 4 — écran TECHNICIEN/LIVREUR (suivi des commandes)
+
+`OrdersStatusScreen` (mockup `suivi_technicien_livreur_mobile`) : liste
+des commandes (`GET /commandes?statut=`) avec filtres, un bouton par
+carte faisant avancer la commande à son statut suivant
+(`PATCH /commandes/:id/statut`, 009 — backend déjà prêt, même
+progression EN_ATTENTE→EN_COURS→PRET→LIVRE que web/OrdersPage). Les
+onglets Technicien/Livreur et les filtres par sous-étape (Lavage,
+Repassage) de la maquette ne sont pas repris : `StatutCommande` est un
+statut unique, sans sous-étapes de traitement suivies côté API — adapté
+au filtre réel disponible. Un seul bouton d'action par carte plutôt que
+des actions filtrées par rôle affiché : le serveur reste la seule
+autorité RBAC réelle (TECHNICIEN et LIVREUR peuvent tous deux appeler
+cet endpoint, §2.1). `RootNavigator` fait atterrir TECHNICIEN/LIVREUR
+directement sur cet écran.
+
 ## Périmètre différé
 
-- **Écran suivi TECHNICIEN/LIVREUR** (mockup
-  `suivi_technicien_livreur_mobile`, backend déjà prêt — `PATCH
-/commandes/:id/statut`, 009) — PR séparée, sur la fondation de cette
-  tranche.
 - **Portail client** (mockup `portail_client_suivi_de_commande_mobile`) :
   écran public, sans connexion (numéro de commande + téléphone). Décision
   explicite avec l'utilisateur : nécessite un nouveau endpoint public non
@@ -165,12 +177,14 @@ n'en avaient pas besoin, appelant `apiFetch` directement).
 ## Critères d’acceptation
 
 - [x] Fonctionnalité conforme à la spec (couche de données offline +
-      fondation des écrans + écran CAISSIER livrés).
+      fondation des écrans + écrans CAISSIER et TECHNICIEN/LIVREUR
+      livrés).
 - [x] Tests unitaires/composants : `conflict-resolution.spec.ts` (9
       tests), `sync-engine.spec.ts` (12 tests, vrai `Database`
       WatermelonDB en mémoire), `LoginScreen.test.tsx` +
-      `AccountScreen.test.tsx` + `NewOrderScreen.test.tsx` (4 tests,
-      React Native Testing Library) — 25 au total.
+      `AccountScreen.test.tsx` + `NewOrderScreen.test.tsx` +
+      `OrdersStatusScreen.test.tsx` (6 tests, React Native Testing
+      Library) — 27 au total.
 - [ ] Tests intégration (pas d'appel réseau réel — le moteur offline est
       testé contre un `ApiClient` simulé, les écrans contre un `fetch`
       simulé ; l'intégration avec l'API réelle sera testée lors du
