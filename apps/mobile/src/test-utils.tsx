@@ -1,8 +1,16 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
 import { AuthProvider } from './lib/auth-context';
 
 export function renderAvecProviders(element: ReactElement) {
-  return <AuthProvider>{element}</AuthProvider>;
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
+  });
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>{element}</AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
 export function reponseJson(corps: unknown, ok = true, status = ok ? 200 : 400) {
