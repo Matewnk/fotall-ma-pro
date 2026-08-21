@@ -31,7 +31,8 @@ describe('LoginScreen', () => {
     fireEvent.changeText(screen.getByLabelText('Mot de passe'), 'super-secret-1');
     fireEvent.press(screen.getByText('Se connecter'));
 
-    // Timeout au-delà du défaut RNTL (1000ms), voir AccountScreen.test.tsx.
+    // Timeout au-delà du défaut RNTL (1000ms) — voir jest.config.js
+    // (testTimeout du projet "screens") pour le contexte complet.
     await waitFor(
       () => {
         expect(globalThis.fetch).toHaveBeenCalledWith(
@@ -39,7 +40,7 @@ describe('LoginScreen', () => {
           expect.objectContaining({ method: 'POST' }),
         );
       },
-      { timeout: 5000 },
+      { timeout: 10000 },
     );
   });
 
@@ -59,7 +60,7 @@ describe('LoginScreen', () => {
       () => {
         expect(screen.getByText('Identifiants invalides.')).toBeTruthy();
       },
-      { timeout: 5000 },
+      { timeout: 10000 },
     );
   });
 });

@@ -23,17 +23,14 @@ describe('AccountScreen', () => {
 
     render(renderAvecProviders(<AccountScreen />));
 
-    // Timeout au-delà du défaut RNTL (1000ms) : la lecture initiale
-    // d'AsyncStorage passe par AuthProvider (useEffect + Promise), lent
-    // sous contention CPU quand ce projet Jest tourne en parallèle du
-    // projet "offline" (WatermelonDB/LokiJS, cold-start également lent —
-    // voir jest.setup.ts).
+    // Timeout au-delà du défaut RNTL (1000ms) — voir jest.config.js
+    // (testTimeout du projet "screens") pour le contexte complet.
     await waitFor(
       () => {
         expect(screen.getByText('Pressing Test')).toBeTruthy();
         expect(screen.getByText('caissier@pressing-test.dev')).toBeTruthy();
       },
-      { timeout: 5000 },
+      { timeout: 10000 },
     );
 
     fireEvent.press(screen.getByText('Déconnexion'));
@@ -42,7 +39,7 @@ describe('AccountScreen', () => {
       async () => {
         expect(await AsyncStorage.getItem('fotall.session')).toBeNull();
       },
-      { timeout: 5000 },
+      { timeout: 10000 },
     );
   });
 });

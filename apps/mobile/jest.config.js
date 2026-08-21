@@ -47,6 +47,12 @@ module.exports = {
       transformIgnorePatterns: [
         'node_modules/(?!.*(react-native|expo|react-navigation|unimodules|sentry-expo|native-base|watermelondb))',
       ],
+      // Défaut Jest (5000ms) trop juste : ce projet tourne en parallèle du
+      // projet "offline" (WatermelonDB/LokiJS, cold-start lui-même lent),
+      // et sous contention CPU (observé en CI) le test entier peut dépasser
+      // 5000ms alors même que le waitFor() interne n'a pas encore atteint
+      // son propre délai — les deux budgets sont indépendants dans Jest.
+      testTimeout: 15000,
     },
   ],
 };
