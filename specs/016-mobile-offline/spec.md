@@ -151,15 +151,46 @@ autorité RBAC réelle (TECHNICIEN et LIVREUR peuvent tous deux appeler
 cet endpoint, §2.1). `RootNavigator` fait atterrir TECHNICIEN/LIVREUR
 directement sur cet écran.
 
+## Tranche 5 — portail client (nouveau backend public)
+
+`CustomerTrackingScreen` (mockup `portail_client_suivi_de_commande_mobile`)
+et le backend qui manquait pour la rendre possible :
+`apps/api/src/public-tracking/*`, **premier endpoint public de tout le
+projet** — aucun JWT, aucun guard.
+
+- `POST /suivi-commande` (`sousDomaine`, `numero`, `telephone`) : le
+  sous-domaine remplace le `tenantId` habituellement issu du JWT ;
+  `numero` seul n'est unique qu'à l'intérieur d'un tenant (`Commande.numero
+@unique` est un contrainte de schéma par tenant, jamais globale — voir
+  ADR-001), donc le téléphone du client sert de preuve de possession
+  (comme une "question secrète") — sans lui, n'importe qui connaissant un
+  simple numéro de commande pourrait suivre la commande de n'importe quel
+  client. POST plutôt que GET : évite qu'un numéro de téléphone (donnée
+  personnelle) transite en clair dans l'URL (logs d'accès, historique
+  navigateur).
+- **Message d'échec générique unique** dans tous les cas (sous-domaine
+  inconnu, commande inconnue, téléphone ne correspondant pas) — même
+  principe que `AuthService.login` ("Identifiants invalides" générique) :
+  ne jamais laisser un attaquant distinguer laquelle des trois conditions
+  a échoué (`NotFoundException`, testé explicitement en intégration pour
+  les trois cas + l'isolation cross-tenant : un numéro existant dans le
+  tenant A n'est jamais trouvé via le sous-domaine du tenant B).
+- **Non couvert dans cette tranche** : limitation de débit
+  (rate-limiting) contre l'énumération par force brute du téléphone à
+  numéro fixe. Aucun mécanisme de throttling n'existe encore dans ce
+  projet (`@nestjs/throttler` non installé) ; à traiter avant mise en
+  production, au même titre que la rotation JWT/anti-bruteforce déjà
+  notée différée depuis 018-audit-security
+  (`docs/production-checklist.md`).
+- Accessible depuis `LoginScreen` via un lien "Suivre ma commande"
+  (`RootNavigator`, pile non authentifiée) — aucune session requise.
+  Points fidélité de la maquette non repris : aucun système de fidélité
+  n'existe côté API.
+
 ## Périmètre différé
 
-- **Portail client** (mockup `portail_client_suivi_de_commande_mobile`) :
-  écran public, sans connexion (numéro de commande + téléphone). Décision
-  explicite avec l'utilisateur : nécessite un nouveau endpoint public non
-  authentifié (aucun n'existe — tout le reste de l'API exige un JWT
-  staff) — backend et écran différés à une PR dédiée.
 - **Branchement du moteur de synchronisation offline** sur un écran
-  réellement offline-first (voir ci-dessus).
+  réellement offline-first (voir tranche 2 ci-dessus).
 - **Adaptateur SQLite natif de production** : cette tranche configure
   uniquement l'adaptateur en mémoire (LokiJS) pour les tests. Le
   branchement de l'adaptateur SQLite réel (`@nozbe/watermelondb/adapters/sqlite`)
@@ -177,18 +208,22 @@ directement sur cet écran.
 ## Critères d’acceptation
 
 - [x] Fonctionnalité conforme à la spec (couche de données offline +
-      fondation des écrans + écrans CAISSIER et TECHNICIEN/LIVREUR
-      livrés).
+      fondation des écrans + écrans CAISSIER, TECHNICIEN/LIVREUR et
+      portail client livrés).
 - [x] Tests unitaires/composants : `conflict-resolution.spec.ts` (9
       tests), `sync-engine.spec.ts` (12 tests, vrai `Database`
       WatermelonDB en mémoire), `LoginScreen.test.tsx` +
       `AccountScreen.test.tsx` + `NewOrderScreen.test.tsx` +
-      `OrdersStatusScreen.test.tsx` (6 tests, React Native Testing
-      Library) — 27 au total.
-- [ ] Tests intégration (pas d'appel réseau réel — le moteur offline est
-      testé contre un `ApiClient` simulé, les écrans contre un `fetch`
-      simulé ; l'intégration avec l'API réelle sera testée lors du
-      passage manuel sur appareil/simulateur).
+      `OrdersStatusScreen.test.tsx` + `CustomerTrackingScreen.test.tsx`
+      (8 tests, React Native Testing Library) — 29 au total ;
+      `public-tracking.service.spec.ts` (4 tests, côté API).
+- [x] Tests intégration : `public-tracking.integration.spec.ts` contre
+      PostgreSQL réel (isolation cross-tenant, 404 générique dans les
+      trois cas d'échec) — premier appel réseau réel testé pour cette
+      spec, côté backend du portail client. Le reste (moteur offline
+      testé contre un `ApiClient` simulé, écrans contre un `fetch`
+      simulé) : l'intégration mobile avec l'API réelle sera testée lors
+      du passage manuel sur appareil/simulateur.
 - [x] Tests sécurité/RBAC (non applicable ici — aucune nouvelle route
       API, le RBAC des endpoints consommés est déjà testé dans leurs
       specs respectives, 007/009/010).

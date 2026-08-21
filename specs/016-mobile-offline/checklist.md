@@ -11,8 +11,8 @@
       écrans — navigation, auth, connexion, compte, sans encore le
       moteur offline branché ; tranche 3 : écran CAISSIER nouvelle
       commande ; tranche 4 : écran TECHNICIEN/LIVREUR suivi des
-      commandes)
+      commandes ; tranche 5 : portail client, nouveau backend public
+      POST /suivi-commande)
 - [x] Tests verts
-- [ ] Converge (reste : portail client — nouveau backend requis —,
-      adaptateur SQLite natif, branchement du moteur offline sur les
-      écrans — PRs suivantes)
+- [ ] Converge (reste : adaptateur SQLite natif, branchement du moteur
+      offline sur les écrans — PRs suivantes)

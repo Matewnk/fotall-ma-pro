@@ -1,3 +1,4 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactElement } from 'react';
 import { AuthProvider } from './lib/auth-context';
@@ -8,7 +9,9 @@ export function renderAvecProviders(element: ReactElement) {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{element}</AuthProvider>
+      <AuthProvider>
+        <NavigationContainer>{element}</NavigationContainer>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { useAuth } from '../lib/auth-context';
 import { AccountScreen } from '../screens/AccountScreen';
+import { CustomerTrackingScreen } from '../screens/CustomerTrackingScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
 import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
@@ -66,7 +67,18 @@ export function RootNavigator() {
             <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
           </>
         ) : (
-          <Stack.Screen name="Connexion" component={LoginScreen} options={{ headerShown: false }} />
+          <>
+            <Stack.Screen
+              name="Connexion"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SuiviClient"
+              component={CustomerTrackingScreen}
+              options={{ title: 'Suivre ma commande' }}
+            />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
