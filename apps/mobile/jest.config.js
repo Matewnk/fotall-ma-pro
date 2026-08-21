@@ -9,13 +9,19 @@ module.exports = {
   // Options globales (CLI-level) : Jest refuse silencieusement
   // ("Unknown option") toute option qui n'est pas per-projet à
   // l'intérieur d'une entrée de `projects` — forceExit et testTimeout en
-  // font partie (contrairement à testTimeout défini par projet, qui n'a
-  // aucun effet et échoue silencieusement, comme observé en CI). Elles
-  // doivent rester ici, au niveau racine, et s'appliquent aux deux
-  // projets — sans risque pour "offline", dont les tests sont bien plus
-  // rapides que ce plafond.
+  // font partie. Elles doivent rester ici, au niveau racine, et
+  // s'appliquent aux deux projets — sans risque pour "offline", dont les
+  // tests sont bien plus rapides que ce plafond.
+  //
+  // 30000ms (pas 15000) : le premier fichier de test du projet "screens"
+  // à s'exécuter dans un worker Jest paie le coût de transform/chargement
+  // à froid de toute la chaîne jest-expo/Babel/React Native (mesuré
+  // localement à ~15.8s avec un cache Jest vidé, `jest --clearCache`) —
+  // en CI, où chaque run repart sans cache persistant, ce coût à froid
+  // est systématique, pas occasionnel. Sans rapport avec la lenteur du
+  // cold-start LokiJS du projet "offline" (déjà documentée séparément).
   forceExit: true,
-  testTimeout: 15000,
+  testTimeout: 30000,
   projects: [
     {
       displayName: 'offline',
