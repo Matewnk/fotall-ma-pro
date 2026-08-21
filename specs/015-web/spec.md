@@ -196,20 +196,38 @@ référence (`gestion_des_licences_super_admin`,
 tenant sélectionné depuis une liste — cohérent avec leur modèle
 "liste puis détail".
 
-## Périmètre différé
+## Tranche 9 — audit/logs et centre de support (convergence)
 
-Cette spec **n'est pas convergée** : tranche MVP (connexion, inscription,
-tableau de bord, commandes) + tranche 2 (clients, tarifs/services) +
-tranche 3 (caisse, tickets) + tranche 4 (rapports) + tranche 5
-(utilisateurs/rôles) + tranche 6 (branding) + tranche 7 (fondation
-console super-admin) + tranche 8 (tenants/licences/facturation)
-livrées. Restent à faire, en PRs séparées réutilisant cette même
-architecture :
+Dernière tranche du périmètre approuvé.
 
-- Écrans audit/logs (018), centre de support (005) — sur la fondation
-  console super-admin de la tranche 7.
+- `AuditPage` (`/audit`, sur `AppShell`, lien ADMIN uniquement) :
+  `GET /audit`, tenant-scoped. Contrairement aux écrans super-admin
+  voisins, cet endpoint exige un `tenantId` — un SUPER_ADMIN
+  (`tenantId: null`) en est exclu par construction
+  (`audit.controller.ts`) et doit passer par le mode support explicite
+  ci-dessous. Maquette de référence :
+  `docs/design/screens/audit_de_s_curit_et_logs_utilisateurs`.
+- Section "Support" ajoutée à `SuperAdminTenantDetailPage` (plutôt qu'un
+  écran séparé — même tenant sélectionné que licence/facturation/plan) :
+  démarrer une session (`POST .../support/demarrer`, motif obligatoire
+  ≥ 3 caractères), statut de la session active
+  (`GET .../support/session`), la terminer (`POST .../support/terminer`),
+  et pendant qu'elle est active, consulter le journal d'audit de ce
+  tenant (`GET .../support/audit`, protégé par `SupportSessionGuard` côté
+  API — aucun accès direct aux données d'un tenant sans session motivée
+  et active, Constitution/cahier des charges §16). Maquette de
+  référence : `docs/design/screens/centre_de_support_aide`.
+
+Avec cette tranche, les 14 écrans du périmètre approuvé (12 initialement
+prêts + 2 avec petit ajout backend + fondation console super-admin) sont
+tous livrés. **015-web est convergée** pour ce périmètre.
+
+## Périmètre définitivement hors 015-web
+
+Exclu du périmètre approuvé, documenté pour référence future :
+
 - Notifications (012) : aucun backend de configuration n'existe (voir
-  correction de périmètre ci-dessus) — nécessiterait une nouvelle spec
+  correction de périmètre tranche 4) — nécessiterait une nouvelle spec
   backend avant tout écran.
 - 8 maquettes sans backend existant (stocks/consommables,
   multi-boutiques réseau, RH/rotations, maintenance machines, transfert
@@ -219,25 +237,26 @@ architecture :
 - Écrans mobiles des maquettes (caissier, portail client, technicien/
   livreur) — traités dans la phase mobile, après convergence web.
 - Navigation filtrée par rôle au-delà de la redirection non-authentifiée
-  (ex. LIVREUR ne devrait voir qu'un sous-ensemble de la navigation) —
-  affichage seulement, jamais une autorisation.
+  et des quelques liens ADMIN déjà filtrés (ex. LIVREUR ne devrait voir
+  qu'un sous-ensemble de la navigation) — affichage seulement, jamais
+  une autorisation.
 - Vérification navigateur interactive complète : cet environnement ne
   dispose ni d'un outil de contrôle de navigateur, ni d'un PostgreSQL
   local (les tests d'intégration de ce projet ne s'exécutent réellement
   qu'en CI, cf. tous les specs précédents). Vérifié à la place : suite de
-  composants (15 tests, API simulée), `tsc --noEmit`, build de
-  production Vite réussi, et un test de fumée du serveur de dev (démarrage
-  réel, transformation sans erreur de `main.tsx`/`App.tsx`/`index.css`).
-  Un passage manuel en navigateur reste recommandé avant mise en
-  production.
+  composants (55 tests, API simulée), `tsc --noEmit`, build de
+  production Vite réussi. Un passage manuel en navigateur reste
+  recommandé avant mise en production.
 - Pas de gestion de token expiré/refresh (401 renvoie une erreur brute
   pour l'instant, pas de redirection automatique vers `/connexion`).
 
 ## Critères d’acceptation
 
-- [x] Fonctionnalité conforme à la spec (pour le périmètre MVP livré).
-- [x] Tests unitaires/composants (15 tests : `api-client`, `auth-context`,
-      `ProtectedRoute`, `App` routing, `DashboardPage`, `OrdersPage`).
+- [x] Fonctionnalité conforme à la spec (périmètre approuvé livré en
+      entier — voir tranches 1 à 9).
+- [x] Tests unitaires/composants (55 tests couvrant les 14 écrans, dont
+      `api-client`, `auth-context`, `ProtectedRoute`/`SuperAdminRoute`,
+      `App` routing, `AppShell`).
 - [ ] Tests intégration (pas de suite E2E navigateur dans ce projet à ce
       stade — hors périmètre de cette tranche).
 - [x] Tests sécurité/RBAC (le frontend ne fait qu'un affichage

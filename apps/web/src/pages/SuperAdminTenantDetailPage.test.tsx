@@ -20,7 +20,10 @@ const TENANT = {
   },
 };
 
-function monter(reponseAbonnement: { status: number; corps: unknown }) {
+function monter(
+  reponseAbonnement: { status: number; corps: unknown },
+  sessionSupportActive = false,
+) {
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
@@ -31,6 +34,30 @@ function monter(reponseAbonnement: { status: number; corps: unknown }) {
       }
       if (url.includes('/licence/activer') && method === 'POST') {
         return Promise.resolve(reponseJson({ ...TENANT.licence, statut: 'ACTIVE' }, 201));
+      }
+      if (url.includes('/support/session')) {
+        return Promise.resolve(
+          reponseJson(
+            sessionSupportActive
+              ? {
+                  actif: true,
+                  session: {
+                    id: 'support-1',
+                    tenantId: 'tenant-1',
+                    superAdminId: 'super-1',
+                    motif: 'Diagnostic incident client',
+                    startedAt: '2026-08-21T09:00:00Z',
+                  },
+                }
+              : { actif: false, session: null },
+          ),
+        );
+      }
+      if (url.includes('/support/demarrer') && method === 'POST') {
+        return Promise.resolve(reponseJson({ id: 'support-1' }, 201));
+      }
+      if (url.includes('/support/audit')) {
+        return Promise.resolve(reponseJson([]));
       }
       return Promise.resolve(reponseJson(TENANT));
     }),
@@ -110,6 +137,24 @@ describe('SuperAdminTenantDetailPage', () => {
         .mocked(fetch)
         .mock.calls.some(([input]) => String(input).includes('/licence/activer'));
       expect(appelActiver).toBe(true);
+    });
+  });
+
+  it('propose de démarrer une session support quand aucune n’est active', async () => {
+    monter({ status: 404, corps: { statusCode: 404, message: 'Aucun abonnement.' } }, false);
+
+    await waitFor(() => {
+      expect(screen.getByText('Démarrer la session')).toBeDefined();
+    });
+  });
+
+  it('affiche la session support active et son journal d’audit', async () => {
+    monter({ status: 404, corps: { statusCode: 404, message: 'Aucun abonnement.' } }, true);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Session active depuis/)).toBeDefined();
+      expect(screen.getByText(/Diagnostic incident client/)).toBeDefined();
+      expect(screen.getByText('Terminer la session')).toBeDefined();
     });
   });
 });

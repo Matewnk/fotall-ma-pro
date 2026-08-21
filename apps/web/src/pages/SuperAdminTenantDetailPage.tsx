@@ -5,8 +5,10 @@ import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import type {
   Abonnement,
+  EntreeAudit,
   ModePaiementFacturation,
   PlanCommercial,
+  SessionSupport,
   TenantDetail,
 } from '../lib/types';
 
@@ -34,6 +36,7 @@ export function SuperAdminTenantDetailPage() {
   const [motifRevocation, setMotifRevocation] = useState('');
   const [dureeJours, setDureeJours] = useState('30');
   const [planChoisi, setPlanChoisi] = useState<PlanCommercial>('STARTER');
+  const [motifSupport, setMotifSupport] = useState('');
   const [nouvelAbonnement, setNouvelAbonnement] = useState({
     plan: 'STARTER' as PlanCommercial,
     modePaiement: 'CARTE' as ModePaiementFacturation,
@@ -54,6 +57,22 @@ export function SuperAdminTenantDetailPage() {
     retry: false,
   });
   const aucunAbonnement = abonnement.error instanceof ApiError && abonnement.error.status === 404;
+
+  const sessionSupport = useQuery({
+    queryKey: ['super-admin-support-session', id],
+    queryFn: () =>
+      apiFetch<{ actif: boolean; session: SessionSupport | null }>(
+        `/super-admin/tenants/${id}/support/session`,
+        { token },
+      ),
+    enabled: Boolean(id),
+  });
+
+  const auditSupport = useQuery({
+    queryKey: ['super-admin-support-audit', id],
+    queryFn: () => apiFetch<EntreeAudit[]>(`/super-admin/tenants/${id}/support/audit`, { token }),
+    enabled: Boolean(id) && sessionSupport.data?.actif === true,
+  });
 
   function invaliderTenant() {
     queryClient.invalidateQueries({ queryKey: ['super-admin-tenant', id] });
@@ -147,6 +166,29 @@ export function SuperAdminTenantDetailPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['super-admin-facturation', id] });
       invaliderTenant();
+    },
+    onError: (e) => setErreur(e instanceof ApiError ? e.message : 'Action impossible.'),
+  });
+
+  const demarrerSupport = useMutation({
+    mutationFn: () =>
+      apiFetch(`/super-admin/tenants/${id}/support/demarrer`, {
+        method: 'POST',
+        token,
+        body: { motif: motifSupport },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['super-admin-support-session', id] });
+      setMotifSupport('');
+    },
+    onError: (e) => setErreur(e instanceof ApiError ? e.message : 'Action impossible.'),
+  });
+
+  const terminerSupport = useMutation({
+    mutationFn: () =>
+      apiFetch(`/super-admin/tenants/${id}/support/terminer`, { method: 'POST', token }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['super-admin-support-session', id] });
     },
     onError: (e) => setErreur(e instanceof ApiError ? e.message : 'Action impossible.'),
   });
@@ -395,6 +437,82 @@ export function SuperAdminTenantDetailPage() {
             >
               Créer l'abonnement
             </button>
+          </div>
+        )}
+      </section>
+
+      <section className="bg-surface border border-outline-variant rounded-xl p-4 flex flex-col gap-4">
+        <h2 className="font-semibold text-on-background">Support</h2>
+        <p className="text-sm text-on-surface-variant">
+          Aucun accès direct aux données de ce tenant : consultation possible uniquement pendant une
+          session support active et motivée.
+        </p>
+        {!sessionSupport.data?.actif && (
+          <div className="flex items-end gap-2">
+            <label className="flex flex-col gap-1 text-sm flex-1">
+              Motif de la session support
+              <input
+                className="border border-outline-variant rounded-lg px-3 py-2"
+                value={motifSupport}
+                onChange={(event) => setMotifSupport(event.target.value)}
+              />
+            </label>
+            <button
+              type="button"
+              className={boutonClasse}
+              disabled={demarrerSupport.isPending || motifSupport.length < 3}
+              onClick={() => demarrerSupport.mutate()}
+            >
+              Démarrer la session
+            </button>
+          </div>
+        )}
+        {sessionSupport.data?.actif && sessionSupport.data.session && (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm">
+              Session active depuis{' '}
+              {new Date(sessionSupport.data.session.startedAt).toLocaleString('fr-FR')} — motif :{' '}
+              {sessionSupport.data.session.motif}
+            </p>
+            <button
+              type="button"
+              className={`${boutonClasse} self-start`}
+              disabled={terminerSupport.isPending}
+              onClick={() => terminerSupport.mutate()}
+            >
+              Terminer la session
+            </button>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-left text-on-surface-variant uppercase">
+                    <th className="px-3 py-1">Date</th>
+                    <th className="px-3 py-1">Action</th>
+                    <th className="px-3 py-1">Entité</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {auditSupport.data?.length === 0 && (
+                    <tr>
+                      <td className="px-3 py-2 text-on-surface-variant" colSpan={3}>
+                        Aucune entrée d'audit pour ce tenant.
+                      </td>
+                    </tr>
+                  )}
+                  {auditSupport.data?.map((entree) => (
+                    <tr key={entree.id} className="border-t border-outline-variant">
+                      <td className="px-3 py-1">
+                        {new Date(entree.createdAt).toLocaleString('fr-FR')}
+                      </td>
+                      <td className="px-3 py-1 font-mono">{entree.action}</td>
+                      <td className="px-3 py-1">
+                        {entree.entityType} #{entree.entityId}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </section>

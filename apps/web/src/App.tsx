@@ -3,6 +3,7 @@ import { AppShell } from './components/AppShell';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { SuperAdminRoute } from './components/SuperAdminRoute';
 import { SuperAdminShell } from './components/SuperAdminShell';
+import { AuditPage } from './pages/AuditPage';
 import { BrandingPage } from './pages/BrandingPage';
 import { CashPage } from './pages/CashPage';
 import { ClientsPage } from './pages/ClientsPage';
@@ -110,6 +111,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <BrandingPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/audit"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <AuditPage />
             </AppShell>
           </ProtectedRoute>
         }
