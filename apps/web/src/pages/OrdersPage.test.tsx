@@ -36,6 +36,9 @@ function installerFauxServeur(commandesInitiales: unknown[] = []) {
         commandes = [...commandes, COMMANDE_CREEE];
         return Promise.resolve(reponseJson(COMMANDE_CREEE, 201));
       }
+      if (url.includes('/caisse/operations') && method === 'POST') {
+        return Promise.resolve(reponseJson({ id: 'op-1' }, 201));
+      }
       return Promise.resolve(reponseJson(commandes));
     }),
   );
@@ -95,6 +98,33 @@ describe('OrdersPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('#1')).toBeDefined();
+    });
+  });
+
+  it('encaisse une commande avec un identifiant de rejeu déterministe (jamais de double encaissement)', async () => {
+    installerFauxServeur([COMMANDE_CREEE]);
+    const { element } = renderAvecProviders(<OrdersPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('Encaisser'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/caisse/operations'),
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({
+            type: 'ENCAISSEMENT',
+            montant: 1000,
+            commandeId: 'commande-1',
+            idempotencyKey: 'encaissement-commande-1',
+          }),
+        }),
+      );
     });
   });
 });

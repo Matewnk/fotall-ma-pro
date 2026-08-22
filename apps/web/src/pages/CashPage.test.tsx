@@ -8,7 +8,18 @@ const OPERATION_EXISTANTE = {
   type: 'ENCAISSEMENT' as const,
   montant: '1000.00',
   modePaiement: 'ESPECES' as const,
+  commandeId: 'commande-1',
   createdAt: '2026-08-20T14:23:00Z',
+};
+const COMMANDE_LIEE = {
+  id: 'commande-1',
+  numero: 7,
+  clientId: 'client-1',
+  statut: 'PRET' as const,
+  sousTotal: '1000',
+  total: '1000',
+  modeLivraison: 'RETRAIT' as const,
+  createdAt: '2026-08-20T10:00:00Z',
 };
 const OPERATION_CREEE = {
   id: 'op-2',
@@ -30,6 +41,12 @@ function installerFauxServeur(operationsInitiales: unknown[] = []) {
       if (url.includes('/caisse/operations') && method === 'POST') {
         operations = [...operations, OPERATION_CREEE];
         return Promise.resolve(reponseJson(OPERATION_CREEE, 201));
+      }
+      if (url.includes('/caisse/operations')) {
+        return Promise.resolve(reponseJson(operations));
+      }
+      if (url.includes('/commandes')) {
+        return Promise.resolve(reponseJson([COMMANDE_LIEE]));
       }
       return Promise.resolve(reponseJson(operations));
     }),
@@ -56,6 +73,16 @@ describe('CashPage', () => {
     await waitFor(() => {
       expect(screen.getByText('1850.00 FCFA')).toBeDefined();
       expect(screen.getByText('Encaissement')).toBeDefined();
+    });
+  });
+
+  it('affiche le numéro de commande liée à un encaissement', async () => {
+    installerFauxServeur([OPERATION_EXISTANTE]);
+    const { element } = renderAvecProviders(<CashPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('#7')).toBeDefined();
     });
   });
 

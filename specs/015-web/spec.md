@@ -141,6 +141,21 @@ ligne dans `UsersPage`, saisie du nouveau mot de passe via une invite
 navigateur simple (`window.prompt`, même registre que la confirmation de
 suppression déjà utilisée dans `ClientsPage`/`ServicesPage`).
 
+**Extension — encaissement lié à une commande** (demande explicite de
+l'utilisateur pendant les tests locaux : "un bouton valider dès que la
+commande est terminée et le montant rentre directement au caisse et les
+détails") : aucun nouvel endpoint requis — `POST /caisse/operations`
+(010-cash) accepte déjà un `commandeId` optionnel, jamais exploité côté
+web jusqu'ici. Bouton "Encaisser" par ligne dans `OrdersPage` (tranche
+MVP), qui enregistre un `ENCAISSEMENT` du montant total de la commande,
+lié par `commandeId` (pas une simple référence texte manuelle).
+Idempotency key **déterministe** (`encaissement-<commandeId>`, pas
+`crypto.randomUUID()`) : un second clic sur "Encaisser" pour la même
+commande ne duplique jamais l'écriture en caisse (rejeu idempotent,
+`cash.service.ts`, déjà existant). `CashPage` (tranche 3) affiche
+désormais une colonne "Commande" (`#numéro`) en résolvant `commandeId`
+contre `GET /commandes`, plutôt que le `commandeId` brut.
+
 ## Tranche 6 — branding (nouveau backend)
 
 Ajoute `BrandingPage` et le backend qui manquait pour la rendre possible :

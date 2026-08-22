@@ -65,6 +65,27 @@ export function OrdersPage() {
     creerCommande.mutate();
   }
 
+  const encaisserCommande = useMutation({
+    mutationFn: (commande: Commande) =>
+      apiFetch('/caisse/operations', {
+        method: 'POST',
+        token,
+        body: {
+          type: 'ENCAISSEMENT',
+          montant: Number(commande.total),
+          commandeId: commande.id,
+          // Déterministe (pas crypto.randomUUID()) : un second clic sur
+          // "Encaisser" pour la même commande ne doit jamais dupliquer
+          // l'encaissement (rejeu idempotent, cash.service.ts).
+          idempotencyKey: `encaissement-${commande.id}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['caisse-operations'] });
+      queryClient.invalidateQueries({ queryKey: ['caisse-solde'] });
+    },
+  });
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -165,19 +186,20 @@ export function OrdersPage() {
               <th className="px-4 py-2">Total</th>
               <th className="px-4 py-2">Mode</th>
               <th className="px-4 py-2">Statut</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {commandes.isPending && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={4}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
                   Chargement…
                 </td>
               </tr>
             )}
             {commandes.data?.length === 0 && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={4}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
                   Aucune commande pour l'instant.
                 </td>
               </tr>
@@ -189,6 +211,16 @@ export function OrdersPage() {
                 <td className="px-4 py-2">{commande.modeLivraison}</td>
                 <td className="px-4 py-2">
                   <StatusBadge statut={commande.statut} />
+                </td>
+                <td className="px-4 py-2">
+                  <button
+                    type="button"
+                    onClick={() => encaisserCommande.mutate(commande)}
+                    disabled={encaisserCommande.isPending}
+                    className="text-primary text-xs font-medium disabled:opacity-60"
+                  >
+                    Encaisser
+                  </button>
                 </td>
               </tr>
             ))}
