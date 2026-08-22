@@ -9,6 +9,7 @@ import { CashPage } from './pages/CashPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
+import { OrderCheckoutPage } from './pages/OrderCheckoutPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
@@ -41,6 +42,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <OrdersPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/commandes/:id/encaisser"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <OrderCheckoutPage />
             </AppShell>
           </ProtectedRoute>
         }

@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
@@ -31,13 +32,13 @@ export function NewOrderScreen() {
   const { session } = useAuth();
   const token = session?.accessToken;
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
 
   const [rechercheClient, setRechercheClient] = useState('');
   const [clientSelectionne, setClientSelectionne] = useState<Client | null>(null);
   const [panier, setPanier] = useState<LigneArticle[]>([]);
   const [modeLivraison, setModeLivraison] = useState<ModeLivraison>('RETRAIT');
   const [erreur, setErreur] = useState<string | null>(null);
-  const [commandeCreee, setCommandeCreee] = useState<Commande | null>(null);
 
   const clients = useQuery({
     queryKey: ['clients', rechercheClient],
@@ -92,34 +93,19 @@ export function NewOrderScreen() {
         },
       });
     },
-    onSuccess: (commande) => {
-      setCommandeCreee(commande);
+    onSuccess: (commande: Commande) => {
       queryClient.invalidateQueries({ queryKey: ['commandes'] });
+      setClientSelectionne(null);
+      setRechercheClient('');
+      setPanier([]);
+      setErreur(null);
+      // @ts-expect-error -- navigation non typée globalement (pas de RootParamList), voir RootNavigator.tsx
+      navigation.navigate('Encaissement', { commandeId: commande.id });
     },
     onError: (error) => {
       setErreur(error instanceof ApiError ? error.message : 'Création impossible.');
     },
   });
-
-  function nouvelleCommande() {
-    setCommandeCreee(null);
-    setClientSelectionne(null);
-    setRechercheClient('');
-    setPanier([]);
-    setErreur(null);
-  }
-
-  if (commandeCreee) {
-    return (
-      <View style={styles.conteneur}>
-        <Text style={styles.titre}>Commande #{commandeCreee.numero}</Text>
-        <Text style={styles.confirmation}>Total : {commandeCreee.total} FCFA</Text>
-        <Pressable style={styles.bouton} onPress={nouvelleCommande} accessibilityRole="button">
-          <Text style={styles.boutonTexte}>Nouvelle commande</Text>
-        </Pressable>
-      </View>
-    );
-  }
 
   return (
     <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: 16 }}>
@@ -226,7 +212,7 @@ export function NewOrderScreen() {
         {creerCommande.isPending ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text style={styles.boutonTexte}>Valider la commande</Text>
+          <Text style={styles.boutonTexte}>VALIDER LA COMMANDE</Text>
         )}
       </Pressable>
     </ScrollView>

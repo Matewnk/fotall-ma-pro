@@ -4,14 +4,17 @@ import { reponseJson, renderAvecProviders } from '../test-utils';
 import { OrdersPage } from './OrdersPage';
 
 const CLIENTS = [{ id: 'client-1', nom: 'Fatou Sy', telephone: '+221701112233' }];
-const SERVICES = [{ id: 'service-1', code: 'SRV-01', intitule: 'Lavage', tarif: '1000.00' }];
+const SERVICES = [
+  { id: 'service-1', code: 'SRV-01', intitule: 'Lavage', tarif: '1000.00' },
+  { id: 'service-2', code: 'SRV-02', intitule: 'Repassage', tarif: '500.00' },
+];
 const COMMANDE_CREEE = {
   id: 'commande-1',
   numero: 1,
   clientId: 'client-1',
   statut: 'EN_ATTENTE' as const,
-  sousTotal: '1000',
-  total: '1000',
+  sousTotal: '2500',
+  total: '2500',
   modeLivraison: 'RETRAIT' as const,
   createdAt: '2026-08-19T10:00:00Z',
 };
@@ -35,9 +38,6 @@ function installerFauxServeur(commandesInitiales: unknown[] = []) {
       if (url.includes('/commandes') && method === 'POST') {
         commandes = [...commandes, COMMANDE_CREEE];
         return Promise.resolve(reponseJson(COMMANDE_CREEE, 201));
-      }
-      if (url.includes('/caisse/operations') && method === 'POST') {
-        return Promise.resolve(reponseJson({ id: 'op-1' }, 201));
       }
       return Promise.resolve(reponseJson(commandes));
     }),
@@ -76,7 +76,7 @@ describe('OrdersPage', () => {
     });
   });
 
-  it('crée une commande via le formulaire et rafraîchit la liste', async () => {
+  it('crée une commande multi-lignes (panier), calcule le total indicatif et redirige vers l’encaissement', async () => {
     installerFauxServeur([]);
 
     const { element } = renderAvecProviders(<OrdersPage />);
@@ -93,15 +93,56 @@ describe('OrdersPage', () => {
     });
 
     fireEvent.change(screen.getByLabelText('Client'), { target: { value: 'client-1' } });
+
+    // Ligne 1 : Lavage x2
     fireEvent.change(screen.getByLabelText('Service'), { target: { value: 'service-1' } });
-    fireEvent.click(screen.getByText('Créer la commande'));
+    fireEvent.change(screen.getByLabelText('Quantité'), { target: { value: '2' } });
+    fireEvent.click(screen.getByText('Ajouter'));
+
+    // Ligne 2 : Repassage x1
+    fireEvent.change(screen.getByLabelText('Service'), { target: { value: 'service-2' } });
+    fireEvent.change(screen.getByLabelText('Quantité'), { target: { value: '1' } });
+    fireEvent.click(screen.getByText('Ajouter'));
+
+    // Total indicatif = 2*1000 + 1*500 = 2500 (affiché, jamais envoyé au serveur)
+    await waitFor(() => {
+      expect(screen.getByText('2 500 FCFA')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('VALIDER LA COMMANDE'));
 
     await waitFor(() => {
-      expect(screen.getByText('#1')).toBeDefined();
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/commandes'),
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.stringContaining(
+            '"articles":[{"serviceId":"service-1","quantite":2},{"serviceId":"service-2","quantite":1}]',
+          ),
+        }),
+      );
     });
   });
 
-  it('encaisse une commande avec un identifiant de rejeu déterministe (jamais de double encaissement)', async () => {
+  it('refuse de valider une commande sans aucune ligne au panier', async () => {
+    installerFauxServeur([]);
+    const { element } = renderAvecProviders(<OrdersPage />);
+    render(element);
+
+    fireEvent.click(screen.getByText('Nouvelle commande'));
+    await waitFor(() => {
+      expect(screen.getByText('Fatou Sy')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Client'), { target: { value: 'client-1' } });
+    fireEvent.click(screen.getByText('VALIDER LA COMMANDE'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Ajoutez au moins une prestation au panier.')).toBeDefined();
+    });
+  });
+
+  it('propose un lien "Encaisser" par commande vers l’écran de paiement dédié', async () => {
     installerFauxServeur([COMMANDE_CREEE]);
     const { element } = renderAvecProviders(<OrdersPage />);
     render(element);
@@ -110,21 +151,7 @@ describe('OrdersPage', () => {
       expect(screen.getByText('#1')).toBeDefined();
     });
 
-    fireEvent.click(screen.getByText('Encaisser'));
-
-    await waitFor(() => {
-      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
-        expect.stringContaining('/caisse/operations'),
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({
-            type: 'ENCAISSEMENT',
-            montant: 1000,
-            commandeId: 'commande-1',
-            idempotencyKey: 'encaissement-commande-1',
-          }),
-        }),
-      );
-    });
+    const lien = screen.getByText('Encaisser').closest('a');
+    expect(lien?.getAttribute('href')).toBe('/commandes/commande-1/encaisser');
   });
 });

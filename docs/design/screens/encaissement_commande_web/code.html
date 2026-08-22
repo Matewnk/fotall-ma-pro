@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout / Payment - Fotall-Ma PRO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#505f76",
+                      "surface-container-low": "#f3f3fc",
+                      "status-pending": "#F59E0B",
+                      "on-primary-container": "#bcceff",
+                      "outline": "#737784",
+                      "tertiary-fixed": "#ffdbcd",
+                      "surface-ticket": "#F8FAFC",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-surface-variant": "#434653",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-highest": "#e1e2eb",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "tertiary": "#732900",
+                      "surface-container": "#ededf6",
+                      "primary-container": "#0f52ba",
+                      "inverse-primary": "#b0c6ff",
+                      "primary-fixed": "#d9e2ff",
+                      "on-secondary-container": "#54647a",
+                      "inverse-on-surface": "#f0f0f9",
+                      "tenant-accent": "var(--primary-color)",
+                      "on-primary-fixed": "#001945",
+                      "surface": "#faf8ff",
+                      "outline-variant": "#c3c6d5",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "tertiary-container": "#993900",
+                      "on-background": "#191b22",
+                      "error-container": "#ffdad6",
+                      "secondary-container": "#d0e1fb",
+                      "background": "#faf8ff",
+                      "on-secondary": "#ffffff",
+                      "status-delivered": "#6366F1",
+                      "surface-tint": "#1d59c1",
+                      "on-secondary-fixed": "#0b1c30",
+                      "primary": "#003c90",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-container": "#ffc0a7",
+                      "on-primary": "#ffffff",
+                      "surface-dim": "#d9d9e2",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "inverse-surface": "#2e3037",
+                      "surface-container-high": "#e7e7f1",
+                      "alert-critical": "#EF4444",
+                      "primary-fixed-dim": "#b0c6ff",
+                      "surface-variant": "#e1e2eb",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "surface-bright": "#faf8ff",
+                      "status-progress": "#3B82F6",
+                      "on-surface": "#191b22",
+                      "on-primary-fixed-variant": "#00419c",
+                      "secondary-fixed": "#d3e4fe",
+                      "status-ready": "#10B981"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "16px",
+                      "margin-desktop": "24px",
+                      "container-max": "1440px",
+                      "base": "8px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "ticket-body": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "kpi-display": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "data-mono": [
+                              "JetBrains Mono"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "ticket-body": [
+                              "14px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "kpi-display": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "30px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-mono": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Utility class for Material Icons */
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen overflow-hidden flex">
+<!-- Top AppBar (Suppressed SideNav for Checkout Task) -->
+<header class="fixed top-0 left-0 w-full h-16 bg-surface-container-lowest border-b border-outline-variant flex items-center justify-between px-margin-desktop z-50">
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-container rounded-full text-secondary transition-colors duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Commande <span class="font-data-mono text-data-mono font-medium ml-2">CMD-84729</span></h1>
+<div class="ml-4 px-3 py-1 bg-status-pending/10 rounded-full border border-status-pending/20 flex items-center">
+<span class="w-2 h-2 rounded-full bg-status-pending mr-2"></span>
+<span class="font-label-caps text-label-caps text-status-pending">EN ATTENTE</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="mt-16 w-full h-[calc(100vh-4rem)] p-margin-desktop flex gap-gutter">
+<!-- Left Column: Order Summary (Bento Box 6 columns) -->
+<section class="flex-1 flex flex-col gap-gutter overflow-y-auto">
+<!-- Client Info Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md">
+                        JD
+                    </div>
+<div>
+<h2 class="font-body-md text-body-md font-bold text-on-surface">Jean Dupont</h2>
+<p class="font-ticket-body text-ticket-body text-secondary">Client #49281</p>
+</div>
+</div>
+</div>
+<!-- Order Details Card (Thermal Receipt Style) -->
+<div class="bg-surface-ticket border border-outline-variant rounded-xl p-6 flex flex-col h-full shadow-sm">
+<h3 class="font-label-caps text-label-caps text-secondary mb-4 border-b border-dashed border-outline pb-2">RÉCAPITULATIF DE COMMANDE</h3>
+<div class="flex-1">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-dashed border-outline text-secondary font-ticket-body text-ticket-body">
+<th class="pb-2 font-normal">Article</th>
+<th class="pb-2 font-normal text-right">Qté</th>
+<th class="pb-2 font-normal text-right">Prix (FCFA)</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-data-mono text-on-surface">
+<tr class="border-b border-dashed border-outline-variant/50 h-10">
+<td>Chemise</td>
+<td class="text-right">x2</td>
+<td class="text-right">3 000</td>
+</tr>
+<tr class="border-b border-dashed border-outline-variant/50 h-10">
+<td>Pantalon</td>
+<td class="text-right">x1</td>
+<td class="text-right">2 000</td>
+</tr>
+<tr class="h-10">
+<td>Costume</td>
+<td class="text-right">x1</td>
+<td class="text-right">5 000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Total Highlight -->
+<div class="mt-6 bg-primary text-on-primary rounded-lg p-6 flex items-center justify-between shadow-lg">
+<span class="font-headline-md text-headline-md font-bold uppercase tracking-wider">TOTAL À ENCAISSER</span>
+<span class="font-kpi-display text-kpi-display font-bold">10 000 <span class="text-2xl ml-1">FCFA</span></span>
+</div>
+</div>
+</section>
+<!-- Right Column: Payment Actions (Bento Box 4 columns) -->
+<section class="w-[480px] flex flex-col gap-gutter">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex-1 flex flex-col shadow-sm">
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-6 border-b border-outline-variant pb-4">Paiement</h3>
+<div class="space-y-6 flex-1">
+<!-- Montant Reçu Field -->
+<div>
+<label class="block font-label-caps text-label-caps text-secondary mb-2">MONTANT REÇU (FCFA)</label>
+<div class="relative">
+<input class="w-full bg-surface-container text-on-surface font-kpi-display text-[32px] p-4 rounded-lg border-2 border-outline-variant focus:border-primary focus:ring-0 text-right transition-colors" readonly="" type="text" value="15 000"/>
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-3xl">payments</span>
+</div>
+</div>
+<!-- Auto-calculated Monnaie à rendre -->
+<div class="bg-surface p-4 rounded-lg border border-outline-variant flex items-center justify-between">
+<span class="font-body-md text-body-md text-secondary font-medium">Monnaie à rendre :</span>
+<span class="font-data-mono text-[24px] font-bold text-status-ready">5 000 FCFA</span>
+</div>
+<!-- Payment Method Select (Optional generic addition for context) -->
+<div>
+<label class="block font-label-caps text-label-caps text-secondary mb-2">MÉTHODE DE PAIEMENT</label>
+<div class="grid grid-cols-2 gap-3">
+<button class="py-3 px-4 rounded-lg border-2 border-primary bg-primary-fixed/20 text-primary font-body-md font-bold flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">money</span>
+                                Espèces
+                            </button>
+<button class="py-3 px-4 rounded-lg border border-outline-variant bg-surface hover:bg-surface-container-high text-on-surface-variant font-body-md font-medium flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined">credit_card</span>
+                                Carte
+                            </button>
+</div>
+</div>
+</div>
+<!-- Main CTA -->
+<button class="mt-auto w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-headline-md text-[20px] font-bold py-6 rounded-xl flex items-center justify-center gap-3 shadow-md transition-transform active:scale-95 duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    ENCAISSER LA COMMANDE
+                </button>
+</div>
+</section>
+</main>
+</body></html>
