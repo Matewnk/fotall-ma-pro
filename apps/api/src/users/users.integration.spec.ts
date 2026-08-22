@@ -145,6 +145,87 @@ describe('Users (015-web tranche 5) — PostgreSQL réel', () => {
     expect(update.status).toBe(404);
   });
 
+  it('réinitialise le mot de passe d’un utilisateur géré, le nouveau mot de passe fonctionne', async () => {
+    const create = await request(app.getHttpServer())
+      .post('/users')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({
+        email: `reset-cible-${randomUUID().slice(0, 8)}@pressing-users-a.dev`,
+        motDePasse: 'ancien-secret-1',
+        role: 'CAISSIER',
+      });
+    expect(create.status).toBe(201);
+    const userId = create.body.id;
+    const email = create.body.email;
+    const sousDomaine = (await prisma.tenant.findUniqueOrThrow({ where: { id: tenantAId } }))
+      .sousDomaine;
+
+    const reset = await request(app.getHttpServer())
+      .patch(`/users/${userId}/mot-de-passe`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ motDePasse: 'nouveau-secret-1' });
+    expect(reset.status).toBe(200);
+    expect(reset.body).toEqual({ ok: true });
+
+    const loginAncien = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ sousDomaine, email, motDePasse: 'ancien-secret-1' });
+    expect(loginAncien.status).toBe(401);
+
+    const loginNouveau = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ sousDomaine, email, motDePasse: 'nouveau-secret-1' });
+    expect(loginNouveau.status).toBe(201);
+  });
+
+  it('un ADMIN peut réinitialiser son propre mot de passe', async () => {
+    const suffix = randomUUID().slice(0, 8);
+    const register = await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({
+        nomPressing: 'Pressing Reset Self',
+        sousDomaine: `usr-reset-${suffix}`,
+        email: `admin-reset-${suffix}@pressing-reset.dev`,
+        motDePasse: 'ancien-secret-2',
+      });
+    const tokenAdmin = register.body.accessToken;
+    const adminId = register.body.user.id;
+    const sousDomaine = register.body.tenant.sousDomaine;
+    const email = register.body.user.email;
+
+    const reset = await request(app.getHttpServer())
+      .patch(`/users/${adminId}/mot-de-passe`)
+      .set('Authorization', `Bearer ${tokenAdmin}`)
+      .send({ motDePasse: 'nouveau-secret-2' });
+    expect(reset.status).toBe(200);
+
+    const loginNouveau = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ sousDomaine, email, motDePasse: 'nouveau-secret-2' });
+    expect(loginNouveau.status).toBe(201);
+  });
+
+  it('validation : mot de passe trop court refusé', async () => {
+    const res = await request(app.getHttpServer())
+      .patch(`/users/${adminAId}/mot-de-passe`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ motDePasse: 'court' });
+    expect(res.status).toBe(400);
+  });
+
+  it('isolation cross-tenant : A ne peut pas réinitialiser le mot de passe d’un utilisateur de B', async () => {
+    const meB = await request(app.getHttpServer())
+      .get('/auth/me')
+      .set('Authorization', `Bearer ${tokenAdminB}`);
+    const userBId = meB.body.userId;
+
+    const reset = await request(app.getHttpServer())
+      .patch(`/users/${userBId}/mot-de-passe`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ motDePasse: 'nouveau-secret-3' });
+    expect(reset.status).toBe(404);
+  });
+
   it('RBAC : CAISSIER n’a pas accès à la gestion des utilisateurs', async () => {
     const caissier = await prisma.user.create({
       data: {
