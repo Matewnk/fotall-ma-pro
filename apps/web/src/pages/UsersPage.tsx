@@ -45,7 +45,11 @@ export function UsersPage() {
 
   const creerUtilisateur = useMutation({
     mutationFn: () =>
-      apiFetch<Utilisateur>('/users', { method: 'POST', token, body: { email, motDePasse, role } }),
+      apiFetch<Utilisateur>('/users', {
+        method: 'POST',
+        token,
+        body: { email, motDePasse, role },
+      }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setFormulaireOuvert(false);
@@ -71,10 +75,33 @@ export function UsersPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['users'] }),
   });
 
+  const reinitialiserMotDePasse = useMutation({
+    mutationFn: ({ id, motDePasse }: { id: string; motDePasse: string }) =>
+      apiFetch<{ ok: true }>(`/users/${id}/mot-de-passe`, {
+        method: 'PATCH',
+        token,
+        body: { motDePasse },
+      }),
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Réinitialisation impossible.');
+    },
+  });
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setErreur(null);
     creerUtilisateur.mutate();
+  }
+
+  function handleReinitialiserMotDePasse(utilisateur: Utilisateur) {
+    const nouveauMotDePasse = window.prompt(
+      `Nouveau mot de passe pour ${utilisateur.email} (8 caractères minimum) :`,
+    );
+    if (!nouveauMotDePasse) {
+      return;
+    }
+    setErreur(null);
+    reinitialiserMotDePasse.mutate({ id: utilisateur.id, motDePasse: nouveauMotDePasse });
   }
 
   const actifs = utilisateurs.data?.filter((u) => u.actif).length ?? 0;
@@ -151,6 +178,8 @@ export function UsersPage() {
         </form>
       )}
 
+      {!formulaireOuvert && erreur && <p className="text-sm text-error">{erreur}</p>}
+
       <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden">
         <table className="w-full text-sm">
           <thead>
@@ -210,17 +239,26 @@ export function UsersPage() {
                   </span>
                 </td>
                 <td className="px-4 py-2">
-                  {utilisateur.id !== moiId && (
+                  <div className="flex gap-3">
                     <button
                       type="button"
-                      onClick={() =>
-                        changerStatut.mutate({ id: utilisateur.id, actif: !utilisateur.actif })
-                      }
-                      className={`text-xs font-medium ${utilisateur.actif ? 'text-error' : 'text-primary'}`}
+                      onClick={() => handleReinitialiserMotDePasse(utilisateur)}
+                      className="text-primary text-xs font-medium"
                     >
-                      {utilisateur.actif ? 'Désactiver' : 'Réactiver'}
+                      Réinitialiser mot de passe
                     </button>
-                  )}
+                    {utilisateur.id !== moiId && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          changerStatut.mutate({ id: utilisateur.id, actif: !utilisateur.actif })
+                        }
+                        className={`text-xs font-medium ${utilisateur.actif ? 'text-error' : 'text-primary'}`}
+                      >
+                        {utilisateur.actif ? 'Désactiver' : 'Réactiver'}
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             ))}

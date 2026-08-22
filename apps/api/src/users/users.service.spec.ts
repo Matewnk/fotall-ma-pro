@@ -107,4 +107,27 @@ describe('UsersService', () => {
     });
     expect(resultat.role).toBe(Role.TECHNICIEN);
   });
+
+  it('resetMotDePasse lève NotFoundException si l’utilisateur n’appartient pas au tenant', async () => {
+    prisma.user.findFirst.mockResolvedValue(null);
+
+    await expect(
+      service.resetMotDePasse('tenant-1', 'user-inconnu', { motDePasse: 'nouveau-secret-1' }),
+    ).rejects.toBeInstanceOf(NotFoundException);
+    expect(prisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('resetMotDePasse hache le nouveau mot de passe avant de l’enregistrer', async () => {
+    prisma.user.findFirst.mockResolvedValue(UTILISATEUR);
+    prisma.user.update.mockResolvedValue(UTILISATEUR);
+
+    await service.resetMotDePasse('tenant-1', 'user-1', { motDePasse: 'nouveau-secret-1' });
+
+    expect(prisma.user.update).toHaveBeenCalledWith({
+      where: { id: 'user-1' },
+      data: { motDePasseHash: expect.any(String) },
+    });
+    const hashEnvoye = prisma.user.update.mock.calls[0][0].data.motDePasseHash;
+    expect(hashEnvoye).not.toBe('nouveau-secret-1');
+  });
 });

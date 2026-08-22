@@ -130,6 +130,17 @@ rester possible même tenant bloqué). Aucune migration Prisma requise
 Maquette de référence : `docs/design/screens/gestion_des_utilisateurs_et_r_les`
 — "dernière connexion" non repris (aucun champ de ce type sur `User`).
 
+**Extension — réinitialisation de mot de passe** (demande explicite de
+l'utilisateur pendant les tests locaux) : `PATCH /users/:id/mot-de-passe`,
+même contrôleur, même autorité ADMIN que le reste du module. Un ADMIN peut
+réinitialiser le mot de passe de n'importe quel compte de son tenant, **y
+compris le sien** — aucune preuve de l'ancien mot de passe exigée, même
+principe que la création (l'ADMIN définit déjà un mot de passe initial
+sans justification). Écran : bouton "Réinitialiser mot de passe" par
+ligne dans `UsersPage`, saisie du nouveau mot de passe via une invite
+navigateur simple (`window.prompt`, même registre que la confirmation de
+suppression déjà utilisée dans `ClientsPage`/`ServicesPage`).
+
 ## Tranche 6 — branding (nouveau backend)
 
 Ajoute `BrandingPage` et le backend qui manquait pour la rendre possible :
