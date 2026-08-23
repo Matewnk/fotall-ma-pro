@@ -10,6 +10,12 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
+const mockNavigate = jest.fn();
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  useNavigation: () => ({ navigate: mockNavigate }),
+}));
+
 const CLIENT = { id: 'client-1', nom: 'Fatou Sy', telephone: '+221701112233', statut: 'ACTIF' };
 const SERVICE = {
   id: 'service-1',
@@ -50,9 +56,10 @@ function installerFauxServeur() {
 describe('NewOrderScreen', () => {
   beforeEach(() => {
     installerFauxServeur();
+    mockNavigate.mockClear();
   });
 
-  it('sélectionne un client, ajoute un article au panier et valide la commande', async () => {
+  it('sélectionne un client, ajoute un article au panier, valide la commande et navigue vers l’encaissement', async () => {
     render(renderAvecProviders(<NewOrderScreen />));
 
     fireEvent.changeText(screen.getByLabelText('Rechercher un client'), 'Fatou');
@@ -77,11 +84,11 @@ describe('NewOrderScreen', () => {
       expect(screen.getByText('Total estimé : 1000 FCFA')).toBeTruthy();
     });
 
-    fireEvent.press(screen.getByText('Valider la commande'));
+    fireEvent.press(screen.getByText('VALIDER LA COMMANDE'));
 
     await waitFor(
       () => {
-        expect(screen.getByText('Commande #42')).toBeTruthy();
+        expect(mockNavigate).toHaveBeenCalledWith('Encaissement', { commandeId: 'commande-1' });
       },
       { timeout: 5000 },
     );

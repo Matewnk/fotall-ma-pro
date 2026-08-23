@@ -1,0 +1,309 @@
+<!doctype html>
+
+<html class="bg-surface text-on-surface antialiased font-body-md text-body-md" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Encaissement - Fotall-Ma PRO</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'tenant-accent': 'var(--primary-color)',
+              'inverse-surface': '#2e3037',
+              primary: '#003c90',
+              'inverse-on-surface': '#f0f0f9',
+              'on-background': '#191b22',
+              'secondary-fixed-dim': '#b7c8e1',
+              'alert-critical': '#EF4444',
+              error: '#ba1a1a',
+              'surface-container-low': '#f3f3fc',
+              'primary-fixed-dim': '#b0c6ff',
+              'on-primary-container': '#bcceff',
+              'status-progress': '#3B82F6',
+              'tertiary-container': '#993900',
+              'on-primary-fixed-variant': '#00419c',
+              'surface-container-lowest': '#ffffff',
+              'on-tertiary-container': '#ffc0a7',
+              'outline-variant': '#c3c6d5',
+              'tertiary-fixed': '#ffdbcd',
+              'on-tertiary': '#ffffff',
+              'on-surface-variant': '#434653',
+              outline: '#737784',
+              'surface-bright': '#faf8ff',
+              background: '#faf8ff',
+              'on-secondary': '#ffffff',
+              tertiary: '#732900',
+              'tertiary-fixed-dim': '#ffb596',
+              'error-container': '#ffdad6',
+              'surface-container-high': '#e7e7f1',
+              'on-secondary-fixed': '#0b1c30',
+              'on-error': '#ffffff',
+              'secondary-container': '#d0e1fb',
+              'primary-container': '#0f52ba',
+              'surface-container': '#ededf6',
+              'surface-ticket': '#F8FAFC',
+              'primary-fixed': '#d9e2ff',
+              'surface-variant': '#e1e2eb',
+              'on-primary': '#ffffff',
+              'status-pending': '#F59E0B',
+              surface: '#faf8ff',
+              'surface-tint': '#1d59c1',
+              'secondary-fixed': '#d3e4fe',
+              'surface-container-highest': '#e1e2eb',
+              'status-ready': '#10B981',
+              'inverse-primary': '#b0c6ff',
+              secondary: '#505f76',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'on-tertiary-fixed': '#360f00',
+              'on-secondary-fixed-variant': '#38485d',
+              'on-secondary-container': '#54647a',
+              'on-surface': '#191b22',
+              'status-delivered': '#6366F1',
+              'surface-dim': '#d9d9e2',
+              'on-error-container': '#93000a',
+              'on-primary-fixed': '#001945',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              gutter: '16px',
+              'margin-mobile': '16px',
+              base: '8px',
+              'margin-desktop': '24px',
+              'container-max': '1440px',
+            },
+            fontFamily: {
+              'kpi-display': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'body-md': ['Inter'],
+              'label-caps': ['Inter'],
+              'headline-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'ticket-body': ['Inter'],
+              'headline-lg': ['Inter'],
+            },
+            fontSize: {
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 1,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen pb-[80px]">
+    <!-- Contextual Header -->
+    <header
+      class="bg-surface dark:bg-surface-dim border-b border-outline-variant flex items-center justify-between h-16 px-margin-mobile shrink-0 z-40 sticky top-0"
+    >
+      <button
+        class="text-on-surface-variant p-2 hover:bg-surface-container rounded-full transition-colors flex items-center justify-center"
+      >
+        <span class="material-symbols-outlined">arrow_back</span>
+      </button>
+      <h1 class="font-headline-md text-headline-md text-primary font-bold">Encaissement</h1>
+      <div class="w-10"></div>
+      <!-- Spacer for centering -->
+    </header>
+    <!-- Main Canvas -->
+    <main class="flex-1 flex flex-col p-margin-mobile gap-6 max-w-[600px] mx-auto w-full">
+      <!-- Order Context Card -->
+      <div
+        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-2"
+      >
+        <div class="flex justify-between items-center mb-2">
+          <span class="font-data-mono text-data-mono text-on-surface">CMD-84729</span>
+          <span
+            class="bg-status-pending/10 text-status-pending font-label-caps text-label-caps px-3 py-1 rounded-full"
+            >EN ATTENTE</span
+          >
+        </div>
+        <div class="flex items-center gap-3 text-on-surface-variant">
+          <span class="material-symbols-outlined text-secondary">person</span>
+          <span class="font-body-md text-body-md font-medium">Jean Dupont</span>
+        </div>
+        <!-- Read-only Summary -->
+        <div class="mt-4 border-t border-outline-variant pt-4 flex flex-col gap-2">
+          <h3 class="font-label-caps text-label-caps text-secondary mb-1">RÉCAPITULATIF</h3>
+          <div class="flex justify-between text-body-md text-on-surface">
+            <span>Nettoyage à sec (x2)</span>
+            <span>6 000 FCFA</span>
+          </div>
+          <div class="flex justify-between text-body-md text-on-surface">
+            <span>Repassage (x1)</span>
+            <span>4 000 FCFA</span>
+          </div>
+        </div>
+      </div>
+      <!-- Total Display -->
+      <div
+        class="bg-primary text-on-primary rounded-xl p-6 flex flex-col items-center justify-center shadow-lg relative overflow-hidden"
+      >
+        <!-- Decorative circle -->
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
+        <span class="font-label-caps text-label-caps text-primary-fixed-dim mb-1 opacity-90"
+          >TOTAL À ENCAISSER</span
+        >
+        <div
+          class="font-kpi-display text-kpi-display tracking-tight"
+          data-value="10000"
+          id="totalAmount"
+        >
+          10 000 <span class="text-2xl font-medium">FCFA</span>
+        </div>
+      </div>
+      <!-- Payment Input Area -->
+      <div
+        class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 flex flex-col gap-4"
+      >
+        <div class="flex flex-col gap-2">
+          <label class="font-label-caps text-label-caps text-secondary" for="amountReceived"
+            >MONTANT REÇU</label
+          >
+          <div class="relative">
+            <span
+              class="absolute inset-y-0 left-0 pl-3 flex items-center text-on-surface-variant material-symbols-outlined pointer-events-none"
+              >payments</span
+            >
+            <input
+              class="block w-full pl-10 pr-16 py-3 border border-outline-variant rounded-lg bg-surface text-on-surface font-body-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary transition-shadow"
+              id="amountReceived"
+              placeholder="0"
+              type="number"
+              value="15000"
+            />
+            <span
+              class="absolute inset-y-0 right-0 pr-4 flex items-center font-data-mono text-data-mono text-secondary pointer-events-none"
+              >FCFA</span
+            >
+          </div>
+          <p
+            class="text-alert-critical font-label-caps text-label-caps mt-1 hidden"
+            id="errorMessage"
+          >
+            Le montant reçu est insuffisant.
+          </p>
+        </div>
+        <!-- Change Calculation -->
+        <div class="flex justify-between items-center p-3 bg-surface-container rounded-lg">
+          <span class="font-body-md text-body-md text-on-surface-variant">Monnaie à rendre</span>
+          <span
+            class="font-headline-md text-headline-md text-on-surface font-bold"
+            id="changeAmount"
+            >5 000 <span class="text-sm font-medium">FCFA</span></span
+          >
+        </div>
+      </div>
+    </main>
+    <!-- Bottom Action Bar (Contextual FAB area for transactional screen) -->
+    <div
+      class="fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant p-margin-mobile z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
+    >
+      <div class="max-w-[600px] mx-auto w-full flex gap-3">
+        <button
+          class="flex-1 bg-primary text-on-primary font-headline-lg-mobile text-headline-lg-mobile py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors shadow-md"
+          id="btnEncaisse"
+        >
+          <span class="material-symbols-outlined">check_circle</span>
+          ENCAISSER
+        </button>
+      </div>
+    </div>
+    <!-- Script for calculation logic -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const totalElement = document.getElementById('totalAmount');
+        const total = parseInt(totalElement.getAttribute('data-value'), 10);
+        const inputElement = document.getElementById('amountReceived');
+        const changeElement = document.getElementById('changeAmount');
+        const errorElement = document.getElementById('errorMessage');
+        const btnEncaisse = document.getElementById('btnEncaisse');
+
+        function formatCurrency(amount) {
+          return (
+            new Intl.NumberFormat('fr-FR').format(amount) +
+            ' <span class="text-sm font-medium">FCFA</span>'
+          );
+        }
+
+        function updateCalculations() {
+          const receivedText = inputElement.value;
+          const received = receivedText ? parseInt(receivedText, 10) : 0;
+
+          if (received < total) {
+            changeElement.innerHTML = '0 <span class="text-sm font-medium">FCFA</span>';
+            errorElement.classList.remove('hidden');
+            inputElement.classList.add(
+              'border-alert-critical',
+              'focus:ring-alert-critical',
+              'focus:border-alert-critical',
+            );
+            inputElement.classList.remove('focus:ring-primary', 'focus:border-primary');
+            btnEncaisse.disabled = true;
+            btnEncaisse.classList.add('opacity-50', 'cursor-not-allowed');
+          } else {
+            const change = received - total;
+            changeElement.innerHTML = formatCurrency(change);
+            errorElement.classList.add('hidden');
+            inputElement.classList.remove(
+              'border-alert-critical',
+              'focus:ring-alert-critical',
+              'focus:border-alert-critical',
+            );
+            inputElement.classList.add('focus:ring-primary', 'focus:border-primary');
+            btnEncaisse.disabled = false;
+            btnEncaisse.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        }
+
+        inputElement.addEventListener('input', updateCalculations);
+
+        // Initialize
+        updateCalculations();
+      });
+    </script>
+  </body>
+</html>

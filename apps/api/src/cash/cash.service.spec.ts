@@ -1,10 +1,20 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, ConflictException, NotFoundException } from '@nestjs/common';
 import { Prisma, TypeOperationCaisse } from '../generated/tenant-client';
 import { CashService } from './cash.service';
 
 function makeTenantPrismaFactoryMock() {
-  const operationCaisse = { create: jest.fn(), findMany: jest.fn(), findUnique: jest.fn() };
-  return { operationCaisse, forTenant: jest.fn().mockReturnValue({ operationCaisse }) };
+  const operationCaisse = {
+    create: jest.fn(),
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  };
+  const commande = { findUnique: jest.fn() };
+  return {
+    operationCaisse,
+    commande,
+    forTenant: jest.fn().mockReturnValue({ operationCaisse, commande }),
+  };
 }
 
 describe('CashService', () => {
@@ -15,6 +25,7 @@ describe('CashService', () => {
     tenantPrisma = makeTenantPrismaFactoryMock();
     service = new CashService(tenantPrisma as never);
     tenantPrisma.operationCaisse.findUnique.mockResolvedValue(null);
+    tenantPrisma.operationCaisse.findFirst.mockResolvedValue(null);
     tenantPrisma.operationCaisse.create.mockImplementation(
       ({ data }: { data: Record<string, unknown> }) =>
         Promise.resolve({ id: 'op-1', createdAt: new Date(), ...data }),
@@ -86,6 +97,99 @@ describe('CashService', () => {
 
       expect(resultat).toEqual({ id: 'op-existante' });
       expect(tenantPrisma.operationCaisse.create).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('enregistrer — encaissement lié à une commande (§ order-to-cash)', () => {
+    const COMMANDE = { id: 'commande-1', total: new Prisma.Decimal(10000) };
+
+    it('dérive le montant du total réel de la commande, jamais du montant fourni par l’appelant', async () => {
+      tenantPrisma.commande.findUnique.mockResolvedValue(COMMANDE);
+
+      await service.enregistrer('tenant-1', 'caissier-1', {
+        type: TypeOperationCaisse.ENCAISSEMENT,
+        montant: 1, // valeur mensongère : doit être ignorée
+        commandeId: 'commande-1',
+        montantRecu: 10000,
+        idempotencyKey: 'idem-cmd-1',
+      });
+
+      expect(tenantPrisma.operationCaisse.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ commandeId: 'commande-1' }),
+        }),
+      );
+      const montantEnvoye = tenantPrisma.operationCaisse.create.mock.calls[0][0].data.montant;
+      expect(montantEnvoye.toString()).toBe('10000');
+    });
+
+    it('calcule la monnaie quand montantRecu est fourni', async () => {
+      tenantPrisma.commande.findUnique.mockResolvedValue(COMMANDE);
+
+      const resultat = await service.enregistrer('tenant-1', 'caissier-1', {
+        type: TypeOperationCaisse.ENCAISSEMENT,
+        commandeId: 'commande-1',
+        montantRecu: 15000,
+        idempotencyKey: 'idem-cmd-2',
+      });
+
+      expect(resultat.monnaie).toBe('5000');
+    });
+
+    it('rejette un montantRecu insuffisant', async () => {
+      tenantPrisma.commande.findUnique.mockResolvedValue(COMMANDE);
+
+      await expect(
+        service.enregistrer('tenant-1', 'caissier-1', {
+          type: TypeOperationCaisse.ENCAISSEMENT,
+          commandeId: 'commande-1',
+          montantRecu: 5000,
+          idempotencyKey: 'idem-cmd-3',
+        }),
+      ).rejects.toBeInstanceOf(BadRequestException);
+      expect(tenantPrisma.operationCaisse.create).not.toHaveBeenCalled();
+    });
+
+    it('lève NotFoundException si la commande n’existe pas (dans ce tenant)', async () => {
+      tenantPrisma.commande.findUnique.mockResolvedValue(null);
+
+      await expect(
+        service.enregistrer('tenant-1', 'caissier-1', {
+          type: TypeOperationCaisse.ENCAISSEMENT,
+          commandeId: 'commande-inconnue',
+          montantRecu: 1000,
+          idempotencyKey: 'idem-cmd-4',
+        }),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    it('refuse un double encaissement de la même commande', async () => {
+      tenantPrisma.commande.findUnique.mockResolvedValue(COMMANDE);
+      tenantPrisma.operationCaisse.findFirst.mockResolvedValue({ id: 'op-deja-encaissee' });
+
+      await expect(
+        service.enregistrer('tenant-1', 'caissier-1', {
+          type: TypeOperationCaisse.ENCAISSEMENT,
+          commandeId: 'commande-1',
+          montantRecu: 10000,
+          idempotencyKey: 'idem-cmd-5',
+        }),
+      ).rejects.toBeInstanceOf(ConflictException);
+      expect(tenantPrisma.operationCaisse.create).not.toHaveBeenCalled();
+    });
+
+    it('un ENCAISSEMENT lié à une commande mais SANS montantRecu reste un encaissement manuel classique (non intercepté) — nécessaire à compterPaiementsEnAttente (dashboard) qui enregistre des paiements partiels', async () => {
+      const resultat = await service.enregistrer('tenant-1', 'caissier-1', {
+        type: TypeOperationCaisse.ENCAISSEMENT,
+        montant: 400, // paiement partiel volontaire, doit être respecté tel quel
+        commandeId: 'commande-1',
+        idempotencyKey: 'idem-cmd-6',
+      });
+
+      expect(tenantPrisma.commande.findUnique).not.toHaveBeenCalled();
+      const montantEnvoye = tenantPrisma.operationCaisse.create.mock.calls[0][0].data.montant;
+      expect(montantEnvoye.toString()).toBe('400');
+      expect(resultat.monnaie).toBeUndefined();
     });
   });
 

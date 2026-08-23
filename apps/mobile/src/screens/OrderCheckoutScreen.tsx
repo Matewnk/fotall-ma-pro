@@ -1,0 +1,224 @@
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { ApiError, apiFetch } from '../lib/api-client';
+import { useAuth } from '../lib/auth-context';
+import type { Client, Commande, ModePaiement, OperationCaisse, Service } from '../lib/types';
+
+// Écran §order-to-cash (mobile) — maquette de référence :
+// docs/design/screens/encaissement_commande_mobile. Le total affiché vient
+// TOUJOURS de la commande (décision #5) : le caissier ne saisit jamais le
+// total, seulement le montant reçu (décision #6). Le serveur recalcule et
+// valide tout (décisions #4/#7/#8) — cet écran n'est qu'une présentation.
+export function OrderCheckoutScreen() {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { commandeId } = route.params as { commandeId: string };
+  const { session } = useAuth();
+  const token = session?.accessToken;
+  const queryClient = useQueryClient();
+
+  const commande = useQuery({
+    queryKey: ['commande', commandeId],
+    queryFn: () => apiFetch<Commande>(`/commandes/${commandeId}`, { token }),
+  });
+  const client = useQuery({
+    queryKey: ['client', commande.data?.clientId],
+    queryFn: () => apiFetch<Client>(`/clients/${commande.data?.clientId}`, { token }),
+    enabled: !!commande.data?.clientId,
+  });
+  const services = useQuery({
+    queryKey: ['services'],
+    queryFn: () => apiFetch<Service[]>('/services', { token }),
+  });
+  const servicesParId = new Map(services.data?.map((service) => [service.id, service]));
+
+  // Indication d'affichage uniquement : la garantie réelle contre le
+  // double encaissement est côté serveur (409, cash.service.ts).
+  const operations = useQuery({
+    queryKey: ['caisse-operations', 'ENCAISSEMENT'],
+    queryFn: () => apiFetch<OperationCaisse[]>('/caisse/operations?type=ENCAISSEMENT', { token }),
+  });
+  const dejaEncaissee = useMemo(
+    () => operations.data?.some((operation) => operation.commandeId === commandeId) ?? false,
+    [operations.data, commandeId],
+  );
+
+  const [montantRecu, setMontantRecu] = useState('');
+  const [erreur, setErreur] = useState<string | null>(null);
+
+  const total = commande.data ? Number(commande.data.total) : 0;
+  const montantRecuNombre = Number(montantRecu || 0);
+  const monnaie = montantRecu ? montantRecuNombre - total : null;
+
+  const encaisser = useMutation({
+    mutationFn: () =>
+      apiFetch<OperationCaisse & { monnaie?: string }>('/caisse/operations', {
+        method: 'POST',
+        token,
+        body: {
+          type: 'ENCAISSEMENT',
+          commandeId,
+          montantRecu: montantRecuNombre,
+          modePaiement: 'ESPECES' satisfies ModePaiement,
+          // Déterministe : un rejeu réseau du même clic ne duplique jamais
+          // l'écriture (idempotence, cash.service.ts).
+          idempotencyKey: `encaissement-${commandeId}`,
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['caisse-operations'] });
+      queryClient.invalidateQueries({ queryKey: ['caisse-solde'] });
+      setErreur(null);
+      // @ts-expect-error -- navigation non typée globalement (pas de RootParamList), voir RootNavigator.tsx
+      navigation.navigate('NouvelleCommande');
+    },
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Encaissement impossible.');
+    },
+  });
+
+  function handleEncaisser() {
+    setErreur(null);
+    if (montantRecuNombre < total) {
+      setErreur(`Montant reçu insuffisant : ${total} FCFA dus.`);
+      return;
+    }
+    encaisser.mutate();
+  }
+
+  if (commande.isPending) {
+    return (
+      <View style={styles.conteneur}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+  if (commande.isError || !commande.data) {
+    return (
+      <View style={styles.conteneur}>
+        <Text style={styles.erreur}>Commande introuvable.</Text>
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: 16 }}>
+      <View style={styles.carte}>
+        <View style={styles.ligneEntete}>
+          <Text style={styles.numero}>#{commande.data.numero}</Text>
+        </View>
+        <Text style={styles.client}>{client.data?.nom ?? '—'}</Text>
+        <View style={styles.recapitulatif}>
+          <Text style={styles.section}>RÉCAPITULATIF</Text>
+          {commande.data.articles?.map((article) => (
+            <View key={article.id} style={styles.ligneListe}>
+              <Text>
+                {servicesParId.get(article.serviceId)?.intitule ?? article.serviceId} (x
+                {article.quantite})
+              </Text>
+              <Text>{article.sousTotal} FCFA</Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.totalCarte}>
+        <Text style={styles.totalLabel}>TOTAL À ENCAISSER</Text>
+        <Text style={styles.totalMontant}>{commande.data.total} FCFA</Text>
+      </View>
+
+      {dejaEncaissee ? (
+        <Text style={styles.confirmation}>Cette commande est déjà encaissée.</Text>
+      ) : (
+        <>
+          <View style={styles.carte}>
+            <Text style={styles.section}>MONTANT REÇU</Text>
+            <TextInput
+              style={styles.champ}
+              placeholder="0"
+              keyboardType="numeric"
+              accessibilityLabel="Montant reçu"
+              value={montantRecu}
+              onChangeText={setMontantRecu}
+            />
+            <View style={styles.ligneListe}>
+              <Text>Monnaie à rendre</Text>
+              <Text style={styles.monnaie}>{monnaie !== null ? `${monnaie} FCFA` : '—'}</Text>
+            </View>
+          </View>
+
+          {erreur && <Text style={styles.erreur}>{erreur}</Text>}
+
+          <Pressable
+            style={[styles.bouton, (encaisser.isPending || !montantRecu) && styles.boutonDesactive]}
+            disabled={encaisser.isPending || !montantRecu}
+            onPress={handleEncaisser}
+            accessibilityRole="button"
+          >
+            {encaisser.isPending ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.boutonTexte}>ENCAISSER</Text>
+            )}
+          </Pressable>
+        </>
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  conteneur: { flex: 1, padding: 16 },
+  carte: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 12,
+    padding: 16,
+  },
+  ligneEntete: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
+  numero: { fontFamily: 'monospace', color: '#1e3a8a' },
+  client: { fontWeight: '600', marginBottom: 8 },
+  recapitulatif: { borderTopWidth: 1, borderTopColor: '#e5e7eb', paddingTop: 8, gap: 4 },
+  section: { fontSize: 12, fontWeight: '700', color: '#6b7280', marginBottom: 6 },
+  ligneListe: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 },
+  totalCarte: {
+    backgroundColor: '#1e3a8a',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+  },
+  totalLabel: { color: '#bcceff', fontSize: 12, fontWeight: '700', marginBottom: 4 },
+  totalMontant: { color: '#fff', fontSize: 32, fontWeight: '700' },
+  champ: {
+    borderWidth: 1,
+    borderColor: '#d1d5db',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 8,
+    textAlign: 'right',
+    fontSize: 18,
+  },
+  monnaie: { fontWeight: '700', fontSize: 16 },
+  confirmation: { color: '#10b981', fontWeight: '600', textAlign: 'center' },
+  erreur: { color: '#dc2626', fontSize: 13 },
+  bouton: {
+    backgroundColor: '#1e3a8a',
+    borderRadius: 8,
+    paddingVertical: 14,
+    alignItems: 'center',
+  },
+  boutonDesactive: { opacity: 0.5 },
+  boutonTexte: { color: '#fff', fontWeight: '600' },
+});

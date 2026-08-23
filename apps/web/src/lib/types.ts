@@ -35,6 +35,14 @@ export type Service = {
 export type StatutCommande = 'EN_ATTENTE' | 'EN_COURS' | 'PRET' | 'LIVRE';
 export type ModeLivraison = 'RETRAIT' | 'LIVRAISON';
 
+export type CommandeArticle = {
+  id: string;
+  serviceId: string;
+  quantite: number;
+  tarifUnitaire: string;
+  sousTotal: string;
+};
+
 export type Commande = {
   id: string;
   numero: number;
@@ -43,6 +51,7 @@ export type Commande = {
   sousTotal: string;
   total: string;
   modeLivraison: ModeLivraison;
+  articles?: CommandeArticle[];
   createdAt: string;
 };
 

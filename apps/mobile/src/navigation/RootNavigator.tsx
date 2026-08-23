@@ -6,6 +6,7 @@ import { AccountScreen } from '../screens/AccountScreen';
 import { CustomerTrackingScreen } from '../screens/CustomerTrackingScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
+import { OrderCheckoutScreen } from '../screens/OrderCheckoutScreen';
 import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
 
 const Stack = createNativeStackNavigator();
@@ -65,6 +66,11 @@ export function RootNavigator() {
               })}
             />
             <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
+            <Stack.Screen
+              name="Encaissement"
+              component={OrderCheckoutScreen}
+              options={{ title: 'Encaissement' }}
+            />
           </>
         ) : (
           <>
