@@ -93,6 +93,34 @@ describe('ServicesPage', () => {
     });
   });
 
+  it('sélectionne une icône et l’envoie à la création du service', async () => {
+    installerFauxServeur([]);
+    const { element } = renderAvecProviders(<ServicesPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText("Aucun service pour l'instant.")).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('Ajouter un service'));
+    fireEvent.change(screen.getByLabelText('Code'), { target: { value: 'SRV-02' } });
+    fireEvent.change(screen.getByLabelText('Intitulé'), { target: { value: 'Repassage' } });
+    fireEvent.change(screen.getByLabelText('Catégorie'), { target: { value: 'Vêtements' } });
+    fireEvent.change(screen.getByLabelText('Tarif (FCFA)'), { target: { value: '500' } });
+    fireEvent.click(screen.getByLabelText('Repassage'));
+    fireEvent.click(screen.getByText('Créer le service'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/services'),
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.stringContaining('"icone":"iron"'),
+        }),
+      );
+    });
+  });
+
   it('supprime un service après confirmation', async () => {
     installerFauxServeur([SERVICE_EXISTANT]);
     vi.stubGlobal(

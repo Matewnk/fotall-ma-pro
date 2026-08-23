@@ -76,6 +76,11 @@ model Service {
   categorie      String
   delaiHeures    Int?     @map("delai_heures")
   tarif          Decimal  @db.Decimal(10, 2)
+  // Nom d'icône Material Symbols (voir ICONES_SERVICE, services.constants.ts)
+  // — jamais une image téléversée : aucune infrastructure de stockage
+  // fichier n'existe dans ce projet (cf. BrandingPage.logoUrl, simple URL
+  // texte). Toujours validée côté serveur contre une liste fermée.
+  icone          String?
   actif          Boolean  @default(true)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")

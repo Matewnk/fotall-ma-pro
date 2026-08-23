@@ -14,11 +14,21 @@ const TENANT = {
   fuseauHoraire: 'Africa/Dakar',
 };
 
-function installerFauxServeur() {
+function installerFauxServeur(
+  options: { reponseUpload?: { status: number; corps: unknown } } = {},
+) {
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
+      const url = String(input);
       const method = init?.method ?? 'GET';
+      if (url.includes('/tenant/logo') && method === 'POST') {
+        const reponse = options.reponseUpload ?? {
+          status: 201,
+          corps: { ...TENANT, logoUrl: 'http://localhost:3000/uploads/logos/t1.png?v=1' },
+        };
+        return Promise.resolve(reponseJson(reponse.corps, reponse.status));
+      }
       if (method === 'PATCH') {
         const corps = JSON.parse(init?.body as string) as Record<string, unknown>;
         return Promise.resolve(reponseJson({ ...TENANT, ...corps }));
@@ -72,5 +82,48 @@ describe('BrandingPage', () => {
     await waitFor(() => {
       expect(screen.getByText('Enregistré.')).toBeDefined();
     });
+  });
+
+  it('téléverse un logo et affiche l’aperçu renvoyé par le serveur', async () => {
+    installerFauxServeur();
+    const { element } = renderAvecProviders(<BrandingPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Logo')).toBeDefined();
+    });
+
+    const fichier = new File(['contenu'], 'logo.png', { type: 'image/png' });
+    fireEvent.change(screen.getByLabelText('Logo'), { target: { files: [fichier] } });
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/tenant/logo'),
+        expect.objectContaining({ method: 'POST' }),
+      );
+      expect(screen.getByAltText('Logo du pressing')).toBeDefined();
+    });
+  });
+
+  it('refuse localement un logo trop volumineux sans appeler le serveur', async () => {
+    installerFauxServeur();
+    const { element } = renderAvecProviders(<BrandingPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Logo')).toBeDefined();
+    });
+
+    const fichierTropGros = new File([new Uint8Array(3 * 1024 * 1024)], 'logo.png', {
+      type: 'image/png',
+    });
+    fireEvent.change(screen.getByLabelText('Logo'), { target: { files: [fichierTropGros] } });
+
+    await waitFor(() => {
+      expect(screen.getByText('Fichier trop volumineux (2 Mo maximum).')).toBeDefined();
+    });
+    expect(vi.mocked(fetch).mock.calls.some(([url]) => String(url).includes('/tenant/logo'))).toBe(
+      false,
+    );
   });
 });

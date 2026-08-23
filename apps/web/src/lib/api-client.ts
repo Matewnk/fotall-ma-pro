@@ -51,6 +51,30 @@ export async function apiFetch<T>(
   return corps as T;
 }
 
+// Pour l'envoi de fichiers (multipart/form-data, ex. logo tenant) : jamais
+// de Content-Type explicite — le navigateur doit fixer lui-même la
+// boundary multipart, contrairement à apiFetch qui force toujours du JSON.
+export async function apiUpload<T>(
+  path: string,
+  formData: FormData,
+  options: { token?: string | null | undefined } = {},
+): Promise<T> {
+  const headers: Record<string, string> = {};
+  if (options.token) {
+    headers.Authorization = `Bearer ${options.token}`;
+  }
+
+  const res = await fetch(`${BASE_URL}${path}`, { method: 'POST', headers, body: formData });
+
+  const texte = await res.text();
+  const corps: unknown = texte ? JSON.parse(texte) : undefined;
+
+  if (!res.ok) {
+    throw new ApiError(res.status, extraireMessage(corps));
+  }
+  return corps as T;
+}
+
 // Pour les réponses binaires (PDF, ESC/POS) : mêmes en-têtes que apiFetch,
 // mais sans tenter de parser le corps en JSON (voir tickets.controller.ts,
 // qui renvoie des octets bruts via @Res()).

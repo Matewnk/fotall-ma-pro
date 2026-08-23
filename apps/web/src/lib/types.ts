@@ -29,6 +29,7 @@ export type Service = {
   categorie: string;
   delaiHeures?: number;
   tarif: string;
+  icone?: string;
   actif: boolean;
 };
 

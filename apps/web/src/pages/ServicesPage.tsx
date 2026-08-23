@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
+import { COULEUR_ICONE_PAR_DEFAUT, COULEUR_PAR_ICONE, ICONES_SERVICE } from '../lib/icones-service';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import type { Service } from '../lib/types';
@@ -10,6 +11,7 @@ type FormulaireService = {
   categorie: string;
   delaiHeures: string;
   tarif: string;
+  icone: string;
 };
 
 const FORMULAIRE_VIDE: FormulaireService = {
@@ -18,6 +20,7 @@ const FORMULAIRE_VIDE: FormulaireService = {
   categorie: '',
   delaiHeures: '',
   tarif: '',
+  icone: '',
 };
 
 // Écran §008 (services/tarifs) — maquette de référence :
@@ -55,6 +58,7 @@ export function ServicesPage() {
       categorie: service.categorie,
       delaiHeures: service.delaiHeures !== undefined ? String(service.delaiHeures) : '',
       tarif: service.tarif,
+      icone: service.icone ?? '',
     });
     setErreur(null);
     setFormulaireOuvert(true);
@@ -72,6 +76,7 @@ export function ServicesPage() {
         categorie: formulaire.categorie,
         tarif: Number(formulaire.tarif),
         ...(formulaire.delaiHeures ? { delaiHeures: Number(formulaire.delaiHeures) } : {}),
+        ...(formulaire.icone ? { icone: formulaire.icone } : {}),
       };
       return serviceEnEdition
         ? apiFetch<Service>(`/services/${serviceEnEdition.id}`, {
@@ -197,6 +202,40 @@ export function ServicesPage() {
             </label>
           </div>
 
+          <div className="flex flex-col gap-2">
+            <span className="text-sm">Icône</span>
+            <div className="flex flex-wrap gap-2">
+              {ICONES_SERVICE.map(({ valeur, libelle, couleur }) => {
+                const selectionne = formulaire.icone === valeur;
+                return (
+                  <button
+                    key={valeur}
+                    type="button"
+                    title={libelle}
+                    aria-label={libelle}
+                    aria-pressed={selectionne}
+                    onClick={() =>
+                      setFormulaire((f) => ({ ...f, icone: f.icone === valeur ? '' : valeur }))
+                    }
+                    style={
+                      selectionne
+                        ? { backgroundColor: couleur, borderColor: couleur }
+                        : { borderColor: `${couleur}55` }
+                    }
+                    className="w-10 h-10 flex items-center justify-center rounded-lg border transition-colors"
+                  >
+                    <span
+                      className="material-symbols-outlined"
+                      style={{ color: selectionne ? '#ffffff' : couleur }}
+                    >
+                      {valeur}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {erreur && <p className="text-sm text-error">{erreur}</p>}
 
           <div className="flex gap-2">
@@ -248,49 +287,70 @@ export function ServicesPage() {
                 </td>
               </tr>
             )}
-            {services.data?.map((service) => (
-              <tr key={service.id} className="border-t border-outline-variant">
-                <td className="px-4 py-2">
-                  <div className="font-medium">{service.intitule}</div>
-                  <div className="text-on-surface-variant text-xs font-mono">{service.code}</div>
-                </td>
-                <td className="px-4 py-2">{service.categorie}</td>
-                <td className="px-4 py-2">{service.tarif} FCFA</td>
-                <td className="px-4 py-2">
-                  <span
-                    className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                      service.actif
-                        ? 'bg-status-delivered/10 text-status-delivered'
-                        : 'bg-status-pending/10 text-status-pending'
-                    }`}
-                  >
-                    {service.actif ? 'Actif' : 'Inactif'}
-                  </span>
-                </td>
-                <td className="px-4 py-2">
-                  <div className="flex gap-3">
-                    <button
-                      type="button"
-                      onClick={() => ouvrirEdition(service)}
-                      className="text-primary text-xs font-medium"
+            {services.data?.map((service) => {
+              const couleurIcone =
+                COULEUR_PAR_ICONE.get(service.icone ?? '') ?? COULEUR_ICONE_PAR_DEFAUT;
+              return (
+                <tr key={service.id} className="border-t border-outline-variant">
+                  <td className="px-4 py-2">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="w-8 h-8 flex items-center justify-center rounded-full shrink-0"
+                        style={{ backgroundColor: `${couleurIcone}1A` }}
+                      >
+                        <span
+                          className="material-symbols-outlined text-[18px]"
+                          style={{ color: couleurIcone }}
+                        >
+                          {service.icone ?? 'local_laundry_service'}
+                        </span>
+                      </span>
+                      <div>
+                        <div className="font-medium">{service.intitule}</div>
+                        <div className="text-on-surface-variant text-xs font-mono">
+                          {service.code}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-2">{service.categorie}</td>
+                  <td className="px-4 py-2">{service.tarif} FCFA</td>
+                  <td className="px-4 py-2">
+                    <span
+                      className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
+                        service.actif
+                          ? 'bg-status-delivered/10 text-status-delivered'
+                          : 'bg-status-pending/10 text-status-pending'
+                      }`}
                     >
-                      Modifier
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (window.confirm(`Supprimer ${service.intitule} ?`)) {
-                          supprimerService.mutate(service.id);
-                        }
-                      }}
-                      className="text-error text-xs font-medium"
-                    >
-                      Supprimer
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                      {service.actif ? 'Actif' : 'Inactif'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => ouvrirEdition(service)}
+                        className="text-primary text-xs font-medium"
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (window.confirm(`Supprimer ${service.intitule} ?`)) {
+                            supprimerService.mutate(service.id);
+                          }
+                        }}
+                        className="text-error text-xs font-medium"
+                      >
+                        Supprimer
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

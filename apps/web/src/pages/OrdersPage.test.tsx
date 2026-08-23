@@ -5,8 +5,24 @@ import { OrdersPage } from './OrdersPage';
 
 const CLIENTS = [{ id: 'client-1', nom: 'Fatou Sy', telephone: '+221701112233' }];
 const SERVICES = [
-  { id: 'service-1', code: 'SRV-01', intitule: 'Lavage', tarif: '1000.00' },
-  { id: 'service-2', code: 'SRV-02', intitule: 'Repassage', tarif: '500.00' },
+  {
+    id: 'service-1',
+    code: 'SRV-01',
+    intitule: 'Lavage',
+    categorie: 'Vêtements',
+    tarif: '1000.00',
+    icone: 'checkroom',
+    actif: true,
+  },
+  {
+    id: 'service-2',
+    code: 'SRV-02',
+    intitule: 'Repassage',
+    categorie: 'Repassage',
+    tarif: '500.00',
+    icone: 'iron',
+    actif: true,
+  },
 ];
 const COMMANDE_CREEE = {
   id: 'commande-1',
@@ -76,7 +92,7 @@ describe('OrdersPage', () => {
     });
   });
 
-  it('crée une commande multi-lignes (panier), calcule le total indicatif et redirige vers l’encaissement', async () => {
+  it('crée une commande multi-lignes via les catégories, calcule le total indicatif et redirige vers l’encaissement', async () => {
     installerFauxServeur([]);
 
     const { element } = renderAvecProviders(<OrdersPage />);
@@ -89,24 +105,31 @@ describe('OrdersPage', () => {
     fireEvent.click(screen.getByText('Nouvelle commande'));
 
     await waitFor(() => {
-      expect(screen.getByText('Fatou Sy')).toBeDefined();
+      expect(screen.getByLabelText('Client')).toBeDefined();
     });
-
     fireEvent.change(screen.getByLabelText('Client'), { target: { value: 'client-1' } });
 
-    // Ligne 1 : Lavage x2
-    fireEvent.change(screen.getByLabelText('Service'), { target: { value: 'service-1' } });
-    fireEvent.change(screen.getByLabelText('Quantité'), { target: { value: '2' } });
-    fireEvent.click(screen.getByText('Ajouter'));
-
-    // Ligne 2 : Repassage x1
-    fireEvent.change(screen.getByLabelText('Service'), { target: { value: 'service-2' } });
-    fireEvent.change(screen.getByLabelText('Quantité'), { target: { value: '1' } });
-    fireEvent.click(screen.getByText('Ajouter'));
-
-    // Total indicatif = 2*1000 + 1*500 = 2500 (affiché, jamais envoyé au serveur)
+    // Catégorie "Vêtements" → service "Lavage" (ajouté au panier)
+    fireEvent.click(screen.getByText('Vêtements'));
     await waitFor(() => {
-      expect(screen.getByText('2 500 FCFA')).toBeDefined();
+      expect(screen.getByText('Lavage')).toBeDefined();
+    });
+    fireEvent.click(screen.getByText('Lavage'));
+    fireEvent.click(screen.getByText('Catégories'));
+
+    // Catégorie "Repassage" → service "Repassage" (ajouté au panier)
+    fireEvent.click(screen.getByText('Repassage'));
+    await waitFor(() => {
+      expect(screen.getAllByText('Repassage').length).toBeGreaterThan(0);
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Repassage.*500.00 FCFA/ }));
+
+    // Augmente la quantité de Lavage via le stepper du ticket (1 → 2)
+    fireEvent.click(screen.getByLabelText('Augmenter Lavage'));
+
+    // Total indicatif = 2*1000 + 1*500 = 2500
+    await waitFor(() => {
+      expect(screen.getByText('2 500')).toBeDefined();
     });
 
     fireEvent.click(screen.getByText('VALIDER LA COMMANDE'));
@@ -124,21 +147,26 @@ describe('OrdersPage', () => {
     });
   });
 
-  it('refuse de valider une commande sans aucune ligne au panier', async () => {
+  it('refuse de valider une commande sans client sélectionné', async () => {
     installerFauxServeur([]);
     const { element } = renderAvecProviders(<OrdersPage />);
     render(element);
 
     fireEvent.click(screen.getByText('Nouvelle commande'));
     await waitFor(() => {
-      expect(screen.getByText('Fatou Sy')).toBeDefined();
+      expect(screen.getByText('Vêtements')).toBeDefined();
     });
 
-    fireEvent.change(screen.getByLabelText('Client'), { target: { value: 'client-1' } });
+    fireEvent.click(screen.getByText('Vêtements'));
+    await waitFor(() => {
+      expect(screen.getByText('Lavage')).toBeDefined();
+    });
+    fireEvent.click(screen.getByText('Lavage'));
+
     fireEvent.click(screen.getByText('VALIDER LA COMMANDE'));
 
     await waitFor(() => {
-      expect(screen.getByText('Ajoutez au moins une prestation au panier.')).toBeDefined();
+      expect(screen.getByText('Choisissez un client.')).toBeDefined();
     });
   });
 

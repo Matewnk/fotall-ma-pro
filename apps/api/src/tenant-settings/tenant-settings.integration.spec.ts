@@ -101,6 +101,65 @@ describe('TenantSettings (015-web tranche 6) — PostgreSQL réel', () => {
     expect(getB.body.nomPressing).toBe('Pressing Branding B');
   });
 
+  it('logo : upload d’une image valide met à jour logoUrl (URL absolue, isolée par tenant)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/tenant/logo')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .attach('logo', Buffer.from('contenu-image-factice'), {
+        filename: 'logo.png',
+        contentType: 'image/png',
+      });
+
+    expect(res.status).toBe(201);
+    expect(res.body.logoUrl).toMatch(/^https?:\/\/.*\/uploads\/logos\/.+\.png\?v=\d+$/);
+
+    // L'upload de A n'affecte jamais le logo de B.
+    const getB = await request(app.getHttpServer())
+      .get('/tenant')
+      .set('Authorization', `Bearer ${tokenAdminB}`);
+    expect(getB.body.logoUrl).toBeFalsy();
+  });
+
+  it('logo : rejette un fichier qui n’est pas une image (png/jpg/webp)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/tenant/logo')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .attach('logo', Buffer.from('pas une image'), {
+        filename: 'malicious.txt',
+        contentType: 'text/plain',
+      });
+
+    expect(res.status).toBe(400);
+  });
+
+  it('logo : RBAC — CAISSIER ne peut pas téléverser de logo', async () => {
+    const meA = await request(app.getHttpServer())
+      .get('/auth/me')
+      .set('Authorization', `Bearer ${tokenAdminA}`);
+    const caissier = await prisma.user.create({
+      data: {
+        tenantId: meA.body.tenantId,
+        role: Role.CAISSIER,
+        email: `caissier-logo-${randomUUID().slice(0, 8)}@pressing-branding-a.dev`,
+        motDePasseHash: 'n/a',
+      },
+    });
+    const tokenCaissier = new JwtService({ secret: jwtSecret }).sign({
+      sub: caissier.id,
+      tenantId: meA.body.tenantId,
+      role: Role.CAISSIER,
+    });
+
+    const res = await request(app.getHttpServer())
+      .post('/tenant/logo')
+      .set('Authorization', `Bearer ${tokenCaissier}`)
+      .attach('logo', Buffer.from('contenu-image-factice'), {
+        filename: 'logo.png',
+        contentType: 'image/png',
+      });
+    expect(res.status).toBe(403);
+  });
+
   it('RBAC : CAISSIER n’a pas accès aux réglages du tenant', async () => {
     const meA = await request(app.getHttpServer())
       .get('/auth/me')
