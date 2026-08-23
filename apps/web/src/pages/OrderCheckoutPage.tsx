@@ -138,7 +138,10 @@ export function OrderCheckoutPage() {
               </thead>
               <tbody className="font-mono text-sm">
                 {commande.data.articles?.map((article) => (
-                  <tr key={article.id} className="border-b border-dashed border-outline-variant/50 h-10">
+                  <tr
+                    key={article.id}
+                    className="border-b border-dashed border-outline-variant/50 h-10"
+                  >
                     <td>{servicesParId.get(article.serviceId)?.intitule ?? article.serviceId}</td>
                     <td className="text-right">x{article.quantite}</td>
                     <td className="text-right">{article.sousTotal}</td>
@@ -157,7 +160,9 @@ export function OrderCheckoutPage() {
         </div>
 
         <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 flex flex-col gap-6">
-          <h3 className="font-bold text-on-surface border-b border-outline-variant pb-4">Paiement</h3>
+          <h3 className="font-bold text-on-surface border-b border-outline-variant pb-4">
+            Paiement
+          </h3>
 
           {dejaEncaissee ? (
             <p className="text-status-ready font-medium flex items-center gap-2">

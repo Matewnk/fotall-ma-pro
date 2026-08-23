@@ -1,7 +1,15 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import type { Client, Commande, ModePaiement, OperationCaisse, Service } from '../lib/types';
@@ -145,9 +153,7 @@ export function OrderCheckoutScreen() {
             />
             <View style={styles.ligneListe}>
               <Text>Monnaie à rendre</Text>
-              <Text style={styles.monnaie}>
-                {monnaie !== null ? `${monnaie} FCFA` : '—'}
-              </Text>
+              <Text style={styles.monnaie}>{monnaie !== null ? `${monnaie} FCFA` : '—'}</Text>
             </View>
           </View>
 

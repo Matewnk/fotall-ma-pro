@@ -20,10 +20,12 @@ const COMMANDE = {
   createdAt: '2026-08-19T10:00:00Z',
 };
 
-function installerFauxServeur(options: {
-  operationsExistantes?: unknown[];
-  encaissementReponse?: { status: number; corps: unknown };
-} = {}) {
+function installerFauxServeur(
+  options: {
+    operationsExistantes?: unknown[];
+    encaissementReponse?: { status: number; corps: unknown };
+  } = {},
+) {
   const operationsExistantes = options.operationsExistantes ?? [];
   vi.stubGlobal(
     'fetch',
@@ -126,9 +128,7 @@ describe('OrderCheckoutPage', () => {
       );
       const appelPost = vi
         .mocked(fetch)
-        .mock.calls.find(
-          ([, init]) => (init as RequestInit | undefined)?.method === 'POST',
-        );
+        .mock.calls.find(([, init]) => (init as RequestInit | undefined)?.method === 'POST');
       expect(appelPost?.[1]?.body).not.toContain('"montant"');
       expect(appelPost?.[1]?.body).toContain('"montantRecu":15000');
     });
@@ -150,13 +150,17 @@ describe('OrderCheckoutPage', () => {
       expect(screen.getByText('Montant reçu insuffisant : 10000 FCFA dus.')).toBeDefined();
     });
     expect(
-      vi.mocked(fetch).mock.calls.some(([, init]) => (init as RequestInit | undefined)?.method === 'POST'),
+      vi
+        .mocked(fetch)
+        .mock.calls.some(([, init]) => (init as RequestInit | undefined)?.method === 'POST'),
     ).toBe(false);
   });
 
   it('affiche l’état "déjà encaissée" et masque le formulaire de paiement', async () => {
     installerFauxServeur({
-      operationsExistantes: [{ id: 'op-0', type: 'ENCAISSEMENT', montant: '10000', commandeId: 'commande-1' }],
+      operationsExistantes: [
+        { id: 'op-0', type: 'ENCAISSEMENT', montant: '10000', commandeId: 'commande-1' },
+      ],
     });
     const { element } = monter();
     render(element);
@@ -168,7 +172,12 @@ describe('OrderCheckoutPage', () => {
   });
 
   it('affiche l’erreur serveur en cas de double encaissement concurrent (409)', async () => {
-    installerFauxServeur({ encaissementReponse: { status: 409, corps: { message: 'Cette commande est déjà encaissée.' } } });
+    installerFauxServeur({
+      encaissementReponse: {
+        status: 409,
+        corps: { message: 'Cette commande est déjà encaissée.' },
+      },
+    });
     const { element } = monter();
     render(element);
 

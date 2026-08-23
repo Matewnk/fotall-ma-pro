@@ -220,7 +220,9 @@ export function OrdersPage() {
                       className="bg-surface-container-lowest border border-outline-variant/50 rounded-lg px-3 py-2 flex items-center justify-between"
                     >
                       <div>
-                        <p className="text-sm font-medium">{service?.intitule ?? ligne.serviceId}</p>
+                        <p className="text-sm font-medium">
+                          {service?.intitule ?? ligne.serviceId}
+                        </p>
                         <p className="text-xs text-on-surface-variant font-mono">
                           x {service?.tarif ?? '0'} FCFA
                         </p>
@@ -235,7 +237,9 @@ export function OrdersPage() {
                           >
                             <span className="material-symbols-outlined text-[16px]">remove</span>
                           </button>
-                          <span className="font-mono w-6 text-center text-sm">{ligne.quantite}</span>
+                          <span className="font-mono w-6 text-center text-sm">
+                            {ligne.quantite}
+                          </span>
                           <button
                             type="button"
                             aria-label={`Augmenter ${service?.intitule ?? ''}`}
@@ -246,7 +250,8 @@ export function OrdersPage() {
                           </button>
                         </div>
                         <span className="font-mono text-sm font-semibold w-24 text-right">
-                          {(Number(service?.tarif ?? 0) * ligne.quantite).toLocaleString('fr-FR')} FCFA
+                          {(Number(service?.tarif ?? 0) * ligne.quantite).toLocaleString('fr-FR')}{' '}
+                          FCFA
                         </span>
                         <button
                           type="button"
