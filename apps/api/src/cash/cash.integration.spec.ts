@@ -128,6 +128,17 @@ describe('Cash (010) — PostgreSQL réel', () => {
     expect(new Set(operateurs).size).toBe(2); // les deux caissiers apparaissent bien
   });
 
+  it('accepte Wave et Orange Money comme modes de paiement (journal de caisse enrichi)', async () => {
+    for (const modePaiement of ['WAVE', 'ORANGE_MONEY']) {
+      const res = await request(app.getHttpServer())
+        .post('/caisse/operations')
+        .set('Authorization', `Bearer ${tokenCaissier1}`)
+        .send({ type: 'ENCAISSEMENT', montant: 500, modePaiement, idempotencyKey: randomUUID() });
+      expect(res.status).toBe(201);
+      expect(res.body.modePaiement).toBe(modePaiement);
+    }
+  });
+
   it('doublon réseau : rejouer la même idempotencyKey ne modifie pas le solde', async () => {
     const idempotencyKey = randomUUID();
     const premiere = await request(app.getHttpServer())

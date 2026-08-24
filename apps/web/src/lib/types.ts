@@ -64,7 +64,7 @@ export type TypeOperationCaisse =
   | 'REMBOURSEMENT'
   | 'AJUSTEMENT_COMPENSATOIRE'
   | 'CLOTURE';
-export type ModePaiement = 'ESPECES' | 'CARTE' | 'MOBILE_MONEY' | 'AUTRE';
+export type ModePaiement = 'ESPECES' | 'CARTE' | 'MOBILE_MONEY' | 'WAVE' | 'ORANGE_MONEY' | 'AUTRE';
 
 export type OperationCaisse = {
   id: string;

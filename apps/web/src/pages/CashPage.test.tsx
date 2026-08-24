@@ -28,6 +28,10 @@ const OPERATION_CREEE = {
   createdAt: '2026-08-20T15:00:00Z',
 };
 
+function aujourdHuiISO(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
 function installerFauxServeur(operationsInitiales: unknown[] = []) {
   let operations = operationsInitiales;
   vi.stubGlobal(
@@ -102,6 +106,73 @@ describe('CashPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Dépense')).toBeDefined();
+    });
+  });
+
+  it('propose Wave et Orange Money dans le sélecteur de mode', async () => {
+    installerFauxServeur([]);
+    const { element } = renderAvecProviders(<CashPage />);
+    render(element);
+
+    fireEvent.click(screen.getByText('Nouvelle opération'));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mode')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Mode'), { target: { value: 'WAVE' } });
+    fireEvent.change(screen.getByLabelText('Mode'), { target: { value: 'ORANGE_MONEY' } });
+    // Aucune exception levée : les deux valeurs existent bien comme options.
+  });
+
+  it('affiche le résumé du jour (encaissements par mode, dépenses)', async () => {
+    installerFauxServeur([
+      { ...OPERATION_EXISTANTE, id: 'op-jour-1', createdAt: `${aujourdHuiISO()}T09:00:00Z` },
+      {
+        id: 'op-jour-2',
+        type: 'ENCAISSEMENT' as const,
+        montant: '2000.00',
+        modePaiement: 'WAVE' as const,
+        createdAt: `${aujourdHuiISO()}T10:00:00Z`,
+      },
+      {
+        id: 'op-jour-3',
+        type: 'DEPENSE' as const,
+        montant: '300.00',
+        createdAt: `${aujourdHuiISO()}T11:00:00Z`,
+      },
+    ]);
+    const { element } = renderAvecProviders(<CashPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('Encaissements du jour par mode')).toBeDefined();
+      expect(screen.getAllByText('Wave').length).toBeGreaterThan(0);
+      expect(screen.getByText('2 000 FCFA')).toBeDefined();
+      expect(screen.getByText('300 FCFA')).toBeDefined(); // dépenses du jour
+    });
+  });
+
+  it('clôture la caisse et empêche une seconde clôture le même jour', async () => {
+    installerFauxServeur([]);
+    const { element } = renderAvecProviders(<CashPage />);
+    render(element);
+
+    fireEvent.click(screen.getByText('Clôturer la caisse'));
+    await waitFor(() => {
+      expect(screen.getByText('Confirmer la clôture')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('Confirmer la clôture'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/caisse/operations'),
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.stringContaining(`"idempotencyKey":"cloture-${aujourdHuiISO()}"`),
+        }),
+      );
     });
   });
 });

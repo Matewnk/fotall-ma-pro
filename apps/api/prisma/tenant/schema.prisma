@@ -163,6 +163,8 @@ enum ModePaiement {
   ESPECES
   CARTE
   MOBILE_MONEY
+  WAVE
+  ORANGE_MONEY
   AUTRE
 }
 
