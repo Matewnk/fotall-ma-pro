@@ -10,6 +10,12 @@ jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
+const mockNavigate = jest.fn();
+jest.mock('@react-navigation/native', () => ({
+  ...jest.requireActual('@react-navigation/native'),
+  useNavigation: () => ({ navigate: mockNavigate }),
+}));
+
 const COMMANDE_EN_COURS = {
   id: 'commande-1',
   numero: 9821,
@@ -21,9 +27,15 @@ const COMMANDE_EN_COURS = {
   createdAt: '2026-08-21T10:00:00Z',
 };
 const COMMANDE_PRETE = { ...COMMANDE_EN_COURS, statut: 'PRET' };
+const COMMANDE_LIVRAISON = {
+  ...COMMANDE_EN_COURS,
+  id: 'commande-2',
+  numero: 9822,
+  modeLivraison: 'LIVRAISON',
+};
 
-function installerFauxServeur() {
-  let commandes = [COMMANDE_EN_COURS];
+function installerFauxServeur(commandesInitiales = [COMMANDE_EN_COURS]) {
+  let commandes = commandesInitiales;
   globalThis.fetch = jest.fn((input: RequestInfo | URL, init?: RequestInit) => {
     const url = String(input);
     const method = init?.method ?? 'GET';
@@ -38,6 +50,7 @@ function installerFauxServeur() {
 describe('OrdersStatusScreen', () => {
   beforeEach(() => {
     installerFauxServeur();
+    mockNavigate.mockClear();
   });
 
   it('affiche les commandes et fait avancer le statut', async () => {
@@ -81,5 +94,23 @@ describe('OrdersStatusScreen', () => {
         expect.anything(),
       );
     });
+  });
+
+  it('propose "Bon de livraison" uniquement pour une commande en mode LIVRAISON, et navigue vers l’écran dédié', async () => {
+    installerFauxServeur([COMMANDE_EN_COURS, COMMANDE_LIVRAISON]);
+    render(renderAvecProviders(<OrdersStatusScreen />));
+
+    await waitFor(
+      () => {
+        expect(screen.getByText('#9822')).toBeTruthy();
+      },
+      { timeout: 5000 },
+    );
+
+    expect(screen.getAllByText('Bon de livraison')).toHaveLength(1);
+
+    fireEvent.press(screen.getByText('Bon de livraison'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('BonLivraison', { commandeId: 'commande-2' });
   });
 });

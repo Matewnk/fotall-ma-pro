@@ -5,6 +5,7 @@ import { useAuth } from '../lib/auth-context';
 import { AccountScreen } from '../screens/AccountScreen';
 import { CustomerTrackingScreen } from '../screens/CustomerTrackingScreen';
 import { LoginScreen } from '../screens/LoginScreen';
+import { DeliverySlipScreen } from '../screens/DeliverySlipScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
 import { OrderCheckoutScreen } from '../screens/OrderCheckoutScreen';
 import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
@@ -66,6 +67,11 @@ export function RootNavigator() {
               })}
             />
             <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
+            <Stack.Screen
+              name="BonLivraison"
+              component={DeliverySlipScreen}
+              options={{ title: 'Bon de livraison' }}
+            />
             <Stack.Screen
               name="Encaissement"
               component={OrderCheckoutScreen}

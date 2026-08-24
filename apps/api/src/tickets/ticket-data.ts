@@ -14,6 +14,7 @@ export type TicketData = {
   nomPressing: string;
   adresseTenant: string | null;
   telephoneTenant: string | null;
+  logoUrl: string | null;
   client: { nom: string; telephone: string };
   articles: TicketArticle[];
   sousTotal: string;

@@ -50,6 +50,30 @@ export class TicketsController {
       .send(buffer);
   }
 
+  // JSON brut des mêmes données que le PDF/ESC-POS (011) : consommé par
+  // l'écran mobile "Bon de livraison" (LIVREUR), qui affiche l'info
+  // nativement plutôt que d'ouvrir un PDF (pas de lecteur PDF/partage de
+  // fichier dans l'app mobile actuelle).
+  @Get('data')
+  data(@CurrentTenant() context: AuthenticatedContext, @Param('id') id: string) {
+    this.requireTenant(context);
+    return this.ticketsService.getTicketData(context.tenantId as string, id);
+  }
+
+  @Get('bon-livraison/pdf')
+  async bonLivraisonPdf(
+    @CurrentTenant() context: AuthenticatedContext,
+    @Param('id') id: string,
+    @Res() res: ReponseBrute,
+  ) {
+    this.requireTenant(context);
+    const buffer = await this.ticketsService.genererBonLivraisonPdf(context.tenantId as string, id);
+    res
+      .set('Content-Type', 'application/pdf')
+      .set('Content-Disposition', `inline; filename="bon-livraison-${id}.pdf"`)
+      .send(buffer);
+  }
+
   @Get('escpos')
   async escpos(
     @CurrentTenant() context: AuthenticatedContext,

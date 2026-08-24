@@ -35,6 +35,21 @@ export function TicketsPage() {
     }
   }
 
+  async function voirBonLivraison(commande: Commande) {
+    setErreur(null);
+    setEnCours(`${commande.id}-bon-livraison`);
+    try {
+      const blob = await apiFetchBlob(`/commandes/${commande.id}/ticket/bon-livraison/pdf`, {
+        token,
+      });
+      ouvrirBlobDansNouvelOnglet(blob);
+    } catch {
+      setErreur(`Impossible de générer le bon de livraison de la commande #${commande.numero}.`);
+    } finally {
+      setEnCours(null);
+    }
+  }
+
   async function telechargerEscPos(commande: Commande, largeur: 58 | 80) {
     setErreur(null);
     setEnCours(`${commande.id}-escpos-${largeur}`);
@@ -117,6 +132,16 @@ export function TicketsPage() {
                     >
                       ESC/POS 80mm
                     </button>
+                    {commande.modeLivraison === 'LIVRAISON' && (
+                      <button
+                        type="button"
+                        disabled={enCours === `${commande.id}-bon-livraison`}
+                        onClick={() => voirBonLivraison(commande)}
+                        className="text-primary text-xs font-medium disabled:opacity-60"
+                      >
+                        Bon de livraison
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

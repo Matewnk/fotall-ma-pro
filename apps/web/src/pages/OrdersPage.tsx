@@ -62,6 +62,9 @@ export function OrdersPage() {
   }, [servicesActifs]);
 
   const [clientId, setClientId] = useState('');
+  const [nouveauClientOuvert, setNouveauClientOuvert] = useState(false);
+  const [nouveauClientNom, setNouveauClientNom] = useState('');
+  const [nouveauClientTelephone, setNouveauClientTelephone] = useState('');
   const [categorieActive, setCategorieActive] = useState<string | null>(null);
   const [panier, setPanier] = useState<LigneArticle[]>([]);
   const [modeLivraison, setModeLivraison] = useState<ModeLivraison>('RETRAIT');
@@ -101,6 +104,31 @@ export function OrdersPage() {
 
   function retirerDuPanier(serviceId: string) {
     setPanier((lignes) => lignes.filter((ligne) => ligne.serviceId !== serviceId));
+  }
+
+  const creerClient = useMutation({
+    mutationFn: () =>
+      apiFetch<Client>('/clients', {
+        method: 'POST',
+        token,
+        body: { nom: nouveauClientNom, telephone: nouveauClientTelephone },
+      }),
+    onSuccess: (client) => {
+      queryClient.invalidateQueries({ queryKey: ['clients'] });
+      setClientId(client.id);
+      setNouveauClientOuvert(false);
+      setNouveauClientNom('');
+      setNouveauClientTelephone('');
+      setErreur(null);
+    },
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Création du client impossible.');
+    },
+  });
+
+  function handleCreerClient() {
+    setErreur(null);
+    creerClient.mutate();
   }
 
   function reinitialiserFormulaire() {
@@ -200,21 +228,64 @@ export function OrdersPage() {
                   </div>
                 </div>
               ) : (
-                <select
-                  aria-label="Client"
-                  className="w-full border border-outline-variant rounded-lg px-3 py-2"
-                  value={clientId}
-                  onChange={(event) => setClientId(event.target.value)}
-                >
-                  <option value="" disabled>
-                    Choisir un client…
-                  </option>
-                  {clients.data?.map((client) => (
-                    <option key={client.id} value={client.id}>
-                      {client.nom}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <select
+                      aria-label="Client"
+                      className="flex-grow border border-outline-variant rounded-lg px-3 py-2"
+                      value={clientId}
+                      onChange={(event) => setClientId(event.target.value)}
+                    >
+                      <option value="" disabled>
+                        Choisir un client…
+                      </option>
+                      {clients.data?.map((client) => (
+                        <option key={client.id} value={client.id}>
+                          {client.nom}
+                        </option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      title="Nouveau client"
+                      onClick={() => setNouveauClientOuvert((ouvert) => !ouvert)}
+                      className="shrink-0 w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-primary hover:bg-primary-container hover:text-on-primary-container transition-colors"
+                    >
+                      <span className="material-symbols-outlined">person_add</span>
+                    </button>
+                  </div>
+
+                  {nouveauClientOuvert && (
+                    <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-3 flex flex-col gap-2">
+                      <label className="flex flex-col gap-1 text-sm">
+                        Nom
+                        <input
+                          className="border border-outline-variant rounded-lg px-3 py-2"
+                          value={nouveauClientNom}
+                          onChange={(event) => setNouveauClientNom(event.target.value)}
+                        />
+                      </label>
+                      <label className="flex flex-col gap-1 text-sm">
+                        Téléphone
+                        <input
+                          className="border border-outline-variant rounded-lg px-3 py-2"
+                          value={nouveauClientTelephone}
+                          onChange={(event) => setNouveauClientTelephone(event.target.value)}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={handleCreerClient}
+                        disabled={
+                          creerClient.isPending || !nouveauClientNom || !nouveauClientTelephone
+                        }
+                        className="self-start bg-primary text-on-primary rounded-lg px-3 py-1.5 text-sm font-medium disabled:opacity-60"
+                      >
+                        {creerClient.isPending ? 'Création…' : 'Créer le client'}
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
 

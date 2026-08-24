@@ -7,6 +7,7 @@ const dataDeBase: TicketData = {
   nomPressing: 'Pressing Test',
   adresseTenant: null,
   telephoneTenant: null,
+  logoUrl: null,
   client: { nom: 'Fatou Sy', telephone: '+221701112233' },
   articles: [{ intitule: 'Repassage', quantite: 1, tarifUnitaire: '500.00', sousTotal: '500.00' }],
   sousTotal: '500.00',

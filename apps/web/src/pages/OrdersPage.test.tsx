@@ -4,6 +4,7 @@ import { reponseJson, renderAvecProviders } from '../test-utils';
 import { OrdersPage } from './OrdersPage';
 
 const CLIENTS = [{ id: 'client-1', nom: 'Fatou Sy', telephone: '+221701112233' }];
+const NOUVEAU_CLIENT = { id: 'client-2', nom: 'Awa Diop', telephone: '+221709998877' };
 const SERVICES = [
   {
     id: 'service-1',
@@ -40,13 +41,18 @@ const COMMANDE_CREEE = {
 // suffisant pour vérifier que la mutation invalide bien la requête liste.
 function installerFauxServeur(commandesInitiales: unknown[] = []) {
   let commandes = commandesInitiales;
+  let clients: unknown[] = CLIENTS;
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
       const url = String(input);
       const method = init?.method ?? 'GET';
+      if (url.includes('/clients') && method === 'POST') {
+        clients = [...clients, NOUVEAU_CLIENT];
+        return Promise.resolve(reponseJson(NOUVEAU_CLIENT, 201));
+      }
       if (url.includes('/clients')) {
-        return Promise.resolve(reponseJson(CLIENTS));
+        return Promise.resolve(reponseJson(clients));
       }
       if (url.includes('/services')) {
         return Promise.resolve(reponseJson(SERVICES));
@@ -167,6 +173,39 @@ describe('OrdersPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Choisissez un client.')).toBeDefined();
+    });
+  });
+
+  it('crée un nouveau client directement depuis l’écran de commande et le sélectionne automatiquement', async () => {
+    installerFauxServeur([]);
+    const { element } = renderAvecProviders(<OrdersPage />);
+    render(element);
+
+    fireEvent.click(screen.getByText('Nouvelle commande'));
+    await waitFor(() => {
+      expect(screen.getByLabelText('Client')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByTitle('Nouveau client'));
+    await waitFor(() => {
+      expect(screen.getByText('Créer le client')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Nom'), { target: { value: 'Awa Diop' } });
+    fireEvent.change(screen.getByLabelText('Téléphone'), { target: { value: '+221709998877' } });
+    fireEvent.click(screen.getByText('Créer le client'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/clients'),
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({ nom: 'Awa Diop', telephone: '+221709998877' }),
+        }),
+      );
+      // Le nouveau client devient le client actif : la carte remplace le
+      // sélecteur, plus besoin de le choisir dans la liste.
+      expect(screen.getByText('Awa Diop')).toBeDefined();
     });
   });
 

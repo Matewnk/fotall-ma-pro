@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -41,6 +42,7 @@ export function OrdersStatusScreen() {
   const { session } = useAuth();
   const token = session?.accessToken;
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
   const [filtre, setFiltre] = useState<StatutCommande | undefined>(undefined);
 
   const commandes = useQuery({
@@ -87,6 +89,18 @@ export function OrdersStatusScreen() {
                 <Text style={styles.statut}>{LIBELLES_STATUT[commande.statut]}</Text>
               </View>
               <Text style={styles.montant}>{commande.total} FCFA</Text>
+              {commande.modeLivraison === 'LIVRAISON' && (
+                <Pressable
+                  style={styles.boutonSecondaire}
+                  onPress={() =>
+                    // @ts-expect-error -- navigation non typée globalement (pas de RootParamList), voir RootNavigator.tsx
+                    navigation.navigate('BonLivraison', { commandeId: commande.id })
+                  }
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.boutonSecondaireTexte}>Bon de livraison</Text>
+                </Pressable>
+              )}
               {action && (
                 <Pressable
                   style={styles.bouton}
@@ -138,4 +152,13 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   boutonTexte: { color: '#1e3a8a', fontWeight: '600' },
+  boutonSecondaire: {
+    borderWidth: 1,
+    borderColor: '#1e3a8a',
+    borderRadius: 8,
+    paddingVertical: 10,
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  boutonSecondaireTexte: { color: '#1e3a8a', fontWeight: '600' },
 });

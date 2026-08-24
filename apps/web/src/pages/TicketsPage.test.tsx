@@ -13,12 +13,28 @@ const COMMANDE = {
   modeLivraison: 'RETRAIT' as const,
   createdAt: '2026-08-19T10:00:00Z',
 };
+const COMMANDE_LIVRAISON = {
+  id: 'commande-2',
+  numero: 2,
+  clientId: 'client-1',
+  statut: 'PRET' as const,
+  sousTotal: '2000',
+  total: '2000',
+  modeLivraison: 'LIVRAISON' as const,
+  createdAt: '2026-08-19T10:00:00Z',
+};
 
-function installerFauxServeur() {
+function installerFauxServeur(avecCommandeLivraison = false) {
+  const commandes = avecCommandeLivraison ? [COMMANDE, COMMANDE_LIVRAISON] : [COMMANDE];
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL) => {
       const url = String(input);
+      if (url.includes('/ticket/bon-livraison/pdf')) {
+        return Promise.resolve(
+          new Response(new Blob(['%PDF-1.4'], { type: 'application/pdf' }), { status: 200 }),
+        );
+      }
       if (url.includes('/ticket/pdf')) {
         return Promise.resolve(
           new Response(new Blob(['%PDF-1.4'], { type: 'application/pdf' }), { status: 200 }),
@@ -27,7 +43,7 @@ function installerFauxServeur() {
       if (url.includes('/ticket/escpos')) {
         return Promise.resolve(new Response(new Blob([new Uint8Array([27, 64])]), { status: 200 }));
       }
-      return Promise.resolve(new Response(JSON.stringify([COMMANDE]), { status: 200 }));
+      return Promise.resolve(new Response(JSON.stringify(commandes), { status: 200 }));
     }),
   );
 }
@@ -90,6 +106,35 @@ describe('TicketsPage', () => {
 
     await waitFor(() => {
       expect(URL.createObjectURL).toHaveBeenCalled();
+    });
+  });
+
+  it('ne propose "Bon de livraison" que pour une commande en mode LIVRAISON', async () => {
+    installerFauxServeur(true);
+    const { element } = renderAvecProviders(<TicketsPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeDefined();
+      expect(screen.getByText('#2')).toBeDefined();
+    });
+
+    expect(screen.getAllByText('Bon de livraison').length).toBe(1);
+  });
+
+  it('ouvre le bon de livraison dans un nouvel onglet', async () => {
+    installerFauxServeur(true);
+    const { element } = renderAvecProviders(<TicketsPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('#2')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('Bon de livraison'));
+
+    await waitFor(() => {
+      expect(window.open).toHaveBeenCalledWith('blob:fake-url', '_blank');
     });
   });
 });

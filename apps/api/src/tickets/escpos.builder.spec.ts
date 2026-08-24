@@ -7,6 +7,7 @@ const dataDeBase: TicketData = {
   nomPressing: 'Pressing Test',
   adresseTenant: '12 avenue du Pressing',
   telephoneTenant: '+221771234567',
+  logoUrl: null,
   client: { nom: 'Awa Diop', telephone: '+221701234567' },
   articles: [
     { intitule: 'Lavage simple', quantite: 2, tarifUnitaire: '1000.00', sousTotal: '2000.00' },

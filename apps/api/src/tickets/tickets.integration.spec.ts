@@ -135,6 +135,31 @@ describe('Tickets (011) — PostgreSQL réel', () => {
       .commande.update({ where: { id: commandeId }, data: { estProvisoire: false } });
   });
 
+  it('données JSON (mobile, bon de livraison) : mêmes informations que le PDF/ESC-POS', async () => {
+    const res = await request(app.getHttpServer())
+      .get(`/commandes/${commandeId}/ticket/data`)
+      .set('Authorization', `Bearer ${tokenAdminA}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body.numero).toBeDefined();
+    expect(res.body.client.nom).toBe('Cliente Ticket');
+    expect(res.body.articles).toEqual([
+      expect.objectContaining({ intitule: 'Lavage ticket', quantite: 2 }),
+    ]);
+  });
+
+  it('bon de livraison PDF valide (signature %PDF)', async () => {
+    const res = await bufferise(
+      request(app.getHttpServer())
+        .get(`/commandes/${commandeId}/ticket/bon-livraison/pdf`)
+        .set('Authorization', `Bearer ${tokenAdminA}`),
+    );
+
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toContain('application/pdf');
+    expect((res.body as Buffer).subarray(0, 5).toString('ascii')).toBe('%PDF-');
+  });
+
   it('isolation cross-tenant : le ticket d’une commande de A est invisible depuis B', async () => {
     const suffix = randomUUID().slice(0, 8);
     const registerB = await request(app.getHttpServer())

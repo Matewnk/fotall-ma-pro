@@ -42,6 +42,27 @@ export type Commande = {
   createdAt: string;
 };
 
+// Miroir de apps/api/src/tickets/ticket-data.ts (TicketData) — consommé
+// par DeliverySlipScreen.tsx (bon de livraison, LIVREUR) via
+// GET /commandes/:id/ticket/data.
+export type TicketData = {
+  numero: number;
+  estProvisoire: boolean;
+  nomPressing: string;
+  adresseTenant: string | null;
+  telephoneTenant: string | null;
+  logoUrl: string | null;
+  client: { nom: string; telephone: string };
+  articles: { intitule: string; quantite: number; tarifUnitaire: string; sousTotal: string }[];
+  sousTotal: string;
+  remise: string;
+  total: string;
+  datePrevue: string | null;
+  modeLivraison: string;
+  adresseLivraison: string | null;
+  statut: string;
+};
+
 export type TypeOperationCaisse =
   | 'OUVERTURE'
   | 'ENCAISSEMENT'

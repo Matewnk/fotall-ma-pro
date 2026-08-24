@@ -4,6 +4,11 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { reponseJson, renderAvecProviders } from '../test-utils';
 import { OrderCheckoutPage } from './OrderCheckoutPage';
 
+const ouvrirBlobDansNouvelOnglet = vi.fn();
+vi.mock('../lib/download', () => ({
+  ouvrirBlobDansNouvelOnglet: (...args: unknown[]) => ouvrirBlobDansNouvelOnglet(...args),
+}));
+
 const CLIENT = { id: 'client-1', nom: 'Fatou Sy', telephone: '+221701112233' };
 const SERVICES = [{ id: 'service-1', code: 'SRV-01', intitule: 'Lavage', tarif: '5000.00' }];
 const COMMANDE = {
@@ -67,6 +72,7 @@ function monter() {
 
 describe('OrderCheckoutPage', () => {
   beforeEach(() => {
+    ouvrirBlobDansNouvelOnglet.mockClear();
     localStorage.setItem(
       'fotall.session',
       JSON.stringify({
@@ -131,6 +137,27 @@ describe('OrderCheckoutPage', () => {
         .mock.calls.find(([, init]) => (init as RequestInit | undefined)?.method === 'POST');
       expect(appelPost?.[1]?.body).not.toContain('"montant"');
       expect(appelPost?.[1]?.body).toContain('"montantRecu":15000');
+    });
+  });
+
+  it('ouvre directement le ticket de la commande après un encaissement réussi', async () => {
+    installerFauxServeur();
+    const { element } = monter();
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Montant reçu (FCFA)')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Montant reçu (FCFA)'), { target: { value: '15000' } });
+    fireEvent.click(screen.getByText('ENCAISSER LA COMMANDE'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/commandes/commande-1/ticket/pdf'),
+        expect.anything(),
+      );
+      expect(ouvrirBlobDansNouvelOnglet).toHaveBeenCalledTimes(1);
     });
   });
 

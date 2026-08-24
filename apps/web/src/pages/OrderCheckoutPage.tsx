@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ApiError, apiFetch } from '../lib/api-client';
+import { ApiError, apiFetch, apiFetchBlob } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { ouvrirBlobDansNouvelOnglet } from '../lib/download';
 import type { Client, Commande, ModePaiement, OperationCaisse, Service } from '../lib/types';
 
 // Écran §order-to-cash (web) — maquette de référence :
@@ -68,10 +69,20 @@ export function OrderCheckoutPage() {
           idempotencyKey: `encaissement-${id}`,
         },
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['caisse-operations'] });
       queryClient.invalidateQueries({ queryKey: ['caisse-solde'] });
       setErreur(null);
+      // Ouvre directement le ticket (PDF, QR code) de la commande encaissée
+      // — le caissier n'a pas à retourner sur l'écran Tickets pour le
+      // récupérer. Un échec de génération ne doit jamais bloquer le
+      // retour à la liste : l'encaissement, lui, a déjà réussi.
+      try {
+        const blob = await apiFetchBlob(`/commandes/${id}/ticket/pdf`, { token });
+        ouvrirBlobDansNouvelOnglet(blob);
+      } catch {
+        // Ticket non ouvert, mais l'encaissement reste acquis.
+      }
       navigate('/commandes');
     },
     onError: (error) => {
