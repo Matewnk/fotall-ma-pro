@@ -172,6 +172,20 @@ Ne peut jamais accéder au back-office SaaS ni aux autres tenants.
 Le masquage d'un bouton dans l'interface ne constitue jamais une autorisation.
 Toutes les permissions sont contrôlées côté serveur.
 
+## 2.3 Permissions granulaires (021)
+
+Au-dessus des rôles ci-dessus (jamais fusionnés), un ADMIN peut accorder ou
+retirer, utilisateur par utilisateur, une permission précise en plus ou en
+moins du défaut de son rôle — c'est ce que §2.1 désigne par "caisse selon
+les permissions définies" (Administrateur) et "opérations de caisse
+autorisées" (Caissier), "statuts de traitement autorisés" (Technicien).
+
+La gestion des utilisateurs et de leurs permissions (`users.manage`,
+`users.permissions`) reste strictement réservée à l'ADMIN de son propre
+tenant, sans exception configurable. Détail du catalogue de permissions,
+de la matrice par rôle et du modèle d'autorisation :
+`specs/021-permissions-granulaires/spec.md`.
+
 ---
 
 # 3. Architecture multi-plateforme

@@ -38,17 +38,31 @@ de l'Analyze ci-dessous.
 
 ## Phase 4 — UI web
 
-- [ ] T4.1 — Bouton "Permissions" dans `UsersPage.tsx`.
-- [ ] T4.2 — Écran/modale `PermissionsPage.tsx` (cases à cocher par domaine,
-      héritées grisées, overrides éditables, badge "Personnalisé").
-- [ ] T4.3 — Tests composant + E2E (masquage, appel direct refusé par le backend).
+- [x] T4.1 — Bouton "Permissions" dans `UsersPage.tsx` (masqué pour ADMIN).
+- [x] T4.2 — Panneau `PermissionsPanel` intégré à `UsersPage.tsx` (cases à
+      cocher par domaine, sauvegarde immédiate par case plutôt qu'un bouton
+      "Enregistrer" séparé — simplification volontaire, cf. commentaire en
+      tête de composant), badge "Personnalisé" + réinitialisation par
+      permission.
+- [x] T4.3 — Tests composant (`UsersPage.test.tsx` : ouverture du panneau,
+      toggle ALLOW, masquage pour ADMIN). Pas de E2E navigateur dédié : le
+      refus backend est déjà prouvé par `permissions.integration.spec.ts`
+      (T3.2) et `security.integration.spec.ts` (T3.5).
 
 ## Phase 5 — Documentation
 
-- [ ] T5.1 — `docs/architecture/architecture.md` (section modèle d'autorisation).
-- [ ] T5.2 — `docs/cahier-des-charges.md` §2 (formalisation).
-- [ ] T5.3 — `.specify/memory/constitution.md` (si jugé structurant — à confirmer).
-- [ ] T5.4 — `packages/shared-types` (type `Permission`, si besoin confirmé).
+- [x] T5.1 — `docs/architecture/architecture.md` (section "Autorisation :
+      rôles + permissions granulaires (021)").
+- [x] T5.2 — `docs/cahier-des-charges.md` — nouveau §2.3 "Permissions
+      granulaires (021)", formalisant les mentions déjà présentes en §2.1.
+- [x] T5.3 — `.specify/memory/constitution.md` — Principe II étendu (une
+      phrase, cohérent avec le style terse existant) : jugé structurant,
+      c'est une extension du modèle d'autorisation central.
+- [x] T5.4 (non fait, volontairement) — pas de type `Permission` partagé
+      dans `packages/shared-types` : mobile n'a aucun écran de gestion des
+      permissions (Option A), le web a son propre catalogue d'affichage
+      (`apps/web/src/lib/permissions.ts`), rien à partager réellement entre
+      plateformes pour l'instant.
 
 ## Analyze — vérification de cohérence
 
