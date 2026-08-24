@@ -68,7 +68,11 @@ describe('UsersService', () => {
     expect(auditService.create).toHaveBeenCalledWith(
       'tenant-1',
       'admin-1',
-      expect.objectContaining({ action: 'UTILISATEUR_CREE', entityType: 'User', entityId: 'user-1' }),
+      expect.objectContaining({
+        action: 'UTILISATEUR_CREE',
+        entityType: 'User',
+        entityId: 'user-1',
+      }),
     );
   });
 

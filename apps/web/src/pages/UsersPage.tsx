@@ -2,7 +2,116 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState, type FormEvent } from 'react';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { CATALOGUE_PERMISSIONS } from '../lib/permissions';
 import type { Role } from '@fotall/shared-types';
+
+type PermissionsUtilisateur = {
+  effectives: string[];
+  overrides: { permission: string; effet: 'ALLOW' | 'DENY' }[];
+};
+
+// Panneau par domaine (§20 "UX WEB PROPOSÉE") : une case grisée reflète le
+// défaut du rôle (hérité, non annoté) ; un override ADMIN affiche le badge
+// "Personnalisé" + un bouton pour revenir au défaut. Chaque case sauvegarde
+// immédiatement (comme changerStatut ci-dessus) — pas de bouton "Enregistrer"
+// distinct, pour ne jamais laisser un changement de droit non appliqué.
+function PermissionsPanel({ userId, token }: { userId: string; token: string | undefined }) {
+  const queryClient = useQueryClient();
+  const [erreur, setErreur] = useState<string | null>(null);
+
+  const permissions = useQuery({
+    queryKey: ['user-permissions', userId],
+    queryFn: () => apiFetch<PermissionsUtilisateur>(`/users/${userId}/permissions`, { token }),
+  });
+
+  const definir = useMutation({
+    mutationFn: ({ permission, effet }: { permission: string; effet: 'ALLOW' | 'DENY' }) =>
+      apiFetch(`/users/${userId}/permissions/${permission}`, {
+        method: 'PUT',
+        token,
+        body: { effet },
+      }),
+    onSuccess: () => {
+      setErreur(null);
+      queryClient.invalidateQueries({ queryKey: ['user-permissions', userId] });
+    },
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Modification impossible.');
+    },
+  });
+
+  const reinitialiser = useMutation({
+    mutationFn: (permission: string) =>
+      apiFetch(`/users/${userId}/permissions/${permission}`, { method: 'DELETE', token }),
+    onSuccess: () => {
+      setErreur(null);
+      queryClient.invalidateQueries({ queryKey: ['user-permissions', userId] });
+    },
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Réinitialisation impossible.');
+    },
+  });
+
+  if (permissions.isPending) {
+    return <p className="text-sm text-on-surface-variant p-4">Chargement des permissions…</p>;
+  }
+
+  const overridesParPermission = new Map(
+    permissions.data?.overrides.map((o) => [o.permission, o.effet]) ?? [],
+  );
+
+  return (
+    <div className="bg-surface border border-outline-variant rounded-lg p-4 flex flex-col gap-4">
+      {erreur && <p className="text-sm text-error">{erreur}</p>}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {CATALOGUE_PERMISSIONS.map((domaine) => (
+          <div key={domaine.domaine} className="flex flex-col gap-1">
+            <h4 className="text-xs font-semibold uppercase text-on-surface-variant">
+              {domaine.domaine}
+            </h4>
+            {domaine.permissions.map((permission) => {
+              const accorde = permissions.data?.effectives.includes(permission.valeur) ?? false;
+              const override = overridesParPermission.get(permission.valeur);
+              return (
+                <label key={permission.valeur} className="flex items-center gap-2 text-sm py-0.5">
+                  <input
+                    type="checkbox"
+                    checked={accorde}
+                    disabled={definir.isPending || reinitialiser.isPending}
+                    onChange={() =>
+                      definir.mutate({
+                        permission: permission.valeur,
+                        effet: accorde ? 'DENY' : 'ALLOW',
+                      })
+                    }
+                  />
+                  <span className="flex-1">{permission.libelle}</span>
+                  {override && (
+                    <span className="flex items-center gap-1">
+                      <span className="rounded-full bg-secondary-container text-on-secondary-container px-2 py-0.5 text-[10px] font-medium">
+                        Personnalisé
+                      </span>
+                      <button
+                        type="button"
+                        title="Revenir au défaut du rôle"
+                        onClick={() => reinitialiser.mutate(permission.valeur)}
+                        className="text-on-surface-variant hover:text-on-surface"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">
+                          settings_backup_restore
+                        </span>
+                      </button>
+                    </span>
+                  )}
+                </label>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 type Utilisateur = {
   id: string;
@@ -37,6 +146,7 @@ export function UsersPage() {
   const [motDePasse, setMotDePasse] = useState('');
   const [role, setRole] = useState<Role>('CAISSIER');
   const [erreur, setErreur] = useState<string | null>(null);
+  const [permissionsOuvertPour, setPermissionsOuvertPour] = useState<string | null>(null);
 
   const utilisateurs = useQuery({
     queryKey: ['users'],
@@ -240,6 +350,19 @@ export function UsersPage() {
                 </td>
                 <td className="px-4 py-2">
                   <div className="flex gap-3">
+                    {utilisateur.role !== 'ADMIN' && utilisateur.role !== 'SUPER_ADMIN' && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setPermissionsOuvertPour((actuel) =>
+                            actuel === utilisateur.id ? null : utilisateur.id,
+                          )
+                        }
+                        className="text-primary text-xs font-medium"
+                      >
+                        Permissions
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => handleReinitialiserMotDePasse(utilisateur)}
@@ -265,6 +388,24 @@ export function UsersPage() {
           </tbody>
         </table>
       </div>
+
+      {permissionsOuvertPour && (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-on-surface">
+              Permissions de {utilisateurs.data?.find((u) => u.id === permissionsOuvertPour)?.email}
+            </h3>
+            <button
+              type="button"
+              onClick={() => setPermissionsOuvertPour(null)}
+              className="text-xs text-on-surface-variant"
+            >
+              Fermer
+            </button>
+          </div>
+          <PermissionsPanel userId={permissionsOuvertPour} token={token} />
+        </div>
+      )}
     </div>
   );
 }

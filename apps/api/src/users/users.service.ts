@@ -50,11 +50,7 @@ export class UsersService {
     private readonly auditService: AuditService,
   ) {}
 
-  async create(
-    tenantId: string,
-    actorId: string,
-    dto: CreateUserDto,
-  ): Promise<UtilisateurPublic> {
+  async create(tenantId: string, actorId: string, dto: CreateUserDto): Promise<UtilisateurPublic> {
     const motDePasseHash = await bcrypt.hash(dto.motDePasse, BCRYPT_ROUNDS);
     try {
       const user = await this.prisma.user.create({

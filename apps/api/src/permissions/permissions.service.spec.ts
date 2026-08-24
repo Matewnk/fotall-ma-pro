@@ -19,9 +19,9 @@ describe('PermissionsService', () => {
       await expect(service.aLaPermission('t1', 'u1', Role.ADMIN, 'users.manage')).resolves.toBe(
         true,
       );
-      await expect(
-        service.aLaPermission('t1', 'u1', Role.CAISSIER, 'users.manage'),
-      ).resolves.toBe(false);
+      await expect(service.aLaPermission('t1', 'u1', Role.CAISSIER, 'users.manage')).resolves.toBe(
+        false,
+      );
       expect(prisma.userPermission.findUnique).not.toHaveBeenCalled();
     });
 
@@ -39,7 +39,12 @@ describe('PermissionsService', () => {
 
     it('un ALLOW explicite accorde un droit absent du défaut du rôle', async () => {
       const prisma = makePrisma({
-        userId_permission: { userId: 'u1', tenantId: 't1', permission: 'reports.export', effet: 'ALLOW' },
+        userId_permission: {
+          userId: 'u1',
+          tenantId: 't1',
+          permission: 'reports.export',
+          effet: 'ALLOW',
+        },
       });
       const service = new PermissionsService(prisma as never);
 

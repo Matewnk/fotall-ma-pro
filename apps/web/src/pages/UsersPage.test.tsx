@@ -18,8 +18,15 @@ const UTILISATEUR_CREE = {
   createdAt: '2026-08-20T11:00:00Z',
 };
 
-function installerFauxServeur(utilisateursInitiaux: unknown[] = []) {
+function installerFauxServeur(
+  utilisateursInitiaux: unknown[] = [],
+  permissionsInitiales: { effectives: string[]; overrides: unknown[] } = {
+    effectives: ['commandes.read', 'commandes.encaisser'],
+    overrides: [],
+  },
+) {
   let utilisateurs = utilisateursInitiaux;
+  let permissions = permissionsInitiales;
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
@@ -38,6 +45,22 @@ function installerFauxServeur(utilisateursInitiaux: unknown[] = []) {
       }
       if (url.match(/\/users\/user-1\/mot-de-passe$/) && method === 'PATCH') {
         return Promise.resolve(reponseJson({ ok: true }));
+      }
+      if (url.match(/\/users\/user-1\/permissions\/([^/]+)$/) && method === 'PUT') {
+        const permission = url.match(/\/permissions\/([^/]+)$/)?.[1] as string;
+        permissions = {
+          effectives: [...new Set([...permissions.effectives, permission])],
+          overrides: [
+            ...permissions.overrides.filter(
+              (o) => (o as { permission: string }).permission !== permission,
+            ),
+            { permission, effet: 'ALLOW' },
+          ],
+        };
+        return Promise.resolve(reponseJson({ ok: true }));
+      }
+      if (url.match(/\/users\/user-1\/permissions$/) && method === 'GET') {
+        return Promise.resolve(reponseJson(permissions));
       }
       return Promise.resolve(reponseJson(utilisateurs));
     }),
@@ -142,5 +165,50 @@ describe('UsersPage', () => {
       .mocked(fetch)
       .mock.calls.some(([input]) => String(input).includes('/mot-de-passe'));
     expect(appelReinitialisation).toBe(false);
+  });
+
+  it('ouvre le panneau de permissions et coche un droit hors défaut du rôle (021)', async () => {
+    installerFauxServeur([UTILISATEUR_EXISTANT]);
+    const { element } = renderAvecProviders(<UsersPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('caissier@pressing-test.dev')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByText('Permissions'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Exporter (CSV/PDF)')).toBeDefined();
+    });
+
+    const caseExport = screen
+      .getByText('Exporter (CSV/PDF)')
+      .closest('label')!
+      .querySelector('input') as HTMLInputElement;
+    expect(caseExport.checked).toBe(false);
+    fireEvent.click(caseExport);
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/users/user-1/permissions/reports.export'),
+        expect.objectContaining({ method: 'PUT', body: JSON.stringify({ effet: 'ALLOW' }) }),
+      );
+    });
+    await waitFor(() => {
+      expect(screen.getAllByText('Personnalisé').length).toBeGreaterThan(0);
+    });
+  });
+
+  it('ne propose pas la gestion des permissions pour un ADMIN', async () => {
+    installerFauxServeur([{ ...UTILISATEUR_EXISTANT, id: 'user-3', role: 'ADMIN' }]);
+    const { element } = renderAvecProviders(<UsersPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('caissier@pressing-test.dev')).toBeDefined();
+    });
+
+    expect(screen.queryByText('Permissions')).toBeNull();
   });
 });
