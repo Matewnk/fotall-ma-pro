@@ -6,6 +6,7 @@ import { Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import request from 'supertest';
 import { AppModule } from '../app.module';
+import { AuditService } from '../audit/audit.service';
 import { PrismaService } from '../prisma/prisma.service';
 
 // Spec 015-web (tranche 5) — nouveau backend requis pour l'écran
@@ -15,6 +16,7 @@ import { PrismaService } from '../prisma/prisma.service';
 describe('Users (015-web tranche 5) — PostgreSQL réel', () => {
   let app: INestApplication;
   let prisma: PrismaService;
+  let auditService: AuditService;
   let jwtSecret: string;
 
   let tenantAId: string;
@@ -31,6 +33,7 @@ describe('Users (015-web tranche 5) — PostgreSQL réel', () => {
     await app.init();
 
     prisma = moduleRef.get(PrismaService);
+    auditService = moduleRef.get(AuditService);
     jwtSecret = moduleRef.get(ConfigService).getOrThrow<string>('JWT_SECRET');
 
     const suffix = randomUUID().slice(0, 8);
@@ -117,6 +120,41 @@ describe('Users (015-web tranche 5) — PostgreSQL réel', () => {
         motDePasse: 'super-secret-c1',
       });
     expect(loginBloque.status).toBe(401);
+  });
+
+  it('journalise création, changement de rôle et réinitialisation de mot de passe dans AuditLog (021)', async () => {
+    const create = await request(app.getHttpServer())
+      .post('/users')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({
+        email: `audit-${randomUUID().slice(0, 8)}@pressing-users-a.dev`,
+        motDePasse: 'super-secret-audit1',
+        role: 'CAISSIER',
+      });
+    expect(create.status).toBe(201);
+    const userId = create.body.id;
+
+    const journalCreation = await auditService.list(tenantAId, 'UTILISATEUR_CREE');
+    expect(journalCreation.some((entry) => entry.entityId === userId)).toBe(true);
+
+    await request(app.getHttpServer())
+      .patch(`/users/${userId}`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ role: 'TECHNICIEN' });
+
+    const journalModification = await auditService.list(tenantAId, 'UTILISATEUR_MODIFIE');
+    expect(journalModification.some((entry) => entry.entityId === userId)).toBe(true);
+
+    await request(app.getHttpServer())
+      .patch(`/users/${userId}/mot-de-passe`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ motDePasse: 'nouveau-secret-audit1' });
+
+    const journalReset = await auditService.list(
+      tenantAId,
+      'UTILISATEUR_MOT_DE_PASSE_REINITIALISE',
+    );
+    expect(journalReset.some((entry) => entry.entityId === userId)).toBe(true);
   });
 
   it('refuse qu’un ADMIN se désactive lui-même', async () => {

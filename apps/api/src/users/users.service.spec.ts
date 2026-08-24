@@ -13,6 +13,10 @@ function makePrismaMock() {
   };
 }
 
+function makeAuditServiceMock() {
+  return { create: jest.fn() };
+}
+
 const UTILISATEUR = {
   id: 'user-1',
   email: 'caissier@pressing.dev',
@@ -24,17 +28,19 @@ const UTILISATEUR = {
 
 describe('UsersService', () => {
   let prisma: ReturnType<typeof makePrismaMock>;
+  let auditService: ReturnType<typeof makeAuditServiceMock>;
   let service: UsersService;
 
   beforeEach(() => {
     prisma = makePrismaMock();
-    service = new UsersService(prisma as never);
+    auditService = makeAuditServiceMock();
+    service = new UsersService(prisma as never, auditService as never);
   });
 
   it('create hache le mot de passe et ne renvoie jamais le hash', async () => {
     prisma.user.create.mockResolvedValue(UTILISATEUR);
 
-    const resultat = await service.create('tenant-1', {
+    const resultat = await service.create('tenant-1', 'admin-1', {
       email: 'caissier@pressing.dev',
       motDePasse: 'super-secret-1',
       role: Role.CAISSIER,
@@ -50,6 +56,22 @@ describe('UsersService', () => {
     expect(resultat).not.toHaveProperty('motDePasseHash');
   });
 
+  it('create journalise la création dans AuditLog', async () => {
+    prisma.user.create.mockResolvedValue(UTILISATEUR);
+
+    await service.create('tenant-1', 'admin-1', {
+      email: 'caissier@pressing.dev',
+      motDePasse: 'super-secret-1',
+      role: Role.CAISSIER,
+    });
+
+    expect(auditService.create).toHaveBeenCalledWith(
+      'tenant-1',
+      'admin-1',
+      expect.objectContaining({ action: 'UTILISATEUR_CREE', entityType: 'User', entityId: 'user-1' }),
+    );
+  });
+
   it('create lève ConflictException si email déjà utilisé dans le tenant', async () => {
     prisma.user.create.mockRejectedValue(
       new Prisma.PrismaClientKnownRequestError('duplicate', {
@@ -59,12 +81,13 @@ describe('UsersService', () => {
     );
 
     await expect(
-      service.create('tenant-1', {
+      service.create('tenant-1', 'admin-1', {
         email: 'caissier@pressing.dev',
         motDePasse: 'super-secret-1',
         role: Role.CAISSIER,
       }),
     ).rejects.toBeInstanceOf(ConflictException);
+    expect(auditService.create).not.toHaveBeenCalled();
   });
 
   it('list retourne les utilisateurs du tenant sans le hash', async () => {
@@ -83,6 +106,7 @@ describe('UsersService', () => {
       service.update('tenant-1', 'user-1', 'user-1', { actif: false }),
     ).rejects.toBeInstanceOf(BadRequestException);
     expect(prisma.user.update).not.toHaveBeenCalled();
+    expect(auditService.create).not.toHaveBeenCalled();
   });
 
   it('update lève NotFoundException si l’utilisateur n’appartient pas au tenant', async () => {
@@ -93,7 +117,7 @@ describe('UsersService', () => {
     ).rejects.toBeInstanceOf(NotFoundException);
   });
 
-  it('update applique le nouveau rôle', async () => {
+  it('update applique le nouveau rôle et journalise ancien/nouveau rôle', async () => {
     prisma.user.findFirst.mockResolvedValue(UTILISATEUR);
     prisma.user.update.mockResolvedValue({ ...UTILISATEUR, role: Role.TECHNICIEN });
 
@@ -106,22 +130,40 @@ describe('UsersService', () => {
       data: { role: Role.TECHNICIEN },
     });
     expect(resultat.role).toBe(Role.TECHNICIEN);
+    expect(auditService.create).toHaveBeenCalledWith(
+      'tenant-1',
+      'user-99',
+      expect.objectContaining({
+        action: 'UTILISATEUR_MODIFIE',
+        entityType: 'User',
+        entityId: 'user-1',
+        metadata: expect.objectContaining({
+          ancienRole: Role.CAISSIER,
+          nouveauRole: Role.TECHNICIEN,
+        }),
+      }),
+    );
   });
 
   it('resetMotDePasse lève NotFoundException si l’utilisateur n’appartient pas au tenant', async () => {
     prisma.user.findFirst.mockResolvedValue(null);
 
     await expect(
-      service.resetMotDePasse('tenant-1', 'user-inconnu', { motDePasse: 'nouveau-secret-1' }),
+      service.resetMotDePasse('tenant-1', 'user-inconnu', 'admin-1', {
+        motDePasse: 'nouveau-secret-1',
+      }),
     ).rejects.toBeInstanceOf(NotFoundException);
     expect(prisma.user.update).not.toHaveBeenCalled();
+    expect(auditService.create).not.toHaveBeenCalled();
   });
 
-  it('resetMotDePasse hache le nouveau mot de passe avant de l’enregistrer', async () => {
+  it('resetMotDePasse hache le nouveau mot de passe, l’enregistre et journalise (sans le hash)', async () => {
     prisma.user.findFirst.mockResolvedValue(UTILISATEUR);
     prisma.user.update.mockResolvedValue(UTILISATEUR);
 
-    await service.resetMotDePasse('tenant-1', 'user-1', { motDePasse: 'nouveau-secret-1' });
+    await service.resetMotDePasse('tenant-1', 'user-1', 'admin-1', {
+      motDePasse: 'nouveau-secret-1',
+    });
 
     expect(prisma.user.update).toHaveBeenCalledWith({
       where: { id: 'user-1' },
@@ -129,5 +171,17 @@ describe('UsersService', () => {
     });
     const hashEnvoye = prisma.user.update.mock.calls[0][0].data.motDePasseHash;
     expect(hashEnvoye).not.toBe('nouveau-secret-1');
+
+    expect(auditService.create).toHaveBeenCalledWith(
+      'tenant-1',
+      'admin-1',
+      expect.objectContaining({
+        action: 'UTILISATEUR_MOT_DE_PASSE_REINITIALISE',
+        entityType: 'User',
+        entityId: 'user-1',
+      }),
+    );
+    const metadataEnvoyee = auditService.create.mock.calls[0][2];
+    expect(JSON.stringify(metadataEnvoyee)).not.toContain('nouveau-secret-1');
   });
 });

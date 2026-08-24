@@ -46,6 +46,14 @@ enum PlanCommercial {
   BUSINESS
 }
 
+// 021-permissions-granulaires : un override retire (DENY) ou ajoute (ALLOW)
+// un droit par rapport au defaut du role. Priorite de resolution stricte :
+// DENY explicite > ALLOW explicite > defaut du role (voir permissions.service.ts).
+enum EffetPermission {
+  ALLOW
+  DENY
+}
+
 model Tenant {
   id            String         @id @default(uuid())
   nomPressing   String         @map("nom_pressing")
@@ -67,6 +75,7 @@ model Tenant {
   abonnement         Abonnement?
   apiKeys            ApiKey[]
   journauxSauvegarde JournalSauvegarde[]
+  userPermissions    UserPermission[]
 
   @@map("tenants")
 }
@@ -85,10 +94,36 @@ model User {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  tenant Tenant? @relation(fields: [tenantId], references: [id])
+  tenant      Tenant?          @relation(fields: [tenantId], references: [id])
+  permissions UserPermission[]
 
   @@unique([tenantId, email])
   @@map("users")
+}
+
+// 021-permissions-granulaires : overrides ADMIN au-dessus du defaut du role.
+// tenantId duplique (comme AuditLog) : chaque requete filtre directement
+// WHERE userId = ? AND tenantId = ? avec un tenantId derive du TenantContext
+// serveur, jamais du client — meme principe d'isolation que UsersService.
+// "users.manage" et "users.permissions" sont exclus de ce mecanisme au
+// niveau applicatif (jamais d'override cree pour ces deux permissions,
+// cf. permissions.constants.ts) pour empecher toute elevation de privilege
+// deguisee en changement de permission.
+model UserPermission {
+  id         String          @id @default(uuid())
+  userId     String          @map("user_id")
+  tenantId   String          @map("tenant_id")
+  permission String
+  effet      EffetPermission
+  accordePar String          @map("accorde_par")
+  createdAt  DateTime        @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id])
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([userId, permission])
+  @@index([tenantId])
+  @@map("user_permissions")
 }
 
 // Statut = source de verite unique (le champ Tenant.statutLicence de 002 est

@@ -31,7 +31,7 @@ export class UsersController {
 
   @Post()
   create(@CurrentTenant() context: AuthenticatedContext, @Body() dto: CreateUserDto) {
-    return this.usersService.create(this.requireTenant(context), dto);
+    return this.usersService.create(this.requireTenant(context), context.userId, dto);
   }
 
   @Get()
@@ -57,7 +57,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() dto: ResetPasswordDto,
   ) {
-    await this.usersService.resetMotDePasse(this.requireTenant(context), id, dto);
+    await this.usersService.resetMotDePasse(this.requireTenant(context), id, context.userId, dto);
     return { ok: true };
   }
 

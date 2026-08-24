@@ -15,6 +15,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
 import { OpenApiModule } from './open-api/open-api.module';
 import { OrdersModule } from './orders/orders.module';
+import { PermissionsModule } from './permissions/permissions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PublicTrackingModule } from './public-tracking/public-tracking.module';
 import { ReportsModule } from './reports/reports.module';
@@ -34,6 +35,7 @@ import { UsersModule } from './users/users.module';
     PrismaModule,
     TenancyModule,
     LicenceModule,
+    PermissionsModule,
     ServicesModule,
     NotificationsModule,
     OnboardingModule,
