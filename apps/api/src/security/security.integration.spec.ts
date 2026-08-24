@@ -325,6 +325,94 @@ describe('Sécurité transverse (018) — PostgreSQL réel', () => {
       expect(res.status).toBe(403);
     });
 
+    it('021 : un ALLOW explicite accorde un droit absent du défaut du rôle (CAISSIER, clients.delete)', async () => {
+      // clients.delete n'est pas dans le défaut CAISSIER (021), mais
+      // @Roles(ADMIN, CAISSIER) laisse déjà passer CAISSIER sur ce
+      // contrôleur : c'est un cas réel où l'override peut faire la
+      // différence (contrairement à services.create, @Roles(ADMIN) seul,
+      // où aucun override CAISSIER ne peut jamais s'appliquer).
+      const suffix = randomUUID().slice(0, 8);
+      const caissier = await prisma.user.create({
+        data: {
+          tenantId: tenantAId,
+          role: Role.CAISSIER,
+          email: `caissier-allow-${suffix}@sec-rbac.dev`,
+          motDePasseHash: 'n/a',
+        },
+      });
+      const token = new JwtService({ secret: jwtSecret }).sign({
+        sub: caissier.id,
+        tenantId: tenantAId,
+        role: Role.CAISSIER,
+      });
+
+      const client = await request(app.getHttpServer())
+        .post('/clients')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ nom: 'Cible ALLOW', telephone: '+221700009999' });
+      expect(client.status).toBe(201);
+      const clientId = client.body.id;
+
+      const refuseAvant = await request(app.getHttpServer())
+        .delete(`/clients/${clientId}`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(refuseAvant.status).toBe(403);
+
+      await prisma.userPermission.create({
+        data: {
+          userId: caissier.id,
+          tenantId: tenantAId,
+          permission: 'clients.delete',
+          effet: 'ALLOW',
+          accordePar: 'admin-test',
+        },
+      });
+
+      const autoriseApres = await request(app.getHttpServer())
+        .delete(`/clients/${clientId}`)
+        .set('Authorization', `Bearer ${token}`);
+      expect(autoriseApres.status).toBe(200);
+    });
+
+    it('021 : un DENY explicite retire un droit présent par défaut dans le rôle (CAISSIER, clients.create)', async () => {
+      const suffix = randomUUID().slice(0, 8);
+      const caissier = await prisma.user.create({
+        data: {
+          tenantId: tenantAId,
+          role: Role.CAISSIER,
+          email: `caissier-deny-${suffix}@sec-rbac.dev`,
+          motDePasseHash: 'n/a',
+        },
+      });
+      const token = new JwtService({ secret: jwtSecret }).sign({
+        sub: caissier.id,
+        tenantId: tenantAId,
+        role: Role.CAISSIER,
+      });
+
+      const autoriseAvant = await request(app.getHttpServer())
+        .post('/clients')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ nom: 'Avant DENY', telephone: '+221700001234' });
+      expect(autoriseAvant.status).toBe(201);
+
+      await prisma.userPermission.create({
+        data: {
+          userId: caissier.id,
+          tenantId: tenantAId,
+          permission: 'clients.create',
+          effet: 'DENY',
+          accordePar: 'admin-test',
+        },
+      });
+
+      const refuseApres = await request(app.getHttpServer())
+        .post('/clients')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ nom: 'Après DENY', telephone: '+221700005678' });
+      expect(refuseApres.status).toBe(403);
+    });
+
     it('accès non authentifié refusé sur un échantillon représentatif de routes', async () => {
       const routes = [
         '/commandes',

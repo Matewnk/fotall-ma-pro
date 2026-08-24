@@ -33,8 +33,8 @@ de l'Analyze ci-dessous.
       `CashController#enregistrer`, distinction reports.read/export —
       chacun sert plusieurs permissions via un seul endpoint, décision de
       conception différée.
-- [ ] T3.5 — Extension bloc `permissions RBAC (§21.3, consolidé)` avec cas
-      ALLOW/DENY explicites.
+- [x] T3.5 — Extension bloc `permissions RBAC (§21.3, consolidé)` avec cas
+      ALLOW/DENY explicites (`clients.delete` ALLOW, `clients.create` DENY).
 
 ## Phase 4 — UI web
 
