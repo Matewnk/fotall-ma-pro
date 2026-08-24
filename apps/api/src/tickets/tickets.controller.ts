@@ -14,6 +14,8 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AuthenticatedContext } from '../auth/types';
+import { RequirePermission } from '../permissions/permission.decorator';
+import { PermissionsGuard } from '../permissions/permissions.guard';
 import { LargeurTicketMm } from './escpos.builder';
 import { TicketsService } from './tickets.service';
 
@@ -30,12 +32,13 @@ type ReponseBrute = {
 // Lecture seule (rendu d'une commande existante) : ouvert aux mêmes rôles
 // que la consultation des commandes (009). Jamais bloqué par
 // LicenceActiveGuard — imprimer/réimprimer un ticket reste une lecture.
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
 @Roles(Role.ADMIN, Role.CAISSIER, Role.TECHNICIEN, Role.LIVREUR)
 @Controller('commandes/:id/ticket')
 export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
+  @RequirePermission('tickets.print')
   @Get('pdf')
   async pdf(
     @CurrentTenant() context: AuthenticatedContext,
@@ -54,12 +57,14 @@ export class TicketsController {
   // l'écran mobile "Bon de livraison" (LIVREUR), qui affiche l'info
   // nativement plutôt que d'ouvrir un PDF (pas de lecteur PDF/partage de
   // fichier dans l'app mobile actuelle).
+  @RequirePermission('tickets.read')
   @Get('data')
   data(@CurrentTenant() context: AuthenticatedContext, @Param('id') id: string) {
     this.requireTenant(context);
     return this.ticketsService.getTicketData(context.tenantId as string, id);
   }
 
+  @RequirePermission('tickets.delivery-slip')
   @Get('bon-livraison/pdf')
   async bonLivraisonPdf(
     @CurrentTenant() context: AuthenticatedContext,
@@ -74,6 +79,7 @@ export class TicketsController {
       .send(buffer);
   }
 
+  @RequirePermission('tickets.print')
   @Get('escpos')
   async escpos(
     @CurrentTenant() context: AuthenticatedContext,

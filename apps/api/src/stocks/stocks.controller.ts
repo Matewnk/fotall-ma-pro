@@ -18,6 +18,8 @@ import { RolesGuard } from '../auth/roles.guard';
 import { AuthenticatedContext } from '../auth/types';
 import { LicenceActiveGuard } from '../licence/licence-active.guard';
 import { RequireActiveLicence } from '../licence/require-active-licence.decorator';
+import { RequirePermission } from '../permissions/permission.decorator';
+import { PermissionsGuard } from '../permissions/permissions.guard';
 import { CreateArticleStockDto } from './dto/create-article-stock.dto';
 import { CreateMouvementStockDto } from './dto/create-mouvement-stock.dto';
 import { UpdateArticleStockDto } from './dto/update-article-stock.dto';
@@ -28,12 +30,13 @@ import { StocksService } from './stocks.service';
 // (besoin opérationnel de consulter les niveaux de stock). Mouvements
 // (entrée/sortie/ajustement) ouverts à ADMIN + TECHNICIEN : le technicien
 // consomme les consommables pendant le traitement des commandes.
-@UseGuards(JwtAuthGuard, RolesGuard, LicenceActiveGuard)
+@UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard, LicenceActiveGuard)
 @Controller('stocks/articles')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Roles(Role.ADMIN)
+  @RequirePermission('stocks.create')
   @RequireActiveLicence()
   @Post()
   create(@CurrentTenant() context: AuthenticatedContext, @Body() dto: CreateArticleStockDto) {
@@ -42,6 +45,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN, Role.CAISSIER, Role.TECHNICIEN)
+  @RequirePermission('stocks.read')
   @Get()
   list(@CurrentTenant() context: AuthenticatedContext, @Query('actif') actif?: string) {
     this.requireTenant(context);
@@ -50,6 +54,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN, Role.CAISSIER, Role.TECHNICIEN)
+  @RequirePermission('stocks.read')
   @Get('mouvements')
   listMouvements(
     @CurrentTenant() context: AuthenticatedContext,
@@ -60,6 +65,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN, Role.CAISSIER, Role.TECHNICIEN)
+  @RequirePermission('stocks.read')
   @Get(':id')
   findById(@CurrentTenant() context: AuthenticatedContext, @Param('id') id: string) {
     this.requireTenant(context);
@@ -67,6 +73,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN)
+  @RequirePermission('stocks.update')
   @RequireActiveLicence()
   @Patch(':id')
   update(
@@ -79,6 +86,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN)
+  @RequirePermission('stocks.delete')
   @RequireActiveLicence()
   @Delete(':id')
   async remove(@CurrentTenant() context: AuthenticatedContext, @Param('id') id: string) {
@@ -88,6 +96,7 @@ export class StocksController {
   }
 
   @Roles(Role.ADMIN, Role.TECHNICIEN)
+  @RequirePermission('stocks.adjust')
   @RequireActiveLicence()
   @Post(':id/mouvements')
   enregistrerMouvement(

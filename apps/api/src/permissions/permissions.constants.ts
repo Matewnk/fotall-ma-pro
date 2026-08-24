@@ -24,6 +24,7 @@ export const PERMISSIONS_CONNUES = [
   'caisse.cloture',
   'stocks.read',
   'stocks.create',
+  'stocks.update',
   'stocks.adjust',
   'stocks.delete',
   'tickets.read',
@@ -81,6 +82,10 @@ const DEFAUT_TECHNICIEN: Permission[] = [
   'stocks.adjust',
   'tickets.read',
   'tickets.print',
+  // Comportement actuel de TicketsController preserve (021-permissions-
+  // granulaires) : @Roles(ADMIN, CAISSIER, TECHNICIEN, LIVREUR) au niveau
+  // du controleur donne deja acces au bon de livraison a TECHNICIEN.
+  'tickets.delivery-slip',
   'traitement.read',
   'traitement.update-statut',
 ];

@@ -34,6 +34,25 @@ les points proposés) :
    cette même spec (Phase 2), pas séparément.
 5. Mobile : aucun écran de gestion des permissions (web uniquement).
 
+Ajustements découverts pendant l'implémentation (T3.3-T3.4), pour préserver
+le comportement RBAC actuel sans changement non sollicité :
+
+6. `stocks.update` ajouté au catalogue (absent du brouillon initial) —
+   ADMIN uniquement, comme `stocks.create`/`stocks.delete`.
+7. `tickets.delivery-slip` ajouté au défaut TECHNICIEN — `TicketsController`
+   donne déjà ce droit à TECHNICIEN via son `@Roles` de classe actuel.
+8. `clients.delete` retiré du défaut CAISSIER — confirmé explicitement par
+   le propriétaire produit le 2026-08-24 : c'est un changement de
+   comportement réel (suppression définitive, sans corbeille), volontaire.
+9. Trois endpoints (`OrdersController#updateStatut`, `CashController#enregistrer`,
+   `ReportsController` sur la distinction read/export) restent gouvernés par
+   `@Roles` seul, sans `@RequirePermission` : chacun sert plusieurs
+   permissions conceptuellement distinctes de la matrice via un unique
+   endpoint (le type d'opération, ou `?format=`), et `@RequirePermission`
+   ne porte qu'une permission statique par route. Nécessite soit de scinder
+   la route, soit un contrôle dynamique dans le service — décision différée,
+   voir `tasks.md`.
+
 ## Rôles — rappel (ne jamais fusionner)
 
 `SUPER_ADMIN` reste entièrement hors de ce système : ses droits plateforme
@@ -65,7 +84,7 @@ CLIENTS      : clients.read, clients.create, clients.update, clients.delete
 SERVICES     : services.read, services.create, services.update, services.delete
 COMMANDES    : commandes.read, commandes.create, commandes.update-statut, commandes.encaisser
 CAISSE       : caisse.read, caisse.encaisser, caisse.avance, caisse.depense, caisse.remboursement, caisse.cloture
-STOCKS       : stocks.read, stocks.create, stocks.adjust, stocks.delete
+STOCKS       : stocks.read, stocks.create, stocks.update, stocks.adjust, stocks.delete
 TICKETS      : tickets.read, tickets.print, tickets.delivery-slip
 UTILISATEURS : users.manage, users.permissions   (non-configurables)
 RAPPORTS     : reports.read, reports.export

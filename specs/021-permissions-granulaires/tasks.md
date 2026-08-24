@@ -25,10 +25,14 @@ de l'Analyze ci-dessous.
 - [x] T3.2 — Tests cross-tenant dédiés `UserPermission`
       (`permissions.integration.spec.ts`, 9 cas incluant les 5 scénarios
       d'attaque du rapport d'audit).
-- [ ] T3.3 — Migration `@RequirePermission` sur `services.controller.ts` (premier
+- [x] T3.3 — Migration `@RequirePermission` sur `services.controller.ts` (premier
       contrôleur pilote) + suite de sécurité verte.
-- [ ] T3.4 — Migration `@RequirePermission` sur `clients`, `orders`, `cash`,
-      `stocks`, `tickets`, `reports` (un contrôleur par commit).
+- [x] T3.4 — Migration `@RequirePermission` sur `clients`, `orders`, `cash`,
+      `stocks`, `tickets`, `reports`. 3 endpoints laissés en `@Roles` seul
+      (voir spec.md, point 9) : `OrdersController#updateStatut`,
+      `CashController#enregistrer`, distinction reports.read/export —
+      chacun sert plusieurs permissions via un seul endpoint, décision de
+      conception différée.
 - [ ] T3.5 — Extension bloc `permissions RBAC (§21.3, consolidé)` avec cas
       ALLOW/DENY explicites.
 

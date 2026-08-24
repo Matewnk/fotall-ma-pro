@@ -13,6 +13,8 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AuthenticatedContext } from '../auth/types';
+import { RequirePermission } from '../permissions/permission.decorator';
+import { PermissionsGuard } from '../permissions/permissions.guard';
 import { versCsv, versPdf } from './reports-export.util';
 import { ReportsService } from './reports.service';
 import { TableauRapport } from './reports.types';
@@ -29,8 +31,14 @@ type ReponseBrute = {
 // tenant" — CAISSIER/TECHNICIEN/LIVREUR n'y sont pas mentionnés,
 // contrairement au tableau de bord (013) qui est ouvert à tous. Jamais de
 // LicenceActiveGuard : lecture seule.
-@UseGuards(JwtAuthGuard, RolesGuard)
+// reports.export (vs reports.read) n'est pas distingué ici : la distinction
+// dépend de ?format= (csv/pdf = export, json = lecture), et @RequirePermission
+// ne porte qu'une permission statique par route — décision différée, voir
+// specs/021-permissions-granulaires/tasks.md. Sans impact aujourd'hui : seul
+// ADMIN accède à ce contrôleur, et ADMIN a les deux permissions par défaut.
+@UseGuards(JwtAuthGuard, RolesGuard, PermissionsGuard)
 @Roles(Role.ADMIN)
+@RequirePermission('reports.read')
 @Controller('rapports')
 export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
