@@ -14,6 +14,7 @@ import { OrdersPage } from './pages/OrdersPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
+import { StocksPage } from './pages/StocksPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
 import { SuperAdminTenantDetailPage } from './pages/SuperAdminTenantDetailPage';
@@ -72,6 +73,16 @@ export function App() {
           <ProtectedRoute>
             <AppShell>
               <ServicesPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/stocks"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <StocksPage />
             </AppShell>
           </ProtectedRoute>
         }

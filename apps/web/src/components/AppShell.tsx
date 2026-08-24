@@ -12,6 +12,12 @@ const NAV_LINKS: { to: string; label: string; icon: string; roles?: Role[] }[] =
   { to: '/commandes', label: 'Commandes', icon: 'receipt_long' },
   { to: '/clients', label: 'Clients', icon: 'group' },
   { to: '/services', label: 'Tarifs & services', icon: 'sell' },
+  {
+    to: '/stocks',
+    label: 'Stocks & consommables',
+    icon: 'inventory_2',
+    roles: ['ADMIN', 'CAISSIER', 'TECHNICIEN'],
+  },
   { to: '/caisse', label: 'Caisse', icon: 'point_of_sale' },
   { to: '/tickets', label: 'Tickets', icon: 'print' },
   { to: '/rapports', label: 'Rapports', icon: 'analytics' },

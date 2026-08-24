@@ -19,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { PublicTrackingModule } from './public-tracking/public-tracking.module';
 import { ReportsModule } from './reports/reports.module';
 import { ServicesModule } from './services/services.module';
+import { StocksModule } from './stocks/stocks.module';
 import { SuperAdminModule } from './super-admin/super-admin.module';
 import { TenancyModule } from './tenancy/tenancy.module';
 import { TenantSettingsModule } from './tenant-settings/tenant-settings.module';
@@ -45,6 +46,7 @@ import { UsersModule } from './users/users.module';
     TicketsModule,
     DashboardModule,
     ReportsModule,
+    StocksModule,
     BillingModule,
     OpenApiModule,
     BackupModule,

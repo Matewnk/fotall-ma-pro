@@ -77,6 +77,33 @@ export type OperationCaisse = {
   createdAt: string;
 };
 
+export type TypeMouvementStock = 'ENTREE' | 'SORTIE' | 'AJUSTEMENT';
+
+export type ArticleStock = {
+  id: string;
+  code: string;
+  intitule: string;
+  unite: string;
+  seuil: number;
+  icone?: string;
+  actif: boolean;
+  quantite: number;
+  enAlerte: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type MouvementStock = {
+  id: string;
+  articleId: string;
+  type: TypeMouvementStock;
+  quantite: number;
+  note?: string;
+  operateurId: string;
+  createdAt: string;
+  article: { code: string; intitule: string; unite: string };
+};
+
 export type TenantSettings = {
   id: string;
   nomPressing: string;
