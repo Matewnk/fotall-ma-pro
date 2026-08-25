@@ -1,167 +1,199 @@
-<!DOCTYPE html><html lang="fr" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Fotall-Ma PRO - Reçu Thermique</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "surface-bright": "#faf8ff",
-                        "error": "#ba1a1a",
-                        "on-secondary-fixed-variant": "#38485d",
-                        "on-primary-fixed-variant": "#00419c",
-                        "on-primary": "#ffffff",
-                        "status-delivered": "#6366F1",
-                        "alert-critical": "#EF4444",
-                        "surface-container-low": "#f3f3fc",
-                        "primary": "#003c90",
-                        "background": "#faf8ff",
-                        "inverse-surface": "#2e3037",
-                        "on-tertiary": "#ffffff",
-                        "on-secondary-fixed": "#0b1c30",
-                        "surface-container-high": "#e7e7f1",
-                        "on-surface": "#191b22",
-                        "primary-fixed-dim": "#b0c6ff",
-                        "surface-variant": "#e1e2eb",
-                        "secondary-fixed-dim": "#b7c8e1",
-                        "secondary-fixed": "#d3e4fe",
-                        "status-progress": "#3B82F6",
-                        "on-tertiary-fixed-variant": "#7d2d00",
-                        "surface-dim": "#d9d9e2",
-                        "secondary-container": "#d0e1fb",
-                        "primary-container": "#0f52ba",
-                        "surface-container": "#ededf6",
-                        "on-background": "#191b22",
-                        "inverse-on-surface": "#f0f0f9",
-                        "secondary": "#505f76",
-                        "on-primary-container": "#bcceff",
-                        "on-tertiary-fixed": "#360f00",
-                        "surface-tint": "#1d59c1",
-                        "on-tertiary-container": "#ffc0a7",
-                        "on-secondary": "#ffffff",
-                        "tenant-accent": "var(--primary-color)",
-                        "on-secondary-container": "#54647a",
-                        "inverse-primary": "#b0c6ff",
-                        "tertiary-container": "#993900",
-                        "outline": "#737784",
-                        "surface-ticket": "#ffffff", /* Using pure white for thermal print simulation */
-                        "tertiary-fixed": "#ffdbcd",
-                        "surface": "#faf8ff",
-                        "primary-fixed": "#d9e2ff",
-                        "surface-container-lowest": "#ffffff",
-                        "on-primary-fixed": "#001945",
-                        "tertiary": "#732900",
-                        "on-surface-variant": "#434653",
-                        "on-error-container": "#93000a",
-                        "outline-variant": "#c3c6d5",
-                        "tertiary-fixed-dim": "#ffb596",
-                        "status-ready": "#10B981",
-                        "status-pending": "#F59E0B",
-                        "surface-container-highest": "#e1e2eb",
-                        "on-error": "#ffffff",
-                        "error-container": "#ffdad6"
-                    },
-                    "fontFamily": {
-                        "kpi-display": ["Inter"],
-                        "data-mono": ["JetBrains Mono"],
-                        "ticket-body": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "headline-lg-mobile": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-lg": ["Inter"],
-                        "label-caps": ["Inter"]
-                    },
-                    "fontSize": {
-                        "ticket-body": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
-                        "ticket-bold": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
-                        "ticket-header": ["20px", { "lineHeight": "24px", "fontWeight": "700" }],
-                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
-                    }
-                }
-            }
-        }
+<!doctype html>
+<html lang="fr" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Reçu Thermique</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'surface-bright': '#faf8ff',
+              error: '#ba1a1a',
+              'on-secondary-fixed-variant': '#38485d',
+              'on-primary-fixed-variant': '#00419c',
+              'on-primary': '#ffffff',
+              'status-delivered': '#6366F1',
+              'alert-critical': '#EF4444',
+              'surface-container-low': '#f3f3fc',
+              primary: '#003c90',
+              background: '#faf8ff',
+              'inverse-surface': '#2e3037',
+              'on-tertiary': '#ffffff',
+              'on-secondary-fixed': '#0b1c30',
+              'surface-container-high': '#e7e7f1',
+              'on-surface': '#191b22',
+              'primary-fixed-dim': '#b0c6ff',
+              'surface-variant': '#e1e2eb',
+              'secondary-fixed-dim': '#b7c8e1',
+              'secondary-fixed': '#d3e4fe',
+              'status-progress': '#3B82F6',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'surface-dim': '#d9d9e2',
+              'secondary-container': '#d0e1fb',
+              'primary-container': '#0f52ba',
+              'surface-container': '#ededf6',
+              'on-background': '#191b22',
+              'inverse-on-surface': '#f0f0f9',
+              secondary: '#505f76',
+              'on-primary-container': '#bcceff',
+              'on-tertiary-fixed': '#360f00',
+              'surface-tint': '#1d59c1',
+              'on-tertiary-container': '#ffc0a7',
+              'on-secondary': '#ffffff',
+              'tenant-accent': 'var(--primary-color)',
+              'on-secondary-container': '#54647a',
+              'inverse-primary': '#b0c6ff',
+              'tertiary-container': '#993900',
+              outline: '#737784',
+              'surface-ticket': '#ffffff' /* Using pure white for thermal print simulation */,
+              'tertiary-fixed': '#ffdbcd',
+              surface: '#faf8ff',
+              'primary-fixed': '#d9e2ff',
+              'surface-container-lowest': '#ffffff',
+              'on-primary-fixed': '#001945',
+              tertiary: '#732900',
+              'on-surface-variant': '#434653',
+              'on-error-container': '#93000a',
+              'outline-variant': '#c3c6d5',
+              'tertiary-fixed-dim': '#ffb596',
+              'status-ready': '#10B981',
+              'status-pending': '#F59E0B',
+              'surface-container-highest': '#e1e2eb',
+              'on-error': '#ffffff',
+              'error-container': '#ffdad6',
+            },
+            fontFamily: {
+              'kpi-display': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'ticket-body': ['Inter'],
+              'headline-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'body-md': ['Inter'],
+              'headline-lg': ['Inter'],
+              'label-caps': ['Inter'],
+            },
+            fontSize: {
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'ticket-bold': ['14px', { lineHeight: '18px', fontWeight: '700' }],
+              'ticket-header': ['20px', { lineHeight: '24px', fontWeight: '700' }],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+            },
+          },
+        },
+      };
     </script>
-<style>
-        /* Specific styles to mimic thermal printer output */
-        @media print {
-            body { background: white; margin: 0; padding: 0; }
-            .no-print { display: none; }
+    <style>
+      /* Specific styles to mimic thermal printer output */
+      @media print {
+        body {
+          background: white;
+          margin: 0;
+          padding: 0;
         }
-        .thermal-container {
-            width: 80mm; /* Max width for 80mm printer */
-            margin: 0 auto;
-            background-color: #ffffff;
-            color: #000000;
+        .no-print {
+          display: none;
         }
-        .border-dashed-thick {
-            border-bottom: 2px dashed #000;
-        }
+      }
+      .thermal-container {
+        width: 80mm; /* Max width for 80mm printer */
+        margin: 0 auto;
+        background-color: #ffffff;
+        color: #000000;
+      }
+      .border-dashed-thick {
+        border-bottom: 2px dashed #000;
+      }
     </style>
-</head>
-<body class="bg-surface-container-low min-h-screen flex items-center justify-center p-4">
-<!-- Print Action Button (Web View Only) -->
-<div class="fixed top-4 right-4 no-print z-50">
+  </head>
+  <body class="bg-surface-container-low min-h-screen flex items-center justify-center p-4">
+    <!-- Print Action Button (Web View Only) -->
+    <div class="fixed top-4 right-4 no-print z-50"></div>
+    <!-- Thermal Receipt Container -->
+    <div class="thermal-container bg-surface-ticket p-4 font-ticket-body shadow-lg">
+      <!-- Header -->
+      <div class="text-center mb-2">
+        <div class="flex justify-center mb-1">
+          <img
+            alt="Logo MIT2 Pressing"
+            class="w-32 h-32 object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1VFNqhkLthERABMZmtdEnpZSNmyB_rRaBrtdqwh8wraF45WgR7FoFh_dlo_twEpoY1QjDOR_9qaXMF8VEKRHHAvewm6WKYlMNDh_XN1Z6BNOAryWs_RpC-xpb55Ai-7BfHteakqcSXHK3vHgW1FZNJDsRwhaLUEegy6aGd0nTrANv5cAi745V6L9fT-5dU-wjc5lYjSMmCzp-yecVE8sbM3vHfSR6Sdib4BPAHaqWRBgi5z-ST6n9wOKFw"
+          />
+        </div>
+        <h1 class="font-headline-md text-headline-md text-black mb-1">MIT2 Pressing</h1>
+        <p class="font-ticket-body text-ticket-body text-black">OUEST FOIRE</p>
+        <p class="font-ticket-body text-ticket-body text-black">773243381</p>
+      </div>
+      <div class="border-dashed-thick w-full mb-4"></div>
+      <!-- Order Info -->
+      <div class="mb-4">
+        <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-black mb-2">Commande #5</h2>
+        <div class="font-ticket-body text-ticket-body text-black flex flex-col gap-1">
+          <p class="">Client : Coumake Faye — 773243381</p>
+          <p class="">Statut : <span class="font-bold">EN_ATTENTE</span></p>
+        </div>
+      </div>
+      <div class="border-dashed-thick w-full mb-4"></div>
+      <!-- Items Table -->
+      <div class="mb-4 w-full">
+        <div class="flex justify-between font-ticket-body text-ticket-body text-black mb-2">
+          <span class="">5 x LAVAGE REPASSAGE</span>
+          <span class="">5000</span>
+        </div>
+        <div class="flex justify-between font-ticket-body text-ticket-body text-black mb-2">
+          <span class="">1 x COUVERTE</span>
+          <span class="">2500</span>
+        </div>
+        <div class="flex justify-between font-ticket-body text-ticket-body text-black mb-4">
+          <span class="">1 x 2 PIECES</span>
+          <span class="">2500</span>
+        </div>
+      </div>
+      <div class="border-dashed-thick w-full mb-4"></div>
+      <!-- Totals -->
+      <div class="mb-6 w-full flex flex-col gap-1">
+        <div class="flex justify-between font-ticket-body text-ticket-body text-black">
+          <span class="">Sous-total :</span>
+          <span class="">10000</span>
+        </div>
+        <div class="flex justify-between font-ticket-bold text-ticket-bold text-black text-[16px]">
+          <span class="">TOTAL :</span>
+          <span class="">10000 FCFA</span>
+        </div>
+      </div>
+      <!-- Payment Mode -->
+      <!-- QR Code -->
+      <div class="text-center mb-2 font-ticket-bold text-ticket-bold text-black">
+        <p class="">Mode : RETRAIT</p>
+      </div>
+      <div class="flex justify-center w-full mt-4">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbpWifLkYLQ3sIl8zgV3BD8C6IOvfKAJmHYnDxONjfQFrtiKVoGeRHE0etG08iWCqAv9odpt_uZRyqSXtAT1NIIoobGUr1TA6C_GbW7AylokAW59T3UXCK8HruJitYrtbuJQAaG8hMHPAM3YoTCIZA8VDjbccJusQ68LtYxsa6n3prDfCPpmx0lgNy4FkvgT4nYTZ1SeKCzIaV7QcKcdzrQXsEg-O2B0OnRcVio7TrcH6RcQjEkEpzBMSuKc5d9G84Og"
+          alt="QR Code"
+          class="w-32 h-32 object-contain"
+        />
+      </div>
 
-</div>
-<!-- Thermal Receipt Container -->
-<div class="thermal-container bg-surface-ticket p-4 font-ticket-body shadow-lg">
-<!-- Header -->
-<div class="text-center mb-2"><div class="flex justify-center mb-1"><img alt="Logo MIT2 Pressing" class="w-32 h-32 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VFNqhkLthERABMZmtdEnpZSNmyB_rRaBrtdqwh8wraF45WgR7FoFh_dlo_twEpoY1QjDOR_9qaXMF8VEKRHHAvewm6WKYlMNDh_XN1Z6BNOAryWs_RpC-xpb55Ai-7BfHteakqcSXHK3vHgW1FZNJDsRwhaLUEegy6aGd0nTrANv5cAi745V6L9fT-5dU-wjc5lYjSMmCzp-yecVE8sbM3vHfSR6Sdib4BPAHaqWRBgi5z-ST6n9wOKFw"></div><h1 class="font-headline-md text-headline-md text-black mb-1">MIT2 Pressing</h1><p class="font-ticket-body text-ticket-body text-black">OUEST FOIRE</p><p class="font-ticket-body text-ticket-body text-black">773243381</p></div>
-<div class="border-dashed-thick w-full mb-4"></div>
-<!-- Order Info -->
-<div class="mb-4">
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-black mb-2">Commande #5</h2>
-<div class="font-ticket-body text-ticket-body text-black flex flex-col gap-1">
-<p class="">Client : Coumake Faye — 773243381</p>
-<p class="">Statut : <span class="font-bold">EN_ATTENTE</span></p>
-</div>
-</div>
-<div class="border-dashed-thick w-full mb-4"></div>
-<!-- Items Table -->
-<div class="mb-4 w-full">
-<div class="flex justify-between font-ticket-body text-ticket-body text-black mb-2">
-<span class="">5 x LAVAGE REPASSAGE</span>
-<span class="">5000</span>
-</div>
-<div class="flex justify-between font-ticket-body text-ticket-body text-black mb-2">
-<span class="">1 x COUVERTE</span>
-<span class="">2500</span>
-</div>
-<div class="flex justify-between font-ticket-body text-ticket-body text-black mb-4">
-<span class="">1 x 2 PIECES</span>
-<span class="">2500</span>
-</div>
-</div>
-<div class="border-dashed-thick w-full mb-4"></div>
-<!-- Totals -->
-<div class="mb-6 w-full flex flex-col gap-1">
-<div class="flex justify-between font-ticket-body text-ticket-body text-black">
-<span class="">Sous-total :</span>
-<span class="">10000</span>
-</div>
-<div class="flex justify-between font-ticket-bold text-ticket-bold text-black text-[16px]">
-<span class="">TOTAL :</span>
-<span class="">10000 FCFA</span>
-</div>
-</div>
-<!-- Payment Mode -->
-<!-- QR Code -->
-<div class="text-center mb-2 font-ticket-bold text-ticket-bold text-black">
-    <p class="">Mode : RETRAIT</p>
-</div><div class="flex justify-center w-full mt-4"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbpWifLkYLQ3sIl8zgV3BD8C6IOvfKAJmHYnDxONjfQFrtiKVoGeRHE0etG08iWCqAv9odpt_uZRyqSXtAT1NIIoobGUr1TA6C_GbW7AylokAW59T3UXCK8HruJitYrtbuJQAaG8hMHPAM3YoTCIZA8VDjbccJusQ68LtYxsa6n3prDfCPpmx0lgNy4FkvgT4nYTZ1SeKCzIaV7QcKcdzrQXsEg-O2B0OnRcVio7TrcH6RcQjEkEpzBMSuKc5d9G84Og" alt="QR Code" class="w-32 h-32 object-contain"></div>
-
-<!-- Footer -->
-<div class="mt-4 text-center"><p class="font-ticket-bold text-ticket-bold text-black mb-1">Merci de votre confiance !</p><p class="font-ticket-body text-ticket-body text-black opacity-75">Fotall-Ma PRO</p></div></div>
-
-
-
-
-
-
-</body></html>
+      <!-- Footer -->
+      <div class="mt-4 text-center">
+        <p class="font-ticket-bold text-ticket-bold text-black mb-1">Merci de votre confiance !</p>
+        <p class="font-ticket-body text-ticket-body text-black opacity-75">Fotall-Ma PRO</p>
+      </div>
+    </div>
+  </body>
+</html>

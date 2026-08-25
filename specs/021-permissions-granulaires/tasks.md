@@ -10,8 +10,7 @@ de l'Analyze ci-dessous.
 - [x] T1.2 — `permissions.constants.ts` (catalogue fermé + matrice par défaut).
 - [x] T1.3 — `permissions.service.ts#getPermissionsEffectives()` + tests unitaires
       (toutes combinaisons rôle × permission × override).
-- [x] T1.4 — `permission.decorator.ts` (`@RequirePermission`) + `permissions.guard.ts`
-      + test unitaire du guard (mock service).
+- [x] T1.4 — `permission.decorator.ts` (`@RequirePermission`) + `permissions.guard.ts` + test unitaire du guard (mock service).
 
 ## Phase 2 — Dette d'audit
 

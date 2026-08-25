@@ -103,12 +103,10 @@ export async function buildDeliverySlipPdf(data: TicketData): Promise<Buffer> {
     .font('Helvetica')
     .fontSize(8)
     .text('Signature Client', marge, doc.y, { width: largeur / 2 - 6 });
-  doc
-    .fontSize(8)
-    .text('Signature Livreur', marge + largeur / 2 + 6, doc.y - 10, {
-      width: largeur / 2 - 6,
-      align: 'right',
-    });
+  doc.fontSize(8).text('Signature Livreur', marge + largeur / 2 + 6, doc.y - 10, {
+    width: largeur / 2 - 6,
+    align: 'right',
+  });
   doc
     .moveTo(marge, yLigne)
     .lineTo(marge + largeur / 2 - 6, yLigne)
