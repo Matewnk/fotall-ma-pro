@@ -9,7 +9,7 @@ import type { Commande, StatutCommande } from '../lib/types';
 const LIBELLES_STATUT: Record<StatutCommande, string> = {
   EN_ATTENTE: 'En attente',
   EN_COURS: 'En cours',
-  PRET: 'Prêt',
+  PRET: 'Terminé',
   LIVRE: 'Livré',
 };
 
@@ -21,7 +21,7 @@ const PROCHAIN_STATUT: Partial<
   Record<StatutCommande, { statut: StatutCommande; libelle: string }>
 > = {
   EN_ATTENTE: { statut: 'EN_COURS', libelle: 'Démarrer' },
-  EN_COURS: { statut: 'PRET', libelle: 'Marquer prêt' },
+  EN_COURS: { statut: 'PRET', libelle: 'Marquer terminé' },
   PRET: { statut: 'LIVRE', libelle: 'Marquer livré' },
 };
 
@@ -29,7 +29,7 @@ const FILTRES: { valeur: StatutCommande | undefined; libelle: string }[] = [
   { valeur: undefined, libelle: 'Tout' },
   { valeur: 'EN_ATTENTE', libelle: 'En attente' },
   { valeur: 'EN_COURS', libelle: 'En cours' },
-  { valeur: 'PRET', libelle: 'Prêt' },
+  { valeur: 'PRET', libelle: 'Terminé' },
 ];
 
 // Écran §016-mobile-offline tranche 4 (TECHNICIEN/LIVREUR) — maquette de

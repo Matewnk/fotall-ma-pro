@@ -6,7 +6,7 @@ import { StatutCommande } from '../generated/tenant-client';
 const LIBELLES_STATUT: Record<StatutCommande, string> = {
   EN_ATTENTE: 'En attente',
   EN_COURS: 'En cours',
-  PRET: 'Prêt',
+  PRET: 'Terminé',
   LIVRE: 'Livré',
 };
 

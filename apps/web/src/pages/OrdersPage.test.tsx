@@ -240,7 +240,7 @@ describe('OrdersPage', () => {
       expect(screen.getByText('En attente')).toBeDefined();
     });
 
-    fireEvent.click(screen.getByTitle('Passer à EN_COURS'));
+    fireEvent.click(screen.getByTitle('Passer à En cours'));
 
     await waitFor(() => {
       expect(vi.mocked(fetch)).toHaveBeenCalledWith(

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { StatusBadge } from '../components/StatusBadge';
+import { LIBELLES_STATUT_COMMANDE, StatusBadge } from '../components/StatusBadge';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import { COULEUR_ICONE_PAR_DEFAUT, COULEUR_PAR_ICONE } from '../lib/icones-service';
@@ -542,7 +542,7 @@ export function OrdersPage() {
                             statut: statutSuivant(commande.statut) as StatutCommande,
                           })
                         }
-                        title={`Passer à ${statutSuivant(commande.statut)}`}
+                        title={`Passer à ${LIBELLES_STATUT_COMMANDE[statutSuivant(commande.statut) as StatutCommande]}`}
                         className="text-on-surface-variant hover:text-primary disabled:opacity-60"
                       >
                         <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
