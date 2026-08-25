@@ -183,6 +183,40 @@ describe('Clients (007) — PostgreSQL réel', () => {
     expect(res.status).toBe(403);
   });
 
+  it('permissions (021) : CAISSIER peut créer/lire/modifier mais pas supprimer un client', async () => {
+    const suffix = randomUUID().slice(0, 8);
+    const caissier = await prisma.user.create({
+      data: {
+        tenantId: tenantAId,
+        role: Role.CAISSIER,
+        email: `caissier-perm-${suffix}@pressing-clients-a.dev`,
+        motDePasseHash: 'n/a',
+      },
+    });
+    const tokenCaissier = new JwtService({ secret: jwtSecret }).sign({
+      sub: caissier.id,
+      tenantId: tenantAId,
+      role: Role.CAISSIER,
+    });
+
+    const create = await request(app.getHttpServer())
+      .post('/clients')
+      .set('Authorization', `Bearer ${tokenCaissier}`)
+      .send({ nom: 'Client par caissier', telephone: '+221700001111' });
+    expect(create.status).toBe(201);
+    const clientId = create.body.id;
+
+    const remove = await request(app.getHttpServer())
+      .delete(`/clients/${clientId}`)
+      .set('Authorization', `Bearer ${tokenCaissier}`);
+    expect(remove.status).toBe(403);
+
+    const removeAdmin = await request(app.getHttpServer())
+      .delete(`/clients/${clientId}`)
+      .set('Authorization', `Bearer ${tokenAdminA}`);
+    expect(removeAdmin.status).toBe(200);
+  });
+
   it('écriture bloquée quand la licence n’est plus ESSAI/ACTIVE (LicenceActiveGuard)', async () => {
     const suffix = randomUUID().slice(0, 8);
     const registerC = await request(app.getHttpServer())

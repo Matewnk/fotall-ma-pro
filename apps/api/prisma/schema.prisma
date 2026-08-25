@@ -36,24 +36,46 @@ enum EvenementLicence {
   EXPIRATION_AUTOMATIQUE
 }
 
+// §14 : trois plans de référence. Remplace l'ancien champ texte libre
+// (contrainte déjà appliquée en application via IsIn, désormais garantie
+// aussi par la base — cohérent avec "jamais de confiance dans le
+// frontend" appliqué symétriquement côté validation serveur).
+enum PlanCommercial {
+  STARTER
+  PRO
+  BUSINESS
+}
+
+// 021-permissions-granulaires : un override retire (DENY) ou ajoute (ALLOW)
+// un droit par rapport au defaut du role. Priorite de resolution stricte :
+// DENY explicite > ALLOW explicite > defaut du role (voir permissions.service.ts).
+enum EffetPermission {
+  ALLOW
+  DENY
+}
+
 model Tenant {
-  id            String   @id @default(uuid())
-  nomPressing   String   @map("nom_pressing")
-  sousDomaine   String   @unique @map("sous_domaine")
-  plan          String   @default("STARTER")
-  langue        String   @default("fr")
-  devise        String   @default("XOF")
-  fuseauHoraire String   @default("Africa/Dakar") @map("fuseau_horaire")
+  id            String         @id @default(uuid())
+  nomPressing   String         @map("nom_pressing")
+  sousDomaine   String         @unique @map("sous_domaine")
+  plan          PlanCommercial @default(STARTER)
+  langue        String         @default("fr")
+  devise        String         @default("XOF")
+  fuseauHoraire String         @default("Africa/Dakar") @map("fuseau_horaire")
   adresse       String?
   telephone     String?
-  logoUrl       String?  @map("logo_url")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  logoUrl       String?        @map("logo_url")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
 
-  users           User[]
-  licence         Licence?
-  supportSessions SupportSession[]
-  onboarding      OnboardingState?
+  users              User[]
+  licence            Licence?
+  supportSessions    SupportSession[]
+  onboarding         OnboardingState?
+  abonnement         Abonnement?
+  apiKeys            ApiKey[]
+  journauxSauvegarde JournalSauvegarde[]
+  userPermissions    UserPermission[]
 
   @@map("tenants")
 }
@@ -72,10 +94,36 @@ model User {
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  tenant Tenant? @relation(fields: [tenantId], references: [id])
+  tenant      Tenant?          @relation(fields: [tenantId], references: [id])
+  permissions UserPermission[]
 
   @@unique([tenantId, email])
   @@map("users")
+}
+
+// 021-permissions-granulaires : overrides ADMIN au-dessus du defaut du role.
+// tenantId duplique (comme AuditLog) : chaque requete filtre directement
+// WHERE userId = ? AND tenantId = ? avec un tenantId derive du TenantContext
+// serveur, jamais du client — meme principe d'isolation que UsersService.
+// "users.manage" et "users.permissions" sont exclus de ce mecanisme au
+// niveau applicatif (jamais d'override cree pour ces deux permissions,
+// cf. permissions.constants.ts) pour empecher toute elevation de privilege
+// deguisee en changement de permission.
+model UserPermission {
+  id         String          @id @default(uuid())
+  userId     String          @map("user_id")
+  tenantId   String          @map("tenant_id")
+  permission String
+  effet      EffetPermission
+  accordePar String          @map("accorde_par")
+  createdAt  DateTime        @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id])
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([userId, permission])
+  @@index([tenantId])
+  @@map("user_permissions")
 }
 
 // Statut = source de verite unique (le champ Tenant.statutLicence de 002 est
@@ -133,6 +181,30 @@ model SupportSession {
   @@map("support_sessions")
 }
 
+enum ActionSauvegarde {
+  SAUVEGARDE
+  RESTAURATION
+}
+
+// Control-plane, jamais dans le schema du tenant : une restauration
+// (DROP SCHEMA CASCADE + reimport) remplace integralement le schema du
+// tenant, y compris son AuditLog local — un journal qui y vivrait
+// effacerait donc la preuve de sa propre restauration. Meme raison que
+// SupportSession ci-dessus. Append-only : aucune mise a jour ni
+// suppression d'une entree existante.
+model JournalSauvegarde {
+  id           String           @id @default(uuid())
+  tenantId     String           @map("tenant_id")
+  action       ActionSauvegarde
+  effectuePar  String           @map("effectue_par")
+  tailleOctets Int              @map("taille_octets")
+  createdAt    DateTime         @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("journaux_sauvegarde")
+}
+
 enum EtapeOnboarding {
   IDENTITE
   TARIFS
@@ -156,19 +228,108 @@ enum CanalNotification {
 // Ne bloque jamais l'usage normal de l'application (aucun guard n'en
 // depend) — seulement informatif pour reprendre le parcours.
 model OnboardingState {
-  id                      String              @id @default(uuid())
-  tenantId                String              @unique @map("tenant_id")
-  etapeCourante           EtapeOnboarding     @default(IDENTITE) @map("etape_courante")
-  identiteCompleteeAt     DateTime?           @map("identite_completee_at")
-  tarifsCompletesAt       DateTime?           @map("tarifs_completes_at")
-  choixCatalogue          ChoixCatalogue?     @map("choix_catalogue")
-  notificationCompleteeAt DateTime?           @map("notification_completee_at")
-  canalPreference         CanalNotification?  @map("canal_preference")
-  termineAt               DateTime?           @map("termine_at")
-  createdAt               DateTime            @default(now()) @map("created_at")
-  updatedAt               DateTime            @updatedAt @map("updated_at")
+  id                      String             @id @default(uuid())
+  tenantId                String             @unique @map("tenant_id")
+  etapeCourante           EtapeOnboarding    @default(IDENTITE) @map("etape_courante")
+  identiteCompleteeAt     DateTime?          @map("identite_completee_at")
+  tarifsCompletesAt       DateTime?          @map("tarifs_completes_at")
+  choixCatalogue          ChoixCatalogue?    @map("choix_catalogue")
+  notificationCompleteeAt DateTime?          @map("notification_completee_at")
+  canalPreference         CanalNotification? @map("canal_preference")
+  termineAt               DateTime?          @map("termine_at")
+  createdAt               DateTime           @default(now()) @map("created_at")
+  updatedAt               DateTime           @updatedAt @map("updated_at")
 
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@map("onboarding_states")
+}
+
+enum ModePaiementFacturation {
+  CARTE
+  MOBILE_MONEY
+  VIREMENT
+}
+
+enum StatutAbonnement {
+  ACTIF
+  EN_RETARD
+  ANNULE
+}
+
+// §14.1 : un seul abonnement actif par tenant (comme Licence, 1:1). En V1
+// le tenant ne modifie jamais directement son abonnement — seul le
+// SUPER_ADMIN le provisionne, et les évènements de paiement (webhook,
+// simulé pour l'instant faute de credentials Stripe/Mobile Money réelles
+// dans ce projet — voir specs/017-billing/spec.md) le font évoluer.
+model Abonnement {
+  id                       String                  @id @default(uuid())
+  tenantId                 String                  @unique @map("tenant_id")
+  plan                     PlanCommercial
+  modePaiement             ModePaiementFacturation @map("mode_paiement")
+  montant                  Decimal                 @db.Decimal(10, 2)
+  devise                   String                  @default("XOF")
+  statut                   StatutAbonnement        @default(ACTIF)
+  dateProchaineFacturation DateTime                @map("date_prochaine_facturation")
+  referenceProvider        String?                 @map("reference_provider")
+  createdAt                DateTime                @default(now()) @map("created_at")
+  updatedAt                DateTime                @updatedAt @map("updated_at")
+
+  tenant  Tenant            @relation(fields: [tenantId], references: [id])
+  journal JournalPaiement[]
+
+  @@map("abonnements")
+}
+
+enum TypeEvenementPaiement {
+  PAIEMENT_REUSSI
+  PAIEMENT_ECHEC
+  RELANCE_ENVOYEE
+}
+
+// Append-only, même principe que JournalLicence (004) : aucune mise à
+// jour ni suppression d'une entrée existante. idempotencyKey unique car
+// un évènement de paiement porte un identifiant globalement unique côté
+// fournisseur (webhook), contrairement aux clés d'action de JournalLicence
+// qui sont générées par l'appelant pour une action donnée.
+model JournalPaiement {
+  id                String                @id @default(uuid())
+  tenantId          String                @map("tenant_id")
+  abonnementId      String                @map("abonnement_id")
+  type              TypeEvenementPaiement
+  montant           Decimal?              @db.Decimal(10, 2)
+  devise            String?
+  referenceProvider String?               @map("reference_provider")
+  idempotencyKey    String                @unique @map("idempotency_key")
+  createdAt         DateTime              @default(now()) @map("created_at")
+
+  abonnement Abonnement @relation(fields: [abonnementId], references: [id])
+
+  @@map("journal_paiements")
+}
+
+// §17 "API ouverte" : chaque clé appartient à un seul tenant, possède des
+// scopes, peut être révoquée, est soumise à un quota. Stockée hachée
+// (SHA-256, cf. api-key.service.ts) — jamais en clair, jamais retrouvable
+// après création (seul le préfixe reste affichable pour identification).
+// Quota "glissant par jour" implémenté sans table séparée : le compteur
+// est remis à zéro dès que compteur_reinitialise_a n'est plus le jour
+// courant (voir api-key.guard.ts).
+model ApiKey {
+  id                    String    @id @default(uuid())
+  tenantId              String    @map("tenant_id")
+  nom                   String
+  cleHachee             String    @unique @map("cle_hachee")
+  clePrefixe            String    @map("cle_prefixe")
+  scopes                String[]
+  quotaJour             Int       @default(1000) @map("quota_jour")
+  compteurJour          Int       @default(0) @map("compteur_jour")
+  compteurReinitialiseA DateTime  @default(now()) @map("compteur_reinitialise_a")
+  revoqueeAt            DateTime? @map("revoquee_at")
+  derniereUtilisationAt DateTime? @map("derniere_utilisation_at")
+  createdAt             DateTime  @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@map("api_keys")
 }

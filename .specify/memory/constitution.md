@@ -6,7 +6,10 @@ L'isolation entre tenants est une frontière de sécurité non négociable.
 
 ## II. Séparation des rôles
 
-SUPER_ADMIN, ADMIN, CAISSIER, TECHNICIEN et LIVREUR ont des périmètres distincts.
+SUPER_ADMIN, ADMIN, CAISSIER, TECHNICIEN et LIVREUR ont des périmètres
+distincts, jamais fusionnés. Un ADMIN peut affiner les droits d'un
+utilisateur de son tenant par permission (accorder ou retirer), toujours
+contrôlé côté serveur — le masquage frontend n'est jamais une autorisation.
 
 ## III. Licence
 

@@ -1,0 +1,3 @@
+-- AlterEnum
+ALTER TYPE "ModePaiement" ADD VALUE 'WAVE';
+ALTER TYPE "ModePaiement" ADD VALUE 'ORANGE_MONEY';

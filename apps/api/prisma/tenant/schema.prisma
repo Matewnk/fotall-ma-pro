@@ -76,6 +76,11 @@ model Service {
   categorie      String
   delaiHeures    Int?     @map("delai_heures")
   tarif          Decimal  @db.Decimal(10, 2)
+  // Nom d'icône Material Symbols (voir ICONES_SERVICE, services.constants.ts)
+  // — jamais une image téléversée : aucune infrastructure de stockage
+  // fichier n'existe dans ce projet (cf. BrandingPage.logoUrl, simple URL
+  // texte). Toujours validée côté serveur contre une liste fermée.
+  icone          String?
   actif          Boolean  @default(true)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
@@ -158,6 +163,8 @@ enum ModePaiement {
   ESPECES
   CARTE
   MOBILE_MONEY
+  WAVE
+  ORANGE_MONEY
   AUTRE
 }
 
@@ -182,6 +189,55 @@ model OperationCaisse {
   createdAt      DateTime            @default(now()) @map("created_at")
 
   @@map("operations_caisse")
+}
+
+enum TypeMouvementStock {
+  ENTREE
+  SORTIE
+  AJUSTEMENT
+}
+
+// Article de stock/consommable (§ Gestion des Stocks & Consommables) —
+// maquette de référence : docs/design/screens/gestion_des_stocks_
+// consommables. Auto-reorder/fournisseurs de la maquette non repris :
+// aucun module fournisseur n'existe dans ce projet. Pas de champ
+// "quantite" mutable ici : le niveau de stock est toujours dérivé en
+// sommant MouvementStock.quantite (même philosophie append-only que la
+// caisse, Constitution IV) plutôt qu'un compteur qui pourrait diverger.
+model ArticleStock {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  intitule  String
+  unite     String
+  seuil     Int      @default(0)
+  icone     String?
+  actif     Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  mouvements MouvementStock[]
+
+  @@map("articles_stock")
+}
+
+// Journal append-only (même principe que OperationCaisse) : aucune
+// mise à jour ni suppression exposée, une correction est un nouveau
+// mouvement AJUSTEMENT. quantite est signée : positive pour ENTREE,
+// toujours négative pour SORTIE (imposé côté serveur, stocks.service.ts),
+// libre pour AJUSTEMENT (correction d'inventaire dans un sens ou l'autre).
+model MouvementStock {
+  id             String             @id @default(uuid())
+  articleId      String             @map("article_id")
+  type           TypeMouvementStock
+  quantite       Int
+  note           String?
+  operateurId    String             @map("operateur_id")
+  idempotencyKey String             @unique @map("idempotency_key")
+  createdAt      DateTime           @default(now()) @map("created_at")
+
+  article ArticleStock @relation(fields: [articleId], references: [id])
+
+  @@map("mouvements_stock")
 }
 
 enum TypeEvenementNotification {

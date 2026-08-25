@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { TenantPrismaFactory } from '../tenancy/tenant-prisma.factory';
+import { buildDeliverySlipPdf } from './delivery-slip.builder';
 import { buildEscPosTicket, LargeurTicketMm } from './escpos.builder';
 import { buildPdfTicket } from './pdf.builder';
 import { TicketData } from './ticket-data';
@@ -31,6 +32,7 @@ export class TicketsService {
       nomPressing: tenant.nomPressing,
       adresseTenant: tenant.adresse,
       telephoneTenant: tenant.telephone,
+      logoUrl: tenant.logoUrl,
       client: { nom: commande.client.nom, telephone: commande.client.telephone },
       articles: commande.articles.map((article) => ({
         intitule: article.service.intitule,
@@ -60,5 +62,10 @@ export class TicketsService {
   ): Promise<Buffer> {
     const data = await this.getTicketData(tenantId, commandeId);
     return buildEscPosTicket(data, largeurMm);
+  }
+
+  async genererBonLivraisonPdf(tenantId: string, commandeId: string): Promise<Buffer> {
+    const data = await this.getTicketData(tenantId, commandeId);
+    return buildDeliverySlipPdf(data);
   }
 }

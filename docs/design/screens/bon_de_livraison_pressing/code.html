@@ -1,0 +1,274 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Bon de Livraison - MIT2 Pressing</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'on-secondary': '#ffffff',
+              'secondary-container': '#d0e1fb',
+              'primary-container': '#0f52ba',
+              'surface-ticket': '#F8FAFC',
+              'secondary-fixed': '#d3e4fe',
+              'inverse-primary': '#b0c6ff',
+              'surface-bright': '#faf8ff',
+              'outline-variant': '#c3c6d5',
+              error: '#ba1a1a',
+              'on-surface': '#191b22',
+              'surface-tint': '#1d59c1',
+              'status-pending': '#F59E0B',
+              'tertiary-container': '#993900',
+              'surface-container': '#ededf6',
+              'tertiary-fixed': '#ffdbcd',
+              'on-primary-container': '#bcceff',
+              'primary-fixed': '#d9e2ff',
+              'on-tertiary-fixed': '#360f00',
+              background: '#faf8ff',
+              'primary-fixed-dim': '#b0c6ff',
+              'surface-container-high': '#e7e7f1',
+              'surface-variant': '#e1e2eb',
+              secondary: '#505f76',
+              outline: '#737784',
+              'inverse-surface': '#2e3037',
+              'status-ready': '#10B981',
+              'on-primary-fixed-variant': '#00419c',
+              'on-secondary-fixed-variant': '#38485d',
+              'on-secondary-fixed': '#0b1c30',
+              'error-container': '#ffdad6',
+              'status-progress': '#3B82F6',
+              'surface-container-highest': '#e1e2eb',
+              'surface-container-lowest': '#ffffff',
+              'surface-container-low': '#f3f3fc',
+              'on-tertiary': '#ffffff',
+              'on-tertiary-fixed-variant': '#7d2d00',
+              'inverse-on-surface': '#f0f0f9',
+              'on-secondary-container': '#54647a',
+              'tertiary-fixed-dim': '#ffb596',
+              'on-error': '#ffffff',
+              'alert-critical': '#EF4444',
+              'surface-dim': '#d9d9e2',
+              'on-surface-variant': '#434653',
+              'on-primary': '#ffffff',
+              'on-background': '#191b22',
+              'on-error-container': '#93000a',
+              tertiary: '#732900',
+              'secondary-fixed-dim': '#b7c8e1',
+              'status-delivered': '#6366F1',
+              surface: '#faf8ff',
+              'tenant-accent': 'var(--primary-color)',
+              'on-primary-fixed': '#001945',
+              'on-tertiary-container': '#ffc0a7',
+              primary: '#003c90',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              base: '8px',
+              'container-max': '1440px',
+              'margin-mobile': '16px',
+              gutter: '16px',
+              'margin-desktop': '24px',
+            },
+            fontFamily: {
+              'headline-lg': ['Inter'],
+              'kpi-display': ['Inter'],
+              'label-caps': ['Inter'],
+              'data-mono': ['JetBrains Mono'],
+              'ticket-body': ['Inter'],
+              'body-md': ['Inter'],
+              'headline-md': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+            },
+            fontSize: {
+              'headline-lg': ['30px', { lineHeight: '38px', fontWeight: '600' }],
+              'kpi-display': [
+                '48px',
+                { lineHeight: '56px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'label-caps': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '700' },
+              ],
+              'data-mono': ['14px', { lineHeight: '20px', fontWeight: '500' }],
+              'ticket-body': ['14px', { lineHeight: '18px', fontWeight: '500' }],
+              'body-md': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'headline-md': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'headline-lg-mobile': ['24px', { lineHeight: '30px', fontWeight: '600' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @media print {
+        body {
+          background: white;
+          margin: 0;
+          padding: 0;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .print-container {
+          width: 100%;
+          max-width: 80mm; /* Standard thermal receipt width */
+          margin: 0 auto;
+          box-shadow: none;
+          border: none;
+        }
+      }
+
+      .dashed-divider {
+        border-top: 1px dashed #737784;
+        margin: 16px 0;
+      }
+    </style>
+  </head>
+  <body class="bg-surface-container-highest min-h-screen flex items-center justify-center p-4">
+    <!-- Print Controls (Hidden on print) -->
+    <div class="fixed top-4 right-4 no-print flex gap-2">
+      <button
+        class="bg-primary text-on-primary px-4 py-2 rounded-lg font-body-md text-body-md flex items-center gap-2 hover:bg-surface-tint transition-colors"
+        onclick="window.print()"
+      >
+        <span class="material-symbols-outlined text-[20px]">print</span>
+        Imprimer
+      </button>
+    </div>
+    <!-- Receipt Container -->
+    <div
+      class="bg-surface-ticket w-full max-w-[80mm] print-container mx-auto p-4 shadow-lg text-on-surface font-ticket-body text-ticket-body"
+    >
+      <!-- Header -->
+      <div class="flex flex-col items-center justify-center mb-6 text-center">
+        <img
+          alt="MIT2 Pressing Logo"
+          class="w-20 h-20 mb-4 object-contain"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1VFNqhkLthERABMZmtdEnpZSNmyB_rRaBrtdqwh8wraF45WgR7FoFh_dlo_twEpoY1QjDOR_9qaXMF8VEKRHHAvewm6WKYlMNDh_XN1Z6BNOAryWs_RpC-xpb55Ai-7BfHteakqcSXHK3vHgW1FZNJDsRwhaLUEegy6aGd0nTrANv5cAi745V6L9fT-5dU-wjc5lYjSMmCzp-yecVE8sbM3vHfSR6Sdib4BPAHaqWRBgi5z-ST6n9wOKFw"
+        />
+        <h1 class="font-headline-md text-headline-md font-bold mb-1">MIT2 Pressing</h1>
+        <p class="text-on-surface-variant font-ticket-body text-ticket-body">
+          123 Avenue de la Propreté
+        </p>
+        <p class="text-on-surface-variant font-ticket-body text-ticket-body">75000 Paris, France</p>
+        <p class="text-on-surface-variant font-ticket-body text-ticket-body">Tél: 01 23 45 67 89</p>
+      </div>
+      <div class="dashed-divider"></div>
+      <!-- Order Info -->
+      <div class="mb-4">
+        <h2 class="font-label-caps text-label-caps uppercase text-center mb-2 tracking-wider">
+          BON DE LIVRAISON
+        </h2>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-on-surface-variant">Commande:</span>
+          <span class="font-data-mono text-data-mono font-bold">#CMD-2023-8901</span>
+        </div>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-on-surface-variant">Date de livraison:</span>
+          <span class="font-data-mono text-data-mono">24/10/2023</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-on-surface-variant">Heure prévue:</span>
+          <span class="font-data-mono text-data-mono">14:30 - 16:30</span>
+        </div>
+      </div>
+      <div class="dashed-divider"></div>
+      <!-- Customer Info -->
+      <div class="mb-4">
+        <h3
+          class="font-label-caps text-label-caps uppercase mb-2 tracking-wider text-on-surface-variant"
+        >
+          INFORMATIONS CLIENT
+        </h3>
+        <p class="font-bold mb-1">M. Jean Dupont</p>
+        <p>Bâtiment A, Étage 3, Apt 34</p>
+        <p>45 Rue des Fleurs</p>
+        <p>75015 Paris</p>
+        <p class="mt-1 font-data-mono text-data-mono">Code porte: 1234A</p>
+        <div class="mt-2 inline-flex px-2 py-1 bg-status-progress/10 rounded-full">
+          <span class="font-label-caps text-label-caps text-status-progress">Zone: Paris Sud</span>
+        </div>
+      </div>
+      <div class="dashed-divider"></div>
+      <!-- Items List -->
+      <div class="mb-4">
+        <h3
+          class="font-label-caps text-label-caps uppercase mb-2 tracking-wider text-on-surface-variant"
+        >
+          ARTICLES LIVRÉS
+        </h3>
+        <div class="flex justify-between items-start mb-2">
+          <div class="flex flex-col">
+            <span class="font-medium">2x Chemises sur cintre</span>
+            <span class="text-[12px] text-on-surface-variant">Nettoyage à sec, Repassage</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-start mb-2">
+          <div class="flex flex-col">
+            <span class="font-medium">1x Costume 2 pièces</span>
+            <span class="text-[12px] text-on-surface-variant">Nettoyage à sec, Housse premium</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-start mb-2">
+          <div class="flex flex-col">
+            <span class="font-medium">3x Pantalons</span>
+            <span class="text-[12px] text-on-surface-variant">Pliés, Repassage</span>
+          </div>
+        </div>
+        <div
+          class="mt-4 pt-2 border-t border-outline-variant flex justify-between items-center font-bold"
+        >
+          <span>Total Articles:</span>
+          <span class="font-data-mono text-data-mono">6</span>
+        </div>
+      </div>
+      <div class="dashed-divider"></div>
+      <!-- Signatures -->
+      <div class="mb-8 mt-6">
+        <div class="flex justify-between gap-4">
+          <div class="w-1/2 flex flex-col">
+            <span class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-8"
+              >Signature Client</span
+            >
+            <div class="border-b border-outline"></div>
+          </div>
+          <div class="w-1/2 flex flex-col">
+            <span
+              class="font-label-caps text-label-caps uppercase text-on-surface-variant mb-8 text-right"
+              >Signature Livreur</span
+            >
+            <div class="border-b border-outline"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="text-center text-[11px] text-on-surface-variant mt-8">
+        <p>Merci pour votre confiance.</p>
+        <p class="mt-1">Propulsé par Fotall-Ma PRO</p>
+      </div>
+    </div>
+  </body>
+</html>

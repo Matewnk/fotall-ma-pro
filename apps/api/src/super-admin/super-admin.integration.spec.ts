@@ -103,6 +103,16 @@ describe('Super-Admin (005) — PostgreSQL réel', () => {
       .send({ plan: 'PRO' });
     expect(updatePlan.status).toBe(200);
     expect(updatePlan.body.plan).toBe('PRO');
+
+    // §19.4 : un changement de configuration déclenché par le SUPER_ADMIN
+    // est audité dans l'AuditLog du tenant concerné (018).
+    const audit = await request(app.getHttpServer())
+      .get('/audit')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .query({ action: 'TENANT_PLAN_MODIFIE' });
+    expect(audit.status).toBe(200);
+    expect(audit.body).toHaveLength(1);
+    expect(audit.body[0].metadata).toEqual({ nouveauPlan: 'PRO' });
   });
 
   it('statistiques globales', async () => {

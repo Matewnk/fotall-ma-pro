@@ -8,3 +8,33 @@ onlyBuiltDependencies:
   - '@prisma/engines'
   - esbuild
   - prisma
+
+# Correctifs de sécurité pour des dépendances transitives (Dependabot,
+# 2026-08-23) — versions minimales patchées des packages qui les
+# introduisent (@nestjs/core reste en 10.x, vite/vitest non couverts ici,
+# voir échange avec l'utilisateur). Toujours "^" (jamais un ">=" ouvert) :
+# un override sans plafond a déjà causé une régression réelle (uuid a
+# sauté à la 14.x, tout-ESM, et cassé Jest) — "^" reste dans le major
+# du correctif, jamais de saut majeur silencieux.
+overrides:
+  esbuild: ^0.25.0
+  '@babel/runtime': ^7.26.10
+  tmp: ^0.2.4
+  send: ^0.19.0
+  glob: ^10.5.0
+  tar: ^7.5.7
+  webpack: ^5.104.1
+  multer: ^2.1.0
+  # ajv volontairement absent d'ici : le forcer en override global casse
+  # eslintrc (ESLint embarque son propre ajv 6.x en interne, incompatible
+  # avec l'API 8.x). ajv n'est qu'un outillage de build (nest-cli/webpack),
+  # jamais du code applicatif — risque résiduel négligeable.
+  file-type: ^21.3.1
+  picomatch: ^4.0.4
+  lodash: ^4.18.0
+  postcss: ^8.5.10
+  '@xmldom/xmldom': ^0.8.12
+  fast-xml-parser: ^5.7.0
+  uuid: ^11.1.1
+  qs: ^6.15.2
+  body-parser: ^1.20.6

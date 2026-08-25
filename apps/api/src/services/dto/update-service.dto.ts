@@ -1,4 +1,14 @@
-import { IsBoolean, IsInt, IsNumber, IsOptional, IsString, Min, MinLength } from 'class-validator';
+import {
+  IsBoolean,
+  IsIn,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+  MinLength,
+} from 'class-validator';
+import { ICONES_SERVICE } from '../icones.constants';
 
 export class UpdateServiceDto {
   @IsOptional()
@@ -20,6 +30,10 @@ export class UpdateServiceDto {
   @IsNumber()
   @Min(0)
   tarif?: number;
+
+  @IsOptional()
+  @IsIn(ICONES_SERVICE)
+  icone?: string;
 
   @IsOptional()
   @IsBoolean()

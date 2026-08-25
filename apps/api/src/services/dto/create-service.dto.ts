@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsIn,
   IsInt,
   IsNumber,
   IsOptional,
@@ -8,6 +9,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { ICONES_SERVICE } from '../icones.constants';
 
 export class CreateServiceDto {
   @IsString()
@@ -33,6 +35,10 @@ export class CreateServiceDto {
   @IsNumber()
   @Min(0)
   tarif!: number;
+
+  @IsOptional()
+  @IsIn(ICONES_SERVICE)
+  icone?: string;
 
   @IsOptional()
   @IsBoolean()

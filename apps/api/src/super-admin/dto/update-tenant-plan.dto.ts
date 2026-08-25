@@ -1,8 +1,7 @@
 import { IsIn } from 'class-validator';
-
-export const PLANS = ['STARTER', 'PRO', 'BUSINESS'] as const;
+import { PlanCommercial } from '@prisma/client';
 
 export class UpdateTenantPlanDto {
-  @IsIn(PLANS)
-  plan!: (typeof PLANS)[number];
+  @IsIn(Object.values(PlanCommercial))
+  plan!: PlanCommercial;
 }

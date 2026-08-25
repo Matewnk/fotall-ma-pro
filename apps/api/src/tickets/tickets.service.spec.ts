@@ -99,4 +99,36 @@ describe('TicketsService', () => {
     expect(escpos.length).toBeGreaterThan(0);
     expect(escpos.toString('ascii')).toContain('PROVISOIRE');
   });
+
+  it('genererBonLivraisonPdf produit un buffer PDF non vide', async () => {
+    prisma.tenant.findUniqueOrThrow.mockResolvedValue({
+      nomPressing: 'Pressing Test',
+      adresse: null,
+      telephone: null,
+    });
+    tenantPrisma.commande.findUnique.mockResolvedValue({
+      numero: 5,
+      estProvisoire: false,
+      client: { nom: 'Client Test', telephone: '+221700000000' },
+      articles: [
+        {
+          service: { intitule: 'Pantalon' },
+          quantite: 3,
+          tarifUnitaire: new Prisma.Decimal('1000.00'),
+          sousTotal: new Prisma.Decimal('3000.00'),
+        },
+      ],
+      sousTotal: new Prisma.Decimal('3000.00'),
+      remise: new Prisma.Decimal('0.00'),
+      total: new Prisma.Decimal('3000.00'),
+      datePrevue: null,
+      modeLivraison: 'LIVRAISON',
+      adresseLivraison: '10 rue Test',
+      statut: 'PRET',
+    });
+
+    const buffer = await service.genererBonLivraisonPdf('tenant-1', 'commande-1');
+
+    expect(buffer.subarray(0, 5).toString('ascii')).toBe('%PDF-');
+  });
 });

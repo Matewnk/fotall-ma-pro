@@ -96,6 +96,42 @@ describe('Services (008) — PostgreSQL réel', () => {
     expect(remove.status).toBe(200);
   });
 
+  it('icone : accepte une valeur de la liste fermée, la restitue et l’efface au besoin', async () => {
+    const create = await request(app.getHttpServer())
+      .post('/services')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({
+        code: 'SRV-91',
+        intitule: 'Service icone',
+        categorie: 'TEST',
+        tarif: 1000,
+        icone: 'checkroom',
+      });
+    expect(create.status).toBe(201);
+    expect(create.body.icone).toBe('checkroom');
+
+    const update = await request(app.getHttpServer())
+      .patch(`/services/${create.body.id}`)
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({ icone: 'iron' });
+    expect(update.status).toBe(200);
+    expect(update.body.icone).toBe('iron');
+  });
+
+  it('icone : rejette une valeur hors de la liste fermée (jamais une valeur arbitraire)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/services')
+      .set('Authorization', `Bearer ${tokenAdminA}`)
+      .send({
+        code: 'SRV-92',
+        intitule: 'Service icone invalide',
+        categorie: 'TEST',
+        tarif: 1000,
+        icone: '<script>alert(1)</script>',
+      });
+    expect(res.status).toBe(400);
+  });
+
   it('le tarif d’un tenant n’apparaît jamais dans un autre tenant', async () => {
     const create = await request(app.getHttpServer())
       .post('/services')
