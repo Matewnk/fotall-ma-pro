@@ -12,4 +12,7 @@
       tests, suite complète ; 3 échecs pré-existants sans rapport dans
       `notifications.service.spec.ts`, confirmés identiques hors de cette
       spec)
-- [ ] Converge
+- [x] Converge (mergé dans `main` via PR #37 le 2026-08-25 ; suivi restant :
+      montée majeure NestJS 10→11 pour fermer GHSA-36xv-jgw5-4q75, cadrée
+      séparément et non incluse dans cette spec — voir §21.3 du cahier des
+      charges pour tout futur test RBAC/permission)
