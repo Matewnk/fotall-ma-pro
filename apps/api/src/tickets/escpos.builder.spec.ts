@@ -50,4 +50,19 @@ describe('buildEscPosTicket', () => {
 
     expect(texte).not.toContain('PROVISOIRE');
   });
+
+  it('imprime le pied de page sous le QR code (même contenu que le PDF)', () => {
+    const buffer = buildEscPosTicket(dataDeBase, 58);
+    const texte = buffer.toString('ascii');
+
+    expect(texte).toContain('Merci de votre confiance !');
+    expect(texte).toContain('Fotall-Ma PRO');
+    // GS ( k : commande native d'impression QR (modele 2), présente avant
+    // le pied de page.
+    const indexQr = buffer.indexOf(Buffer.from([0x1d, 0x28, 0x6b]));
+    const indexPied = texte.indexOf('Merci de votre confiance');
+    expect(indexQr).toBeGreaterThan(-1);
+    expect(indexQr).toBeLessThan(indexPied);
+    expect(buffer.includes(Buffer.from(`COMMANDE:${dataDeBase.numero}`, 'utf8'))).toBe(true);
+  });
 });

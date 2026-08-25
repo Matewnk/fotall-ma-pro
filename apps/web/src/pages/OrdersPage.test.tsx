@@ -61,6 +61,15 @@ function installerFauxServeur(commandesInitiales: unknown[] = []) {
         commandes = [...commandes, COMMANDE_CREEE];
         return Promise.resolve(reponseJson(COMMANDE_CREEE, 201));
       }
+      if (url.match(/\/commandes\/[^/]+\/statut$/) && method === 'PATCH') {
+        const { statut } = JSON.parse(String(init?.body)) as { statut: string };
+        commandes = commandes.map((c) =>
+          (c as { id: string }).id === (COMMANDE_CREEE as { id: string }).id
+            ? { ...(c as object), statut }
+            : c,
+        );
+        return Promise.resolve(reponseJson({ ...COMMANDE_CREEE, statut }));
+      }
       return Promise.resolve(reponseJson(commandes));
     }),
   );
@@ -220,5 +229,27 @@ describe('OrdersPage', () => {
 
     const lien = screen.getByText('Encaisser').closest('a');
     expect(lien?.getAttribute('href')).toBe('/commandes/commande-1/encaisser');
+  });
+
+  it('fait progresser le statut d’une commande (jamais figé sur "En attente")', async () => {
+    installerFauxServeur([COMMANDE_CREEE]);
+    const { element } = renderAvecProviders(<OrdersPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('En attente')).toBeDefined();
+    });
+
+    fireEvent.click(screen.getByTitle('Passer à EN_COURS'));
+
+    await waitFor(() => {
+      expect(vi.mocked(fetch)).toHaveBeenCalledWith(
+        expect.stringContaining('/commandes/commande-1/statut'),
+        expect.objectContaining({ method: 'PATCH', body: JSON.stringify({ statut: 'EN_COURS' }) }),
+      );
+    });
+    await waitFor(() => {
+      expect(screen.getByText('En cours')).toBeDefined();
+    });
   });
 });

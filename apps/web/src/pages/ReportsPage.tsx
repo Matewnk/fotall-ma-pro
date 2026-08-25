@@ -12,6 +12,42 @@ type TableauRapport = {
 
 const RAPPORT_PAR_DEFAUT = 'caisse-quotidienne';
 
+// Le résumé (TableauRapport.resume) est un Record<string, ...> côté API,
+// avec des clés camelCase (soldeOuverture) ou dynamiques (`total${TypeOperationCaisse}`,
+// ex. totalENCAISSEMENT) — jamais des libellés d'affichage. Cette table
+// traduit les clés connues ; toute clé imprévue retombe sur un espacement
+// automatique plutôt que sur la clé brute.
+const LIBELLES_RESUME_STATIQUES: Record<string, string> = {
+  soldeOuverture: "Solde d'ouverture",
+  soldeCloture: 'Solde de clôture',
+  periodeDebut: 'Période du',
+  periodeFin: 'Période au',
+  totalCommandes: 'Total commandes',
+  chiffreAffaires: "Chiffre d'affaires",
+};
+
+const LIBELLES_TYPE_OPERATION: Record<string, string> = {
+  OUVERTURE: 'Ouverture',
+  ENCAISSEMENT: 'Encaissement',
+  AVANCE: 'Avance',
+  DEPENSE: 'Dépense',
+  REMBOURSEMENT: 'Remboursement',
+  AJUSTEMENT_COMPENSATOIRE: 'Ajustement compensatoire',
+  CLOTURE: 'Clôture',
+};
+
+function libelleResume(cle: string): string {
+  if (cle in LIBELLES_RESUME_STATIQUES) {
+    return LIBELLES_RESUME_STATIQUES[cle];
+  }
+  const operation = cle.match(/^total([A-Z_]+)$/)?.[1];
+  if (operation) {
+    return `Total ${LIBELLES_TYPE_OPERATION[operation] ?? operation}`;
+  }
+  // Repli générique : espace avant chaque majuscule (camelCase -> mots).
+  return cle.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase());
+}
+
 const RAPPORTS: { chemin: string; libelle: string; plage: boolean }[] = [
   { chemin: RAPPORT_PAR_DEFAUT, libelle: 'Caisse quotidienne', plage: false },
   { chemin: 'activite', libelle: 'Activité', plage: true },
@@ -145,7 +181,7 @@ export function ReportsPage() {
         <div className="flex flex-wrap gap-4">
           {Object.entries(donnees.data.resume).map(([cle, valeur]) => (
             <div key={cle} className="bg-surface border border-outline-variant rounded-xl p-4">
-              <p className="text-xs text-on-surface-variant uppercase">{cle}</p>
+              <p className="text-xs text-on-surface-variant">{libelleResume(cle)}</p>
               <p className="text-xl font-bold text-on-background">{valeur}</p>
             </div>
           ))}
