@@ -4,6 +4,7 @@ import { Pressable, Text } from 'react-native';
 import { useAuth } from '../lib/auth-context';
 import { couleurs } from '../lib/theme';
 import { AccountScreen } from '../screens/AccountScreen';
+import { ClientsScreen } from '../screens/ClientsScreen';
 import { DashboardScreen } from '../screens/DashboardScreen';
 import { DeliverySlipScreen } from '../screens/DeliverySlipScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
@@ -59,6 +60,11 @@ export function AuthenticatedStack() {
         name="Suivi"
         component={OrdersStatusScreen}
         options={{ title: 'Suivi des commandes', headerRight: () => <BoutonMenu /> }}
+      />
+      <Stack.Screen
+        name="Clients"
+        component={ClientsScreen}
+        options={{ title: 'Clients', headerRight: () => <BoutonMenu /> }}
       />
       <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
       <Stack.Screen

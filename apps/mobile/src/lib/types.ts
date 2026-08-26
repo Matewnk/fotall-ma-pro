@@ -6,10 +6,18 @@ export type Session = {
   user: { id: string; email: string; role: Role };
 };
 
+export type CanalNotification = 'PUSH' | 'WHATSAPP' | 'SMS';
+export type StatutClient = 'ACTIF' | 'INACTIF';
+
 export type Client = {
   id: string;
   nom: string;
   telephone: string;
+  email?: string;
+  adresse?: string;
+  canalNotification?: CanalNotification;
+  statut?: StatutClient;
+  notes?: string;
 };
 
 export type Service = {
