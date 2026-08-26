@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, espacement } from '../lib/theme';
 import type { TicketData } from '../lib/types';
 
 // Bon de livraison (LIVREUR, mobile) — maquette de référence :
@@ -41,7 +42,10 @@ export function DeliverySlipScreen() {
   const totalArticles = data.articles.reduce((somme, article) => somme + article.quantite, 0);
 
   return (
-    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: 16, padding: 16 }}>
+    <ScrollView
+      style={styles.conteneur}
+      contentContainerStyle={{ gap: espacement.gutter, padding: espacement.margeMobile }}
+    >
       <View style={styles.entete}>
         <Text style={styles.nomPressing}>{data.nomPressing}</Text>
         {data.adresseTenant && <Text style={styles.sousTexte}>{data.adresseTenant}</Text>}
@@ -110,33 +114,39 @@ export function DeliverySlipScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1, backgroundColor: '#fff' },
+  conteneur: { flex: 1, backgroundColor: couleurs.surfaceContainerLowest },
   entete: { alignItems: 'center', gap: 2 },
-  nomPressing: { fontSize: 18, fontWeight: '700' },
-  sousTexte: { color: '#6b7280', fontSize: 12 },
-  separateur: { borderTopWidth: 1, borderTopColor: '#9ca3af', borderStyle: 'dashed' },
+  nomPressing: { fontSize: 18, fontWeight: '700', color: couleurs.onSurface },
+  sousTexte: { color: couleurs.onSurfaceVariant, fontSize: 12 },
+  separateur: { borderTopWidth: 1, borderTopColor: couleurs.outline, borderStyle: 'dashed' },
   titre: {
     textAlign: 'center',
     fontWeight: '700',
     fontSize: 12,
     letterSpacing: 1,
     marginBottom: 8,
+    color: couleurs.onSurface,
   },
   section: {
     fontWeight: '700',
     fontSize: 11,
     letterSpacing: 0.5,
-    color: '#6b7280',
+    color: couleurs.onSurfaceVariant,
     marginBottom: 6,
   },
   ligneListe: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 2 },
-  valeurMono: { fontFamily: 'monospace', fontWeight: '600' },
-  gras: { fontWeight: '700' },
-  article: { marginBottom: 4 },
-  totalArticles: { marginTop: 8, paddingTop: 8, borderTopWidth: 1, borderTopColor: '#e5e7eb' },
+  valeurMono: { fontFamily: 'monospace', fontWeight: '600', color: couleurs.onSurface },
+  gras: { fontWeight: '700', color: couleurs.onSurface },
+  article: { marginBottom: 4, color: couleurs.onSurface },
+  totalArticles: {
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: couleurs.outlineVariant,
+  },
   signatures: { flexDirection: 'row', gap: 16, marginTop: 8 },
   zoneSignature: { flex: 1, gap: 24 },
-  ligneSignature: { borderBottomWidth: 1, borderBottomColor: '#191b22' },
+  ligneSignature: { borderBottomWidth: 1, borderBottomColor: couleurs.onSurface },
   pied: { alignItems: 'center', marginTop: 16, gap: 2 },
-  erreur: { color: '#dc2626', fontSize: 13, textAlign: 'center', marginTop: 24 },
+  erreur: { color: couleurs.error, fontSize: 13, textAlign: 'center', marginTop: 24 },
 });

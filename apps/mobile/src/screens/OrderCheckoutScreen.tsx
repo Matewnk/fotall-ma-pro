@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, espacement, rayon } from '../lib/theme';
 import type { Client, Commande, ModePaiement, OperationCaisse, Service } from '../lib/types';
 
 // Écran §order-to-cash (mobile) — maquette de référence :
@@ -112,7 +113,7 @@ export function OrderCheckoutScreen() {
   }
 
   return (
-    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: 16 }}>
+    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: espacement.gutter }}>
       <View style={styles.carte}>
         <View style={styles.ligneEntete}>
           <Text style={styles.numero}>#{commande.data.numero}</Text>
@@ -166,7 +167,7 @@ export function OrderCheckoutScreen() {
             accessibilityRole="button"
           >
             {encaisser.isPending ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={couleurs.onPrimary} />
             ) : (
               <Text style={styles.boutonTexte}>ENCAISSER</Text>
             )}
@@ -178,47 +179,57 @@ export function OrderCheckoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1, padding: 16 },
+  conteneur: { flex: 1, padding: espacement.margeMobile, backgroundColor: couleurs.background },
   carte: {
-    backgroundColor: '#fff',
+    backgroundColor: couleurs.surfaceContainerLowest,
     borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.xl,
     padding: 16,
   },
   ligneEntete: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
-  numero: { fontFamily: 'monospace', color: '#1e3a8a' },
-  client: { fontWeight: '600', marginBottom: 8 },
-  recapitulatif: { borderTopWidth: 1, borderTopColor: '#e5e7eb', paddingTop: 8, gap: 4 },
-  section: { fontSize: 12, fontWeight: '700', color: '#6b7280', marginBottom: 6 },
+  numero: { fontFamily: 'monospace', color: couleurs.primary },
+  client: { fontWeight: '600', marginBottom: 8, color: couleurs.onSurface },
+  recapitulatif: {
+    borderTopWidth: 1,
+    borderTopColor: couleurs.outlineVariant,
+    paddingTop: 8,
+    gap: 4,
+  },
+  section: { fontSize: 12, fontWeight: '700', color: couleurs.onSurfaceVariant, marginBottom: 6 },
   ligneListe: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 4 },
   totalCarte: {
-    backgroundColor: '#1e3a8a',
-    borderRadius: 12,
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.xl,
     padding: 20,
     alignItems: 'center',
   },
-  totalLabel: { color: '#bcceff', fontSize: 12, fontWeight: '700', marginBottom: 4 },
-  totalMontant: { color: '#fff', fontSize: 32, fontWeight: '700' },
+  totalLabel: {
+    color: couleurs.secondaryContainer,
+    fontSize: 12,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  totalMontant: { color: couleurs.onPrimary, fontSize: 32, fontWeight: '700' },
   champ: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 8,
     textAlign: 'right',
     fontSize: 18,
   },
-  monnaie: { fontWeight: '700', fontSize: 16 },
-  confirmation: { color: '#10b981', fontWeight: '600', textAlign: 'center' },
-  erreur: { color: '#dc2626', fontSize: 13 },
+  monnaie: { fontWeight: '700', fontSize: 16, color: couleurs.onSurface },
+  confirmation: { color: couleurs.statutTermine, fontWeight: '600', textAlign: 'center' },
+  erreur: { color: couleurs.error, fontSize: 13 },
   bouton: {
-    backgroundColor: '#1e3a8a',
-    borderRadius: 8,
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.lg,
     paddingVertical: 14,
     alignItems: 'center',
   },
   boutonDesactive: { opacity: 0.5 },
-  boutonTexte: { color: '#fff', fontWeight: '600' },
+  boutonTexte: { color: couleurs.onPrimary, fontWeight: '600' },
 });

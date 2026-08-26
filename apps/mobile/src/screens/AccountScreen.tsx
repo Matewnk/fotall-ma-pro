@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, espacement, rayon, typographie } from '../lib/theme';
 
 // Écran d'atterrissage après connexion — minimal pour cette fondation
 // (navigation + auth), avant l'ajout des écrans métier (nouvelle
@@ -22,18 +23,28 @@ export function AccountScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1, padding: 24, gap: 8 },
-  titre: { fontSize: 20, fontWeight: 'bold', color: '#1e3a8a' },
-  info: { fontSize: 14, color: '#111827' },
-  role: { fontSize: 12, color: '#6b7280', textTransform: 'uppercase', marginBottom: 16 },
+  conteneur: {
+    flex: 1,
+    padding: espacement.margeMobile,
+    gap: 8,
+    backgroundColor: couleurs.background,
+  },
+  titre: { ...typographie.headlineMd, color: couleurs.primary },
+  info: { fontSize: 14, color: couleurs.onSurface },
+  role: {
+    fontSize: 12,
+    color: couleurs.onSurfaceVariant,
+    textTransform: 'uppercase',
+    marginBottom: 16,
+  },
   bouton: {
     borderWidth: 1,
-    borderColor: '#dc2626',
-    borderRadius: 8,
+    borderColor: couleurs.error,
+    borderRadius: rayon.lg,
     paddingVertical: 12,
     alignItems: 'center',
     alignSelf: 'flex-start',
     paddingHorizontal: 16,
   },
-  boutonTexte: { color: '#dc2626', fontWeight: '600' },
+  boutonTexte: { color: couleurs.error, fontWeight: '600' },
 });

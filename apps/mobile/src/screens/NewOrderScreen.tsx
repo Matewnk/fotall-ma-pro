@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, espacement, rayon } from '../lib/theme';
 import type { Client, Commande, ModeLivraison, Service } from '../lib/types';
 
 function genererIdempotencyKey(): string {
@@ -108,7 +109,7 @@ export function NewOrderScreen() {
   });
 
   return (
-    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: 16 }}>
+    <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: espacement.gutter }}>
       <Text style={styles.titre}>Nouvelle commande</Text>
 
       <View>
@@ -210,7 +211,7 @@ export function NewOrderScreen() {
         accessibilityRole="button"
       >
         {creerCommande.isPending ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={couleurs.onPrimary} />
         ) : (
           <Text style={styles.boutonTexte}>VALIDER LA COMMANDE</Text>
         )}
@@ -220,13 +221,13 @@ export function NewOrderScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1, padding: 16 },
-  titre: { fontSize: 20, fontWeight: 'bold', color: '#1e3a8a', marginBottom: 8 },
-  section: { fontSize: 13, fontWeight: '600', color: '#6b7280', marginBottom: 6 },
+  conteneur: { flex: 1, padding: espacement.margeMobile, backgroundColor: couleurs.background },
+  titre: { fontSize: 20, fontWeight: 'bold', color: couleurs.primary, marginBottom: 8 },
+  section: { fontSize: 13, fontWeight: '600', color: couleurs.onSurfaceVariant, marginBottom: 6 },
   champ: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 8,
@@ -236,35 +237,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
+    borderBottomColor: couleurs.outlineVariant,
   },
   ligneSelection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-    backgroundColor: '#eff6ff',
-    borderRadius: 8,
+    backgroundColor: couleurs.secondaryContainer,
+    borderRadius: rayon.lg,
   },
-  sousTexte: { color: '#6b7280', fontSize: 12 },
-  lien: { color: '#1e3a8a', fontSize: 12, fontWeight: '600' },
-  total: { fontWeight: 'bold', marginTop: 8, textAlign: 'right' },
+  sousTexte: { color: couleurs.onSurfaceVariant, fontSize: 12 },
+  lien: { color: couleurs.primary, fontSize: 12, fontWeight: '600' },
+  total: { fontWeight: 'bold', marginTop: 8, textAlign: 'right', color: couleurs.onSurface },
   choix: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
-  choixActif: { backgroundColor: '#1e3a8a', borderColor: '#1e3a8a' },
-  choixActifTexte: { color: '#fff' },
-  erreur: { color: '#dc2626', fontSize: 13 },
+  choixActif: { backgroundColor: couleurs.primary, borderColor: couleurs.primary },
+  choixActifTexte: { color: couleurs.onPrimary },
+  erreur: { color: couleurs.error, fontSize: 13 },
   bouton: {
-    backgroundColor: '#1e3a8a',
-    borderRadius: 8,
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.lg,
     paddingVertical: 14,
     alignItems: 'center',
   },
   boutonDesactive: { opacity: 0.5 },
-  boutonTexte: { color: '#fff', fontWeight: '600' },
+  boutonTexte: { color: couleurs.onPrimary, fontWeight: '600' },
   confirmation: { fontSize: 16, marginBottom: 16 },
 });
