@@ -29,6 +29,7 @@ const ELEMENTS_MENU: { route: string; libelle: string; roles?: Role[] }[] = [
     libelle: 'Stocks & consommables',
     roles: ['ADMIN', 'CAISSIER', 'TECHNICIEN'],
   },
+  { route: 'Services', libelle: 'Tarifs & services', roles: ['ADMIN', 'CAISSIER'] },
   { route: 'Compte', libelle: 'Compte' },
 ];
 

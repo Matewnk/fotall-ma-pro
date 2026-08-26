@@ -24,7 +24,11 @@ export type Service = {
   id: string;
   code: string;
   intitule: string;
+  categorie: string;
+  delaiHeures?: number;
   tarif: string;
+  icone?: string;
+  actif: boolean;
 };
 
 export type StatutCommande = 'EN_ATTENTE' | 'EN_COURS' | 'PRET' | 'LIVRE';

@@ -11,6 +11,7 @@ import { DeliverySlipScreen } from '../screens/DeliverySlipScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
 import { OrderCheckoutScreen } from '../screens/OrderCheckoutScreen';
 import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
+import { ServicesScreen } from '../screens/ServicesScreen';
 import { StocksScreen } from '../screens/StocksScreen';
 
 const Stack = createNativeStackNavigator();
@@ -77,6 +78,11 @@ export function AuthenticatedStack() {
         name="Stocks"
         component={StocksScreen}
         options={{ title: 'Stocks & consommables', headerRight: () => <BoutonMenu /> }}
+      />
+      <Stack.Screen
+        name="Services"
+        component={ServicesScreen}
+        options={{ title: 'Tarifs & services', headerRight: () => <BoutonMenu /> }}
       />
       <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
       <Stack.Screen
