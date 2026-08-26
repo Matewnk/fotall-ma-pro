@@ -157,18 +157,18 @@ ouvrant un écran par domaine avec cases à cocher (héritées grisées,
 overrides actifs éditables), badge "Personnalisé" sur tout override.
 Aucun nouvel item de navigation racine.
 
-Mobile : aucun écran de gestion des permissions (reste une action web-only,
-cohérent avec `/utilisateurs`, `/branding`, `/audit` déjà web-only). Le
-mobile applique seulement les permissions effectives déjà résolues côté
-backend.
+Mobile : décision révisée à la demande explicite de l'utilisateur (2026-08-26,
+chantier de parité web/mobile) — `UsersScreen.tsx` porte désormais son propre
+panneau de permissions par domaine (mêmes contrats API, catalogue dupliqué
+dans `apps/mobile/src/lib/permissions.ts`). L'"Option A" (mobile web-only)
+ne s'applique donc plus à `/utilisateurs` ; son statut pour `/branding` et
+`/audit` reste à trancher séparément.
 
 ## Périmètre différé
 
 - Rotation/expiration de session liée à un changement de permission
   (au-delà de la revalidation déjà faite par `jwt.strategy.ts` à chaque
   requête, qui reste suffisante).
-- Toute UI mobile de gestion des permissions (Option A retenue : web
-  uniquement).
 
 ## Critères d'acceptation
 
