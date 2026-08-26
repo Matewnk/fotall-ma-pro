@@ -1,10 +1,7 @@
-// Catalogue de permissions cote web (021-permissions-granulaires), miroir
-// d'affichage de apps/api/src/permissions/permissions.constants.ts. Volontairement
-// duplique plutot que partage via @fotall/shared-types. La decision initiale
-// "Option A" (mobile sans ecran de permissions) a ete revue : mobile porte
-// desormais son propre catalogue identique (apps/mobile/src/lib/permissions.ts,
-// 021, parite web/mobile 7/9). users.manage/users.permissions restent exclus
-// des deux catalogues : jamais configurables, jamais affiches dans ce panneau.
+// Catalogue de permissions côté mobile, miroir de apps/web/src/lib/
+// permissions.ts (lui-même miroir de apps/api/src/permissions/
+// permissions.constants.ts). users.manage/users.permissions sont exclus :
+// jamais configurables, jamais affichés dans ce panneau.
 export type DomainePermission = {
   domaine: string;
   permissions: { valeur: string; libelle: string }[];

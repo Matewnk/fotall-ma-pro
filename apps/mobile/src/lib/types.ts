@@ -138,6 +138,19 @@ export type ArticleStock = {
   updatedAt: string;
 };
 
+export type Utilisateur = {
+  id: string;
+  email: string;
+  role: Role;
+  actif: boolean;
+  createdAt: string;
+};
+
+export type PermissionsUtilisateur = {
+  effectives: string[];
+  overrides: { permission: string; effet: 'ALLOW' | 'DENY' }[];
+};
+
 export type MouvementStock = {
   id: string;
   articleId: string;
