@@ -73,6 +73,32 @@ export type TypeOperationCaisse =
   | 'CLOTURE';
 export type ModePaiement = 'ESPECES' | 'CARTE' | 'MOBILE_MONEY' | 'WAVE' | 'ORANGE_MONEY' | 'AUTRE';
 
+export type Dashboard = {
+  kpis: {
+    commandesDuJour: number;
+    chiffreAffairesDuJour: string;
+    articlesEnAttente: number;
+    livraisonsPrevuesAujourdHui: number;
+    commandesEnRetard: number;
+    revenus7DerniersJours: { date: string; total: string }[];
+  };
+  commandesRecentes: {
+    numero: number;
+    client: { id: string; nom: string };
+    date: string;
+    montant: string;
+    statut: StatutCommande;
+  }[];
+  alertes: {
+    commandesUrgentes: number;
+    retards: number;
+    paiementsEnAttente: number;
+    livraisonsDuJour: number;
+    erreursSynchronisation: number;
+    licenceProcheExpiration: { active: boolean; joursRestants: number | null };
+  };
+};
+
 export type OperationCaisse = {
   id: string;
   type: TypeOperationCaisse;
