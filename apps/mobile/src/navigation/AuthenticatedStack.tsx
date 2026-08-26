@@ -11,6 +11,7 @@ import { DeliverySlipScreen } from '../screens/DeliverySlipScreen';
 import { NewOrderScreen } from '../screens/NewOrderScreen';
 import { OrderCheckoutScreen } from '../screens/OrderCheckoutScreen';
 import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
+import { ReportsScreen } from '../screens/ReportsScreen';
 import { ServicesScreen } from '../screens/ServicesScreen';
 import { StocksScreen } from '../screens/StocksScreen';
 
@@ -83,6 +84,11 @@ export function AuthenticatedStack() {
         name="Services"
         component={ServicesScreen}
         options={{ title: 'Tarifs & services', headerRight: () => <BoutonMenu /> }}
+      />
+      <Stack.Screen
+        name="Rapports"
+        component={ReportsScreen}
+        options={{ title: 'Rapports', headerRight: () => <BoutonMenu /> }}
       />
       <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
       <Stack.Screen
