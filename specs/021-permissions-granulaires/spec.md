@@ -160,9 +160,9 @@ Aucun nouvel item de navigation racine.
 Mobile : décision révisée à la demande explicite de l'utilisateur (2026-08-26,
 chantier de parité web/mobile) — `UsersScreen.tsx` porte désormais son propre
 panneau de permissions par domaine (mêmes contrats API, catalogue dupliqué
-dans `apps/mobile/src/lib/permissions.ts`). L'"Option A" (mobile web-only)
-ne s'applique donc plus à `/utilisateurs` ; son statut pour `/branding` et
-`/audit` reste à trancher séparément.
+dans `apps/mobile/src/lib/permissions.ts`). L'"Option A" (mobile web-only) ne
+s'applique plus : `/branding` (`BrandingScreen.tsx`) et `/audit`
+(`AuditScreen.tsx`) ont reçu le même traitement, à la même demande explicite.
 
 ## Périmètre différé
 

@@ -4,6 +4,8 @@ import { Pressable, Text } from 'react-native';
 import { useAuth } from '../lib/auth-context';
 import { couleurs } from '../lib/theme';
 import { AccountScreen } from '../screens/AccountScreen';
+import { AuditScreen } from '../screens/AuditScreen';
+import { BrandingScreen } from '../screens/BrandingScreen';
 import { CashScreen } from '../screens/CashScreen';
 import { ClientsScreen } from '../screens/ClientsScreen';
 import { DashboardScreen } from '../screens/DashboardScreen';
@@ -95,6 +97,16 @@ export function AuthenticatedStack() {
         name="Utilisateurs"
         component={UsersScreen}
         options={{ title: 'Utilisateurs', headerRight: () => <BoutonMenu /> }}
+      />
+      <Stack.Screen
+        name="Branding"
+        component={BrandingScreen}
+        options={{ title: 'Branding', headerRight: () => <BoutonMenu /> }}
+      />
+      <Stack.Screen
+        name="Audit"
+        component={AuditScreen}
+        options={{ title: "Journal d'audit", headerRight: () => <BoutonMenu /> }}
       />
       <Stack.Screen name="Compte" component={AccountScreen} options={{ title: 'Compte' }} />
       <Stack.Screen

@@ -138,6 +138,28 @@ export type ArticleStock = {
   updatedAt: string;
 };
 
+export type TenantSettings = {
+  id: string;
+  nomPressing: string;
+  sousDomaine: string;
+  adresse?: string;
+  telephone?: string;
+  logoUrl?: string;
+  langue: string;
+  devise: string;
+  fuseauHoraire: string;
+};
+
+export type EntreeAudit = {
+  id: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  actorId: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+};
+
 export type Utilisateur = {
   id: string;
   email: string;
