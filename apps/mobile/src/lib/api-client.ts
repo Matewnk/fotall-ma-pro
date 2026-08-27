@@ -1,6 +1,13 @@
 const BASE_URL: string =
   (process.env.EXPO_PUBLIC_API_URL as string | undefined) ?? 'http://localhost:3000';
 
+// Pour les écrans qui ont besoin de l'URL complète plutôt que d'un appel
+// JSON — ex. FileSystem.downloadAsync (TicketScreen.tsx), qui gère
+// lui-même l'en-tête Authorization.
+export function apiUrl(path: string): string {
+  return `${BASE_URL}${path}`;
+}
+
 export class ApiError extends Error {
   constructor(
     public readonly status: number,

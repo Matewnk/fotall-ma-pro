@@ -1,5 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { render, screen, waitFor } from '@testing-library/react-native';
-import { renderAvecProviders, reponseJson } from '../test-utils';
+import { downloadAsync } from 'expo-file-system';
+import { shareAsync } from 'expo-sharing';
+import { renderAvecProviders } from '../test-utils';
 import { TicketScreen } from './TicketScreen';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -12,47 +15,48 @@ jest.mock('@react-navigation/native', () => ({
   useRoute: () => ({ params: { commandeId: 'commande-2' } }),
 }));
 
-const TICKET_DATA = {
-  numero: 9822,
-  estProvisoire: false,
-  nomPressing: 'Pressing Test',
-  adresseTenant: '12 rue Test',
-  telephoneTenant: '+221770000000',
-  logoUrl: null,
-  client: { nom: 'Awa Diop', telephone: '+221701112233' },
-  articles: [
-    { intitule: 'Chemise sur cintre', quantite: 2, tarifUnitaire: '1000', sousTotal: '2000' },
-  ],
-  sousTotal: '2000',
-  remise: '0',
-  total: '2000',
-  datePrevue: null,
-  modeLivraison: 'RETRAIT',
-  adresseLivraison: null,
-  statut: 'EN_ATTENTE',
+// jest.fn() défini directement dans la factory (pas via une const externe
+// référencée par closure) : évite un piège de timing d'initialisation où
+// la factory, invoquée dès le require() de TicketScreen.tsx, s'exécute
+// avant qu'une const externe déclarée plus bas dans le fichier n'ait été
+// assignée (capturait alors `undefined` dans l'objet retourné).
+jest.mock('expo-file-system', () => ({
+  cacheDirectory: 'file:///cache/',
+  downloadAsync: jest.fn(() => Promise.resolve({ uri: 'file:///cache/ticket-commande-2.pdf' })),
+}));
+jest.mock('expo-sharing', () => ({
+  isAvailableAsync: () => Promise.resolve(true),
+  shareAsync: jest.fn(() => Promise.resolve()),
+}));
+
+const SESSION = {
+  accessToken: 'token-123',
+  tenant: { id: 'tenant-1', nomPressing: 'Pressing Test', sousDomaine: 'pressing-test' },
+  user: { id: 'user-1', email: 'caissier@pressing-test.dev', role: 'CAISSIER' as const },
 };
 
-function installerFauxServeur() {
-  globalThis.fetch = jest.fn(() =>
-    Promise.resolve(reponseJson(TICKET_DATA)),
-  ) as unknown as typeof fetch;
-}
-
 describe('TicketScreen', () => {
-  beforeEach(() => {
-    installerFauxServeur();
+  beforeEach(async () => {
+    (downloadAsync as jest.Mock).mockClear();
+    (shareAsync as jest.Mock).mockClear();
+    await AsyncStorage.setItem('fotall.session', JSON.stringify(SESSION));
   });
 
-  it('affiche le numéro de commande, le client et le total', async () => {
+  it('télécharge le PDF du ticket avec authentification puis ouvre la feuille de partage', async () => {
     render(renderAvecProviders(<TicketScreen />));
 
     await waitFor(() => {
-      expect(screen.getByText('Commande #9822')).toBeTruthy();
+      expect(screen.getByText('Ticket prêt.')).toBeTruthy();
     });
 
-    expect(screen.getByText('Client : Awa Diop — +221701112233')).toBeTruthy();
-    expect(screen.getByText('2 x Chemise sur cintre')).toBeTruthy();
-    expect(screen.getByText('En attente')).toBeTruthy();
-    expect(screen.getByText('2000 FCFA')).toBeTruthy();
+    expect(downloadAsync).toHaveBeenCalledWith(
+      expect.stringContaining('/commandes/commande-2/ticket/pdf'),
+      expect.stringContaining('ticket-commande-2.pdf'),
+      { headers: { Authorization: 'Bearer token-123' } },
+    );
+    expect(shareAsync).toHaveBeenCalledWith('file:///cache/ticket-commande-2.pdf', {
+      mimeType: 'application/pdf',
+      dialogTitle: 'Ticket',
+    });
   });
 });
