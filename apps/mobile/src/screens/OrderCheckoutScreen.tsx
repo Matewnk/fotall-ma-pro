@@ -80,8 +80,10 @@ export function OrderCheckoutScreen() {
       queryClient.invalidateQueries({ queryKey: ['caisse-operations'] });
       queryClient.invalidateQueries({ queryKey: ['caisse-solde'] });
       setErreur(null);
-      // @ts-expect-error -- navigation non typée globalement (pas de RootParamList), voir RootNavigator.tsx
-      navigation.navigate('NouvelleCommande');
+      // Affiche le ticket avant de revenir à la saisie — équivalent mobile
+      // de l'ouverture automatique du PDF sur web (OrderCheckoutPage.tsx).
+      // @ts-expect-error -- navigation non typée globalement (pas de RootParamList), voir AuthenticatedStack.tsx
+      navigation.navigate('Ticket', { commandeId });
     },
     onError: (error) => {
       setErreur(error instanceof ApiError ? error.message : 'Encaissement impossible.');

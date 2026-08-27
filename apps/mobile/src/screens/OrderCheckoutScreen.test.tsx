@@ -117,7 +117,7 @@ describe('OrderCheckoutScreen', () => {
       expect(corps).toMatchObject({ commandeId: 'commande-1', montantRecu: 15000 });
       expect(corps.montant).toBeUndefined();
     });
-    expect(mockNavigate).toHaveBeenCalledWith('NouvelleCommande');
+    expect(mockNavigate).toHaveBeenCalledWith('Ticket', { commandeId: 'commande-1' });
   });
 
   it('refuse localement un montant reçu insuffisant sans appeler le serveur', async () => {

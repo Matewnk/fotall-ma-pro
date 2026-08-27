@@ -16,6 +16,7 @@ import { OrdersStatusScreen } from '../screens/OrdersStatusScreen';
 import { ReportsScreen } from '../screens/ReportsScreen';
 import { ServicesScreen } from '../screens/ServicesScreen';
 import { StocksScreen } from '../screens/StocksScreen';
+import { TicketScreen } from '../screens/TicketScreen';
 import { UsersScreen } from '../screens/UsersScreen';
 
 const Stack = createNativeStackNavigator();
@@ -118,6 +119,11 @@ export function AuthenticatedStack() {
         name="Encaissement"
         component={OrderCheckoutScreen}
         options={{ title: 'Encaissement' }}
+      />
+      <Stack.Screen
+        name="Ticket"
+        component={TicketScreen}
+        options={{ title: 'Ticket', headerLeft: () => null }}
       />
     </Stack.Navigator>
   );
