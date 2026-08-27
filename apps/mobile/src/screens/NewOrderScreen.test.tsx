@@ -62,6 +62,7 @@ describe('NewOrderScreen', () => {
   it('sélectionne un client, ajoute un article au panier, valide la commande et navigue vers l’encaissement', async () => {
     render(renderAvecProviders(<NewOrderScreen />));
 
+    fireEvent.press(screen.getByText('Choisir un client…'));
     fireEvent.changeText(screen.getByLabelText('Rechercher un client'), 'Fatou');
 
     await waitFor(

@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   ActivityIndicator,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -37,6 +38,7 @@ export function NewOrderScreen() {
 
   const [rechercheClient, setRechercheClient] = useState('');
   const [clientSelectionne, setClientSelectionne] = useState<Client | null>(null);
+  const [selecteurClientOuvert, setSelecteurClientOuvert] = useState(false);
   const [nouveauClientOuvert, setNouveauClientOuvert] = useState(false);
   const [nouveauClientNom, setNouveauClientNom] = useState('');
   const [nouveauClientTelephone, setNouveauClientTelephone] = useState('');
@@ -171,13 +173,14 @@ export function NewOrderScreen() {
         ) : (
           <>
             <View style={styles.rechercheLigne}>
-              <TextInput
-                style={[styles.champ, { flex: 1, marginBottom: 0 }]}
-                placeholder="Rechercher un client…"
-                accessibilityLabel="Rechercher un client"
-                value={rechercheClient}
-                onChangeText={setRechercheClient}
-              />
+              <Pressable
+                onPress={() => setSelecteurClientOuvert(true)}
+                accessibilityRole="button"
+                style={[styles.champ, styles.champSelect, { flex: 1, marginBottom: 0 }]}
+              >
+                <Text style={styles.champSelectPlaceholder}>Choisir un client…</Text>
+                <Text style={styles.champSelectChevron}>▾</Text>
+              </Pressable>
               <Pressable
                 onPress={() => setNouveauClientOuvert((ouvert) => !ouvert)}
                 accessibilityRole="button"
@@ -223,21 +226,58 @@ export function NewOrderScreen() {
                 </Pressable>
               </View>
             )}
-
-            {clients.data?.map((client) => (
-              <Pressable
-                key={client.id}
-                style={styles.ligneListe}
-                onPress={() => setClientSelectionne(client)}
-                accessibilityRole="button"
-              >
-                <Text>{client.nom}</Text>
-                <Text style={styles.sousTexte}>{client.telephone}</Text>
-              </Pressable>
-            ))}
           </>
         )}
       </View>
+
+      <Modal
+        visible={selecteurClientOuvert}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setSelecteurClientOuvert(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalFeuille}>
+            <View style={styles.modalEntete}>
+              <Text style={styles.modalTitre}>Choisir un client</Text>
+              <Pressable
+                onPress={() => setSelecteurClientOuvert(false)}
+                accessibilityRole="button"
+                accessibilityLabel="Fermer"
+              >
+                <Text style={styles.modalFermer}>✕</Text>
+              </Pressable>
+            </View>
+            <TextInput
+              style={styles.champ}
+              placeholder="Rechercher un client…"
+              accessibilityLabel="Rechercher un client"
+              value={rechercheClient}
+              onChangeText={setRechercheClient}
+            />
+            <ScrollView>
+              {clients.data?.map((client) => (
+                <Pressable
+                  key={client.id}
+                  style={styles.ligneListe}
+                  onPress={() => {
+                    setClientSelectionne(client);
+                    setSelecteurClientOuvert(false);
+                    setRechercheClient('');
+                  }}
+                  accessibilityRole="button"
+                >
+                  <Text>{client.nom}</Text>
+                  <Text style={styles.sousTexte}>{client.telephone}</Text>
+                </Pressable>
+              ))}
+              {clients.data?.length === 0 && (
+                <Text style={styles.sousTexte}>Aucun client trouvé.</Text>
+              )}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
 
       <View>
         <Text style={styles.section}>2. Articles</Text>
@@ -359,6 +399,25 @@ const styles = StyleSheet.create({
   sousTexte: { color: couleurs.onSurfaceVariant, fontSize: 12 },
   lien: { color: couleurs.primary, fontSize: 12, fontWeight: '600' },
   rechercheLigne: { flexDirection: 'row', gap: 8, alignItems: 'center', marginBottom: 8 },
+  champSelect: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  champSelectPlaceholder: { color: couleurs.onSurfaceVariant },
+  champSelectChevron: { color: couleurs.onSurfaceVariant },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  modalFeuille: {
+    backgroundColor: couleurs.surfaceContainerLowest,
+    borderTopLeftRadius: rayon.xl,
+    borderTopRightRadius: rayon.xl,
+    padding: espacement.margeMobile,
+    maxHeight: '75%',
+    gap: 8,
+  },
+  modalEntete: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  modalTitre: { fontSize: 16, fontWeight: '700', color: couleurs.onSurface },
+  modalFermer: { fontSize: 16, color: couleurs.onSurfaceVariant, padding: 4 },
   boutonNouveauClient: {
     width: 40,
     height: 40,
