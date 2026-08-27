@@ -38,6 +38,6 @@
     "jest-expo": "~51.0.4",
     "react-test-renderer": "^18.3.1",
     "ts-jest": "^29.4.12",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   }
 }
