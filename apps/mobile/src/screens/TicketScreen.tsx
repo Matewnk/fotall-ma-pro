@@ -46,6 +46,7 @@ export function TicketScreen() {
 
   const [etat, setEtat] = useState<Etat>('chargement');
   const [cheminFichier, setCheminFichier] = useState<string | null>(null);
+  const [detailErreur, setDetailErreur] = useState<string | null>(null);
 
   async function ouvrir(uri: string) {
     if (await isAvailableAsync()) {
@@ -55,6 +56,7 @@ export function TicketScreen() {
 
   async function telechargerEtOuvrir() {
     setEtat('chargement');
+    setDetailErreur(null);
     try {
       const reponse = await fetch(apiUrl(`/commandes/${commandeId}/ticket/pdf`), {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -66,7 +68,12 @@ export function TicketScreen() {
       setCheminFichier(destination);
       setEtat('pret');
       await ouvrir(destination);
-    } catch {
+    } catch (erreur) {
+      // Journalisé (visible dans les logs Metro) pour diagnostiquer : la
+      // feuille de partage ou le téléchargement peuvent échouer pour des
+      // raisons variées (réseau, permissions, absence d'app compatible).
+      console.error('TicketScreen: échec ouverture du ticket', erreur);
+      setDetailErreur(erreur instanceof Error ? erreur.message : String(erreur));
       setEtat('erreur');
     }
   }
@@ -92,7 +99,12 @@ export function TicketScreen() {
           <Text style={styles.texte}>Préparation du ticket…</Text>
         </>
       )}
-      {etat === 'erreur' && <Text style={styles.erreur}>Impossible d'ouvrir le ticket.</Text>}
+      {etat === 'erreur' && (
+        <>
+          <Text style={styles.erreur}>Impossible d'ouvrir le ticket.</Text>
+          {detailErreur && <Text style={styles.erreurDetail}>{detailErreur}</Text>}
+        </>
+      )}
       {etat === 'pret' && <Text style={styles.texte}>Ticket prêt.</Text>}
 
       {etat !== 'chargement' && (
@@ -125,6 +137,7 @@ const styles = StyleSheet.create({
   },
   texte: { color: couleurs.onSurfaceVariant },
   erreur: { color: couleurs.error, textAlign: 'center' },
+  erreurDetail: { color: couleurs.onSurfaceVariant, fontSize: 12, textAlign: 'center' },
   boutonSecondaire: {
     borderWidth: 1,
     borderColor: couleurs.outlineVariant,
