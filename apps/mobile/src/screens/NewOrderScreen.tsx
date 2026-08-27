@@ -44,6 +44,10 @@ export function NewOrderScreen() {
   const [modeLivraison, setModeLivraison] = useState<ModeLivraison>('RETRAIT');
   const [erreur, setErreur] = useState<string | null>(null);
 
+  // Combo plutôt que recherche pure : la liste complète des clients
+  // s'affiche dès l'ouverture du champ (équivalent mobile du <select>
+  // pré-rempli d'OrdersPage.tsx sur web), puis se filtre côté serveur au
+  // fur et à mesure de la saisie.
   const clients = useQuery({
     queryKey: ['clients', rechercheClient],
     queryFn: () =>
@@ -51,7 +55,6 @@ export function NewOrderScreen() {
         `/clients${rechercheClient ? `?nom=${encodeURIComponent(rechercheClient)}` : ''}`,
         { token },
       ),
-    enabled: rechercheClient.length > 0,
   });
 
   const services = useQuery({
