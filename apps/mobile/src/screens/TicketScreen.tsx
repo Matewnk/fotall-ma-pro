@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { cacheDirectory, downloadAsync } from 'expo-file-system';
+import { cacheDirectory, writeAsStringAsync } from 'expo-file-system';
 import { isAvailableAsync, shareAsync } from 'expo-sharing';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -9,16 +9,34 @@ import { couleurs, espacement, rayon } from '../lib/theme';
 
 type Etat = 'chargement' | 'pret' | 'erreur';
 
+function blobEnBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const lecteur = new FileReader();
+    lecteur.onerror = () => reject(lecteur.error);
+    lecteur.onload = () => {
+      // readAsDataURL produit "data:application/pdf;base64,<contenu>" —
+      // seule la partie après la virgule intéresse writeAsStringAsync.
+      const dataUrl = lecteur.result as string;
+      resolve(dataUrl.slice(dataUrl.indexOf(',') + 1));
+    };
+    lecteur.readAsDataURL(blob);
+  });
+}
+
 // Ticket réel après un encaissement réussi (mobile) — retour de test
 // manuel : l'utilisateur veut le même PDF que le web
 // (OrderCheckoutPage.tsx : apiFetchBlob('/commandes/:id/ticket/pdf')
 // ouvert dans un nouvel onglet), pas une reconstitution native. Pas de
 // visionneuse PDF intégrée disponible sans dépendance native dans Expo
-// Go : le PDF est téléchargé (FileSystem.downloadAsync, avec l'en-tête
-// Authorization) puis ouvert via la feuille de partage native
-// (expo-sharing), qui laisse l'utilisateur choisir "Ouvrir dans…" un
-// lecteur PDF, l'imprimer ou le partager — les deux packages sont
-// inclus dans Expo Go, aucun client de dev personnalisé requis.
+// Go : le PDF est téléchargé via fetch (pas FileSystem.downloadAsync —
+// son mécanisme de téléchargement natif se bloque indéfiniment en HTTP
+// non chiffré sur Android, contrainte de réseau propre au niveau natif,
+// alors que le fetch JS classique déjà utilisé partout ailleurs dans
+// l'app fonctionne sans problème), écrit en base64 sur disque, puis
+// ouvert via la feuille de partage native (expo-sharing) — laisse
+// choisir "Ouvrir dans…" un lecteur PDF, l'imprimer ou le partager.
+// Les deux packages sont inclus dans Expo Go, aucun client de dev
+// personnalisé requis.
 export function TicketScreen() {
   const route = useRoute();
   const navigation = useNavigation();
@@ -38,15 +56,16 @@ export function TicketScreen() {
   async function telechargerEtOuvrir() {
     setEtat('chargement');
     try {
+      const reponse = await fetch(apiUrl(`/commandes/${commandeId}/ticket/pdf`), {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      if (!reponse.ok) throw new Error(`HTTP ${reponse.status}`);
+      const base64 = await blobEnBase64(await reponse.blob());
       const destination = `${cacheDirectory}ticket-${commandeId}.pdf`;
-      const resultat = await downloadAsync(
-        apiUrl(`/commandes/${commandeId}/ticket/pdf`),
-        destination,
-        { headers: token ? { Authorization: `Bearer ${token}` } : {} },
-      );
-      setCheminFichier(resultat.uri);
+      await writeAsStringAsync(destination, base64, { encoding: 'base64' });
+      setCheminFichier(destination);
       setEtat('pret');
-      await ouvrir(resultat.uri);
+      await ouvrir(destination);
     } catch {
       setEtat('erreur');
     }

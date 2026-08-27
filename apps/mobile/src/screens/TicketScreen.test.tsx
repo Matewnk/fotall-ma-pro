@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { render, screen, waitFor } from '@testing-library/react-native';
-import { downloadAsync } from 'expo-file-system';
+import { writeAsStringAsync } from 'expo-file-system';
 import { shareAsync } from 'expo-sharing';
 import { renderAvecProviders } from '../test-utils';
 import { TicketScreen } from './TicketScreen';
@@ -22,12 +22,27 @@ jest.mock('@react-navigation/native', () => ({
 // assignée (capturait alors `undefined` dans l'objet retourné).
 jest.mock('expo-file-system', () => ({
   cacheDirectory: 'file:///cache/',
-  downloadAsync: jest.fn(() => Promise.resolve({ uri: 'file:///cache/ticket-commande-2.pdf' })),
+  writeAsStringAsync: jest.fn(() => Promise.resolve()),
 }));
 jest.mock('expo-sharing', () => ({
   isAvailableAsync: () => Promise.resolve(true),
   shareAsync: jest.fn(() => Promise.resolve()),
 }));
+
+// FileReader natif de RN dépend de modules non disponibles en environnement
+// de test (BlobManager) — remplacé ici par un mock minimal fidèle à l'API
+// utilisée par blobEnBase64 (readAsDataURL déclenchant onload).
+class FausseFileReader {
+  onload: (() => void) | null = null;
+  onerror: (() => void) | null = null;
+  result: string | null = null;
+  readAsDataURL() {
+    this.result = 'data:application/pdf;base64,RkFVWA==';
+    this.onload?.();
+  }
+}
+// @ts-expect-error -- remplace le FileReader global pour le test
+global.FileReader = FausseFileReader;
 
 const SESSION = {
   accessToken: 'token-123',
@@ -35,10 +50,21 @@ const SESSION = {
   user: { id: 'user-1', email: 'caissier@pressing-test.dev', role: 'CAISSIER' as const },
 };
 
+function installerFauxServeur() {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      blob: () => Promise.resolve({} as Blob),
+    }),
+  ) as unknown as typeof fetch;
+}
+
 describe('TicketScreen', () => {
   beforeEach(async () => {
-    (downloadAsync as jest.Mock).mockClear();
+    (writeAsStringAsync as jest.Mock).mockClear();
     (shareAsync as jest.Mock).mockClear();
+    installerFauxServeur();
     await AsyncStorage.setItem('fotall.session', JSON.stringify(SESSION));
   });
 
@@ -49,12 +75,16 @@ describe('TicketScreen', () => {
       expect(screen.getByText('Ticket prêt.')).toBeTruthy();
     });
 
-    expect(downloadAsync).toHaveBeenCalledWith(
+    expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/commandes/commande-2/ticket/pdf'),
-      expect.stringContaining('ticket-commande-2.pdf'),
       { headers: { Authorization: 'Bearer token-123' } },
     );
-    expect(shareAsync).toHaveBeenCalledWith('file:///cache/ticket-commande-2.pdf', {
+    expect(writeAsStringAsync).toHaveBeenCalledWith(
+      expect.stringContaining('ticket-commande-2.pdf'),
+      'RkFVWA==',
+      { encoding: 'base64' },
+    );
+    expect(shareAsync).toHaveBeenCalledWith(expect.stringContaining('ticket-commande-2.pdf'), {
       mimeType: 'application/pdf',
       dialogTitle: 'Ticket',
     });
