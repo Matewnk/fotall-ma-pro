@@ -47,12 +47,12 @@ describe('TicketScreen', () => {
     render(renderAvecProviders(<TicketScreen />));
 
     await waitFor(() => {
-      expect(screen.getByText('TICKET DE CAISSE')).toBeTruthy();
+      expect(screen.getByText('Commande #9822')).toBeTruthy();
     });
 
-    expect(screen.getByText('#9822')).toBeTruthy();
-    expect(screen.getByText('Awa Diop')).toBeTruthy();
-    expect(screen.getByText('2x Chemise sur cintre')).toBeTruthy();
-    expect(screen.getAllByText('2000 FCFA').length).toBeGreaterThan(0);
+    expect(screen.getByText('Client : Awa Diop — +221701112233')).toBeTruthy();
+    expect(screen.getByText('2 x Chemise sur cintre')).toBeTruthy();
+    expect(screen.getByText('En attente')).toBeTruthy();
+    expect(screen.getByText('2000 FCFA')).toBeTruthy();
   });
 });
