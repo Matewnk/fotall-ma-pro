@@ -1,14 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { StatusBadge } from '../components/StatusBadge';
+import { LIBELLES_STATUT_COMMANDE, StatusBadge } from '../components/StatusBadge';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import { COULEUR_ICONE_PAR_DEFAUT, COULEUR_PAR_ICONE } from '../lib/icones-service';
-import type { Client, Commande, ModeLivraison, Service } from '../lib/types';
+import type { Client, Commande, ModeLivraison, Service, StatutCommande } from '../lib/types';
 
 function couleurIcone(icone: string | undefined): string {
   return COULEUR_PAR_ICONE.get(icone ?? '') ?? COULEUR_ICONE_PAR_DEFAUT;
+}
+
+// EN_ATTENTE < EN_COURS < PRET < LIVRE (miroir de orders.constants.ts) :
+// le statut avance d'un cran à la fois, jamais de régression — le bouton
+// "Statut suivant" est le seul moyen de le faire progresser depuis cette
+// liste, cohérent avec la contrainte serveur (409 sur toute régression).
+const ORDRE_STATUT: StatutCommande[] = ['EN_ATTENTE', 'EN_COURS', 'PRET', 'LIVRE'];
+function statutSuivant(statut: StatutCommande): StatutCommande | null {
+  const index = ORDRE_STATUT.indexOf(statut);
+  return index < ORDRE_STATUT.length - 1 ? (ORDRE_STATUT[index + 1] ?? null) : null;
 }
 
 function genererIdempotencyKey(): string {
@@ -159,6 +169,15 @@ export function OrdersPage() {
     },
     onError: (error) => {
       setErreur(error instanceof ApiError ? error.message : 'Création impossible.');
+    },
+  });
+
+  const changerStatut = useMutation({
+    mutationFn: ({ id, statut }: { id: string; statut: StatutCommande }) =>
+      apiFetch<Commande>(`/commandes/${id}/statut`, { method: 'PATCH', token, body: { statut } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['commandes'] }),
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Changement de statut impossible.');
     },
   });
 
@@ -511,7 +530,25 @@ export function OrdersPage() {
                 <td className="px-4 py-2">{commande.total} FCFA</td>
                 <td className="px-4 py-2">{commande.modeLivraison}</td>
                 <td className="px-4 py-2">
-                  <StatusBadge statut={commande.statut} />
+                  <div className="flex items-center gap-2">
+                    <StatusBadge statut={commande.statut} />
+                    {statutSuivant(commande.statut) && (
+                      <button
+                        type="button"
+                        disabled={changerStatut.isPending}
+                        onClick={() =>
+                          changerStatut.mutate({
+                            id: commande.id,
+                            statut: statutSuivant(commande.statut) as StatutCommande,
+                          })
+                        }
+                        title={`Passer à ${LIBELLES_STATUT_COMMANDE[statutSuivant(commande.statut) as StatutCommande]}`}
+                        className="text-on-surface-variant hover:text-primary disabled:opacity-60"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                      </button>
+                    )}
+                  </div>
                 </td>
                 <td className="px-4 py-2">
                   <Link

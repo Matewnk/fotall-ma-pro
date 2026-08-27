@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import { ApiError, apiFetch } from '../lib/api-client';
+import { couleurs, espacement, rayon, typographie } from '../lib/theme';
 
 type SuiviCommande = {
   numero: number;
@@ -62,7 +63,10 @@ export function CustomerTrackingScreen() {
   }
 
   return (
-    <ScrollView style={styles.conteneur} contentContainerStyle={{ padding: 16, gap: 16 }}>
+    <ScrollView
+      style={styles.conteneur}
+      contentContainerStyle={{ padding: espacement.margeMobile, gap: espacement.gutter }}
+    >
       <Text style={styles.titre}>Suivre ma commande</Text>
 
       <TextInput
@@ -97,7 +101,7 @@ export function CustomerTrackingScreen() {
         accessibilityRole="button"
       >
         {enCours ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={couleurs.onPrimary} />
         ) : (
           <Text style={styles.boutonTexte}>Rechercher</Text>
         )}
@@ -136,28 +140,35 @@ export function CustomerTrackingScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1 },
-  titre: { fontSize: 20, fontWeight: 'bold', color: '#1e3a8a' },
+  conteneur: { flex: 1, backgroundColor: couleurs.background },
+  titre: { ...typographie.headlineMd, color: couleurs.primary },
   champ: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
   bouton: {
-    backgroundColor: '#1e3a8a',
-    borderRadius: 8,
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.lg,
     paddingVertical: 12,
     alignItems: 'center',
   },
-  boutonTexte: { color: '#fff', fontWeight: '600' },
-  erreur: { color: '#dc2626', fontSize: 13 },
-  carte: { borderWidth: 1, borderColor: '#e5e7eb', borderRadius: 12, padding: 16, gap: 8 },
-  numero: { fontFamily: 'monospace', fontWeight: '600', fontSize: 16 },
+  boutonTexte: { color: couleurs.onPrimary, fontWeight: '600' },
+  erreur: { color: couleurs.error, fontSize: 13 },
+  carte: {
+    borderWidth: 1,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.xl,
+    padding: 16,
+    gap: 8,
+    backgroundColor: couleurs.surfaceContainerLowest,
+  },
+  numero: { fontFamily: 'monospace', fontWeight: '600', fontSize: 16, color: couleurs.onSurface },
   etapes: { flexDirection: 'row', flexWrap: 'wrap' },
-  etapeAtteinte: { color: '#1e3a8a', fontWeight: '600' },
-  etapeAvenir: { color: '#9ca3af' },
-  total: { fontWeight: 'bold' },
-  pressing: { marginTop: 8, fontWeight: '600' },
+  etapeAtteinte: { color: couleurs.primary, fontWeight: '600' },
+  etapeAvenir: { color: couleurs.onSurfaceVariant },
+  total: { fontWeight: 'bold', color: couleurs.onSurface },
+  pressing: { marginTop: 8, fontWeight: '600', color: couleurs.onSurface },
 });

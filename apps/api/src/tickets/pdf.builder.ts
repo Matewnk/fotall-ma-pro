@@ -2,6 +2,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import PDFDocument from 'pdfkit';
 import * as QRCode from 'qrcode';
+import { libelleStatut } from './libelle-statut';
 import { TicketData } from './ticket-data';
 
 // Reçu thermique 80mm — maquette de référence :
@@ -95,7 +96,7 @@ export async function buildPdfTicket(data: TicketData): Promise<Buffer> {
     .text(`Commande #${data.numero}${data.estProvisoire ? ' (provisoire)' : ''}`);
   doc.moveDown(0.3);
   doc.font('Helvetica').fontSize(9).text(`Client : ${data.client.nom} — ${data.client.telephone}`);
-  ligneDeuxColonnes(doc, 'Statut :', data.statut, { gras: true });
+  ligneDeuxColonnes(doc, 'Statut :', libelleStatut(data.statut), { gras: true });
   separateurPointille(doc);
 
   for (const article of data.articles) {
@@ -120,8 +121,19 @@ export async function buildPdfTicket(data: TicketData): Promise<Buffer> {
   }
 
   doc.moveDown(0.5);
-  doc.image(qrPng, doc.page.width / 2 - 50, doc.y, { fit: [100, 100], align: 'center' });
-  doc.moveDown(7.5);
+  // doc.image() ne fait jamais avancer doc.y quand x/y sont fournis
+  // explicitement (mode positionnement libre de PDFKit) : un moveDown()
+  // approximatif après coup dépend de la taille de police alors active et
+  // ne garantit pas de dégager les 100pt de hauteur du QR, d'où le texte
+  // imprimé par-dessus l'image observé en test manuel. On avance donc
+  // explicitement de la hauteur réelle de l'image, jamais d'une estimation.
+  const TAILLE_QR = 100;
+  const yQr = doc.y;
+  doc.image(qrPng, doc.page.width / 2 - TAILLE_QR / 2, yQr, {
+    fit: [TAILLE_QR, TAILLE_QR],
+    align: 'center',
+  });
+  doc.y = yQr + TAILLE_QR + 8;
 
   doc.font('Helvetica-Bold').fontSize(9).text('Merci de votre confiance !', { align: 'center' });
   doc.font('Helvetica').fontSize(8).text('Fotall-Ma PRO', { align: 'center' });

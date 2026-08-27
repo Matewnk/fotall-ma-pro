@@ -56,7 +56,7 @@ describe('OrdersStatusScreen', () => {
   it('affiche les commandes et fait avancer le statut', async () => {
     render(renderAvecProviders(<OrdersStatusScreen />));
 
-    // "En cours"/"Prêt" apparaissent à la fois dans les onglets de filtre
+    // "En cours"/"Terminé" apparaissent à la fois dans les onglets de filtre
     // et dans le badge de statut de la carte — getAllByText nécessaire.
     await waitFor(
       () => {
@@ -66,11 +66,11 @@ describe('OrdersStatusScreen', () => {
       { timeout: 5000 },
     );
 
-    fireEvent.press(screen.getByText('Marquer prêt'));
+    fireEvent.press(screen.getByText('Marquer terminé'));
 
     await waitFor(
       () => {
-        expect(screen.getAllByText('Prêt')).toHaveLength(2);
+        expect(screen.getAllByText('Terminé')).toHaveLength(2);
       },
       { timeout: 5000 },
     );

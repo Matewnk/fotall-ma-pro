@@ -6,17 +6,29 @@ export type Session = {
   user: { id: string; email: string; role: Role };
 };
 
+export type CanalNotification = 'PUSH' | 'WHATSAPP' | 'SMS';
+export type StatutClient = 'ACTIF' | 'INACTIF';
+
 export type Client = {
   id: string;
   nom: string;
   telephone: string;
+  email?: string;
+  adresse?: string;
+  canalNotification?: CanalNotification;
+  statut?: StatutClient;
+  notes?: string;
 };
 
 export type Service = {
   id: string;
   code: string;
   intitule: string;
+  categorie: string;
+  delaiHeures?: number;
   tarif: string;
+  icone?: string;
+  actif: boolean;
 };
 
 export type StatutCommande = 'EN_ATTENTE' | 'EN_COURS' | 'PRET' | 'LIVRE';
@@ -73,6 +85,32 @@ export type TypeOperationCaisse =
   | 'CLOTURE';
 export type ModePaiement = 'ESPECES' | 'CARTE' | 'MOBILE_MONEY' | 'WAVE' | 'ORANGE_MONEY' | 'AUTRE';
 
+export type Dashboard = {
+  kpis: {
+    commandesDuJour: number;
+    chiffreAffairesDuJour: string;
+    articlesEnAttente: number;
+    livraisonsPrevuesAujourdHui: number;
+    commandesEnRetard: number;
+    revenus7DerniersJours: { date: string; total: string }[];
+  };
+  commandesRecentes: {
+    numero: number;
+    client: { id: string; nom: string };
+    date: string;
+    montant: string;
+    statut: StatutCommande;
+  }[];
+  alertes: {
+    commandesUrgentes: number;
+    retards: number;
+    paiementsEnAttente: number;
+    livraisonsDuJour: number;
+    erreursSynchronisation: number;
+    licenceProcheExpiration: { active: boolean; joursRestants: number | null };
+  };
+};
+
 export type OperationCaisse = {
   id: string;
   type: TypeOperationCaisse;
@@ -82,4 +120,66 @@ export type OperationCaisse = {
   commandeId?: string;
   clientId?: string;
   createdAt: string;
+};
+
+export type TypeMouvementStock = 'ENTREE' | 'SORTIE' | 'AJUSTEMENT';
+
+export type ArticleStock = {
+  id: string;
+  code: string;
+  intitule: string;
+  unite: string;
+  seuil: number;
+  icone?: string;
+  actif: boolean;
+  quantite: number;
+  enAlerte: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type TenantSettings = {
+  id: string;
+  nomPressing: string;
+  sousDomaine: string;
+  adresse?: string;
+  telephone?: string;
+  logoUrl?: string;
+  langue: string;
+  devise: string;
+  fuseauHoraire: string;
+};
+
+export type EntreeAudit = {
+  id: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  actorId: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+};
+
+export type Utilisateur = {
+  id: string;
+  email: string;
+  role: Role;
+  actif: boolean;
+  createdAt: string;
+};
+
+export type PermissionsUtilisateur = {
+  effectives: string[];
+  overrides: { permission: string; effet: 'ALLOW' | 'DENY' }[];
+};
+
+export type MouvementStock = {
+  id: string;
+  articleId: string;
+  type: TypeMouvementStock;
+  quantite: number;
+  note?: string;
+  operateurId: string;
+  createdAt: string;
+  article: { code: string; intitule: string; unite: string };
 };

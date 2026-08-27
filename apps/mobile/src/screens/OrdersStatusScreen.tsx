@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, espacement, rayon } from '../lib/theme';
 import type { Commande, StatutCommande } from '../lib/types';
 
 const LIBELLES_STATUT: Record<StatutCommande, string> = {
   EN_ATTENTE: 'En attente',
   EN_COURS: 'En cours',
-  PRET: 'Prêt',
+  PRET: 'Terminé',
   LIVRE: 'Livré',
 };
 
@@ -21,7 +22,7 @@ const PROCHAIN_STATUT: Partial<
   Record<StatutCommande, { statut: StatutCommande; libelle: string }>
 > = {
   EN_ATTENTE: { statut: 'EN_COURS', libelle: 'Démarrer' },
-  EN_COURS: { statut: 'PRET', libelle: 'Marquer prêt' },
+  EN_COURS: { statut: 'PRET', libelle: 'Marquer terminé' },
   PRET: { statut: 'LIVRE', libelle: 'Marquer livré' },
 };
 
@@ -29,7 +30,7 @@ const FILTRES: { valeur: StatutCommande | undefined; libelle: string }[] = [
   { valeur: undefined, libelle: 'Tout' },
   { valeur: 'EN_ATTENTE', libelle: 'En attente' },
   { valeur: 'EN_COURS', libelle: 'En cours' },
-  { valeur: 'PRET', libelle: 'Prêt' },
+  { valeur: 'PRET', libelle: 'Terminé' },
 ];
 
 // Écran §016-mobile-offline tranche 4 (TECHNICIEN/LIVREUR) — maquette de
@@ -76,7 +77,7 @@ export function OrdersStatusScreen() {
         ))}
       </ScrollView>
 
-      <ScrollView contentContainerStyle={{ gap: 12, padding: 16 }}>
+      <ScrollView contentContainerStyle={{ gap: 12, padding: espacement.margeMobile }}>
         {commandes.data?.length === 0 && (
           <Text style={styles.vide}>Aucune commande pour l'instant.</Text>
         )}
@@ -120,45 +121,46 @@ export function OrdersStatusScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1 },
-  filtres: { flexGrow: 0, paddingHorizontal: 16, paddingVertical: 12 },
+  conteneur: { flex: 1, backgroundColor: couleurs.background },
+  filtres: { flexGrow: 0, paddingHorizontal: espacement.margeMobile, paddingVertical: 12 },
   filtre: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 20,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.full,
     paddingVertical: 6,
     paddingHorizontal: 14,
     marginRight: 8,
   },
-  filtreActif: { backgroundColor: '#1e3a8a', borderColor: '#1e3a8a' },
-  filtreActifTexte: { color: '#fff' },
-  vide: { color: '#6b7280', textAlign: 'center', marginTop: 24 },
+  filtreActif: { backgroundColor: couleurs.primary, borderColor: couleurs.primary },
+  filtreActifTexte: { color: couleurs.onPrimary },
+  vide: { color: couleurs.onSurfaceVariant, textAlign: 'center', marginTop: 24 },
   carte: {
     borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 12,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.xl,
     padding: 12,
     gap: 6,
+    backgroundColor: couleurs.surfaceContainerLowest,
   },
   carteEntete: { flexDirection: 'row', justifyContent: 'space-between' },
-  numero: { fontFamily: 'monospace', fontWeight: '600' },
-  statut: { color: '#1e3a8a', fontWeight: '600', fontSize: 12 },
-  montant: { color: '#6b7280' },
+  numero: { fontFamily: 'monospace', fontWeight: '600', color: couleurs.onSurface },
+  statut: { color: couleurs.primary, fontWeight: '600', fontSize: 12 },
+  montant: { color: couleurs.onSurfaceVariant },
   bouton: {
-    backgroundColor: '#eff6ff',
-    borderRadius: 8,
+    backgroundColor: couleurs.secondaryContainer,
+    borderRadius: rayon.lg,
     paddingVertical: 10,
     alignItems: 'center',
     marginTop: 4,
   },
-  boutonTexte: { color: '#1e3a8a', fontWeight: '600' },
+  boutonTexte: { color: couleurs.primary, fontWeight: '600' },
   boutonSecondaire: {
     borderWidth: 1,
-    borderColor: '#1e3a8a',
-    borderRadius: 8,
+    borderColor: couleurs.primary,
+    borderRadius: rayon.lg,
     paddingVertical: 10,
     alignItems: 'center',
     marginTop: 4,
   },
-  boutonSecondaireTexte: { color: '#1e3a8a', fontWeight: '600' },
+  boutonSecondaireTexte: { color: couleurs.primary, fontWeight: '600' },
 });

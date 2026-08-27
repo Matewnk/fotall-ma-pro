@@ -24,6 +24,28 @@ function ligneSeparatrice(colonnes: number): string {
   return '-'.repeat(colonnes);
 }
 
+function commandeAlignement(centre: boolean): Buffer {
+  return Buffer.from([ESC, 0x61, centre ? 1 : 0]); // ESC a n : alignement natif imprimante
+}
+
+// GS ( k : impression QR native (modele 2), meme contenu que le QR du PDF
+// (pdf.builder.ts) — un seul format de donnees encode, quel que soit le
+// support d'impression.
+function commandeQrCode(contenu: string): Buffer {
+  const data = Buffer.from(contenu, 'utf8');
+  const longueurStockage = data.length + 3;
+  const pL = longueurStockage & 0xff;
+  const pH = (longueurStockage >> 8) & 0xff;
+  return Buffer.concat([
+    Buffer.from([GS, 0x28, 0x6b, 0x04, 0x00, 0x31, 0x41, 0x32, 0x00]), // modele 2
+    Buffer.from([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x43, 0x06]), // taille module 6
+    Buffer.from([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x45, 0x31]), // correction niveau M
+    Buffer.from([GS, 0x28, 0x6b, pL, pH, 0x31, 0x50, 0x30]),
+    data, // stockage des donnees
+    Buffer.from([GS, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x51, 0x30]), // impression
+  ]);
+}
+
 export function buildEscPosTicket(data: TicketData, largeurMm: LargeurTicketMm): Buffer {
   const colonnes = COLONNES_PAR_LARGEUR[largeurMm];
   const lignes: string[] = [];
@@ -62,11 +84,21 @@ export function buildEscPosTicket(data: TicketData, largeurMm: LargeurTicketMm):
     lignes.push(`Prevu le: ${data.datePrevue.toISOString().slice(0, 10)}`);
   }
 
-  const corps = lignes.join('\n') + '\n\n\n';
+  const corps = lignes.join('\n') + '\n\n';
+
+  const pied =
+    [centrer('Merci de votre confiance !', colonnes), centrer('Fotall-Ma PRO', colonnes)].join(
+      '\n',
+    ) + '\n\n\n';
 
   return Buffer.concat([
     Buffer.from([ESC, 0x40]), // ESC @ : initialisation
     Buffer.from(corps, 'ascii'),
+    commandeAlignement(true),
+    commandeQrCode(`FOTALL-MA:COMMANDE:${data.numero}`),
+    Buffer.from('\n\n', 'ascii'),
+    Buffer.from(pied, 'ascii'),
+    commandeAlignement(false),
     Buffer.from([GS, 0x56, 0x00]), // GS V 0 : coupe papier totale
   ]);
 }

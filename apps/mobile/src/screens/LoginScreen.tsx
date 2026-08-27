@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { ApiError } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
+import { couleurs, rayon, typographie } from '../lib/theme';
 
 // Écran de connexion staff (CAISSIER/TECHNICIEN/LIVREUR/ADMIN) —
 // équivalent mobile de apps/web/src/pages/LoginPage.tsx, même contrat
@@ -70,7 +71,7 @@ export function LoginScreen() {
         accessibilityRole="button"
       >
         {enCours ? (
-          <ActivityIndicator color="#fff" />
+          <ActivityIndicator color={couleurs.onPrimary} />
         ) : (
           <Text style={styles.boutonTexte}>Se connecter</Text>
         )}
@@ -87,24 +88,30 @@ export function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
-  conteneur: { flex: 1, justifyContent: 'center', padding: 24, gap: 12 },
-  titre: { fontSize: 22, fontWeight: 'bold', color: '#1e3a8a' },
-  sousTitre: { fontSize: 14, color: '#6b7280', marginBottom: 12 },
+  conteneur: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+    gap: 12,
+    backgroundColor: couleurs.background,
+  },
+  titre: { ...typographie.headlineLg, color: couleurs.primary },
+  sousTitre: { fontSize: 14, color: couleurs.onSurfaceVariant, marginBottom: 12 },
   champ: {
     borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
-  erreur: { color: '#dc2626', fontSize: 13 },
+  erreur: { color: couleurs.error, fontSize: 13 },
   bouton: {
-    backgroundColor: '#1e3a8a',
-    borderRadius: 8,
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.lg,
     paddingVertical: 12,
     alignItems: 'center',
     marginTop: 8,
   },
-  boutonTexte: { color: '#fff', fontWeight: '600' },
-  lien: { color: '#1e3a8a', textAlign: 'center', marginTop: 4 },
+  boutonTexte: { color: couleurs.onPrimary, fontWeight: '600' },
+  lien: { color: couleurs.primary, textAlign: 'center', marginTop: 4 },
 });

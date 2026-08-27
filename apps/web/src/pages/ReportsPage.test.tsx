@@ -6,7 +6,7 @@ import { ReportsPage } from './ReportsPage';
 const RAPPORT_CAISSE_QUOTIDIENNE = {
   colonnes: ['Type', 'Montant'],
   lignes: [['ENCAISSEMENT', 1000]],
-  resume: { Solde: '2000' },
+  resume: { soldeOuverture: '29600', soldeCloture: '43700', totalENCAISSEMENT: '14700' },
 };
 const RAPPORT_ACTIVITE = {
   colonnes: ['Date', 'Commandes'],
@@ -50,8 +50,22 @@ describe('ReportsPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('ENCAISSEMENT')).toBeDefined();
-      expect(screen.getByText('2000')).toBeDefined();
     });
+  });
+
+  it('affiche des libellés lisibles pour le résumé (jamais la clé brute en majuscules)', async () => {
+    installerFauxServeur();
+    const { element } = renderAvecProviders(<ReportsPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText("Solde d'ouverture")).toBeDefined();
+      expect(screen.getByText('29600')).toBeDefined();
+      expect(screen.getByText('Solde de clôture')).toBeDefined();
+      expect(screen.getByText('Total Encaissement')).toBeDefined();
+    });
+    expect(screen.queryByText('soldeOuverture')).toBeNull();
+    expect(screen.queryByText('SOLDEOUVERTURE')).toBeNull();
   });
 
   it('change de rapport et affiche les colonnes filtrables par date', async () => {
