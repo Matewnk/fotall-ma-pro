@@ -18,7 +18,7 @@ function couleurIcone(icone: string | undefined): string {
 const ORDRE_STATUT: StatutCommande[] = ['EN_ATTENTE', 'EN_COURS', 'PRET', 'LIVRE'];
 function statutSuivant(statut: StatutCommande): StatutCommande | null {
   const index = ORDRE_STATUT.indexOf(statut);
-  return index < ORDRE_STATUT.length - 1 ? ORDRE_STATUT[index + 1] : null;
+  return index < ORDRE_STATUT.length - 1 ? (ORDRE_STATUT[index + 1] ?? null) : null;
 }
 
 function genererIdempotencyKey(): string {

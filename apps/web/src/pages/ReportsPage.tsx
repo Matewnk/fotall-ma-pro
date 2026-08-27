@@ -38,7 +38,7 @@ const LIBELLES_TYPE_OPERATION: Record<string, string> = {
 
 function libelleResume(cle: string): string {
   if (cle in LIBELLES_RESUME_STATIQUES) {
-    return LIBELLES_RESUME_STATIQUES[cle];
+    return LIBELLES_RESUME_STATIQUES[cle] ?? cle;
   }
   const operation = cle.match(/^total([A-Z_]+)$/)?.[1];
   if (operation) {

@@ -77,14 +77,14 @@ describe('SuperAdminTenantsPage', () => {
     // Tri par défaut : "Créé le" décroissant -> Aqua Pressing (mars) avant
     // Pressing Lumière (janvier).
     let lignes = screen.getAllByRole('row').slice(1);
-    expect(lignes[0].textContent).toContain('Aqua Pressing');
+    expect(lignes[0]?.textContent).toContain('Aqua Pressing');
 
     fireEvent.click(screen.getByText('Tenant'));
 
     await waitFor(() => {
       lignes = screen.getAllByRole('row').slice(1);
-      expect(lignes[0].textContent).toContain('Aqua Pressing');
-      expect(lignes[1].textContent).toContain('Pressing Lumière');
+      expect(lignes[0]?.textContent).toContain('Aqua Pressing');
+      expect(lignes[1]?.textContent).toContain('Pressing Lumière');
     });
   });
 });
