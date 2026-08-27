@@ -75,6 +75,14 @@ export function NewOrderScreen() {
     setPanier((lignes) => lignes.filter((l) => l.serviceId !== serviceId));
   }
 
+  function modifierQuantite(serviceId: string, delta: number) {
+    setPanier((lignes) =>
+      lignes
+        .map((l) => (l.serviceId === serviceId ? { ...l, quantite: l.quantite + delta } : l))
+        .filter((l) => l.quantite > 0),
+    );
+  }
+
   const totalEstime = panier.reduce(
     (somme, ligne) => somme + Number(ligne.tarif) * ligne.quantite,
     0,
@@ -164,16 +172,36 @@ export function NewOrderScreen() {
         <View>
           <Text style={styles.section}>Panier</Text>
           {panier.map((ligne) => (
-            <View key={ligne.serviceId} style={styles.ligneListe}>
-              <Text>
-                {ligne.quantite}x {ligne.intitule}
-              </Text>
-              <Pressable
-                onPress={() => retirerDuPanier(ligne.serviceId)}
-                accessibilityRole="button"
-              >
-                <Text style={styles.lien}>Retirer</Text>
-              </Pressable>
+            <View key={ligne.serviceId} style={styles.lignePanier}>
+              <Text style={styles.panierIntitule}>{ligne.intitule}</Text>
+              <View style={styles.panierActions}>
+                <View style={styles.stepper}>
+                  <Pressable
+                    onPress={() => modifierQuantite(ligne.serviceId, -1)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Diminuer ${ligne.intitule}`}
+                    style={styles.stepperBouton}
+                  >
+                    <Text style={styles.stepperBoutonTexte}>−</Text>
+                  </Pressable>
+                  <Text style={styles.stepperValeur}>{ligne.quantite}</Text>
+                  <Pressable
+                    onPress={() => modifierQuantite(ligne.serviceId, 1)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Augmenter ${ligne.intitule}`}
+                    style={styles.stepperBouton}
+                  >
+                    <Text style={styles.stepperBoutonTexte}>+</Text>
+                  </Pressable>
+                </View>
+                <Pressable
+                  onPress={() => retirerDuPanier(ligne.serviceId)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Retirer ${ligne.intitule}`}
+                >
+                  <Text style={styles.lien}>Retirer</Text>
+                </Pressable>
+              </View>
             </View>
           ))}
           <Text style={styles.total}>Total estimé : {totalEstime} FCFA</Text>
@@ -248,6 +276,30 @@ const styles = StyleSheet.create({
   },
   sousTexte: { color: couleurs.onSurfaceVariant, fontSize: 12 },
   lien: { color: couleurs.primary, fontSize: 12, fontWeight: '600' },
+  lignePanier: {
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: couleurs.outlineVariant,
+    gap: 6,
+  },
+  panierIntitule: { color: couleurs.onSurface },
+  panierActions: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  stepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.full,
+  },
+  stepperBouton: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
+  stepperBoutonTexte: { fontSize: 16, fontWeight: '600', color: couleurs.primary },
+  stepperValeur: {
+    fontFamily: 'monospace',
+    fontWeight: '600',
+    color: couleurs.onSurface,
+    minWidth: 20,
+    textAlign: 'center',
+  },
   total: { fontWeight: 'bold', marginTop: 8, textAlign: 'right', color: couleurs.onSurface },
   choix: {
     borderWidth: 1,
