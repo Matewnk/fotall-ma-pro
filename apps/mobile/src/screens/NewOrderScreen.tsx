@@ -37,6 +37,9 @@ export function NewOrderScreen() {
 
   const [rechercheClient, setRechercheClient] = useState('');
   const [clientSelectionne, setClientSelectionne] = useState<Client | null>(null);
+  const [nouveauClientOuvert, setNouveauClientOuvert] = useState(false);
+  const [nouveauClientNom, setNouveauClientNom] = useState('');
+  const [nouveauClientTelephone, setNouveauClientTelephone] = useState('');
   const [panier, setPanier] = useState<LigneArticle[]>([]);
   const [modeLivraison, setModeLivraison] = useState<ModeLivraison>('RETRAIT');
   const [erreur, setErreur] = useState<string | null>(null);
@@ -88,6 +91,26 @@ export function NewOrderScreen() {
     0,
   );
 
+  const creerClient = useMutation({
+    mutationFn: () =>
+      apiFetch<Client>('/clients', {
+        method: 'POST',
+        token,
+        body: { nom: nouveauClientNom, telephone: nouveauClientTelephone },
+      }),
+    onSuccess: (client) => {
+      queryClient.invalidateQueries({ queryKey: ['clients'] });
+      setClientSelectionne(client);
+      setNouveauClientOuvert(false);
+      setNouveauClientNom('');
+      setNouveauClientTelephone('');
+      setErreur(null);
+    },
+    onError: (error) => {
+      setErreur(error instanceof ApiError ? error.message : 'Création du client impossible.');
+    },
+  });
+
   const creerCommande = useMutation({
     mutationFn: () => {
       if (!clientSelectionne) throw new Error('client non sélectionné');
@@ -116,6 +139,19 @@ export function NewOrderScreen() {
     },
   });
 
+  function handleValider() {
+    setErreur(null);
+    if (!clientSelectionne) {
+      setErreur('Choisissez un client.');
+      return;
+    }
+    if (panier.length === 0) {
+      setErreur('Ajoutez au moins une prestation au panier.');
+      return;
+    }
+    creerCommande.mutate();
+  }
+
   return (
     <ScrollView style={styles.conteneur} contentContainerStyle={{ gap: espacement.gutter }}>
       <Text style={styles.titre}>Nouvelle commande</Text>
@@ -131,13 +167,60 @@ export function NewOrderScreen() {
           </View>
         ) : (
           <>
-            <TextInput
-              style={styles.champ}
-              placeholder="Rechercher un client…"
-              accessibilityLabel="Rechercher un client"
-              value={rechercheClient}
-              onChangeText={setRechercheClient}
-            />
+            <View style={styles.rechercheLigne}>
+              <TextInput
+                style={[styles.champ, { flex: 1, marginBottom: 0 }]}
+                placeholder="Rechercher un client…"
+                accessibilityLabel="Rechercher un client"
+                value={rechercheClient}
+                onChangeText={setRechercheClient}
+              />
+              <Pressable
+                onPress={() => setNouveauClientOuvert((ouvert) => !ouvert)}
+                accessibilityRole="button"
+                accessibilityLabel="Nouveau client"
+                style={styles.boutonNouveauClient}
+              >
+                <Text style={styles.boutonNouveauClientTexte}>
+                  {nouveauClientOuvert ? '✕' : '+'}
+                </Text>
+              </Pressable>
+            </View>
+
+            {nouveauClientOuvert && (
+              <View style={styles.formulaireClient}>
+                <TextInput
+                  style={styles.champ}
+                  placeholder="Nom"
+                  accessibilityLabel="Nom du nouveau client"
+                  value={nouveauClientNom}
+                  onChangeText={setNouveauClientNom}
+                />
+                <TextInput
+                  style={styles.champ}
+                  placeholder="Téléphone"
+                  accessibilityLabel="Téléphone du nouveau client"
+                  keyboardType="phone-pad"
+                  value={nouveauClientTelephone}
+                  onChangeText={setNouveauClientTelephone}
+                />
+                <Pressable
+                  onPress={() => creerClient.mutate()}
+                  disabled={creerClient.isPending || !nouveauClientNom || !nouveauClientTelephone}
+                  accessibilityRole="button"
+                  style={[
+                    styles.boutonSecondaire,
+                    (creerClient.isPending || !nouveauClientNom || !nouveauClientTelephone) &&
+                      styles.boutonDesactive,
+                  ]}
+                >
+                  <Text style={styles.boutonSecondaireTexte}>
+                    {creerClient.isPending ? 'Création…' : 'Créer le client'}
+                  </Text>
+                </Pressable>
+              </View>
+            )}
+
             {clients.data?.map((client) => (
               <Pressable
                 key={client.id}
@@ -229,13 +312,9 @@ export function NewOrderScreen() {
       {erreur && <Text style={styles.erreur}>{erreur}</Text>}
 
       <Pressable
-        style={[
-          styles.bouton,
-          (!clientSelectionne || panier.length === 0 || creerCommande.isPending) &&
-            styles.boutonDesactive,
-        ]}
-        disabled={!clientSelectionne || panier.length === 0 || creerCommande.isPending}
-        onPress={() => creerCommande.mutate()}
+        style={[styles.bouton, creerCommande.isPending && styles.boutonDesactive]}
+        disabled={creerCommande.isPending}
+        onPress={handleValider}
         accessibilityRole="button"
       >
         {creerCommande.isPending ? (
@@ -276,6 +355,34 @@ const styles = StyleSheet.create({
   },
   sousTexte: { color: couleurs.onSurfaceVariant, fontSize: 12 },
   lien: { color: couleurs.primary, fontSize: 12, fontWeight: '600' },
+  rechercheLigne: { flexDirection: 'row', gap: 8, alignItems: 'center', marginBottom: 8 },
+  boutonNouveauClient: {
+    width: 40,
+    height: 40,
+    borderRadius: rayon.lg,
+    borderWidth: 1,
+    borderColor: couleurs.outlineVariant,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  boutonNouveauClientTexte: { fontSize: 18, fontWeight: '600', color: couleurs.primary },
+  formulaireClient: {
+    gap: 8,
+    backgroundColor: couleurs.surfaceContainerLowest,
+    borderWidth: 1,
+    borderColor: couleurs.outlineVariant,
+    borderRadius: rayon.lg,
+    padding: 12,
+    marginBottom: 8,
+  },
+  boutonSecondaire: {
+    backgroundColor: couleurs.primary,
+    borderRadius: rayon.lg,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    alignSelf: 'flex-start',
+  },
+  boutonSecondaireTexte: { color: couleurs.onPrimary, fontWeight: '600', fontSize: 13 },
   lignePanier: {
     paddingVertical: 8,
     borderBottomWidth: 1,
