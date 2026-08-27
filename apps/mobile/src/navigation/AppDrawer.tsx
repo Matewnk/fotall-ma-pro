@@ -41,6 +41,9 @@ function ContenuMenu({ navigation }: DrawerContentComponentProps) {
   const { session, logout } = useAuth();
 
   function allerVers(route: string) {
+    // @ts-expect-error -- navigation non typée globalement (pas de RootParamList),
+    // voir AuthenticatedStack.tsx ; exactOptionalPropertyTypes rend le type
+    // Action de CommonActions.navigate incompatible avec dispatch() ici.
     navigation.dispatch(CommonActions.navigate({ name: 'Principal', params: { screen: route } }));
     navigation.closeDrawer();
   }
