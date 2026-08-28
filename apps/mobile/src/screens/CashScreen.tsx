@@ -38,6 +38,7 @@ const LIBELLES_MODE: Record<ModePaiement, string> = {
   MOBILE_MONEY: 'Mobile Money',
   WAVE: 'Wave',
   ORANGE_MONEY: 'Orange Money',
+  DJAMON: 'Djamon',
   AUTRE: 'Autre',
 };
 

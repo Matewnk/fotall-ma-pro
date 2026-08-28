@@ -216,6 +216,9 @@ export function OrderCheckoutPage() {
                   <option value="ESPECES">Espèces</option>
                   <option value="CARTE">Carte</option>
                   <option value="MOBILE_MONEY">Mobile Money</option>
+                  <option value="WAVE">Wave</option>
+                  <option value="ORANGE_MONEY">Orange Money</option>
+                  <option value="DJAMON">Djamon</option>
                   <option value="AUTRE">Autre</option>
                 </select>
               </label>

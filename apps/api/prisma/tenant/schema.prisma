@@ -165,6 +165,7 @@ enum ModePaiement {
   MOBILE_MONEY
   WAVE
   ORANGE_MONEY
+  DJAMON
   AUTRE
 }
 
