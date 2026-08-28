@@ -9,18 +9,18 @@ import { couleurs, espacement, rayon } from '../lib/theme';
 
 type Etat = 'chargement' | 'pret' | 'erreur';
 
-function blobEnBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const lecteur = new FileReader();
-    lecteur.onerror = () => reject(lecteur.error);
-    lecteur.onload = () => {
-      // readAsDataURL produit "data:application/pdf;base64,<contenu>" —
-      // seule la partie après la virgule intéresse writeAsStringAsync.
-      const dataUrl = lecteur.result as string;
-      resolve(dataUrl.slice(dataUrl.indexOf(',') + 1));
-    };
-    lecteur.readAsDataURL(blob);
-  });
+// arrayBuffer() + btoa() plutôt que blob() + FileReader.readAsDataURL() :
+// ce dernier dépend du BlobModule natif de React Native, connu pour être
+// fragile selon la plateforme/version — arrayBuffer() et btoa() sont des
+// primitives fetch/globales standard, bien plus fiables ici.
+function reponseVersBase64(buffer: ArrayBuffer): string {
+  const octets = new Uint8Array(buffer);
+  let binaire = '';
+  const tailleBloc = 0x8000;
+  for (let i = 0; i < octets.length; i += tailleBloc) {
+    binaire += String.fromCharCode(...octets.subarray(i, i + tailleBloc));
+  }
+  return btoa(binaire);
 }
 
 // Ticket réel après un encaissement réussi (mobile) — retour de test
@@ -62,7 +62,7 @@ export function TicketScreen() {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       if (!reponse.ok) throw new Error(`HTTP ${reponse.status}`);
-      const base64 = await blobEnBase64(await reponse.blob());
+      const base64 = reponseVersBase64(await reponse.arrayBuffer());
       const destination = `${cacheDirectory}ticket-${commandeId}.pdf`;
       await writeAsStringAsync(destination, base64, { encoding: 'base64' });
       setCheminFichier(destination);

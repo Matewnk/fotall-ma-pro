@@ -29,33 +29,21 @@ jest.mock('expo-sharing', () => ({
   shareAsync: jest.fn(() => Promise.resolve()),
 }));
 
-// FileReader natif de RN dépend de modules non disponibles en environnement
-// de test (BlobManager) — remplacé ici par un mock minimal fidèle à l'API
-// utilisée par blobEnBase64 (readAsDataURL déclenchant onload).
-class FausseFileReader {
-  onload: (() => void) | null = null;
-  onerror: (() => void) | null = null;
-  result: string | null = null;
-  readAsDataURL() {
-    this.result = 'data:application/pdf;base64,RkFVWA==';
-    this.onload?.();
-  }
-}
-// @ts-expect-error -- remplace le FileReader global pour le test
-global.FileReader = FausseFileReader;
-
 const SESSION = {
   accessToken: 'token-123',
   tenant: { id: 'tenant-1', nomPressing: 'Pressing Test', sousDomaine: 'pressing-test' },
   user: { id: 'user-1', email: 'caissier@pressing-test.dev', role: 'CAISSIER' as const },
 };
 
+// "FAKE" (F=70, A=65, K=75, E=69) encodé en base64 = "RkFLRQ==".
+const OCTETS_FAKE = new Uint8Array([70, 65, 75, 69]);
+
 function installerFauxServeur() {
   global.fetch = jest.fn(() =>
     Promise.resolve({
       ok: true,
       status: 200,
-      blob: () => Promise.resolve({} as Blob),
+      arrayBuffer: () => Promise.resolve(OCTETS_FAKE.buffer),
     }),
   ) as unknown as typeof fetch;
 }
@@ -81,7 +69,7 @@ describe('TicketScreen', () => {
     );
     expect(writeAsStringAsync).toHaveBeenCalledWith(
       expect.stringContaining('ticket-commande-2.pdf'),
-      'RkFVWA==',
+      'RkFLRQ==',
       { encoding: 'base64' },
     );
     expect(shareAsync).toHaveBeenCalledWith(expect.stringContaining('ticket-commande-2.pdf'), {
