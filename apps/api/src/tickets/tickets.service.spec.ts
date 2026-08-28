@@ -4,7 +4,12 @@ import { TicketsService } from './tickets.service';
 
 function makeTenantPrismaFactoryMock() {
   const commande = { findUnique: jest.fn() };
-  return { commande, forTenant: jest.fn().mockReturnValue({ commande }) };
+  const operationCaisse = { findFirst: jest.fn().mockResolvedValue(null) };
+  return {
+    commande,
+    operationCaisse,
+    forTenant: jest.fn().mockReturnValue({ commande, operationCaisse }),
+  };
 }
 
 function makePrismaMock() {
@@ -57,6 +62,36 @@ describe('TicketsService', () => {
       { intitule: 'Lavage simple', quantite: 2, tarifUnitaire: '1000', sousTotal: '2000' },
     ]);
     expect(data.total).toBe('2000');
+    expect(data.modePaiement).toBeNull();
+  });
+
+  it('reprend le mode de paiement du dernier ENCAISSEMENT lié à la commande, null si jamais encaissée', async () => {
+    prisma.tenant.findUniqueOrThrow.mockResolvedValue({
+      nomPressing: 'Pressing Test',
+      adresse: null,
+      telephone: null,
+    });
+    tenantPrisma.commande.findUnique.mockResolvedValue({
+      numero: 12,
+      estProvisoire: false,
+      client: { nom: 'Awa Diop', telephone: '+221701234567' },
+      articles: [],
+      sousTotal: new Prisma.Decimal('2000.00'),
+      remise: new Prisma.Decimal('0.00'),
+      total: new Prisma.Decimal('2000.00'),
+      datePrevue: null,
+      modeLivraison: 'RETRAIT',
+      adresseLivraison: null,
+      statut: 'EN_ATTENTE',
+    });
+    tenantPrisma.operationCaisse.findFirst.mockResolvedValue({ modePaiement: 'WAVE' });
+
+    const data = await service.getTicketData('tenant-1', 'commande-1');
+
+    expect(data.modePaiement).toBe('WAVE');
+    expect(tenantPrisma.operationCaisse.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({ where: { commandeId: 'commande-1', type: 'ENCAISSEMENT' } }),
+    );
   });
 
   it('lève NotFoundException si la commande est introuvable', async () => {

@@ -17,6 +17,7 @@ const dataDeBase: TicketData = {
   modeLivraison: 'RETRAIT',
   adresseLivraison: null,
   statut: 'EN_ATTENTE',
+  modePaiement: null,
 };
 
 // Testable sans imprimante réelle (PROMPT 11) : on vérifie que le buffer

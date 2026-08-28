@@ -73,6 +73,7 @@ export type TicketData = {
   modeLivraison: string;
   adresseLivraison: string | null;
   statut: string;
+  modePaiement: string | null;
 };
 
 export type TypeOperationCaisse =

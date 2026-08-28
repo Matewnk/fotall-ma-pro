@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import PDFDocument from 'pdfkit';
 import * as QRCode from 'qrcode';
-import { libelleStatut } from './libelle-statut';
+import { libelleModePaiement } from './libelle-mode-paiement';
 import { TicketData } from './ticket-data';
 
 // Reçu thermique 80mm — maquette de référence :
@@ -96,7 +96,6 @@ export async function buildPdfTicket(data: TicketData): Promise<Buffer> {
     .text(`Commande #${data.numero}${data.estProvisoire ? ' (provisoire)' : ''}`);
   doc.moveDown(0.3);
   doc.font('Helvetica').fontSize(9).text(`Client : ${data.client.nom} — ${data.client.telephone}`);
-  ligneDeuxColonnes(doc, 'Statut :', libelleStatut(data.statut), { gras: true });
   separateurPointille(doc);
 
   for (const article of data.articles) {
@@ -109,6 +108,9 @@ export async function buildPdfTicket(data: TicketData): Promise<Buffer> {
     ligneDeuxColonnes(doc, 'Remise :', `-${data.remise}`);
   }
   ligneDeuxColonnes(doc, 'TOTAL :', `${data.total} FCFA`, { gras: true, taille: 12 });
+  if (data.modePaiement) {
+    ligneDeuxColonnes(doc, 'Paiement :', libelleModePaiement(data.modePaiement), { gras: true });
+  }
   doc.moveDown(0.3);
 
   doc.font('Helvetica-Bold').fontSize(9).text(`Mode : ${data.modeLivraison}`, { align: 'center' });

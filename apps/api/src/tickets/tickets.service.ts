@@ -14,11 +14,15 @@ export class TicketsService {
   ) {}
 
   async getTicketData(tenantId: string, commandeId: string): Promise<TicketData> {
-    const [tenant, commande] = await Promise.all([
+    const [tenant, commande, encaissement] = await Promise.all([
       this.prisma.tenant.findUniqueOrThrow({ where: { id: tenantId } }),
       this.tenantPrisma.forTenant(tenantId).commande.findUnique({
         where: { id: commandeId },
         include: { client: true, articles: { include: { service: true } } },
+      }),
+      this.tenantPrisma.forTenant(tenantId).operationCaisse.findFirst({
+        where: { commandeId, type: 'ENCAISSEMENT' },
+        orderBy: { createdAt: 'desc' },
       }),
     ]);
 
@@ -47,6 +51,7 @@ export class TicketsService {
       modeLivraison: commande.modeLivraison,
       adresseLivraison: commande.adresseLivraison,
       statut: commande.statut,
+      modePaiement: encaissement?.modePaiement ?? null,
     };
   }
 

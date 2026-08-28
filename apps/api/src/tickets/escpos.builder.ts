@@ -1,3 +1,4 @@
+import { libelleModePaiement } from './libelle-mode-paiement';
 import { TicketData } from './ticket-data';
 
 // Encodeur ESC/POS minimal, ecrit a la main : aucune dependance a une
@@ -75,6 +76,9 @@ export function buildEscPosTicket(data: TicketData, largeurMm: LargeurTicketMm):
     lignes.push(`Remise: -${data.remise}`);
   }
   lignes.push(`TOTAL: ${data.total}`);
+  if (data.modePaiement) {
+    lignes.push(`Paiement: ${libelleModePaiement(data.modePaiement)}`);
+  }
   lignes.push(ligneSeparatrice(colonnes));
   lignes.push(`Mode: ${data.modeLivraison}`);
   if (data.adresseLivraison) {

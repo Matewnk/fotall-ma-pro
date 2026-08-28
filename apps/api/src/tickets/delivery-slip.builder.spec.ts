@@ -20,6 +20,7 @@ const dataDeBase: TicketData = {
   modeLivraison: 'LIVRAISON',
   adresseLivraison: '45 rue des Fleurs, Dakar',
   statut: 'PRET',
+  modePaiement: null,
 };
 
 // Testable sans imprimante réelle, comme pdf.builder.spec.ts : on vérifie

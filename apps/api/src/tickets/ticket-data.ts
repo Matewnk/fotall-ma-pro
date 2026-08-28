@@ -24,4 +24,7 @@ export type TicketData = {
   modeLivraison: string;
   adresseLivraison: string | null;
   statut: string;
+  // Mode de paiement du dernier ENCAISSEMENT lié à cette commande — null
+  // tant qu'elle n'a pas encore été encaissée (caisse.service.ts).
+  modePaiement: string | null;
 };

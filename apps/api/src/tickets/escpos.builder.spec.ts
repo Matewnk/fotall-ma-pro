@@ -19,6 +19,7 @@ const dataDeBase: TicketData = {
   modeLivraison: 'RETRAIT',
   adresseLivraison: null,
   statut: 'EN_ATTENTE',
+  modePaiement: null,
 };
 
 describe('buildEscPosTicket', () => {
@@ -36,6 +37,17 @@ describe('buildEscPosTicket', () => {
       expect(texte).toContain('Awa Diop');
       expect(texte).toContain('TOTAL: 2000.00');
     }
+  });
+
+  it('affiche le mode de paiement quand la commande a été encaissée, jamais sinon', () => {
+    const texteSansPaiement = buildEscPosTicket(dataDeBase, 58).toString('ascii');
+    expect(texteSansPaiement).not.toContain('Paiement:');
+
+    const texteAvecPaiement = buildEscPosTicket(
+      { ...dataDeBase, modePaiement: 'WAVE' },
+      58,
+    ).toString('ascii');
+    expect(texteAvecPaiement).toContain('Paiement: Wave');
   });
 
   it('marque clairement un numéro provisoire (offline)', () => {
