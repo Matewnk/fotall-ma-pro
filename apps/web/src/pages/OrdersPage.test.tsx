@@ -39,9 +39,12 @@ const COMMANDE_CREEE = {
 // Faux serveur en mémoire : /clients et /services sont statiques, POST
 // /commandes ajoute à la liste rendue par le prochain GET /commandes —
 // suffisant pour vérifier que la mutation invalide bien la requête liste.
-function installerFauxServeur(commandesInitiales: unknown[] = []) {
+function installerFauxServeur(
+  commandesInitiales: unknown[] = [],
+  clientsInitiaux: unknown[] = CLIENTS,
+) {
   let commandes = commandesInitiales;
-  let clients: unknown[] = CLIENTS;
+  let clients: unknown[] = clientsInitiaux;
   vi.stubGlobal(
     'fetch',
     vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
@@ -94,6 +97,58 @@ describe('OrdersPage', () => {
 
     await waitFor(() => {
       expect(screen.getByText('#1')).toBeDefined();
+    });
+  });
+
+  it('affiche le client/téléphone par commande et filtre par recherche, mode et statut', async () => {
+    const commande2 = {
+      id: 'commande-2',
+      numero: 2,
+      clientId: 'client-2',
+      statut: 'EN_COURS' as const,
+      sousTotal: '1000',
+      total: '1000',
+      modeLivraison: 'LIVRAISON' as const,
+      createdAt: '2026-08-20T10:00:00Z',
+    };
+    installerFauxServeur([COMMANDE_CREEE, commande2], [...CLIENTS, NOUVEAU_CLIENT]);
+    const { element } = renderAvecProviders(<OrdersPage />);
+    render(element);
+
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeDefined();
+      expect(screen.getByText('#2')).toBeDefined();
+    });
+    expect(screen.getByText('Fatou Sy')).toBeDefined();
+    expect(screen.getByText('Awa Diop')).toBeDefined();
+    expect(screen.getByText('+221701112233')).toBeDefined();
+
+    fireEvent.change(screen.getByPlaceholderText('Nom ou téléphone…'), {
+      target: { value: 'Awa' },
+    });
+    await waitFor(() => {
+      expect(screen.queryByText('#1')).toBeNull();
+      expect(screen.getByText('#2')).toBeDefined();
+    });
+    fireEvent.change(screen.getByPlaceholderText('Nom ou téléphone…'), { target: { value: '' } });
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Mode'), { target: { value: 'LIVRAISON' } });
+    await waitFor(() => {
+      expect(screen.queryByText('#1')).toBeNull();
+      expect(screen.getByText('#2')).toBeDefined();
+    });
+    fireEvent.change(screen.getByLabelText('Mode'), { target: { value: '' } });
+    await waitFor(() => {
+      expect(screen.getByText('#1')).toBeDefined();
+    });
+
+    fireEvent.change(screen.getByLabelText('Statut'), { target: { value: 'EN_COURS' } });
+    await waitFor(() => {
+      expect(screen.queryByText('#1')).toBeNull();
+      expect(screen.getByText('#2')).toBeDefined();
     });
   });
 
@@ -236,8 +291,12 @@ describe('OrdersPage', () => {
     const { element } = renderAvecProviders(<OrdersPage />);
     render(element);
 
+    // Le libellé "En attente" du badge de statut est ambigu avec l'option
+    // du filtre Statut (toujours présente, même avant chargement) — on
+    // attend plutôt le bouton de transition, qui n'existe que sur une
+    // ligne de commande réellement chargée.
     await waitFor(() => {
-      expect(screen.getByText('En attente')).toBeDefined();
+      expect(screen.getByTitle('Passer à En cours')).toBeDefined();
     });
 
     fireEvent.click(screen.getByTitle('Passer à En cours'));
@@ -249,7 +308,7 @@ describe('OrdersPage', () => {
       );
     });
     await waitFor(() => {
-      expect(screen.getByText('En cours')).toBeDefined();
+      expect(screen.getByTitle('Passer à Terminé')).toBeDefined();
     });
   });
 });

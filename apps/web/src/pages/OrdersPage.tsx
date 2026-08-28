@@ -57,6 +57,7 @@ export function OrdersPage() {
     queryFn: () => apiFetch<Service[]>('/services', { token }),
   });
   const servicesParId = new Map(services.data?.map((service) => [service.id, service]));
+  const clientsParId = new Map(clients.data?.map((client) => [client.id, client]));
   const servicesActifs = useMemo(
     () => services.data?.filter((service) => service.actif) ?? [],
     [services.data],
@@ -79,6 +80,24 @@ export function OrdersPage() {
   const [panier, setPanier] = useState<LigneArticle[]>([]);
   const [modeLivraison, setModeLivraison] = useState<ModeLivraison>('RETRAIT');
   const [erreur, setErreur] = useState<string | null>(null);
+
+  const [rechercheCommande, setRechercheCommande] = useState('');
+  const [filtreMode, setFiltreMode] = useState<ModeLivraison | ''>('');
+  const [filtreStatut, setFiltreStatut] = useState<StatutCommande | ''>('');
+
+  const commandesFiltrees = useMemo(() => {
+    const recherche = rechercheCommande.trim().toLowerCase();
+    return (commandes.data ?? []).filter((commande) => {
+      if (filtreMode && commande.modeLivraison !== filtreMode) return false;
+      if (filtreStatut && commande.statut !== filtreStatut) return false;
+      if (recherche) {
+        const client = clientsParId.get(commande.clientId);
+        const cible = `${client?.nom ?? ''} ${client?.telephone ?? ''}`.toLowerCase();
+        if (!cible.includes(recherche)) return false;
+      }
+      return true;
+    });
+  }, [commandes.data, clientsParId, rechercheCommande, filtreMode, filtreStatut]);
 
   const clientActif = clients.data?.find((client) => client.id === clientId) ?? null;
   const servicesDeLaCategorie = servicesActifs.filter(
@@ -498,11 +517,53 @@ export function OrdersPage() {
         </form>
       )}
 
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="flex flex-col gap-1 text-sm">
+          Rechercher (client, téléphone)
+          <input
+            type="search"
+            placeholder="Nom ou téléphone…"
+            value={rechercheCommande}
+            onChange={(event) => setRechercheCommande(event.target.value)}
+            className="border border-outline-variant rounded-lg px-3 py-2 min-w-[220px]"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          Mode
+          <select
+            value={filtreMode}
+            onChange={(event) => setFiltreMode(event.target.value as ModeLivraison | '')}
+            className="border border-outline-variant rounded-lg px-3 py-2"
+          >
+            <option value="">Tous</option>
+            <option value="RETRAIT">Retrait</option>
+            <option value="LIVRAISON">Livraison</option>
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          Statut
+          <select
+            value={filtreStatut}
+            onChange={(event) => setFiltreStatut(event.target.value as StatutCommande | '')}
+            className="border border-outline-variant rounded-lg px-3 py-2"
+          >
+            <option value="">Tous</option>
+            {ORDRE_STATUT.map((statut) => (
+              <option key={statut} value={statut}>
+                {LIBELLES_STATUT_COMMANDE[statut]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
       <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase text-on-surface-variant">
               <th className="px-4 py-2">Numéro</th>
+              <th className="px-4 py-2">Client</th>
+              <th className="px-4 py-2">Téléphone</th>
               <th className="px-4 py-2">Total</th>
               <th className="px-4 py-2">Mode</th>
               <th className="px-4 py-2">Statut</th>
@@ -512,21 +573,25 @@ export function OrdersPage() {
           <tbody>
             {commandes.isPending && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={7}>
                   Chargement…
                 </td>
               </tr>
             )}
-            {commandes.data?.length === 0 && (
+            {!commandes.isPending && commandesFiltrees.length === 0 && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={7}>
                   Aucune commande pour l'instant.
                 </td>
               </tr>
             )}
-            {commandes.data?.map((commande) => (
+            {commandesFiltrees.map((commande) => (
               <tr key={commande.id} className="border-t border-outline-variant">
                 <td className="px-4 py-2 font-mono">#{commande.numero}</td>
+                <td className="px-4 py-2">{clientsParId.get(commande.clientId)?.nom ?? '—'}</td>
+                <td className="px-4 py-2">
+                  {clientsParId.get(commande.clientId)?.telephone ?? '—'}
+                </td>
                 <td className="px-4 py-2">{commande.total} FCFA</td>
                 <td className="px-4 py-2">{commande.modeLivraison}</td>
                 <td className="px-4 py-2">
