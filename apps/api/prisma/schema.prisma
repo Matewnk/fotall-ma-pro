@@ -110,15 +110,23 @@ model Tenant {
 // hors tenant). Tous les autres roles exigent un tenantId (impose en
 // application, cf. auth.service.ts).
 model User {
-  id             String   @id @default(uuid())
-  tenantId       String?  @map("tenant_id")
-  role           Role
-  email          String
-  motDePasseHash String   @map("mot_de_passe_hash")
-  pinHash        String?  @map("pin_hash")
-  actif          Boolean  @default(true)
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+  id                 String   @id @default(uuid())
+  tenantId           String?  @map("tenant_id")
+  role               Role
+  email              String
+  motDePasseHash     String   @map("mot_de_passe_hash")
+  pinHash            String?  @map("pin_hash")
+  actif              Boolean  @default(true)
+  // Force l'ecran de changement de mot de passe a la prochaine connexion —
+  // active uniquement par un reset SUPER_ADMIN (jamais par le reset ADMIN
+  // tenant-scope existant, qui garde son comportement historique).
+  mustChangePassword Boolean  @default(false) @map("must_change_password")
+  // Incremente a chaque changement de mot de passe ; verifie contre le
+  // claim du JWT dans JwtStrategy pour revoquer les sessions deja emises
+  // (aucun mecanisme de revocation n'existait avant cette feature).
+  tokenVersion       Int      @default(0) @map("token_version")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
 
   tenant      Tenant?          @relation(fields: [tenantId], references: [id])
   permissions UserPermission[]

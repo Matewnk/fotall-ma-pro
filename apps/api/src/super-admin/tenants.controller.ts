@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -16,6 +17,8 @@ import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
 import { AuthenticatedContext } from '../auth/types';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersService } from '../users/users.service';
+import { ResetUserPasswordDto } from './dto/reset-user-password.dto';
 import { UpdateTenantPlanDto } from './dto/update-tenant-plan.dto';
 
 // Donnees control-plane uniquement (nom, sous-domaine, plan, statut de
@@ -28,6 +31,7 @@ export class TenantsController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly auditService: AuditService,
+    private readonly usersService: UsersService,
   ) {}
 
   // §022 : recherche (nom/sous-domaine) et filtres (statut licence, plan)
@@ -176,6 +180,39 @@ export class TenantsController {
       metadata: { nouveauPlan: dto.plan },
     });
     return tenant;
+  }
+
+  // Support : le SUPER_ADMIN réinitialise le mot de passe du propriétaire
+  // d'un tenant qui l'a oublié (jamais de lecture/récupération de l'ancien
+  // mot de passe — impossible par construction, seul le hash est stocké).
+  // tenantId vient de l'URL (jamais du body) et scope la recherche du user
+  // dans UsersService.resetMotDePasse (findFirst id+tenantId) : un userId
+  // d'un autre tenant renvoie 404, jamais une modification silencieuse.
+  // forcerChangement=true (dernier argument) : active mustChangePassword +
+  // révoque les sessions déjà émises (tokenVersion), contrairement au
+  // reset ADMIN existant qui garde son comportement historique.
+  @Patch(':tenantId/utilisateurs/:userId/mot-de-passe')
+  async reinitialiserMotDePasse(
+    @Param('tenantId') tenantId: string,
+    @Param('userId') userId: string,
+    @Body() dto: ResetUserPasswordDto,
+    @CurrentTenant() actor: AuthenticatedContext,
+  ) {
+    if (dto.motDePasse !== dto.confirmerMotDePasse) {
+      throw new BadRequestException('La confirmation ne correspond pas.');
+    }
+    const tenant = await this.prisma.tenant.findUnique({ where: { id: tenantId } });
+    if (!tenant) {
+      throw new NotFoundException('Tenant introuvable.');
+    }
+    await this.usersService.resetMotDePasse(
+      tenantId,
+      userId,
+      actor.userId,
+      { motDePasse: dto.motDePasse },
+      true,
+    );
+    return { ok: true };
   }
 
   @Get(':id/historique-abonnement')

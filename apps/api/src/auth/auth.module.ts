@@ -5,13 +5,14 @@ import { LicenceModule } from '../licence/licence.module';
 import { OnboardingModule } from '../onboarding/onboarding.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtLenientStrategy } from './jwt-lenient.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { RolesGuard } from './roles.guard';
 
 @Module({
   imports: [PassportModule, LicenceModule, OnboardingModule, JwtConfigModule],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, RolesGuard],
+  providers: [AuthService, JwtStrategy, JwtLenientStrategy, RolesGuard],
   exports: [AuthService, RolesGuard],
 })
 export class AuthModule {}

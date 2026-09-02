@@ -111,22 +111,38 @@ export class UsersService {
     return versPublic(user);
   }
 
-  // ADMIN peut réinitialiser le mot de passe de n'importe quel compte de
-  // son tenant, y compris le sien — aucune preuve de l'ancien mot de
-  // passe exigée, même autorité que la création (§2.1 : ADMIN définit déjà
-  // un mot de passe initial sans justification à la création).
+  // ADMIN (son propre tenant) et SUPER_ADMIN (n'importe quel tenant, via
+  // super-admin/tenants.controller.ts) peuvent réinitialiser le mot de
+  // passe d'un compte — aucune preuve de l'ancien mot de passe exigée,
+  // même autorité que la création (§2.1 : ADMIN définit déjà un mot de
+  // passe initial sans justification à la création). tenantId scope
+  // TOUJOURS la recherche (findFirst id+tenantId, 404 sinon) : empêche
+  // absolument qu'un userId d'un autre tenant soit atteint, y compris
+  // depuis la route SUPER_ADMIN où tenantId vient de l'URL.
+  //
+  // forcerChangement (défaut false, préserve le comportement historique du
+  // flux ADMIN) : uniquement true depuis le flux SUPER_ADMIN — active
+  // mustChangePassword et incrémente tokenVersion pour révoquer les
+  // sessions déjà émises (voir jwt.strategy.ts).
   async resetMotDePasse(
     tenantId: string,
     id: string,
     actorId: string,
     dto: ResetPasswordDto,
+    forcerChangement = false,
   ): Promise<void> {
     const existant = await this.prisma.user.findFirst({ where: { id, tenantId } });
     if (!existant) {
       throw new NotFoundException();
     }
     const motDePasseHash = await bcrypt.hash(dto.motDePasse, BCRYPT_ROUNDS);
-    await this.prisma.user.update({ where: { id }, data: { motDePasseHash } });
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        motDePasseHash,
+        ...(forcerChangement ? { mustChangePassword: true, tokenVersion: { increment: 1 } } : {}),
+      },
+    });
     await this.auditService.create(tenantId, actorId, {
       action: 'UTILISATEUR_MOT_DE_PASSE_REINITIALISE',
       entityType: 'User',

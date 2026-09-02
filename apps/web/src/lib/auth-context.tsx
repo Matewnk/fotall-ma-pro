@@ -14,6 +14,11 @@ type AuthContextValue = {
     motDePasse: string,
   ) => Promise<void>;
   loginSuperAdmin: (email: string, motDePasse: string) => Promise<void>;
+  // Remplace la session en place (accessToken + user à jour) sans passer
+  // par un login — utilisé après le changement de mot de passe self-service
+  // (PATCH /auth/mot-de-passe), qui révoque l'ancien token en même temps
+  // qu'il lève mustChangePassword.
+  updateSession: (session: Session) => void;
   logout: () => void;
 };
 
@@ -63,6 +68,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           method: 'POST',
           body: { email, motDePasse },
         });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
+        setSession(resultat);
+      },
+      updateSession(resultat) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
         setSession(resultat);
       },

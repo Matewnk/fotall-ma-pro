@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { ApiError, apiFetch, apiFetchBlob } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
@@ -83,6 +83,11 @@ export function SuperAdminTenantDetailPage() {
     dateProchaineFacturation: '',
   });
   const [factureEnCours, setFactureEnCours] = useState<string | null>(null);
+  const [utilisateurMdp, setUtilisateurMdp] = useState<UtilisateurGlobal | null>(null);
+  const [etapeModalMdp, setEtapeModalMdp] = useState<'FORMULAIRE' | 'SUCCES'>('FORMULAIRE');
+  const [nouveauMotDePasse, setNouveauMotDePasse] = useState('');
+  const [confirmerMotDePasse, setConfirmerMotDePasse] = useState('');
+  const [erreurModalMdp, setErreurModalMdp] = useState<string | null>(null);
 
   const tenant = useQuery({
     queryKey: ['super-admin-tenant', id],
@@ -381,6 +386,48 @@ export function SuperAdminTenantDetailPage() {
     },
     onError: (e) => setErreur(e instanceof ApiError ? e.message : 'Action impossible.'),
   });
+
+  // Support : le Super-Admin ne voit jamais l'ancien mot de passe (seul le
+  // hash existe en base) — il en définit un nouveau, temporaire, que
+  // l'utilisateur devra changer à sa prochaine connexion
+  // (mustChangePassword forcé côté serveur, non négociable depuis ce
+  // formulaire).
+  const reinitialiserMdp = useMutation({
+    mutationFn: () =>
+      apiFetch(`/super-admin/tenants/${id}/utilisateurs/${utilisateurMdp?.id}/mot-de-passe`, {
+        method: 'PATCH',
+        token,
+        body: { motDePasse: nouveauMotDePasse, confirmerMotDePasse },
+      }),
+    onSuccess: () => {
+      setEtapeModalMdp('SUCCES');
+    },
+    onError: (e) => {
+      setErreurModalMdp(e instanceof ApiError ? e.message : 'La réinitialisation a échoué.');
+    },
+  });
+
+  function ouvrirModalMdp(utilisateur: UtilisateurGlobal) {
+    setUtilisateurMdp(utilisateur);
+    setEtapeModalMdp('FORMULAIRE');
+    setNouveauMotDePasse('');
+    setConfirmerMotDePasse('');
+    setErreurModalMdp(null);
+  }
+
+  function fermerModalMdp() {
+    setUtilisateurMdp(null);
+  }
+
+  function handleSubmitMdp(event: FormEvent) {
+    event.preventDefault();
+    setErreurModalMdp(null);
+    if (nouveauMotDePasse !== confirmerMotDePasse) {
+      setErreurModalMdp('La confirmation ne correspond pas.');
+      return;
+    }
+    reinitialiserMdp.mutate();
+  }
 
   if (tenant.isPending) {
     return <p className="text-sm text-on-surface-variant">Chargement…</p>;
@@ -903,12 +950,13 @@ export function SuperAdminTenantDetailPage() {
                 <th className="px-4 py-2">Rôle</th>
                 <th className="px-4 py-2">Statut</th>
                 <th className="px-4 py-2">Créé le</th>
+                <th className="px-4 py-2" />
               </tr>
             </thead>
             <tbody>
               {utilisateurs.data?.length === 0 && (
                 <tr>
-                  <td className="px-4 py-4 text-on-surface-variant" colSpan={4}>
+                  <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
                     Aucun utilisateur.
                   </td>
                 </tr>
@@ -921,11 +969,126 @@ export function SuperAdminTenantDetailPage() {
                   <td className="px-4 py-2 text-on-surface-variant">
                     {new Date(utilisateur.createdAt).toLocaleDateString('fr-FR')}
                   </td>
+                  <td className="px-4 py-2 text-right">
+                    <button
+                      type="button"
+                      onClick={() => ouvrirModalMdp(utilisateur)}
+                      className="rounded-lg px-3 py-1.5 text-xs font-medium border border-outline-variant text-on-surface-variant hover:bg-surface-container-high"
+                    >
+                      Réinitialiser le mot de passe
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </section>
+      )}
+
+      {utilisateurMdp && (
+        <div
+          role="presentation"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
+          onClick={fermerModalMdp}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="titre-modal-reinitialisation-mdp"
+            className="w-full max-w-md rounded-xl border border-outline-variant bg-surface p-6 shadow-xl flex flex-col gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {etapeModalMdp === 'FORMULAIRE' && (
+              <form onSubmit={handleSubmitMdp} className="flex flex-col gap-4">
+                <h2
+                  id="titre-modal-reinitialisation-mdp"
+                  className="text-lg font-bold text-on-background"
+                >
+                  Réinitialiser le mot de passe
+                </h2>
+                <p className="text-sm text-on-surface-variant">
+                  {utilisateurMdp.role === 'ADMIN' ? (
+                    <>
+                      Vous êtes sur le point de réinitialiser le mot de passe du{' '}
+                      <strong className="text-on-background">propriétaire</strong> de ce pressing (
+                      <span className="font-medium">{utilisateurMdp.email}</span>).
+                    </>
+                  ) : (
+                    <>
+                      Réinitialiser le mot de passe de{' '}
+                      <span className="font-medium">{utilisateurMdp.email}</span> ?
+                    </>
+                  )}
+                </p>
+                <label className="flex flex-col gap-1 text-sm">
+                  Nouveau mot de passe
+                  <input
+                    type="password"
+                    className="border border-outline-variant rounded-lg px-3 py-2"
+                    value={nouveauMotDePasse}
+                    onChange={(event) => setNouveauMotDePasse(event.target.value)}
+                    minLength={8}
+                    required
+                  />
+                </label>
+                <label className="flex flex-col gap-1 text-sm">
+                  Confirmer le mot de passe
+                  <input
+                    type="password"
+                    className="border border-outline-variant rounded-lg px-3 py-2"
+                    value={confirmerMotDePasse}
+                    onChange={(event) => setConfirmerMotDePasse(event.target.value)}
+                    minLength={8}
+                    required
+                  />
+                </label>
+                <label className="flex items-center gap-2 text-sm text-on-surface-variant">
+                  <input type="checkbox" checked disabled />
+                  L'utilisateur devra changer son mot de passe à sa prochaine connexion.
+                </label>
+
+                {erreurModalMdp && <p className="text-sm text-error">{erreurModalMdp}</p>}
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={fermerModalMdp}
+                    className="rounded-lg px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={reinitialiserMdp.isPending}
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-on-primary disabled:opacity-60"
+                  >
+                    {reinitialiserMdp.isPending ? 'Réinitialisation…' : 'Réinitialiser'}
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {etapeModalMdp === 'SUCCES' && (
+              <>
+                <h2 className="text-lg font-bold text-on-background">
+                  Le mot de passe a été réinitialisé.
+                </h2>
+                <p className="text-sm text-on-surface-variant">
+                  L'utilisateur devra définir un nouveau mot de passe à sa prochaine connexion.
+                </p>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={fermerModalMdp}
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-on-primary"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       )}
 
       {onglet === 'Support' && (

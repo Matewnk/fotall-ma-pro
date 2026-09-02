@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuditModule } from '../audit/audit.module';
 import { SupportTicketsModule } from '../support-tickets/support-tickets.module';
+import { UsersModule } from '../users/users.module';
 import { PlanDefinitionsController } from './plan-definitions.controller';
 import { PlatformAuditController } from './platform-audit.controller';
 import { StatsController } from './stats.controller';
@@ -13,7 +14,7 @@ import { TenantsController } from './tenants.controller';
 import { SuperAdminUsersController } from './users.controller';
 
 @Module({
-  imports: [AuditModule, SupportTicketsModule],
+  imports: [AuditModule, SupportTicketsModule, UsersModule],
   controllers: [
     TenantsController,
     StatsController,
