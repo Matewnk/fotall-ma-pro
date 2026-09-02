@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '@prisma/client';
 import { JwtStrategy } from './jwt.strategy';
@@ -79,5 +79,57 @@ describe('JwtStrategy — vérification d’appartenance user → tenant', () =>
     await expect(
       strategy.validate({ sub: 'user-1', tenantId: 'tenant-1', role: Role.ADMIN }),
     ).rejects.toBeInstanceOf(UnauthorizedException);
+  });
+
+  it('rejette un tokenVersion périmé (session révoquée par un reset de mot de passe)', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      id: 'user-1',
+      tenantId: 'tenant-1',
+      role: Role.ADMIN,
+      actif: true,
+      tokenVersion: 2,
+    });
+
+    await expect(
+      strategy.validate({
+        sub: 'user-1',
+        tenantId: 'tenant-1',
+        role: Role.ADMIN,
+        tokenVersion: 1,
+      }),
+    ).rejects.toBeInstanceOf(UnauthorizedException);
+  });
+
+  it('accepte un tokenVersion à jour', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      id: 'user-1',
+      tenantId: 'tenant-1',
+      role: Role.ADMIN,
+      actif: true,
+      tokenVersion: 1,
+    });
+
+    const context = await strategy.validate({
+      sub: 'user-1',
+      tenantId: 'tenant-1',
+      role: Role.ADMIN,
+      tokenVersion: 1,
+    });
+
+    expect(context).toEqual({ userId: 'user-1', tenantId: 'tenant-1', role: Role.ADMIN });
+  });
+
+  it('bloque (403) tant que mustChangePassword est actif', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      id: 'user-1',
+      tenantId: 'tenant-1',
+      role: Role.ADMIN,
+      actif: true,
+      mustChangePassword: true,
+    });
+
+    await expect(
+      strategy.validate({ sub: 'user-1', tenantId: 'tenant-1', role: Role.ADMIN }),
+    ).rejects.toBeInstanceOf(ForbiddenException);
   });
 });

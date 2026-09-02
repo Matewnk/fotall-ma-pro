@@ -188,4 +188,39 @@ describe('UsersService', () => {
     const metadataEnvoyee = auditService.create.mock.calls[0][2];
     expect(JSON.stringify(metadataEnvoyee)).not.toContain('nouveau-secret-1');
   });
+
+  it('resetMotDePasse(forcerChangement=true) active mustChangePassword et incrémente tokenVersion (flux SUPER_ADMIN)', async () => {
+    prisma.user.findFirst.mockResolvedValue(UTILISATEUR);
+    prisma.user.update.mockResolvedValue(UTILISATEUR);
+
+    await service.resetMotDePasse(
+      'tenant-1',
+      'user-1',
+      'super-admin-1',
+      { motDePasse: 'nouveau-secret-1' },
+      true,
+    );
+
+    expect(prisma.user.update).toHaveBeenCalledWith({
+      where: { id: 'user-1' },
+      data: {
+        motDePasseHash: expect.any(String),
+        mustChangePassword: true,
+        tokenVersion: { increment: 1 },
+      },
+    });
+  });
+
+  it('resetMotDePasse(forcerChangement=false, défaut) ne touche ni mustChangePassword ni tokenVersion (flux ADMIN inchangé)', async () => {
+    prisma.user.findFirst.mockResolvedValue(UTILISATEUR);
+    prisma.user.update.mockResolvedValue(UTILISATEUR);
+
+    await service.resetMotDePasse('tenant-1', 'user-1', 'admin-1', {
+      motDePasse: 'nouveau-secret-1',
+    });
+
+    const dataEnvoyee = prisma.user.update.mock.calls[0][0].data;
+    expect(dataEnvoyee).not.toHaveProperty('mustChangePassword');
+    expect(dataEnvoyee).not.toHaveProperty('tokenVersion');
+  });
 });

@@ -1,11 +1,12 @@
 import { ConflictException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma, Role } from '@prisma/client';
+import { Prisma, Role, User } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { LicenceService } from '../licence/licence.service';
 import { OnboardingService } from '../onboarding/onboarding.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TenantSchemaProvisioner } from '../tenancy/tenant-schema.provisioner';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { SuperAdminLoginDto } from './dto/super-admin-login.dto';
@@ -19,7 +20,7 @@ type SessionResult = {
   // construction, cf. loginSuperAdmin) : le frontend distingue les deux
   // (voir apps/web/src/lib/auth-context.tsx).
   tenant?: { id: string; nomPressing: string; sousDomaine: string };
-  user: { id: string; email: string; role: Role };
+  user: { id: string; email: string; role: Role; mustChangePassword: boolean };
 };
 
 @Injectable()
@@ -38,7 +39,7 @@ export class AuthService {
     const motDePasseHash = await bcrypt.hash(dto.motDePasse, BCRYPT_ROUNDS);
 
     let tenant: { id: string; nomPressing: string; sousDomaine: string };
-    let user: { id: string; email: string; role: Role };
+    let user: User;
 
     try {
       ({ tenant, user } = await this.prisma.$transaction(async (tx) => {
@@ -84,14 +85,7 @@ export class AuthService {
       throw error;
     }
 
-    return this.issueSession(
-      tenant.id,
-      tenant.nomPressing,
-      tenant.sousDomaine,
-      user.id,
-      user.email,
-      user.role,
-    );
+    return this.issueSession(tenant.id, tenant.nomPressing, tenant.sousDomaine, user);
   }
 
   async login(dto: LoginDto): Promise<SessionResult> {
@@ -114,14 +108,7 @@ export class AuthService {
       throw new UnauthorizedException('Identifiants invalides.');
     }
 
-    return this.issueSession(
-      tenant.id,
-      tenant.nomPressing,
-      tenant.sousDomaine,
-      user.id,
-      user.email,
-      user.role,
-    );
+    return this.issueSession(tenant.id, tenant.nomPressing, tenant.sousDomaine, user);
   }
 
   // §2.1/§13.6 : un SUPER_ADMIN n'a pas de sousDomaine (tenantId null par
@@ -143,26 +130,95 @@ export class AuthService {
       throw new UnauthorizedException('Identifiants invalides.');
     }
 
-    const payload: JwtPayload = { sub: user.id, tenantId: null, role: user.role };
+    const payload: JwtPayload = {
+      sub: user.id,
+      tenantId: null,
+      role: user.role,
+      tokenVersion: user.tokenVersion,
+    };
     return {
       accessToken: this.jwt.sign(payload),
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        mustChangePassword: user.mustChangePassword,
+      },
     };
+  }
+
+  // Changement de mot de passe par l'utilisateur lui-meme (seul flux qui
+  // exige la preuve du mot de passe actuel — contrairement aux resets
+  // ADMIN/SUPER_ADMIN qui reposent sur l'autorite du role, cf.
+  // users.service.ts#resetMotDePasse). Reemet un token a jour : le
+  // tokenVersion incremente rend l'ancien token invalide immediatement,
+  // donc la reponse doit fournir un nouveau accessToken pour ne pas
+  // deconnecter l'utilisateur au moment meme ou il vient de resoudre
+  // l'ecran de changement obligatoire.
+  async changerMotDePasse(userId: string, dto: ChangePasswordDto): Promise<SessionResult> {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new UnauthorizedException('Session invalide.');
+    }
+
+    const passwordValide = await bcrypt.compare(dto.motDePasseActuel, user.motDePasseHash);
+    if (!passwordValide) {
+      throw new UnauthorizedException('Mot de passe actuel incorrect.');
+    }
+
+    const motDePasseHash = await bcrypt.hash(dto.motDePasseNouveau, BCRYPT_ROUNDS);
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        motDePasseHash,
+        mustChangePassword: false,
+        tokenVersion: { increment: 1 },
+      },
+    });
+
+    if (!updated.tenantId) {
+      const payload: JwtPayload = {
+        sub: updated.id,
+        tenantId: null,
+        role: updated.role,
+        tokenVersion: updated.tokenVersion,
+      };
+      return {
+        accessToken: this.jwt.sign(payload),
+        user: {
+          id: updated.id,
+          email: updated.email,
+          role: updated.role,
+          mustChangePassword: updated.mustChangePassword,
+        },
+      };
+    }
+
+    const tenant = await this.prisma.tenant.findUniqueOrThrow({ where: { id: updated.tenantId } });
+    return this.issueSession(tenant.id, tenant.nomPressing, tenant.sousDomaine, updated);
   }
 
   private issueSession(
     tenantId: string,
     nomPressing: string,
     sousDomaine: string,
-    userId: string,
-    email: string,
-    role: Role,
+    user: User,
   ): SessionResult {
-    const payload: JwtPayload = { sub: userId, tenantId, role };
+    const payload: JwtPayload = {
+      sub: user.id,
+      tenantId,
+      role: user.role,
+      tokenVersion: user.tokenVersion,
+    };
     return {
       accessToken: this.jwt.sign(payload),
       tenant: { id: tenantId, nomPressing, sousDomaine },
-      user: { id: userId, email, role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        mustChangePassword: user.mustChangePassword,
+      },
     };
   }
 }

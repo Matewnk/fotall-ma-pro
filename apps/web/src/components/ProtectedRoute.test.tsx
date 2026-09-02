@@ -20,6 +20,10 @@ function monter(initialEntries: string[]) {
           <Routes>
             <Route path="/connexion" element={<span>Page de connexion</span>} />
             <Route
+              path="/changer-mot-de-passe"
+              element={<span>Changement de mot de passe obligatoire</span>}
+            />
+            <Route
               path="/prive"
               element={
                 <ProtectedRoute>
@@ -48,5 +52,14 @@ describe('ProtectedRoute', () => {
     localStorage.setItem('fotall.session', JSON.stringify(SESSION));
     monter(['/prive']);
     expect(screen.getByText('Contenu protégé')).toBeDefined();
+  });
+
+  it('redirige vers /changer-mot-de-passe quand mustChangePassword est actif', () => {
+    localStorage.setItem(
+      'fotall.session',
+      JSON.stringify({ ...SESSION, user: { ...SESSION.user, mustChangePassword: true } }),
+    );
+    monter(['/prive']);
+    expect(screen.getByText('Changement de mot de passe obligatoire')).toBeDefined();
   });
 });

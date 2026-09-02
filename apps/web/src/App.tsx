@@ -7,6 +7,7 @@ import { AuditPage } from './pages/AuditPage';
 import { BillingSelfServicePage } from './pages/BillingSelfServicePage';
 import { BrandingPage } from './pages/BrandingPage';
 import { CashPage } from './pages/CashPage';
+import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
@@ -36,6 +37,14 @@ export function App() {
   return (
     <Routes>
       <Route path="/connexion" element={<LoginPage />} />
+      <Route
+        path="/changer-mot-de-passe"
+        element={
+          <ProtectedRoute>
+            <ChangePasswordPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/inscription" element={<RegisterPage />} />
       <Route
         path="/"

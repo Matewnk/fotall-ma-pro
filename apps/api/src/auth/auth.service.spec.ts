@@ -5,8 +5,19 @@ import * as bcrypt from 'bcryptjs';
 import { AuthService } from './auth.service';
 
 type PrismaTx = {
-  tenant: { create: jest.Mock; findUnique: jest.Mock; delete: jest.Mock };
-  user: { create: jest.Mock; findUnique: jest.Mock; findFirst: jest.Mock; delete: jest.Mock };
+  tenant: {
+    create: jest.Mock;
+    findUnique: jest.Mock;
+    findUniqueOrThrow: jest.Mock;
+    delete: jest.Mock;
+  };
+  user: {
+    create: jest.Mock;
+    findUnique: jest.Mock;
+    findFirst: jest.Mock;
+    update: jest.Mock;
+    delete: jest.Mock;
+  };
 };
 
 function makePrismaMock() {
@@ -14,12 +25,14 @@ function makePrismaMock() {
     tenant: {
       create: jest.fn(),
       findUnique: jest.fn(),
+      findUniqueOrThrow: jest.fn(),
       delete: jest.fn().mockResolvedValue(undefined),
     },
     user: {
       create: jest.fn(),
       findUnique: jest.fn(),
       findFirst: jest.fn(),
+      update: jest.fn(),
       delete: jest.fn().mockResolvedValue(undefined),
     },
   };
@@ -283,6 +296,72 @@ describe('AuthService', () => {
       expect(result.tenant).toBeUndefined();
       const decoded = jwt.verify(result.accessToken);
       expect(decoded).toMatchObject({ sub: 'super-1', tenantId: null, role: Role.SUPER_ADMIN });
+    });
+  });
+
+  describe('changerMotDePasse', () => {
+    it('rejette un mot de passe actuel incorrect', async () => {
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        tenantId: 'tenant-1',
+        role: Role.ADMIN,
+        motDePasseHash: await bcrypt.hash('le-bon-mot-de-passe', 4),
+        tokenVersion: 0,
+        mustChangePassword: true,
+      });
+
+      await expect(
+        service.changerMotDePasse('user-1', {
+          motDePasseActuel: 'faux',
+          motDePasseNouveau: 'nouveau-secret-1',
+        }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+      expect(prisma.user.update).not.toHaveBeenCalled();
+    });
+
+    it('rehash, désactive mustChangePassword, incrémente tokenVersion et réémet un token à jour', async () => {
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        tenantId: 'tenant-1',
+        role: Role.ADMIN,
+        email: 'admin@test.dev',
+        motDePasseHash: await bcrypt.hash('ancien-mot-de-passe', 4),
+        tokenVersion: 0,
+        mustChangePassword: true,
+      });
+      prisma.user.update.mockResolvedValue({
+        id: 'user-1',
+        tenantId: 'tenant-1',
+        role: Role.ADMIN,
+        email: 'admin@test.dev',
+        tokenVersion: 1,
+        mustChangePassword: false,
+      });
+      prisma.tenant.findUniqueOrThrow.mockResolvedValue({
+        id: 'tenant-1',
+        nomPressing: 'Pressing Test',
+        sousDomaine: 'pressing-test',
+      });
+
+      const result = await service.changerMotDePasse('user-1', {
+        motDePasseActuel: 'ancien-mot-de-passe',
+        motDePasseNouveau: 'nouveau-secret-1',
+      });
+
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'user-1' },
+        data: {
+          motDePasseHash: expect.any(String),
+          mustChangePassword: false,
+          tokenVersion: { increment: 1 },
+        },
+      });
+      const hashEnvoye = prisma.user.update.mock.calls[0][0].data.motDePasseHash;
+      expect(hashEnvoye).not.toBe('nouveau-secret-1');
+
+      expect(result.user.mustChangePassword).toBe(false);
+      const decoded = jwt.verify(result.accessToken);
+      expect(decoded).toMatchObject({ sub: 'user-1', tenantId: 'tenant-1', tokenVersion: 1 });
     });
   });
 });

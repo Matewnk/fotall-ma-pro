@@ -5,7 +5,7 @@ export type Session = {
   // Absent uniquement pour une session SUPER_ADMIN (aucun tenant
   // associé) — voir auth-context.tsx#loginSuperAdmin.
   tenant?: { id: string; nomPressing: string; sousDomaine: string };
-  user: { id: string; email: string; role: Role };
+  user: { id: string; email: string; role: Role; mustChangePassword: boolean };
 };
 
 export type CanalNotification = 'PUSH' | 'WHATSAPP' | 'SMS';

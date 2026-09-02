@@ -22,9 +22,27 @@ const TENANT = {
   },
 };
 
+const UTILISATEURS = [
+  {
+    id: 'user-admin-1',
+    email: 'admin@pressing-lumiere.dev',
+    role: 'ADMIN' as const,
+    actif: true,
+    createdAt: '2026-01-01T00:00:00Z',
+  },
+  {
+    id: 'user-caissier-1',
+    email: 'caissier@pressing-lumiere.dev',
+    role: 'CAISSIER' as const,
+    actif: true,
+    createdAt: '2026-01-02T00:00:00Z',
+  },
+];
+
 function monter(
   reponseAbonnement: { status: number; corps: unknown },
   sessionSupportActive = false,
+  options: { utilisateurs?: unknown[]; reponsePatchMdp?: { status: number; corps: unknown } } = {},
 ) {
   vi.stubGlobal(
     'fetch',
@@ -43,8 +61,12 @@ function monter(
       if (url.includes('/factures')) {
         return Promise.resolve(reponseJson([]));
       }
+      if (url.includes('/mot-de-passe') && method === 'PATCH') {
+        const reponse = options.reponsePatchMdp ?? { status: 200, corps: { ok: true } };
+        return Promise.resolve(reponseJson(reponse.corps, reponse.status));
+      }
       if (url.includes('/utilisateurs')) {
-        return Promise.resolve(reponseJson([]));
+        return Promise.resolve(reponseJson(options.utilisateurs ?? []));
       }
       if (url.includes('/audit') && !url.includes('/support/audit')) {
         return Promise.resolve(reponseJson([]));
@@ -274,6 +296,168 @@ describe('SuperAdminTenantDetailPage', () => {
       expect(screen.getByText(/Session active depuis/)).toBeDefined();
       expect(screen.getByText(/Diagnostic incident client/)).toBeDefined();
       expect(screen.getByText('Terminer la session')).toBeDefined();
+    });
+  });
+
+  describe('réinitialisation du mot de passe', () => {
+    async function ouvrirOngletUtilisateurs(options?: {
+      utilisateurs?: unknown[];
+      reponsePatchMdp?: { status: number; corps: unknown };
+    }) {
+      monter(
+        { status: 404, corps: { statusCode: 404, message: 'Aucun abonnement.' } },
+        false,
+        options ?? { utilisateurs: UTILISATEURS },
+      );
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { name: 'Pressing Lumière' })).toBeDefined();
+      });
+      fireEvent.click(screen.getByRole('button', { name: 'Utilisateurs' }));
+      await waitFor(() => {
+        expect(screen.getByText('admin@pressing-lumiere.dev')).toBeDefined();
+      });
+    }
+
+    function boutonReinitialiser(index: 0 | 1): HTMLElement {
+      const [admin, caissier] = screen.getAllByText('Réinitialiser le mot de passe');
+      const bouton = index === 0 ? admin : caissier;
+      if (!bouton) {
+        throw new Error('Bouton de réinitialisation introuvable.');
+      }
+      return bouton;
+    }
+
+    it('affiche un bouton de réinitialisation par utilisateur', async () => {
+      await ouvrirOngletUtilisateurs();
+      expect(screen.getAllByText('Réinitialiser le mot de passe')).toHaveLength(2);
+    });
+
+    it('ouvre la modal avec un avertissement spécifique pour le propriétaire (ADMIN)', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(0));
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeDefined();
+        expect(screen.getByText(/propriétaire/)).toBeDefined();
+      });
+    });
+
+    it('n’affiche pas l’avertissement propriétaire pour un rôle non-ADMIN', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(1));
+
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeDefined();
+      });
+      expect(screen.queryByText(/propriétaire/)).toBeNull();
+    });
+
+    it('refuse la soumission si la confirmation ne correspond pas au mot de passe', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(0));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.change(screen.getByLabelText('Nouveau mot de passe'), {
+        target: { value: 'nouveau-secret-1' },
+      });
+      fireEvent.change(screen.getByLabelText('Confirmer le mot de passe'), {
+        target: { value: 'autre-chose' },
+      });
+      fireEvent.click(screen.getByText('Réinitialiser'));
+
+      await waitFor(() => {
+        expect(screen.getByText('La confirmation ne correspond pas.')).toBeDefined();
+      });
+      const appelPatch = vi
+        .mocked(fetch)
+        .mock.calls.some(([, init]) => (init as RequestInit | undefined)?.method === 'PATCH');
+      expect(appelPatch).toBe(false);
+    });
+
+    it('affiche l’erreur renvoyée par l’API', async () => {
+      await ouvrirOngletUtilisateurs({
+        utilisateurs: UTILISATEURS,
+        reponsePatchMdp: {
+          status: 400,
+          corps: { statusCode: 400, message: 'Mot de passe trop faible.' },
+        },
+      });
+      fireEvent.click(boutonReinitialiser(0));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.change(screen.getByLabelText('Nouveau mot de passe'), {
+        target: { value: 'court123' },
+      });
+      fireEvent.change(screen.getByLabelText('Confirmer le mot de passe'), {
+        target: { value: 'court123' },
+      });
+      fireEvent.click(screen.getByText('Réinitialiser'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Mot de passe trop faible.')).toBeDefined();
+      });
+    });
+
+    it('affiche un état de chargement pendant la soumission', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(0));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.change(screen.getByLabelText('Nouveau mot de passe'), {
+        target: { value: 'nouveau-secret-1' },
+      });
+      fireEvent.change(screen.getByLabelText('Confirmer le mot de passe'), {
+        target: { value: 'nouveau-secret-1' },
+      });
+      fireEvent.click(screen.getByText('Réinitialiser'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Réinitialisation…')).toBeDefined();
+      });
+    });
+
+    it('affiche le message de succès et ferme la modal', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(0));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.change(screen.getByLabelText('Nouveau mot de passe'), {
+        target: { value: 'nouveau-secret-1' },
+      });
+      fireEvent.change(screen.getByLabelText('Confirmer le mot de passe'), {
+        target: { value: 'nouveau-secret-1' },
+      });
+      fireEvent.click(screen.getByText('Réinitialiser'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Le mot de passe a été réinitialisé.')).toBeDefined();
+        expect(
+          screen.getByText(
+            "L'utilisateur devra définir un nouveau mot de passe à sa prochaine connexion.",
+          ),
+        ).toBeDefined();
+      });
+
+      fireEvent.click(screen.getByText('Fermer'));
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).toBeNull();
+      });
+    });
+
+    it('ferme la modal sur Annuler sans appeler l’API', async () => {
+      await ouvrirOngletUtilisateurs();
+      fireEvent.click(boutonReinitialiser(0));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.click(screen.getByText('Annuler'));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).toBeNull();
+      });
+      const appelPatch = vi
+        .mocked(fetch)
+        .mock.calls.some(([, init]) => (init as RequestInit | undefined)?.method === 'PATCH');
+      expect(appelPatch).toBe(false);
     });
   });
 });
