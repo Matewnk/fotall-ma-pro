@@ -75,35 +75,37 @@ export function DashboardPage() {
             Voir tout
           </Link>
         </div>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-xs uppercase text-on-surface-variant">
-              <th className="px-4 py-2">Numéro</th>
-              <th className="px-4 py-2">Client</th>
-              <th className="px-4 py-2">Montant</th>
-              <th className="px-4 py-2">Statut</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.commandesRecentes.length === 0 && (
-              <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={4}>
-                  Aucune commande pour l'instant.
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs uppercase text-on-surface-variant">
+                <th className="px-4 py-2">Numéro</th>
+                <th className="px-4 py-2">Client</th>
+                <th className="px-4 py-2">Montant</th>
+                <th className="px-4 py-2">Statut</th>
               </tr>
-            )}
-            {data.commandesRecentes.map((commande) => (
-              <tr key={commande.numero} className="border-t border-outline-variant">
-                <td className="px-4 py-2 font-mono">#{commande.numero}</td>
-                <td className="px-4 py-2">{commande.client.nom}</td>
-                <td className="px-4 py-2">{commande.montant} FCFA</td>
-                <td className="px-4 py-2">
-                  <StatusBadge statut={commande.statut} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.commandesRecentes.length === 0 && (
+                <tr>
+                  <td className="px-4 py-4 text-on-surface-variant" colSpan={4}>
+                    Aucune commande pour l'instant.
+                  </td>
+                </tr>
+              )}
+              {data.commandesRecentes.map((commande) => (
+                <tr key={commande.numero} className="border-t border-outline-variant">
+                  <td className="px-4 py-2 font-mono">#{commande.numero}</td>
+                  <td className="px-4 py-2">{commande.client.nom}</td>
+                  <td className="px-4 py-2">{commande.montant} FCFA</td>
+                  <td className="px-4 py-2">
+                    <StatusBadge statut={commande.statut} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
