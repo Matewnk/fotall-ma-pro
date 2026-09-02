@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
@@ -34,6 +36,12 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
+    // §19.1 "quotas API" (docs/production-checklist.md) : quota par défaut
+    // sur toutes les routes internes (web/mobile), distinct des quotas
+    // ApiKey.quotaJour de l'API ouverte (019). Surchargé plus strictement
+    // sur /auth/login et /auth/super-admin/login via @Throttle
+    // (auth.controller.ts) — anti brute-force.
+    ThrottlerModule.forRoot([{ name: 'default', ttl: 60_000, limit: 100 }]),
     PrismaModule,
     TenancyModule,
     LicenceModule,
@@ -61,5 +69,6 @@ import { UsersModule } from './users/users.module';
     BillingSelfServiceModule,
   ],
   controllers: [AppController],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

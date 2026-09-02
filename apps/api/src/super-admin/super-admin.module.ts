@@ -1,14 +1,28 @@
 import { Module } from '@nestjs/common';
 import { AuditModule } from '../audit/audit.module';
+import { SupportTicketsModule } from '../support-tickets/support-tickets.module';
+import { PlanDefinitionsController } from './plan-definitions.controller';
+import { PlatformAuditController } from './platform-audit.controller';
 import { StatsController } from './stats.controller';
+import { StatsService } from './stats.service';
+import { SuperAdminSupportTicketsController } from './support-tickets.controller';
 import { SupportSessionController } from './support-session.controller';
 import { SupportSessionGuard } from './support-session.guard';
 import { SupportSessionService } from './support-session.service';
 import { TenantsController } from './tenants.controller';
+import { SuperAdminUsersController } from './users.controller';
 
 @Module({
-  imports: [AuditModule],
-  controllers: [TenantsController, StatsController, SupportSessionController],
-  providers: [SupportSessionService, SupportSessionGuard],
+  imports: [AuditModule, SupportTicketsModule],
+  controllers: [
+    TenantsController,
+    StatsController,
+    SupportSessionController,
+    SuperAdminUsersController,
+    PlatformAuditController,
+    PlanDefinitionsController,
+    SuperAdminSupportTicketsController,
+  ],
+  providers: [SupportSessionService, SupportSessionGuard, StatsService],
 })
 export class SuperAdminModule {}

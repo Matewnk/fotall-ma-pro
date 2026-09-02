@@ -7,6 +7,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { resoudreOriginsCors } from './cors.config';
 import { creerMiddlewareHttps } from './https-redirect.middleware';
 
 async function bootstrap() {
@@ -31,9 +32,12 @@ async function bootstrap() {
   // Web (015) tourne sur une autre origine en dev (Vite :5173) et en
   // production (hébergement statique séparé) — l'auth par Bearer token
   // (jamais de cookie) rend le partage de credentials inutile ici.
-  // Allow-list stricte par domaine : périmètre de la mise en production
-  // (020-production).
-  app.enableCors({ origin: true, credentials: false });
+  // Allow-list stricte par domaine en production (CORS_ORIGINS), voir
+  // cors.config.ts — dev local reste permissif.
+  app.enableCors({
+    origin: resoudreOriginsCors(process.env.NODE_ENV, process.env.CORS_ORIGINS),
+    credentials: false,
+  });
 
   // §17 "API ouverte" / stack verrouillée "REST + OpenAPI/Swagger" :
   // schéma généré à partir des DTO existants (plugin CLI @nestjs/swagger,

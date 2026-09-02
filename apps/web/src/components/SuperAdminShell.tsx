@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/auth-context';
 
@@ -8,6 +9,10 @@ import { useAuth } from '../lib/auth-context';
 const NAV_LINKS = [
   { to: '/super-admin', label: 'Vue globale', icon: 'dashboard' },
   { to: '/super-admin/tenants', label: 'Tenants', icon: 'store' },
+  { to: '/super-admin/plans', label: 'Plans', icon: 'sell' },
+  { to: '/super-admin/utilisateurs', label: 'Utilisateurs', icon: 'group' },
+  { to: '/super-admin/support-tickets', label: 'Support', icon: 'support_agent' },
+  { to: '/super-admin/audit', label: 'Audit & Sécurité', icon: 'fact_check' },
   { to: '/super-admin/facturation', label: 'Facturation', icon: 'receipt_long' },
   { to: '/super-admin/factures', label: 'Factures', icon: 'request_quote' },
 ];
@@ -22,6 +27,7 @@ function classesNav(actif: boolean): string {
 export function SuperAdminShell({ children }: { children: ReactNode }) {
   const { session, logout } = useAuth();
   const navigate = useNavigate();
+  const [menuOuvert, setMenuOuvert] = useState(false);
 
   function handleLogout() {
     logout();
@@ -29,18 +35,40 @@ export function SuperAdminShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen bg-surface-container-lowest">
-      <nav className="w-64 shrink-0 border-r border-outline-variant bg-surface p-4 flex flex-col">
-        <div className="mb-8 px-2 mt-2">
-          <span className="block text-lg font-bold text-primary">Fotall-Ma Pro</span>
-          <span className="block text-xs text-on-surface-variant">Console Super-Admin</span>
+    <div className="flex h-screen overflow-hidden bg-surface-container-lowest">
+      {menuOuvert && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40 md:hidden"
+          onClick={() => setMenuOuvert(false)}
+          aria-hidden="true"
+        />
+      )}
+      <nav
+        className={`fixed inset-y-0 left-0 z-40 flex w-72 max-w-[85vw] shrink-0 flex-col border-r border-outline-variant bg-surface p-4 transition-transform duration-200 ease-out md:static md:z-auto md:w-64 md:max-w-none md:translate-x-0 ${
+          menuOuvert ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div className="mb-8 mt-2 flex items-center justify-between px-2">
+          <div>
+            <span className="block text-lg font-bold text-primary">Fotall-Ma Pro</span>
+            <span className="block text-xs text-on-surface-variant">Console Super-Admin</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMenuOuvert(false)}
+            className="rounded-lg p-1 text-on-surface-variant hover:bg-surface-container-high md:hidden"
+            aria-label="Fermer le menu"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
         </div>
-        <div className="flex flex-col gap-1 flex-grow">
+        <div className="flex flex-grow flex-col gap-1 overflow-y-auto">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               end
+              onClick={() => setMenuOuvert(false)}
               className={({ isActive }) => classesNav(isActive)}
             >
               <span className="material-symbols-outlined">{link.icon}</span>
@@ -48,7 +76,7 @@ export function SuperAdminShell({ children }: { children: ReactNode }) {
             </NavLink>
           ))}
         </div>
-        <div className="mt-auto pt-4 border-t border-outline-variant">
+        <div className="mt-auto border-t border-outline-variant pt-4">
           <button
             type="button"
             onClick={handleLogout}
@@ -59,14 +87,22 @@ export function SuperAdminShell({ children }: { children: ReactNode }) {
           </button>
         </div>
       </nav>
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="flex items-center justify-between h-16 px-6 border-b border-outline-variant bg-surface shrink-0">
-          <span className="text-sm text-on-surface-variant">{session?.user.email}</span>
-          <span className="text-xs uppercase tracking-wide text-on-surface-variant">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+        <header className="flex h-16 shrink-0 items-center justify-between gap-3 border-b border-outline-variant bg-surface px-4 sm:px-6">
+          <button
+            type="button"
+            onClick={() => setMenuOuvert(true)}
+            className="rounded-lg p-1 text-on-surface-variant hover:bg-surface-container-high md:hidden"
+            aria-label="Ouvrir le menu"
+          >
+            <span className="material-symbols-outlined">menu</span>
+          </button>
+          <span className="truncate text-sm text-on-surface-variant">{session?.user.email}</span>
+          <span className="hidden shrink-0 text-xs uppercase tracking-wide text-on-surface-variant sm:inline">
             {session?.user.role}
           </span>
         </header>
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">{children}</main>
       </div>
     </div>
   );

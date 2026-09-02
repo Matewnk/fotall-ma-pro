@@ -223,7 +223,7 @@ export function ClientsPage() {
         </form>
       )}
 
-      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden">
+      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase text-on-surface-variant">

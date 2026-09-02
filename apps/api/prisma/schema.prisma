@@ -54,6 +54,29 @@ enum EffetPermission {
   DENY
 }
 
+// §022-super-admin-enhancement — catalogue de référence des plans
+// commerciaux (prix, limites, fonctionnalités). Distinct de Abonnement :
+// Abonnement porte ce qu'un tenant paie réellement (peut diverger d'une
+// négociation particulière), PlanDefinition porte le tarif/les limites de
+// référence affichés par le SUPER_ADMIN. Un seul enregistrement par valeur
+// de PlanCommercial, pré-créé non configuré (tous les champs nullable) —
+// jamais de prix ou de limite inventés : tant que le SUPER_ADMIN ne les a
+// pas renseignés, l'UI affiche "Non configuré".
+model PlanDefinition {
+  id                    String         @id @default(uuid())
+  plan                  PlanCommercial @unique
+  prixMensuel           Decimal?       @map("prix_mensuel") @db.Decimal(10, 2)
+  devise                String         @default("XOF")
+  limiteUtilisateurs    Int?           @map("limite_utilisateurs")
+  limitePointsDeService Int?           @map("limite_points_de_service")
+  fonctionnalites       String[]       @default([])
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @updatedAt @map("updated_at")
+  updatedBy             String?        @map("updated_by")
+
+  @@map("plan_definitions")
+}
+
 model Tenant {
   id            String         @id @default(uuid())
   nomPressing   String         @map("nom_pressing")
@@ -68,14 +91,15 @@ model Tenant {
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
 
-  users              User[]
-  licence            Licence?
-  supportSessions    SupportSession[]
-  onboarding         OnboardingState?
-  abonnement         Abonnement?
-  apiKeys            ApiKey[]
-  journauxSauvegarde JournalSauvegarde[]
-  userPermissions      UserPermission[]
+  users                 User[]
+  licence               Licence?
+  supportSessions       SupportSession[]
+  onboarding            OnboardingState?
+  abonnement            Abonnement?
+  apiKeys               ApiKey[]
+  journauxSauvegarde    JournalSauvegarde[]
+  userPermissions       UserPermission[]
+  supportTickets        SupportTicket[]
   historiqueAbonnements HistoriqueAbonnement[]
   factures              Facture[]
 
@@ -377,7 +401,6 @@ model Facture {
   @@map("factures")
 }
 
-
 // §17 "API ouverte" : chaque clé appartient à un seul tenant, possède des
 // scopes, peut être révoquée, est soumise à un quota. Stockée hachée
 // (SHA-256, cf. api-key.service.ts) — jamais en clair, jamais retrouvable
@@ -402,4 +425,63 @@ model ApiKey {
   tenant Tenant @relation(fields: [tenantId], references: [id])
 
   @@map("api_keys")
+}
+
+enum StatutTicketSupport {
+  OUVERT
+  EN_COURS
+  RESOLU
+}
+
+enum PrioriteTicketSupport {
+  BASSE
+  NORMALE
+  HAUTE
+  URGENTE
+}
+
+enum AuteurMessageTicket {
+  TENANT
+  SUPER_ADMIN
+}
+
+// §022-super-admin-enhancement — centre de support. Control-plane (comme
+// SupportSession/Abonnement) : un ticket appartient à un seul tenant
+// (tenantId), n'importe quel utilisateur de ce tenant peut le créer/le
+// consulter/y répondre (aucune restriction de rôle ADMIN — c'est une
+// demande d'aide, pas une action administrative), mais jamais un autre
+// tenant. Le SUPER_ADMIN voit et répond à tous les tickets, change leur
+// statut ; il n'obtient aucun droit métier supplémentaire sur le tenant lui-
+// même. "Historique" = le fil de messages, append-only comme
+// JournalPaiement/JournalLicence — jamais modifié ni supprimé.
+model SupportTicket {
+  id          String                @id @default(uuid())
+  tenantId    String                @map("tenant_id")
+  auteurId    String                @map("auteur_id")
+  sujet       String
+  description String
+  statut      StatutTicketSupport   @default(OUVERT)
+  priorite    PrioriteTicketSupport @default(NORMALE)
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @updatedAt @map("updated_at")
+  resoluAt    DateTime?             @map("resolu_at")
+
+  tenant   Tenant                 @relation(fields: [tenantId], references: [id])
+  messages SupportTicketMessage[]
+
+  @@index([tenantId])
+  @@map("support_tickets")
+}
+
+model SupportTicketMessage {
+  id         String              @id @default(uuid())
+  ticketId   String              @map("ticket_id")
+  auteurId   String              @map("auteur_id")
+  auteurType AuteurMessageTicket @map("auteur_type")
+  corps      String
+  createdAt  DateTime            @default(now()) @map("created_at")
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id])
+
+  @@map("support_ticket_messages")
 }
