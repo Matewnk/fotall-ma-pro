@@ -1,5 +1,14 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, UseGuards } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { PlanCommercial, Role, StatutLicence } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
 import { CurrentTenant } from '../auth/current-tenant.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -21,9 +30,36 @@ export class TenantsController {
     private readonly auditService: AuditService,
   ) {}
 
+  // §022 : recherche (nom/sous-domaine) et filtres (statut licence, plan)
+  // en base plutôt que côté client — la liste grossit avec le nombre de
+  // tenants. "Propriétaire" = premier ADMIN créé pour ce tenant (aucun
+  // champ "owner" dédié dans le modèle User ; le premier ADMIN est celui
+  // créé par /auth/register, cf. auth.service.ts). "Nombre d'utilisateurs"
+  // = compte réel. Pas de "dernière activité" : aucune donnée de dernière
+  // connexion n'existe aujourd'hui (User n'a pas de lastLoginAt) — l'ajouter
+  // demanderait une migration + une écriture à chaque connexion, hors
+  // périmètre de cette passe (voir specs/022-super-admin-enhancement).
   @Get()
-  list() {
-    return this.prisma.tenant.findMany({
+  async list(
+    @Query('q') q?: string,
+    @Query('statut') statut?: StatutLicence,
+    @Query('plan') plan?: string,
+  ) {
+    const tenants = await this.prisma.tenant.findMany({
+      where: {
+        ...(q
+          ? {
+              OR: [
+                { nomPressing: { contains: q, mode: 'insensitive' } },
+                { sousDomaine: { contains: q, mode: 'insensitive' } },
+              ],
+            }
+          : {}),
+        ...(plan && Object.values(PlanCommercial).includes(plan as PlanCommercial)
+          ? { plan: plan as PlanCommercial }
+          : {}),
+        ...(statut ? { licence: { statut } } : {}),
+      },
       select: {
         id: true,
         nomPressing: true,
@@ -31,9 +67,22 @@ export class TenantsController {
         plan: true,
         createdAt: true,
         licence: { select: { statut: true, dateFinEssai: true, dateExpirationCourante: true } },
+        users: {
+          where: { role: Role.ADMIN },
+          orderBy: { createdAt: 'asc' },
+          take: 1,
+          select: { email: true },
+        },
+        _count: { select: { users: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
+
+    return tenants.map(({ users, _count, ...tenant }) => ({
+      ...tenant,
+      proprietaire: users[0]?.email ?? null,
+      nombreUtilisateurs: _count.users,
+    }));
   }
 
   @Get(':id')
@@ -50,12 +99,24 @@ export class TenantsController {
         fuseauHoraire: true,
         createdAt: true,
         licence: true,
+        users: {
+          where: { role: Role.ADMIN },
+          orderBy: { createdAt: 'asc' },
+          take: 1,
+          select: { email: true },
+        },
+        _count: { select: { users: true } },
       },
     });
     if (!tenant) {
       throw new NotFoundException();
     }
-    return tenant;
+    const { users, _count, ...reste } = tenant;
+    return {
+      ...reste,
+      proprietaire: users[0]?.email ?? null,
+      nombreUtilisateurs: _count.users,
+    };
   }
 
   // §19.4 : "changements de configuration" et "actions administratives"

@@ -8,6 +8,10 @@ import { useAuth } from '../lib/auth-context';
 const NAV_LINKS = [
   { to: '/super-admin', label: 'Vue globale', icon: 'dashboard' },
   { to: '/super-admin/tenants', label: 'Tenants', icon: 'store' },
+  { to: '/super-admin/plans', label: 'Plans', icon: 'sell' },
+  { to: '/super-admin/utilisateurs', label: 'Utilisateurs', icon: 'group' },
+  { to: '/super-admin/support-tickets', label: 'Support', icon: 'support_agent' },
+  { to: '/super-admin/audit', label: 'Audit & Sécurité', icon: 'fact_check' },
 ];
 
 function classesNav(actif: boolean): string {

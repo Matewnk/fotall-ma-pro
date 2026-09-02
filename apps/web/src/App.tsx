@@ -15,10 +15,17 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { StocksPage } from './pages/StocksPage';
+import { SuperAdminAuditPage } from './pages/SuperAdminAuditPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
+import { SuperAdminPlansPage } from './pages/SuperAdminPlansPage';
+import { SuperAdminSupportPage } from './pages/SuperAdminSupportPage';
+import { SuperAdminSupportTicketDetailPage } from './pages/SuperAdminSupportTicketDetailPage';
 import { SuperAdminTenantDetailPage } from './pages/SuperAdminTenantDetailPage';
 import { SuperAdminTenantsPage } from './pages/SuperAdminTenantsPage';
+import { SuperAdminUsersPage } from './pages/SuperAdminUsersPage';
+import { SupportPage } from './pages/SupportPage';
+import { SupportTicketDetailPage } from './pages/SupportTicketDetailPage';
 import { TicketsPage } from './pages/TicketsPage';
 import { UsersPage } from './pages/UsersPage';
 
@@ -147,6 +154,26 @@ export function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/support"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <SupportPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/support/:id"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <SupportTicketDetailPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
       <Route path="/super-admin/connexion" element={<SuperAdminLoginPage />} />
       <Route
         path="/super-admin"
@@ -164,6 +191,56 @@ export function App() {
           <SuperAdminRoute>
             <SuperAdminShell>
               <SuperAdminTenantsPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/utilisateurs"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminUsersPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/plans"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminPlansPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/audit"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminAuditPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/support-tickets"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminSupportPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/support-tickets/:id"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminSupportTicketDetailPage />
             </SuperAdminShell>
           </SuperAdminRoute>
         }
