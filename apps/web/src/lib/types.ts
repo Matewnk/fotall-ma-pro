@@ -150,6 +150,28 @@ export type TenantDetail = {
     dateExpirationCourante?: string;
   } | null;
 };
+export type AbonnementGlobal = {
+  id: string;
+  tenantId: string;
+  nomPressing: string;
+  plan: PlanCommercial;
+  modePaiement: ModePaiementFacturation;
+  montant: number;
+  devise: string;
+  statut: StatutAbonnement;
+  dateProchaineFacturation: string;
+  referenceProvider?: string;
+  createdAt: string;
+};
+
+export type CataloguePlan = {
+  plan: PlanCommercial;
+  prixMensuel: number | null;
+  devise: string;
+  limiteUtilisateurs: number | null;
+  limitePointsDeService: number | null;
+  fonctionnalites: string[];
+};
 
 export type EntreeAudit = {
   id: string;
@@ -178,9 +200,16 @@ export type JournalPaiementEntry = {
   type: string;
   montant?: string;
   devise?: string;
+  referenceProvider?: string | null;
+  idempotencyKey?: string;
   createdAt: string;
 };
 
+// Reflète GET /abonnement, § Renouvellement self-service : licence est la
+// source de vérité de la date d'expiration réelle et du statut d'accès
+// (ESSAI/ACTIVE/EXPIREE/SUSPENDUE), distincte de Abonnement.statut qui ne
+// couvre que l'état de facturation (ACTIF/EN_RETARD/ANNULE) — voir
+// BillingService#obtenirFacturation.
 export type Abonnement = {
   id: string;
   tenantId: string;
@@ -192,7 +221,73 @@ export type Abonnement = {
   dateProchaineFacturation: string;
   referenceProvider?: string;
   journal: JournalPaiementEntry[];
+  licence: {
+    statut: StatutLicence;
+    dateActivation: string | null;
+    dateExpirationCourante: string | null;
+  };
+  // false tant que PAYTECH_DRY_RUN=false et qu'aucun vrai fournisseur
+  // n'est câblé (voir ADR-007) — le bouton de renouvellement doit alors
+  // s'effacer au profit d'un message, plutôt que de mener à une erreur.
+  paiementEnLigneDisponible: boolean;
 };
+export const DUREES_RENOUVELLEMENT_MOIS = [1, 3, 6, 12] as const;
+export type DureeRenouvellementMois = (typeof DUREES_RENOUVELLEMENT_MOIS)[number];
+
+export type InitiationRenouvellement = {
+  factureId: string;
+  token: string;
+  redirectUrl: string;
+  mode: 'DRY_RUN';
+  plan: PlanCommercial;
+  montant: number;
+  devise: string;
+  dureeMois: DureeRenouvellementMois;
+  dateExpirationActuelle: string;
+  nouvelleDateExpiration: string;
+};
+
+export type ConfirmationRenouvellement = {
+  mode: 'DRY_RUN';
+  facture: Facture;
+};
+
+export type HistoriqueAbonnementEntry = {
+  id: string;
+  tenantId: string;
+  ancienPlan: PlanCommercial;
+  nouveauPlan: PlanCommercial;
+  ancienPrix: number | null;
+  nouveauPrix: number | null;
+  devise: string;
+  effectuePar: string;
+  motif?: string | null;
+  dateEffet: string;
+  createdAt: string;
+};
+
+export type StatutFacture = 'EMISE' | 'PAYEE' | 'EN_RETARD' | 'ANNULEE';
+
+export type Facture = {
+  id: string;
+  numero: string;
+  tenantId: string;
+  nomPressingSnap: string;
+  emailProprioSnap?: string | null;
+  planSnap: PlanCommercial;
+  montant: number;
+  devise: string;
+  modePaiementSnap: ModePaiementFacturation;
+  periodeDebut: string;
+  periodeFin: string;
+  statut: StatutFacture;
+  dateEmission: string;
+  dateEcheance: string;
+  paiementRefId?: string | null;
+  emisePar: string;
+};
+
+export type FactureGlobale = Facture & { tenant: { nomPressing: string } };
 
 export type Dashboard = {
   kpis: {

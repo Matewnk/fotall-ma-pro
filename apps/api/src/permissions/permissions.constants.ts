@@ -38,6 +38,22 @@ export const PERMISSIONS_CONNUES = [
   'livraisons.update-statut',
   'traitement.read',
   'traitement.update-statut',
+  // §023-subscriptions-invoicing Phase 2 : consultation en lecture seule
+  // de l'abonnement/factures/paiements du tenant courant. Pas dans
+  // PERMISSIONS_NON_CONFIGURABLES : un ADMIN peut choisir de déléguer
+  // cette consultation à un CAISSIER de confiance via override, sans
+  // nouveau mécanisme.
+  'facturation.read',
+  // §023-subscriptions-invoicing / ADR-007 : initier un renouvellement de
+  // facture via PayTech — distincte de facturation.read (lecture) au même
+  // titre que commandes.read/commandes.encaisser ou caisse.read/
+  // caisse.encaisser (une permission de lecture n'autorise jamais une
+  // écriture). Non ajoutée aux défauts CAISSIER/TECHNICIEN/LIVREUR
+  // (ADMIN uniquement par défaut). Actuellement DRY_RUN uniquement
+  // (aucune credential PayTech réelle dans ce projet, voir ADR-007) —
+  // l'interface (route, permission, audit) est prête avant l'intégration
+  // réelle, jamais l'inverse.
+  'facturation.renouveler',
 ] as const;
 
 export type Permission = (typeof PERMISSIONS_CONNUES)[number];

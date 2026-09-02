@@ -7,9 +7,11 @@ import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
 import { BackupModule } from './backup/backup.module';
 import { BillingModule } from './billing/billing.module';
+import { BillingSelfServiceModule } from './billing-self-service/billing-self-service.module';
 import { CashModule } from './cash/cash.module';
 import { ClientsModule } from './clients/clients.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { InvoicesModule } from './invoices/invoices.module';
 import { LicenceModule } from './licence/licence.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OnboardingModule } from './onboarding/onboarding.module';
@@ -55,6 +57,8 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     TenantSettingsModule,
     PublicTrackingModule,
+    InvoicesModule,
+    BillingSelfServiceModule,
   ],
   controllers: [AppController],
 })

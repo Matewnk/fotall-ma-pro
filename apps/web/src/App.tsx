@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { SuperAdminRoute } from './components/SuperAdminRoute';
 import { SuperAdminShell } from './components/SuperAdminShell';
 import { AuditPage } from './pages/AuditPage';
+import { BillingSelfServicePage } from './pages/BillingSelfServicePage';
 import { BrandingPage } from './pages/BrandingPage';
 import { CashPage } from './pages/CashPage';
 import { ClientsPage } from './pages/ClientsPage';
@@ -15,7 +16,9 @@ import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { StocksPage } from './pages/StocksPage';
+import { SuperAdminBillingPage } from './pages/SuperAdminBillingPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
+import { SuperAdminInvoicesPage } from './pages/SuperAdminInvoicesPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
 import { SuperAdminTenantDetailPage } from './pages/SuperAdminTenantDetailPage';
 import { SuperAdminTenantsPage } from './pages/SuperAdminTenantsPage';
@@ -147,6 +150,16 @@ export function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/facturation"
+        element={
+          <ProtectedRoute>
+            <AppShell>
+              <BillingSelfServicePage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
       <Route path="/super-admin/connexion" element={<SuperAdminLoginPage />} />
       <Route
         path="/super-admin"
@@ -164,6 +177,26 @@ export function App() {
           <SuperAdminRoute>
             <SuperAdminShell>
               <SuperAdminTenantsPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/facturation"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminBillingPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/factures"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminInvoicesPage />
             </SuperAdminShell>
           </SuperAdminRoute>
         }

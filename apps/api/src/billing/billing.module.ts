@@ -10,5 +10,6 @@ import { WebhookSecretGuard } from './webhook-secret.guard';
   imports: [LicenceModule],
   controllers: [BillingController, BillingWebhookController],
   providers: [BillingService, BillingScheduler, WebhookSecretGuard],
+  exports: [BillingService],
 })
 export class BillingModule {}

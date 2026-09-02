@@ -103,6 +103,11 @@ describe('Billing (017) — PostgreSQL réel', () => {
       .set('Authorization', `Bearer ${token}`);
     expect(lecture.status).toBe(403);
 
+    const liste = await request(app.getHttpServer())
+      .get('/super-admin/facturation')
+      .set('Authorization', `Bearer ${token}`);
+    expect(liste.status).toBe(403);
+
     const creation = await request(app.getHttpServer())
       .post(`/super-admin/facturation/${tenantId}/abonnement`)
       .set('Authorization', `Bearer ${token}`)
@@ -113,6 +118,35 @@ describe('Billing (017) — PostgreSQL réel', () => {
         dateProchaineFacturation: new Date().toISOString(),
       });
     expect(creation.status).toBe(403);
+  });
+
+  it('vue globale : liste tous les abonnements, filtrable par tenant, statut et plan', async () => {
+    const { tenantId } = await registerTenant('liste-globale');
+    await creerAbonnement(tenantId, { plan: 'BUSINESS', montant: 50000 });
+
+    const liste = await request(app.getHttpServer())
+      .get('/super-admin/facturation')
+      .set('Authorization', `Bearer ${tokenSuperAdmin}`);
+    expect(liste.status).toBe(200);
+    const entree = liste.body.find((a: { tenantId: string }) => a.tenantId === tenantId);
+    expect(entree.plan).toBe('BUSINESS');
+    expect(entree.montant).toBe(50000);
+    expect(entree.nomPressing).toContain('Pressing liste-globale');
+
+    const filtreTenant = await request(app.getHttpServer())
+      .get('/super-admin/facturation')
+      .query({ tenantId })
+      .set('Authorization', `Bearer ${tokenSuperAdmin}`);
+    expect(filtreTenant.status).toBe(200);
+    expect(filtreTenant.body.map((a: { tenantId: string }) => a.tenantId)).toEqual([tenantId]);
+
+    const filtrePlan = await request(app.getHttpServer())
+      .get('/super-admin/facturation')
+      .query({ plan: 'BUSINESS' })
+      .set('Authorization', `Bearer ${tokenSuperAdmin}`);
+    expect(filtrePlan.status).toBe(200);
+    expect(filtrePlan.body.map((a: { tenantId: string }) => a.tenantId)).toContain(tenantId);
+    expect(filtrePlan.body.every((a: { plan: string }) => a.plan === 'BUSINESS')).toBe(true);
   });
 
   describe('webhook de paiement', () => {

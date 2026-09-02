@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Role, StatutAbonnement } from '@prisma/client';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Roles } from '../auth/roles.decorator';
 import { RolesGuard } from '../auth/roles.guard';
@@ -14,6 +14,18 @@ import { CreateAbonnementDto } from './dto/create-abonnement.dto';
 @Controller('super-admin/facturation')
 export class BillingController {
   constructor(private readonly billingService: BillingService) {}
+
+  // Déclarée avant ':tenantId' uniquement par lisibilité — Nest/Express
+  // distingue déjà les deux routes par leur nombre de segments, aucune
+  // collision possible.
+  @Get()
+  liste(
+    @Query('tenantId') tenantId?: string,
+    @Query('statut') statut?: StatutAbonnement,
+    @Query('plan') plan?: string,
+  ) {
+    return this.billingService.listerFacturationGlobale({ tenantId, statut, plan });
+  }
 
   @Get(':tenantId')
   obtenir(@Param('tenantId') tenantId: string) {

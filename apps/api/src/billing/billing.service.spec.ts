@@ -12,13 +12,18 @@ function makePrismaMock() {
       findMany: jest.fn(),
     },
     journalPaiement: { findUnique: jest.fn(), create: jest.fn() },
+    facture: { findFirst: jest.fn().mockResolvedValue(null), update: jest.fn() },
     tenant: { update: jest.fn() },
   };
 }
 
 function makeLicenceServiceMock() {
   return {
-    getStatut: jest.fn(),
+    getStatut: jest.fn().mockResolvedValue({
+      statut: StatutLicence.ACTIVE,
+      dateActivation: null,
+      dateExpirationCourante: null,
+    }),
     activer: jest.fn().mockResolvedValue(undefined),
     renouveler: jest.fn().mockResolvedValue(undefined),
     suspendre: jest.fn().mockResolvedValue(undefined),
@@ -87,12 +92,25 @@ describe('BillingService', () => {
   });
 
   describe('obtenirFacturation', () => {
-    it('retourne l’abonnement avec son journal', async () => {
+    it('retourne l’abonnement avec son journal et l’état de la licence', async () => {
       prisma.abonnement.findUnique.mockResolvedValue({ id: 'abo-1', journal: [] });
+      licenceService.getStatut.mockResolvedValue({
+        statut: StatutLicence.ACTIVE,
+        dateActivation: new Date('2026-01-01'),
+        dateExpirationCourante: new Date('2026-10-01'),
+      });
 
       const resultat = await service.obtenirFacturation(tenantId);
 
-      expect(resultat).toEqual({ id: 'abo-1', journal: [] });
+      expect(resultat).toEqual({
+        id: 'abo-1',
+        journal: [],
+        licence: {
+          statut: StatutLicence.ACTIVE,
+          dateActivation: new Date('2026-01-01'),
+          dateExpirationCourante: new Date('2026-10-01'),
+        },
+      });
     });
 
     it('lève NotFoundException si aucun abonnement n’existe', async () => {
@@ -169,6 +187,65 @@ describe('BillingService', () => {
       expect(licenceService.activer).not.toHaveBeenCalled();
       expect(licenceService.renouveler).not.toHaveBeenCalled();
       expect(licenceService.suspendre).not.toHaveBeenCalled();
+    });
+
+    it('PAIEMENT_REUSSI avec referenceProvider vers une facture EMISE : durée dérivée de la période, facture marquée PAYEE', async () => {
+      licenceService.getStatut.mockResolvedValue({
+        statut: StatutLicence.ACTIVE,
+        dateActivation: null,
+        dateExpirationCourante: null,
+      });
+      const periodeDebut = new Date('2026-09-01T00:00:00Z');
+      const periodeFin = new Date('2026-09-01T00:00:00Z');
+      periodeFin.setDate(periodeFin.getDate() + 360); // 12 mois (30j × 12)
+      prisma.facture.findFirst.mockResolvedValue({
+        id: 'fac-1',
+        tenantId,
+        statut: 'EMISE',
+        periodeDebut,
+        periodeFin,
+      });
+
+      await service.traiterEvenementPaiement({
+        ...dtoBase,
+        type: 'PAIEMENT_REUSSI',
+        referenceProvider: 'fac-1',
+      });
+
+      expect(prisma.facture.findFirst).toHaveBeenCalledWith({
+        where: { id: 'fac-1', tenantId, statut: 'EMISE' },
+      });
+      expect(prisma.facture.update).toHaveBeenCalledWith({
+        where: { id: 'fac-1' },
+        data: { statut: 'PAYEE' },
+      });
+      expect(licenceService.renouveler).toHaveBeenCalledWith(
+        tenantId,
+        expect.any(String),
+        expect.any(String),
+        360,
+        'Paiement reçu',
+      );
+    });
+
+    it('PAIEMENT_REUSSI sans referenceProvider : comportement inchangé (cycle fixe, aucune facture touchée)', async () => {
+      licenceService.getStatut.mockResolvedValue({
+        statut: StatutLicence.ACTIVE,
+        dateActivation: null,
+        dateExpirationCourante: null,
+      });
+
+      await service.traiterEvenementPaiement({ ...dtoBase, type: 'PAIEMENT_REUSSI' });
+
+      expect(prisma.facture.findFirst).not.toHaveBeenCalled();
+      expect(prisma.facture.update).not.toHaveBeenCalled();
+      expect(licenceService.renouveler).toHaveBeenCalledWith(
+        tenantId,
+        expect.any(String),
+        expect.any(String),
+        30,
+        'Paiement reçu',
+      );
     });
 
     it('journalise toujours l’évènement avant tout effet de bord', async () => {
