@@ -419,49 +419,51 @@ export function StocksPage() {
         <div className="p-4 border-b border-outline-variant">
           <h3 className="font-semibold text-on-surface">Mouvements récents</h3>
         </div>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-xs uppercase text-on-surface-variant">
-              <th className="px-4 py-2">Date &amp; heure</th>
-              <th className="px-4 py-2">Article</th>
-              <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2 text-right">Quantité</th>
-              <th className="px-4 py-2">Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mouvements.data?.length === 0 && (
-              <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
-                  Aucun mouvement pour l'instant.
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-left text-xs uppercase text-on-surface-variant">
+                <th className="px-4 py-2">Date &amp; heure</th>
+                <th className="px-4 py-2">Article</th>
+                <th className="px-4 py-2">Type</th>
+                <th className="px-4 py-2 text-right">Quantité</th>
+                <th className="px-4 py-2">Note</th>
               </tr>
-            )}
-            {mouvements.data?.map((mouvement) => (
-              <tr key={mouvement.id} className="border-t border-outline-variant">
-                <td className="px-4 py-2 text-xs text-on-surface-variant">
-                  {new Date(mouvement.createdAt).toLocaleString('fr-FR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
-                </td>
-                <td className="px-4 py-2 font-medium">{mouvement.article.intitule}</td>
-                <td className="px-4 py-2">{LIBELLES_MOUVEMENT[mouvement.type]}</td>
-                <td
-                  className={`px-4 py-2 text-right font-mono ${
-                    mouvement.quantite < 0 ? 'text-error' : 'text-status-ready'
-                  }`}
-                >
-                  {mouvement.quantite > 0 ? '+' : ''}
-                  {mouvement.quantite}
-                </td>
-                <td className="px-4 py-2 text-on-surface-variant">{mouvement.note ?? '—'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {mouvements.data?.length === 0 && (
+                <tr>
+                  <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
+                    Aucun mouvement pour l'instant.
+                  </td>
+                </tr>
+              )}
+              {mouvements.data?.map((mouvement) => (
+                <tr key={mouvement.id} className="border-t border-outline-variant">
+                  <td className="px-4 py-2 text-xs text-on-surface-variant">
+                    {new Date(mouvement.createdAt).toLocaleString('fr-FR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
+                  </td>
+                  <td className="px-4 py-2 font-medium">{mouvement.article.intitule}</td>
+                  <td className="px-4 py-2">{LIBELLES_MOUVEMENT[mouvement.type]}</td>
+                  <td
+                    className={`px-4 py-2 text-right font-mono ${
+                      mouvement.quantite < 0 ? 'text-error' : 'text-status-ready'
+                    }`}
+                  >
+                    {mouvement.quantite > 0 ? '+' : ''}
+                    {mouvement.quantite}
+                  </td>
+                  <td className="px-4 py-2 text-on-surface-variant">{mouvement.note ?? '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

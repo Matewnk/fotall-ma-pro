@@ -41,7 +41,7 @@ export function AuditPage() {
         className="border border-outline-variant rounded-lg px-3 py-2 text-sm max-w-sm"
       />
 
-      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden">
+      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase text-on-surface-variant">
