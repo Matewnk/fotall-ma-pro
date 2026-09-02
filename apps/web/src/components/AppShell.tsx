@@ -26,6 +26,12 @@ const NAV_LINKS: { to: string; label: string; icon: string; roles?: Role[] }[] =
   { to: '/branding', label: 'Branding', icon: 'palette', roles: ['ADMIN'] },
   { to: '/audit', label: 'Audit', icon: 'fact_check', roles: ['ADMIN'] },
   { to: '/support', label: 'Support', icon: 'support_agent' },
+  {
+    to: '/facturation',
+    label: 'Abonnement & facturation',
+    icon: 'receipt_long',
+    roles: ['ADMIN'],
+  },
 ];
 
 function classesNav(actif: boolean): string {

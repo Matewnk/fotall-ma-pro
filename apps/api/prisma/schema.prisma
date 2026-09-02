@@ -91,15 +91,17 @@ model Tenant {
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
 
-  users              User[]
-  licence            Licence?
-  supportSessions    SupportSession[]
-  onboarding         OnboardingState?
-  abonnement         Abonnement?
-  apiKeys            ApiKey[]
-  journauxSauvegarde JournalSauvegarde[]
-  userPermissions    UserPermission[]
-  supportTickets     SupportTicket[]
+  users                 User[]
+  licence               Licence?
+  supportSessions       SupportSession[]
+  onboarding            OnboardingState?
+  abonnement            Abonnement?
+  apiKeys               ApiKey[]
+  journauxSauvegarde    JournalSauvegarde[]
+  userPermissions       UserPermission[]
+  supportTickets        SupportTicket[]
+  historiqueAbonnements HistoriqueAbonnement[]
+  factures              Facture[]
 
   @@map("tenants")
 }
@@ -330,6 +332,73 @@ model JournalPaiement {
   abonnement Abonnement @relation(fields: [abonnementId], references: [id])
 
   @@map("journal_paiements")
+}
+
+// §023-subscriptions-invoicing — une ligne par changement de plan/prix,
+// append-only (même principe que JournalLicence/JournalPaiement) : jamais
+// modifiée ni supprimée. Abonnement ne garde que l'état courant ; ce
+// journal est la seule trace de "ce qui a changé, quand, par qui,
+// pourquoi" demandée pour la section "Historique abonnement".
+model HistoriqueAbonnement {
+  id          String         @id @default(uuid())
+  tenantId    String         @map("tenant_id")
+  ancienPlan  PlanCommercial @map("ancien_plan")
+  nouveauPlan PlanCommercial @map("nouveau_plan")
+  ancienPrix  Decimal?       @map("ancien_prix") @db.Decimal(10, 2)
+  nouveauPrix Decimal?       @map("nouveau_prix") @db.Decimal(10, 2)
+  devise      String         @default("XOF")
+  effectuePar String         @map("effectue_par")
+  motif       String?
+  dateEffet   DateTime       @default(now()) @map("date_effet")
+  createdAt   DateTime       @default(now()) @map("created_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@index([tenantId])
+  @@map("historique_abonnements")
+}
+
+enum StatutFacture {
+  EMISE
+  PAYEE
+  EN_RETARD
+  ANNULEE
+}
+
+// §023-subscriptions-invoicing — une facture fige (snapshot) les
+// informations du tenant/abonnement au moment de l'émission : jamais une
+// lecture live de Tenant/Abonnement, pour qu'une facture déjà émise ne
+// change jamais rétroactivement si le tenant est renommé ensuite. Pas de
+// champ TVA/taxe : aucun régime fiscal n'existe dans le projet (voir
+// spec.md, décision explicite). paiementRef pointe vers un JournalPaiement
+// déjà existant si le paiement correspondant est déjà enregistré — jamais
+// un second enregistrement du montant payé (principe append-only, jamais
+// deux systèmes financiers parallèles).
+model Facture {
+  id               String                  @id @default(uuid())
+  numero           String                  @unique
+  tenantId         String                  @map("tenant_id")
+  nomPressingSnap  String                  @map("nom_pressing_snapshot")
+  emailProprioSnap String?                 @map("email_proprietaire_snapshot")
+  planSnap         PlanCommercial          @map("plan_snapshot")
+  montant          Decimal                 @db.Decimal(10, 2)
+  devise           String                  @default("XOF")
+  modePaiementSnap ModePaiementFacturation @map("mode_paiement_snapshot")
+  periodeDebut     DateTime                @map("periode_debut")
+  periodeFin       DateTime                @map("periode_fin")
+  statut           StatutFacture           @default(EMISE)
+  dateEmission     DateTime                @default(now()) @map("date_emission")
+  dateEcheance     DateTime                @map("date_echeance")
+  paiementRefId    String?                 @map("paiement_ref_id")
+  emisePar         String                  @map("emise_par")
+  createdAt        DateTime                @default(now()) @map("created_at")
+  updatedAt        DateTime                @updatedAt @map("updated_at")
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+
+  @@unique([tenantId, periodeDebut])
+  @@index([tenantId])
+  @@map("factures")
 }
 
 // §17 "API ouverte" : chaque clé appartient à un seul tenant, possède des

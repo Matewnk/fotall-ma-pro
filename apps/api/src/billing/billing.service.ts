@@ -1,8 +1,11 @@
 import { ConflictException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import {
   Abonnement,
+  Facture,
+  PlanCommercial,
   Prisma,
   StatutAbonnement,
+  StatutFacture,
   StatutLicence,
   TypeEvenementPaiement,
 } from '@prisma/client';
@@ -65,6 +68,51 @@ export class BillingService {
     return abonnement;
   }
 
+  // §022-super-admin-enhancement : vue globale multi-tenant, control-plane
+  // uniquement (Abonnement/Tenant vivent hors du schéma tenant) — ne viole
+  // pas l'isolation puisqu'aucune donnée métier du tenant n'est lue.
+  async listerFacturationGlobale(filtres: {
+    tenantId?: string | undefined;
+    statut?: StatutAbonnement | undefined;
+    plan?: string | undefined;
+  }) {
+    const abonnements = await this.prisma.abonnement.findMany({
+      where: {
+        ...(filtres.tenantId ? { tenantId: filtres.tenantId } : {}),
+        ...(filtres.statut ? { statut: filtres.statut } : {}),
+        ...(filtres.plan && Object.values(PlanCommercial).includes(filtres.plan as PlanCommercial)
+          ? { plan: filtres.plan as PlanCommercial }
+          : {}),
+      },
+      select: {
+        id: true,
+        tenantId: true,
+        plan: true,
+        modePaiement: true,
+        montant: true,
+        devise: true,
+        statut: true,
+        dateProchaineFacturation: true,
+        referenceProvider: true,
+        createdAt: true,
+        tenant: { select: { nomPressing: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    return abonnements.map(({ tenant, montant, ...abonnement }) => ({
+      ...abonnement,
+      montant: montant.toNumber(),
+      nomPressing: tenant.nomPressing,
+    }));
+  }
+
+  // §Renouvellement self-service : ajoute l'état Licence (source de
+  // vérité de la date d'expiration réelle et du statut ESSAI/ACTIVE/
+  // EXPIREE/SUSPENDUE — Abonnement.statut ne couvre que l'état de
+  // facturation, pas l'accès réel). Additif uniquement, aucun champ
+  // existant retiré — la vue globale Super-Admin
+  // (billing.controller.ts#obtenir) qui réutilise cette même méthode
+  // n'est pas cassée par l'ajout.
   async obtenirFacturation(tenantId: string) {
     const abonnement = await this.prisma.abonnement.findUnique({
       where: { tenantId },
@@ -73,7 +121,15 @@ export class BillingService {
     if (!abonnement) {
       throw new NotFoundException('Aucun abonnement pour ce tenant.');
     }
-    return abonnement;
+    const licence = await this.licenceService.getStatut(tenantId);
+    return {
+      ...abonnement,
+      licence: {
+        statut: licence.statut,
+        dateActivation: licence.dateActivation,
+        dateExpirationCourante: licence.dateExpirationCourante,
+      },
+    };
   }
 
   // §14.1 "événements de paiement idempotents" : un rejeu de webhook
@@ -110,7 +166,23 @@ export class BillingService {
     });
 
     if (dto.type === TypeEvenementPaiement.PAIEMENT_REUSSI) {
-      await this.traiterPaiementReussi(dto.tenantId, abonnement);
+      // §Renouvellement self-service : si l'évènement référence une
+      // facture précise (referenceProvider = Facture.id, posé par
+      // InvoicesService.creerPourRenouvellementTenant), la durée réelle
+      // du renouvellement (periodeFin - periodeDebut) prime sur le cycle
+      // fixe — sans quoi un renouvellement de 12 mois ne prolongerait
+      // l'abonnement que de 30 jours. Absent (flux Super-Admin existant,
+      // ou webhook sans référence) : comportement inchangé.
+      const factureAssociee = dto.referenceProvider
+        ? await this.prisma.facture.findFirst({
+            where: {
+              id: dto.referenceProvider,
+              tenantId: dto.tenantId,
+              statut: StatutFacture.EMISE,
+            },
+          })
+        : null;
+      await this.traiterPaiementReussi(dto.tenantId, abonnement, factureAssociee);
     } else {
       await this.prisma.abonnement.update({
         where: { id: abonnement.id },
@@ -119,14 +191,41 @@ export class BillingService {
     }
   }
 
-  private async traiterPaiementReussi(tenantId: string, abonnement: Abonnement): Promise<void> {
-    const dateProchaineFacturation = new Date();
-    dateProchaineFacturation.setDate(dateProchaineFacturation.getDate() + JOURS_CYCLE_FACTURATION);
+  private async traiterPaiementReussi(
+    tenantId: string,
+    abonnement: Abonnement,
+    factureAssociee: Facture | null,
+  ): Promise<void> {
+    const dureeJours = factureAssociee
+      ? Math.round(
+          (factureAssociee.periodeFin.getTime() - factureAssociee.periodeDebut.getTime()) /
+            (24 * 60 * 60 * 1000),
+        )
+      : JOURS_CYCLE_FACTURATION;
+
+    // Préserve le temps restant en cas de renouvellement anticipé (avant
+    // l'échéance courante) — même logique que LicenceService#renouveler,
+    // désormais alignée ici aussi : un renouvellement ne doit jamais faire
+    // perdre les jours déjà payés d'avance.
+    const maintenant = new Date();
+    const baseFacturation =
+      abonnement.dateProchaineFacturation > maintenant
+        ? abonnement.dateProchaineFacturation
+        : maintenant;
+    const dateProchaineFacturation = new Date(baseFacturation);
+    dateProchaineFacturation.setDate(dateProchaineFacturation.getDate() + dureeJours);
 
     await this.prisma.abonnement.update({
       where: { id: abonnement.id },
       data: { statut: StatutAbonnement.ACTIF, dateProchaineFacturation },
     });
+
+    if (factureAssociee) {
+      await this.prisma.facture.update({
+        where: { id: factureAssociee.id },
+        data: { statut: StatutFacture.PAYEE },
+      });
+    }
 
     const licence = await this.licenceService.getStatut(tenantId);
     const idempotencyKey = `paiement-reussi:${abonnement.id}:${dateProchaineFacturation.toISOString()}`;
@@ -142,7 +241,7 @@ export class BillingService {
         tenantId,
         ACTEUR_SYSTEME_FACTURATION,
         `${idempotencyKey}:renouvellement`,
-        JOURS_CYCLE_FACTURATION,
+        dureeJours,
         'Paiement reçu',
       );
     } else if (licence.statut === StatutLicence.ESSAI || licence.statut === StatutLicence.EXPIREE) {
@@ -157,7 +256,7 @@ export class BillingService {
         tenantId,
         ACTEUR_SYSTEME_FACTURATION,
         idempotencyKey,
-        JOURS_CYCLE_FACTURATION,
+        dureeJours,
         'Paiement reçu',
       );
     }

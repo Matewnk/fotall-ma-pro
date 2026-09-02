@@ -1,0 +1,20 @@
+export type InvoiceData = {
+  numero: string;
+  dateEmission: Date;
+  dateEcheance: Date;
+  nomPressing: string;
+  tenantId: string;
+  sousDomaine: string;
+  emailProprietaire: string | null;
+  adresseTenant: string | null;
+  telephoneTenant: string | null;
+  logoUrl: string | null;
+  plan: string;
+  periodeDebut: Date;
+  periodeFin: Date;
+  montant: number;
+  devise: string;
+  modePaiement: string;
+  statut: string;
+  referencePaiement: string | null;
+};

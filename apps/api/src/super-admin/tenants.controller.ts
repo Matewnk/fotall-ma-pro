@@ -124,13 +124,51 @@ export class TenantsController {
   // tenant concerné (et non une table control-plane) : c'est une
   // modification qui affecte ce tenant, cohérent avec la lecture déjà
   // exposée en mode support (SupportSessionController.audit).
+  //
+  // §023-subscriptions-invoicing : quand un abonnement existe déjà, ce
+  // changement de plan met aussi à jour Abonnement.plan/montant et
+  // journalise l'ancien/nouveau plan+prix dans HistoriqueAbonnement —
+  // jamais de prorata calculé (voir spec.md, décision explicite). Sans
+  // abonnement, seul Tenant.plan change (rien à comparer).
   @Patch(':id/plan')
   async updatePlan(
     @Param('id') id: string,
     @Body() dto: UpdateTenantPlanDto,
     @CurrentTenant() actor: AuthenticatedContext,
   ) {
-    const tenant = await this.prisma.tenant.update({ where: { id }, data: { plan: dto.plan } });
+    const abonnementAvant = await this.prisma.abonnement.findUnique({ where: { tenantId: id } });
+
+    const [tenant] = await this.prisma.$transaction([
+      this.prisma.tenant.update({ where: { id }, data: { plan: dto.plan } }),
+      ...(abonnementAvant
+        ? [
+            this.prisma.abonnement.update({
+              where: { tenantId: id },
+              data: {
+                plan: dto.plan,
+                ...(dto.nouveauMontant !== undefined ? { montant: dto.nouveauMontant } : {}),
+              },
+            }),
+          ]
+        : []),
+      ...(abonnementAvant
+        ? [
+            this.prisma.historiqueAbonnement.create({
+              data: {
+                tenantId: id,
+                ancienPlan: abonnementAvant.plan,
+                nouveauPlan: dto.plan,
+                ancienPrix: abonnementAvant.montant,
+                nouveauPrix: dto.nouveauMontant ?? abonnementAvant.montant,
+                devise: abonnementAvant.devise,
+                effectuePar: actor.userId,
+                ...(dto.motif ? { motif: dto.motif } : {}),
+              },
+            }),
+          ]
+        : []),
+    ]);
+
     await this.auditService.create(id, actor.userId, {
       action: 'TENANT_PLAN_MODIFIE',
       entityType: 'Tenant',
@@ -138,5 +176,18 @@ export class TenantsController {
       metadata: { nouveauPlan: dto.plan },
     });
     return tenant;
+  }
+
+  @Get(':id/historique-abonnement')
+  async historiqueAbonnement(@Param('id') id: string) {
+    const entrees = await this.prisma.historiqueAbonnement.findMany({
+      where: { tenantId: id },
+      orderBy: { createdAt: 'desc' },
+    });
+    return entrees.map((entree) => ({
+      ...entree,
+      ancienPrix: entree.ancienPrix?.toNumber() ?? null,
+      nouveauPrix: entree.nouveauPrix?.toNumber() ?? null,
+    }));
   }
 }
