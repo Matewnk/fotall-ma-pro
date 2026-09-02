@@ -1,0 +1,687 @@
+<!doctype html>
+
+<html class="light" lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS Config -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              surface: '#f7f9fb',
+              background: '#f7f9fb',
+              'on-tertiary-container': '#bfd0ea',
+              'inverse-primary': '#b0c6ff',
+              'surface-tint': '#1d59c1',
+              outline: '#737784',
+              'outline-variant': '#c3c6d5',
+              primary: '#003c90',
+              'tertiary-fixed-dim': '#b7c8e1',
+              'surface-variant': '#e0e3e5',
+              'primary-fixed-dim': '#b0c6ff',
+              'inverse-on-surface': '#eff1f3',
+              'on-background': '#191c1e',
+              'tertiary-fixed': '#d3e4fe',
+              error: '#ba1a1a',
+              'primary-fixed': '#d9e2ff',
+              'tertiary-container': '#49596f',
+              'secondary-fixed': '#d8e3fb',
+              'on-primary-fixed': '#001945',
+              'on-surface-variant': '#434653',
+              'on-secondary-container': '#586377',
+              'secondary-container': '#d5e0f8',
+              'on-secondary-fixed-variant': '#3c475a',
+              'secondary-fixed-dim': '#bcc7de',
+              'error-container': '#ffdad6',
+              tertiary: '#324257',
+              'surface-container': '#eceef0',
+              'on-error-container': '#93000a',
+              'on-tertiary-fixed': '#0b1c30',
+              'on-primary': '#ffffff',
+              'surface-container-high': '#e6e8ea',
+              'on-tertiary-fixed-variant': '#38485d',
+              'on-secondary-fixed': '#111c2d',
+              'surface-container-low': '#f2f4f6',
+              'surface-bright': '#f7f9fb',
+              'on-primary-fixed-variant': '#00419c',
+              'on-error': '#ffffff',
+              'on-secondary': '#ffffff',
+              secondary: '#545f73',
+              'on-primary-container': '#bcceff',
+              'surface-container-highest': '#e0e3e5',
+              'inverse-surface': '#2d3133',
+              'primary-container': '#0f52ba',
+              'on-tertiary': '#ffffff',
+              'surface-dim': '#d8dadc',
+              'surface-container-lowest': '#ffffff',
+              'on-surface': '#191c1e',
+            },
+            borderRadius: {
+              DEFAULT: '0.125rem',
+              lg: '0.25rem',
+              xl: '0.5rem',
+              full: '0.75rem',
+            },
+            spacing: {
+              gutter: '20px',
+              xl: '32px',
+              lg: '24px',
+              xs: '8px',
+              'margin-mobile': '16px',
+              base: '4px',
+              md: '16px',
+              sm: '12px',
+              'margin-desktop': '32px',
+            },
+            fontFamily: {
+              'label-md': ['Inter'],
+              'body-lg': ['Inter'],
+              'label-sm': ['Inter'],
+              'headline-xl': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'headline-md': ['Inter'],
+              'headline-lg': ['Inter'],
+              'body-md': ['Inter'],
+            },
+            fontSize: {
+              'label-md': [
+                '12px',
+                { lineHeight: '16px', letterSpacing: '0.05em', fontWeight: '600' },
+              ],
+              'body-lg': ['16px', { lineHeight: '24px', fontWeight: '400' }],
+              'label-sm': ['11px', { lineHeight: '14px', fontWeight: '500' }],
+              'headline-xl': [
+                '36px',
+                { lineHeight: '44px', letterSpacing: '-0.02em', fontWeight: '700' },
+              ],
+              'headline-lg-mobile': ['24px', { lineHeight: '32px', fontWeight: '600' }],
+              'headline-md': ['20px', { lineHeight: '28px', fontWeight: '600' }],
+              'headline-lg': [
+                '28px',
+                { lineHeight: '36px', letterSpacing: '-0.01em', fontWeight: '600' },
+              ],
+              'body-md': ['14px', { lineHeight: '20px', fontWeight: '400' }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+      .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-surface text-on-surface font-body-md antialiased overflow-hidden flex h-screen w-full"
+  >
+    <!-- SideNavBar (Shared Component) -->
+    <aside
+      class="hidden md:flex bg-surface dark:bg-surface-container fixed left-0 top-0 h-screen w-[240px] border-r border-outline-variant dark:border-outline flex-col h-full py-6 px-4 z-50"
+    >
+      <div class="mb-10 px-2 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0">
+          <span class="material-symbols-outlined text-on-primary" data-weight="fill">store</span>
+        </div>
+        <div>
+          <h1
+            class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary truncate"
+          >
+            Fotall-Ma PRO
+          </h1>
+          <p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+            Super-Admin Console
+          </p>
+        </div>
+      </div>
+      <button
+        class="mb-8 w-full bg-primary hover:bg-[#002e6e] text-on-primary flex items-center justify-center gap-2 py-3 px-4 rounded-lg transition-colors shadow-sm"
+      >
+        <span class="material-symbols-outlined" data-weight="fill">add</span>
+        <span class="text-label-md font-label-md">New Report</span>
+      </button>
+      <nav class="flex-1 flex flex-col gap-2 overflow-y-auto">
+        <!-- Active Tab: Overview -->
+        <a
+          class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-lg font-bold scale-[0.98] transition-transform duration-150 ease-in-out"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-weight="fill">dashboard</span>
+          <span class="text-label-md font-label-md">Overview</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-tertiary-fixed-variant transition-colors rounded-lg"
+          href="#"
+        >
+          <span class="material-symbols-outlined">groups</span>
+          <span class="text-label-md font-label-md">Tenants</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-tertiary-fixed-variant transition-colors rounded-lg"
+          href="#"
+        >
+          <span class="material-symbols-outlined">loyalty</span>
+          <span class="text-label-md font-label-md">Subscriptions</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-tertiary-fixed-variant transition-colors rounded-lg"
+          href="#"
+        >
+          <span class="material-symbols-outlined">payments</span>
+          <span class="text-label-md font-label-md">Finance</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-tertiary-fixed-variant transition-colors rounded-lg"
+          href="#"
+        >
+          <span class="material-symbols-outlined">support_agent</span>
+          <span class="text-label-md font-label-md">Support</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-on-tertiary-fixed-variant transition-colors rounded-lg mt-auto"
+          href="#"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          <span class="text-label-md font-label-md">Settings</span>
+        </a>
+      </nav>
+    </aside>
+    <!-- Main Content Wrapper -->
+    <main class="flex-1 flex flex-col md:ml-[240px] h-screen overflow-hidden bg-background">
+      <!-- TopAppBar (Shared Component Mobile/Desktop Hybrid) -->
+      <header
+        class="bg-surface-container-lowest dark:bg-surface-container-highest border-b border-outline-variant dark:border-outline sticky top-0 z-40 flex justify-between items-center h-16 w-full px-margin-desktop md:px-margin-desktop px-4 shrink-0"
+      >
+        <div class="flex items-center gap-4">
+          <!-- Mobile Logo Toggle -->
+          <button class="md:hidden text-on-surface-variant">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <div
+            class="hidden md:flex items-center bg-surface-container-low rounded-lg px-3 py-2 w-64 border border-outline-variant focus-within:border-primary focus-within:ring-2 focus-within:ring-primary-fixed-dim transition-all"
+          >
+            <span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+            <input
+              class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-full p-0 text-on-surface placeholder:text-outline"
+              placeholder="Search tenants, reports..."
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant relative"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+            <span
+              class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-surface-container-lowest"
+            ></span>
+          </button>
+          <button
+            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant hidden md:block"
+          >
+            <span class="material-symbols-outlined">help_outline</span>
+          </button>
+          <button
+            class="p-2 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-variant"
+          >
+            <span class="material-symbols-outlined" data-weight="fill">account_circle</span>
+          </button>
+        </div>
+      </header>
+      <!-- Dashboard Canvas -->
+      <div class="flex-1 overflow-y-auto p-4 md:p-lg space-y-gutter">
+        <!-- Header Section -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+          <div>
+            <h2 class="text-headline-lg font-headline-lg text-on-surface">Platform Overview</h2>
+            <p class="text-body-md font-body-md text-on-surface-variant mt-1">
+              Live metrics for Fotall-Ma PRO ecosystem
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <select
+              class="bg-surface-container-lowest border border-outline-variant text-body-md font-body-md rounded-lg px-3 py-2 focus:border-primary focus:ring-2 focus:ring-primary-fixed-dim outline-none text-on-surface"
+            >
+              <option>Last 30 Days</option>
+              <option>This Quarter</option>
+              <option>Year to Date</option>
+            </select>
+          </div>
+        </div>
+        <!-- KPIs Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+          <!-- MRR -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary transition-colors"
+          >
+            <div
+              class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+            >
+              <span class="material-symbols-outlined text-5xl text-primary" data-weight="fill"
+                >payments</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+              <span class="text-label-md font-label-md text-on-surface-variant uppercase"
+                >Monthly Recurring Rev</span
+              >
+            </div>
+            <div class="text-headline-xl font-headline-xl text-on-surface">€45,200</div>
+            <div class="flex items-center gap-1 text-label-sm font-label-sm text-[#166534]">
+              <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+              <span>+12.5% vs last month</span>
+            </div>
+          </div>
+          <!-- Total Tenants -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary transition-colors"
+          >
+            <div
+              class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+            >
+              <span class="material-symbols-outlined text-5xl text-primary" data-weight="fill"
+                >storefront</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">groups</span>
+              <span class="text-label-md font-label-md text-on-surface-variant uppercase"
+                >Total Tenants</span
+              >
+            </div>
+            <div class="text-headline-xl font-headline-xl text-on-surface">842</div>
+            <div class="flex items-center gap-1 text-label-sm font-label-sm text-[#166534]">
+              <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+              <span>+24 new this week</span>
+            </div>
+          </div>
+          <!-- New Subs -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary transition-colors"
+          >
+            <div
+              class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+            >
+              <span class="material-symbols-outlined text-5xl text-primary" data-weight="fill"
+                >loyalty</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">add_circle</span>
+              <span class="text-label-md font-label-md text-on-surface-variant uppercase"
+                >New Subs (Mtd)</span
+              >
+            </div>
+            <div class="text-headline-xl font-headline-xl text-on-surface">156</div>
+            <div class="flex items-center gap-1 text-label-sm font-label-sm text-[#991b1b]">
+              <span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+              <span>-2.1% vs last month</span>
+            </div>
+          </div>
+          <!-- Retention -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-3 relative overflow-hidden group hover:border-primary transition-colors"
+          >
+            <div
+              class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+            >
+              <span class="material-symbols-outlined text-5xl text-primary" data-weight="fill"
+                >autorenew</span
+              >
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">task_alt</span>
+              <span class="text-label-md font-label-md text-on-surface-variant uppercase"
+                >Retention Rate</span
+              >
+            </div>
+            <div class="text-headline-xl font-headline-xl text-on-surface">98.2%</div>
+            <div
+              class="flex items-center gap-1 text-label-sm font-label-sm text-on-surface-variant"
+            >
+              <span class="material-symbols-outlined text-[14px]">horizontal_rule</span>
+              <span>Stable across plans</span>
+            </div>
+          </div>
+        </div>
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+          <!-- MRR Curve (Large) -->
+          <div
+            class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col"
+          >
+            <div class="p-md border-b border-outline-variant flex justify-between items-center">
+              <h3 class="text-headline-md font-headline-md text-on-surface">
+                MRR Evolution (12 Mo)
+              </h3>
+              <button class="p-1 text-on-surface-variant hover:text-primary">
+                <span class="material-symbols-outlined">more_vert</span>
+              </button>
+            </div>
+            <div class="p-md flex-1 min-h-[300px] flex items-end justify-between gap-2 relative">
+              <!-- Simulated Chart -->
+              <div
+                class="absolute inset-x-md inset-y-md border-b border-l border-outline-variant opacity-50 pointer-events-none"
+              ></div>
+              <div
+                class="absolute top-1/2 left-md right-md border-t border-dashed border-outline-variant opacity-30 pointer-events-none"
+              ></div>
+              <!-- Bars/Curve Simulation using heights -->
+              <div class="w-full flex justify-between items-end h-[240px] px-2 z-10">
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[40%] hover:bg-primary transition-colors cursor-pointer relative group"
+                >
+                  <div
+                    class="hidden group-hover:block absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm px-2 py-1 rounded"
+                  >
+                    €28k
+                  </div>
+                </div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[45%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[42%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[50%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[55%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[62%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[60%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[70%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[75%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[85%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary-fixed-dim rounded-t-sm h-[90%] hover:bg-primary transition-colors cursor-pointer"
+                ></div>
+                <div
+                  class="w-[6%] bg-primary rounded-t-sm h-[100%] cursor-pointer relative group shadow-sm"
+                >
+                  <div
+                    class="absolute -top-8 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface text-label-sm px-2 py-1 rounded"
+                  >
+                    €45k
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="px-md pb-md pt-2 flex justify-between text-label-sm font-label-sm text-on-surface-variant"
+            >
+              <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span
+              ><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span
+              ><span>Nov</span><span>Dec</span>
+            </div>
+          </div>
+          <!-- Revenue by Plan -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col"
+          >
+            <div class="p-md border-b border-outline-variant">
+              <h3 class="text-headline-md font-headline-md text-on-surface">Revenue by Plan</h3>
+            </div>
+            <div class="p-md flex-1 flex flex-col justify-center gap-6">
+              <!-- Pro Plan -->
+              <div class="space-y-2">
+                <div class="flex justify-between items-center text-body-md font-body-md">
+                  <span class="font-medium">Pro</span>
+                  <span>€24,500 (54%)</span>
+                </div>
+                <div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+                  <div class="bg-primary h-full rounded-full" style="width: 54%"></div>
+                </div>
+              </div>
+              <!-- Business Plan -->
+              <div class="space-y-2">
+                <div class="flex justify-between items-center text-body-md font-body-md">
+                  <span class="font-medium text-tertiary">Business</span>
+                  <span>€15,800 (35%)</span>
+                </div>
+                <div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+                  <div class="bg-tertiary h-full rounded-full" style="width: 35%"></div>
+                </div>
+              </div>
+              <!-- Starter Plan -->
+              <div class="space-y-2">
+                <div class="flex justify-between items-center text-body-md font-body-md">
+                  <span class="font-medium text-outline">Starter</span>
+                  <span>€4,900 (11%)</span>
+                </div>
+                <div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+                  <div class="bg-outline-variant h-full rounded-full" style="width: 11%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Section: Tenants & Alerts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter pb-8">
+          <!-- Recent Tenants Table -->
+          <div
+            class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden flex flex-col"
+          >
+            <div
+              class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright"
+            >
+              <h3 class="text-headline-md font-headline-md text-on-surface">Recent Enrollments</h3>
+              <a class="text-label-md font-label-md text-primary hover:underline" href="#"
+                >View All</a
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr
+                    class="border-b border-outline-variant bg-surface-container-low text-label-md font-label-md text-on-surface-variant uppercase"
+                  >
+                    <th class="p-4 font-semibold">Pressing</th>
+                    <th class="p-4 font-semibold">Date</th>
+                    <th class="p-4 font-semibold">Plan</th>
+                    <th class="p-4 font-semibold">Status</th>
+                    <th class="p-4 font-semibold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody class="text-body-md font-body-md divide-y divide-outline-variant/50">
+                  <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-4 flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xs"
+                      >
+                        EL
+                      </div>
+                      <span class="font-medium">Eco-Lavage Paris</span>
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Today, 10:42 AM</td>
+                    <td class="p-4">Pro</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex px-2 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-label-sm font-label-sm"
+                        >Active</span
+                      >
+                    </td>
+                    <td class="p-4 text-right">
+                      <button class="text-outline hover:text-primary">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-4 flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs"
+                      >
+                        CL
+                      </div>
+                      <span class="font-medium">Clean &amp; Go</span>
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Yesterday</td>
+                    <td class="p-4">Business</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex px-2 py-1 rounded-full bg-[#fef08a] text-[#854d0e] text-label-sm font-label-sm"
+                        >Pending</span
+                      >
+                    </td>
+                    <td class="p-4 text-right">
+                      <button class="text-outline hover:text-primary">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-4 flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-surface-variant flex items-center justify-center font-bold text-xs"
+                      >
+                        P24
+                      </div>
+                      <span class="font-medium">Pressing 24/7</span>
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Oct 12, 2023</td>
+                    <td class="p-4">Starter</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex px-2 py-1 rounded-full bg-[#fecaca] text-[#991b1b] text-label-sm font-label-sm"
+                        >Expired</span
+                      >
+                    </td>
+                    <td class="p-4 text-right">
+                      <button class="text-outline hover:text-primary">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-surface-container-low transition-colors">
+                    <td class="p-4 flex items-center gap-3">
+                      <div
+                        class="w-8 h-8 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-xs"
+                      >
+                        BL
+                      </div>
+                      <span class="font-medium">Blanc Pur Lyon</span>
+                    </td>
+                    <td class="p-4 text-on-surface-variant">Oct 10, 2023</td>
+                    <td class="p-4">Pro</td>
+                    <td class="p-4">
+                      <span
+                        class="inline-flex px-2 py-1 rounded-full bg-[#dcfce7] text-[#166534] text-label-sm font-label-sm"
+                        >Active</span
+                      >
+                    </td>
+                    <td class="p-4 text-right">
+                      <button class="text-outline hover:text-primary">
+                        <span class="material-symbols-outlined text-sm">visibility</span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- System Alerts -->
+          <div
+            class="bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col"
+          >
+            <div
+              class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-bright"
+            >
+              <h3 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+                <span class="material-symbols-outlined text-error">warning</span>
+                System Alerts
+              </h3>
+            </div>
+            <div class="p-4 flex flex-col gap-3 flex-1 overflow-y-auto">
+              <!-- Alert 1 -->
+              <div
+                class="p-3 border border-error-container bg-error-container/20 rounded-lg flex items-start gap-3"
+              >
+                <span class="material-symbols-outlined text-error mt-0.5" data-weight="fill"
+                  >credit_card_off</span
+                >
+                <div>
+                  <h4 class="text-label-md font-label-md text-on-surface">Payment Failed</h4>
+                  <p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+                    Tenant "Laverie Centrale" - €149.00 failed to process.
+                  </p>
+                  <button class="text-label-sm font-label-sm text-primary mt-2 hover:underline">
+                    Retry Billing
+                  </button>
+                </div>
+              </div>
+              <!-- Alert 2 -->
+              <div
+                class="p-3 border border-[#fef08a] bg-[#fef08a]/20 rounded-lg flex items-start gap-3"
+              >
+                <span class="material-symbols-outlined text-[#854d0e] mt-0.5">timer</span>
+                <div>
+                  <h4 class="text-label-md font-label-md text-on-surface">Licenses Expiring</h4>
+                  <p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+                    4 tenants have Pro licenses expiring in &lt; 7 days.
+                  </p>
+                  <button class="text-label-sm font-label-sm text-primary mt-2 hover:underline">
+                    Send Reminders
+                  </button>
+                </div>
+              </div>
+              <!-- Alert 3 -->
+              <div
+                class="p-3 border border-outline-variant bg-surface-container-low rounded-lg flex items-start gap-3 opacity-70"
+              >
+                <span class="material-symbols-outlined text-on-surface-variant mt-0.5">info</span>
+                <div>
+                  <h4 class="text-label-md font-label-md text-on-surface">API Usage High</h4>
+                  <p class="text-label-sm font-label-sm text-on-surface-variant mt-1">
+                    SMS gateway reaching 90% of monthly quota.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

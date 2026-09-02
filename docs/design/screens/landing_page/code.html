@@ -1,0 +1,677 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Fotall-Ma PRO - Gerez votre entreprise de nettoyage comme un pro</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'error-container': '#ffdad6',
+              'on-error': '#ffffff',
+              background: '#f4fafd',
+              'on-tertiary': '#ffffff',
+              'secondary-container': '#dfdfe5',
+              surface: '#f4fafd',
+              'on-tertiary-container': '#fff5f1',
+              'on-primary': '#ffffff',
+              'surface-bright': '#f4fafd',
+              'primary-fixed-dim': '#c6bfff',
+              'on-secondary-fixed': '#191c20',
+              'secondary-fixed': '#e2e2e8',
+              'outline-variant': '#c8c4d7',
+              'surface-container-lowest': '#ffffff',
+              'surface-variant': '#dde4e6',
+              'surface-dim': '#d4dbdd',
+              'surface-container-low': '#eef5f7',
+              'inverse-on-surface': '#ebf2f4',
+              'on-surface-variant': '#474554',
+              'tertiary-container': '#ac5d00',
+              'secondary-fixed-dim': '#c5c6cc',
+              'on-secondary': '#ffffff',
+              'on-surface': '#161d1f',
+              'primary-fixed': '#e4dfff',
+              'surface-container-high': '#e2e9ec',
+              'on-background': '#161d1f',
+              'on-primary-container': '#faf6ff',
+              'surface-container': '#e8eff1',
+              secondary: '#5d5e63',
+              'surface-tint': '#5847d2',
+              'tertiary-fixed-dim': '#ffb77d',
+              'inverse-primary': '#c6bfff',
+              outline: '#787586',
+              primary: '#5341cd',
+              'tertiary-fixed': '#ffdcc3',
+              'surface-container-highest': '#dde4e6',
+              error: '#ba1a1a',
+              'on-error-container': '#93000a',
+              'on-primary-fixed': '#160066',
+              'on-primary-fixed-variant': '#4029ba',
+              tertiary: '#884800',
+              'on-tertiary-fixed': '#2f1500',
+              'on-tertiary-fixed-variant': '#6e3900',
+              'on-secondary-fixed-variant': '#45474b',
+              'on-secondary-container': '#616267',
+              'inverse-surface': '#2b3234',
+              'primary-container': '#6c5ce7',
+            },
+            borderRadius: {
+              DEFAULT: '0.25rem',
+              lg: '0.5rem',
+              xl: '0.75rem',
+              full: '9999px',
+            },
+            spacing: {
+              md: '16px',
+              xl: '48px',
+              unit: '4px',
+              gutter: '24px',
+              'margin-desktop': '64px',
+              'margin-mobile': '16px',
+              sm: '8px',
+              xs: '4px',
+              lg: '24px',
+            },
+            fontFamily: {
+              'headline-lg': ['Inter'],
+              display: ['Inter'],
+              'headline-md': ['Inter'],
+              'body-md': ['Inter'],
+              'label-md': ['Inter'],
+              'label-sm': ['Inter'],
+              'headline-lg-mobile': ['Inter'],
+              'body-lg': ['Inter'],
+            },
+            fontSize: {
+              'headline-lg': [
+                '32px',
+                {
+                  lineHeight: '40px',
+                  letterSpacing: '-0.01em',
+                  fontWeight: '600',
+                },
+              ],
+              display: [
+                '48px',
+                {
+                  lineHeight: '56px',
+                  letterSpacing: '-0.02em',
+                  fontWeight: '700',
+                },
+              ],
+              'headline-md': [
+                '24px',
+                {
+                  lineHeight: '32px',
+                  fontWeight: '600',
+                },
+              ],
+              'body-md': [
+                '16px',
+                {
+                  lineHeight: '24px',
+                  fontWeight: '400',
+                },
+              ],
+              'label-md': [
+                '14px',
+                {
+                  lineHeight: '20px',
+                  letterSpacing: '0.01em',
+                  fontWeight: '500',
+                },
+              ],
+              'label-sm': [
+                '12px',
+                {
+                  lineHeight: '16px',
+                  letterSpacing: '0.05em',
+                  fontWeight: '600',
+                },
+              ],
+              'headline-lg-mobile': [
+                '24px',
+                {
+                  lineHeight: '32px',
+                  fontWeight: '600',
+                },
+              ],
+              'body-lg': [
+                '18px',
+                {
+                  lineHeight: '28px',
+                  fontWeight: '400',
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 24;
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface font-body-md text-body-md antialiased overflow-x-hidden">
+    <!-- TopNavBar Shared Component -->
+    <header class="bg-surface border-b border-outline-variant docked full-width top-0 sticky z-50">
+      <div class="flex justify-between items-center h-16 px-margin-desktop max-w-7xl mx-auto">
+        <div class="font-headline-md text-headline-md font-bold text-primary">Fotall-Ma PRO</div>
+        <nav class="hidden md:flex items-center gap-6">
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors hover:bg-surface-container-low px-3 py-2 rounded-lg"
+            href="#features"
+            >Services</a
+          >
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors hover:bg-surface-container-low px-3 py-2 rounded-lg"
+            href="#pricing"
+            >Pricing</a
+          >
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors hover:bg-surface-container-low px-3 py-2 rounded-lg"
+            href="#multi-tenant"
+            >Multi-tenant</a
+          >
+          <a
+            class="text-on-surface-variant hover:text-primary transition-colors hover:bg-surface-container-low px-3 py-2 rounded-lg"
+            href="#support"
+            >Support</a
+          >
+        </nav>
+        <button
+          class="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm"
+        >
+          Get Started
+        </button>
+      </div>
+    </header>
+    <main>
+      <!-- Hero Section -->
+      <section
+        class="relative pt-24 pb-32 px-margin-desktop overflow-hidden bg-surface-container-lowest"
+      >
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="z-10">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container mb-6 border border-outline-variant"
+            >
+              <span
+                class="material-symbols-outlined text-[18px] text-[var(--arctic-teal,#00cec9)]"
+                data-icon="rocket_launch"
+                >rocket_launch</span
+              >
+              <span
+                class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider"
+                >Multi-Tenant Architecture</span
+              >
+            </div>
+            <h1 class="font-display text-display text-on-surface mb-6">
+              Gérez votre pressing, lavage auto ou service de nettoyage comme un pro.
+            </h1>
+            <p class="text-on-surface-variant font-body-lg text-body-lg mb-8 max-w-xl">
+              La solution SaaS multi-plateforme avec isolation totale des données. Conçue pour les
+              professionnels du pressing, du detailing auto et de l'entretien ménager exigeant
+              rapidité, fiabilité et contrôle total.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button
+                class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-md"
+              >
+                Essai gratuit de 7 jours
+              </button>
+              <button
+                class="bg-surface text-on-surface px-8 py-4 rounded-xl font-label-md text-label-md border border-outline-variant hover:bg-surface-container transition-colors"
+              >
+                Voir la démo
+              </button>
+            </div>
+          </div>
+          <div
+            class="relative z-10 w-full h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl border border-outline-variant bg-surface-container-lowest"
+          >
+            <img
+              class="object-cover w-full h-full"
+              data-alt="A clean, modern dashboard interface for a multi-service cleaning management software displayed on a sleek laptop and a smartphone. The interface shows financial metrics, active orders for pressing, car wash, and home cleaning, in a high-key, light mode aesthetic with primary blue accents (#0f52ba)."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6qbj8Zgu61_xq9WmHN0igpJERar13kTlMu7KggKeVvxU5ThKdWSVWbzI4yE1JELa52osl3cRxloZtf-7dqrO9Hdda3gqoW_Er33T9spkr3ju5DlYFrTmUUfq6bq9TNDOeMIQsCP2VOq_1JpbwWJQd7a7UVcs9WD3hpXiC_99VupZEbMIj0Ym6gMxtYdzuTr9GRdvPhAL2uxDjXgIE5M7-QC4deLS7LJB1h-X_pJjbW__GE0Bgx75F"
+            />
+          </div>
+          <!-- Background decorative elements -->
+          <div
+            class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary-fixed/20 to-transparent pointer-events-none z-0"
+          ></div>
+        </div>
+      </section>
+      <!-- Features Grid -->
+      <section
+        class="py-24 bg-surface border-y border-outline-variant px-margin-desktop"
+        id="features"
+      >
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">
+              Nos Domaines d'Expertise
+            </h2>
+            <p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mx-auto">
+              Une plateforme unique adaptée à chaque métier du nettoyage, du comptoir à la
+              livraison.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Feature 1 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-md transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-primary-fixed text-on-primary-fixed rounded-lg flex items-center justify-center mb-4"
+              >
+                <span class="material-symbols-outlined" data-icon="local_laundry_service"
+                  >local_laundry_service</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+                Pressing &amp; Blanchisserie
+              </h3>
+              <p class="text-on-surface-variant text-sm">
+                Gestion complète des commandes, suivi des articles, gestion des stocks et impression
+                de tickets thermiques.
+              </p>
+            </div>
+            <!-- Feature 2 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-md transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-[#e0f2f1] text-[#00695c] rounded-lg flex items-center justify-center mb-4"
+              >
+                <span class="material-symbols-outlined" data-icon="directions_car"
+                  >directions_car</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+                Lavage Auto &amp; Detailing
+              </h3>
+              <p class="text-on-surface-variant text-sm">
+                Prise de rendez-vous, suivi de l'état d'avancement des véhicules, forfaits de
+                nettoyage et alertes clients.
+              </p>
+            </div>
+            <!-- Feature 3 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-md transition-shadow"
+            >
+              <div
+                class="w-12 h-12 bg-secondary-fixed text-on-secondary-fixed rounded-lg flex items-center justify-center mb-4"
+              >
+                <span class="material-symbols-outlined" data-icon="cleaning_services"
+                  >cleaning_services</span
+                >
+              </div>
+              <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+                Nettoyage Résidentiel &amp; Pro
+              </h3>
+              <p class="text-on-surface-variant text-sm">
+                Planification des interventions, gestion des équipes sur le terrain, facturation et
+                contrats récurrents.
+              </p>
+            </div>
+            <!-- Feature 4 -->
+            <div
+              class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant hover:shadow-md transition-shadow ring-2 ring-primary-container ring-offset-2 ring-offset-surface"
+            >
+              <div
+                class="w-12 h-12 bg-primary text-on-primary rounded-lg flex items-center justify-center mb-4"
+              >
+                <span class="material-symbols-outlined" data-icon="hub">hub</span>
+              </div>
+              <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+                Plateforme Multi-Services
+              </h3>
+              <p class="text-on-surface-variant text-sm">
+                Gérez plusieurs activités depuis une interface unique avec une isolation totale de
+                vos données par secteur.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Platform Showcase -->
+      <section class="py-24 px-margin-desktop bg-surface-container-lowest">
+        <div class="max-w-7xl mx-auto text-center mb-16">
+          <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">
+            Une seule solution, toutes vos plateformes
+          </h2>
+          <p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mx-auto">
+            Conçu pour s'adapter à votre environnement de travail, que ce soit au comptoir, à
+            l'atelier ou sur le terrain.
+          </p>
+        </div>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Web -->
+          <div class="flex flex-col items-center">
+            <div
+              class="w-full h-64 bg-surface rounded-2xl mb-6 relative overflow-hidden border border-outline-variant shadow-sm flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-6xl text-primary" data-icon="laptop_mac"
+                >laptop_mac</span
+              >
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container/50 to-transparent"
+              ></div>
+            </div>
+            <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+              Portail Web Admin
+            </h3>
+            <p class="text-center text-on-surface-variant text-sm">
+              Pour la gestion financière, la configuration multi-tenant et l'analyse globale de tous
+              vos secteurs.
+            </p>
+          </div>
+          <!-- Tablet -->
+          <div class="flex flex-col items-center mt-0 md:mt-12">
+            <div
+              class="w-full h-64 bg-surface rounded-2xl mb-6 relative overflow-hidden border border-outline-variant shadow-sm flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-6xl text-[#00cec9]" data-icon="tablet_mac"
+                >tablet_mac</span
+              >
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container/50 to-transparent"
+              ></div>
+            </div>
+            <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+              Interface Tactile
+            </h3>
+            <p class="text-center text-on-surface-variant text-sm">
+              Vue optimisée pour une prise de commande ultra-rapide au comptoir de votre pressing ou
+              centre auto.
+            </p>
+          </div>
+          <!-- Mobile -->
+          <div class="flex flex-col items-center">
+            <div
+              class="w-full h-64 bg-surface rounded-2xl mb-6 relative overflow-hidden border border-outline-variant shadow-sm flex items-center justify-center"
+            >
+              <span class="material-symbols-outlined text-6xl text-primary" data-icon="smartphone"
+                >smartphone</span
+              >
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container/50 to-transparent"
+              ></div>
+            </div>
+            <h3 class="font-headline-md text-[20px] leading-7 font-semibold mb-2">
+              App Équipes &amp; Livreurs
+            </h3>
+            <p class="text-center text-on-surface-variant text-sm">
+              Scanner de codes-barres, suivi des tournées logistiques et planification pour les
+              équipes sur le terrain.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Pricing Section -->
+      <section
+        class="py-24 bg-surface border-t border-outline-variant px-margin-desktop"
+        id="pricing"
+      >
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">
+              Tarification Simple et Transparente
+            </h2>
+            <p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl mx-auto mb-6">
+              Choisissez le plan adapté à la taille de votre entreprise de nettoyage.
+            </p>
+            <div
+              class="inline-block bg-primary-fixed text-on-primary-fixed px-4 py-2 rounded-full font-label-sm text-label-sm uppercase tracking-wider"
+            >
+              1 SEMAINE D'ESSAI GRATUIT SUR TOUS LES PLANS
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <!-- Starter -->
+            <div
+              class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-8 flex flex-col shadow-sm"
+            >
+              <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Starter</h3>
+              <p class="text-on-surface-variant text-sm mb-6">
+                Pour une agence ou point de vente unique.
+              </p>
+              <div class="text-display font-display mb-6 text-on-surface">
+                29€<span class="text-body-md font-body-md text-on-surface-variant font-normal"
+                  >/mois</span
+                >
+              </div>
+              <ul class="space-y-4 mb-8 flex-grow text-sm">
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  1 Point de service
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Gestion d'une activité
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Outils métier de base
+                </li>
+              </ul>
+              <button
+                class="w-full bg-surface-container text-on-surface border border-outline-variant py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors"
+              >
+                Commencer
+              </button>
+            </div>
+            <!-- Pro -->
+            <div
+              class="bg-primary text-on-primary rounded-2xl border border-primary p-8 flex flex-col relative transform md:-translate-y-4 shadow-xl"
+            >
+              <div
+                class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-primary-container text-on-primary-container px-4 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider whitespace-nowrap"
+              >
+                LE PLUS POPULAIRE
+              </div>
+              <h3 class="font-headline-md text-headline-md mb-2">Pro</h3>
+              <p class="text-primary-fixed-dim text-sm mb-6">
+                Pour les réseaux de plusieurs agences.
+              </p>
+              <div class="text-display font-display mb-6">
+                79€<span class="text-body-md font-body-md opacity-80 font-normal">/mois</span>
+              </div>
+              <ul class="space-y-4 mb-8 flex-grow text-sm">
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Jusqu'à 3 points de service
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Activités combinées
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Suivi client automatisé
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  App Équipes Terrain
+                </li>
+              </ul>
+              <button
+                class="w-full bg-surface-container-lowest text-primary py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container hover:text-primary transition-colors"
+              >
+                Démarrer l'essai
+              </button>
+            </div>
+            <!-- Business -->
+            <div
+              class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-8 flex flex-col shadow-sm"
+            >
+              <h3 class="font-headline-md text-headline-md text-on-surface mb-2">Business</h3>
+              <p class="text-on-surface-variant text-sm mb-6">
+                Pour les grandes franchises multi-services.
+              </p>
+              <div class="text-display font-display mb-6 text-on-surface">Sur mesure</div>
+              <ul class="space-y-4 mb-8 flex-grow text-sm">
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Points de service illimités
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Multi-tenant avancé
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  API &amp; Intégrations
+                </li>
+                <li class="flex items-center gap-3">
+                  <span
+                    class="material-symbols-outlined text-[var(--arctic-teal,#00cec9)] text-sm"
+                    data-icon="check"
+                    >check</span
+                  >
+                  Support prioritaire 24/7
+                </li>
+              </ul>
+              <button
+                class="w-full bg-surface-container text-on-surface border border-outline-variant py-3 rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors"
+              >
+                Contactez-nous
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Final CTA -->
+      <section
+        class="py-24 px-margin-desktop bg-surface-container-lowest relative overflow-hidden border-t border-outline-variant"
+      >
+        <div class="absolute inset-0 bg-primary-fixed opacity-10 pointer-events-none"></div>
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+          <h2 class="font-display text-[40px] leading-[48px] font-bold text-on-surface mb-6">
+            Prêt à transformer votre entreprise de nettoyage ?
+          </h2>
+          <p class="text-on-surface-variant font-body-lg text-body-lg mb-8">
+            Rejoignez des centaines de professionnels qui font confiance à Fotall-Ma PRO pour gérer
+            leurs activités multisectorielles.
+          </p>
+          <button
+            class="bg-primary text-on-primary px-10 py-5 rounded-xl font-label-md text-[18px] hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-lg inline-flex items-center gap-3"
+          >
+            Démarrer mon essai de 7 jours
+            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+          </button>
+          <p class="mt-4 text-sm text-on-surface-variant">
+            Sans engagement. Pas de carte de crédit requise.
+          </p>
+        </div>
+      </section>
+    </main>
+    <!-- Footer Shared Component -->
+    <footer class="bg-surface border-t border-outline-variant full-width">
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-gutter py-12 px-margin-desktop max-w-7xl mx-auto"
+      >
+        <div class="col-span-1 md:col-span-1">
+          <div class="font-headline-md text-headline-md font-bold text-primary mb-4">
+            Fotall-Ma PRO
+          </div>
+          <p class="text-sm text-on-surface-variant mb-4">
+            La solution complète pour la gestion moderne du nettoyage sous toutes ses formes.
+          </p>
+          <p class="text-xs text-on-surface-variant">
+            © 2024 Fotall-Ma PRO. All rights reserved. Powered by Fotall-Ma PRO.
+          </p>
+        </div>
+        <div
+          class="col-span-1 md:col-span-3 flex flex-wrap gap-x-8 gap-y-4 md:justify-end items-start pt-2"
+        >
+          <a
+            class="text-on-surface-variant font-body-md text-body-md hover:text-primary underline transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            href="#"
+            >About Us</a
+          >
+          <a
+            class="text-on-surface-variant font-body-md text-body-md hover:text-primary underline transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-on-surface-variant font-body-md text-body-md hover:text-primary underline transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="text-on-surface-variant font-body-md text-body-md hover:text-primary underline transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            href="#"
+            >Contact</a
+          >
+          <a
+            class="text-on-surface-variant font-body-md text-body-md hover:text-primary underline transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            href="#"
+            >Status</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
