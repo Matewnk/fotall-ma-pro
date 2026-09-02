@@ -19,23 +19,31 @@ const COULEURS_STATUT: Record<string, string> = {
   SUSPENDUE: 'bg-error/10 text-error',
 };
 
-type Colonne = 'tenant' | 'plan' | 'statut' | 'createdAt';
+type Colonne = 'tenant' | 'proprietaire' | 'plan' | 'statut' | 'utilisateurs' | 'createdAt';
 
 const COLONNES: { cle: Colonne; libelle: string }[] = [
   { cle: 'tenant', libelle: 'Tenant' },
+  { cle: 'proprietaire', libelle: 'Propriétaire' },
   { cle: 'plan', libelle: 'Plan' },
   { cle: 'statut', libelle: 'Statut licence' },
+  { cle: 'utilisateurs', libelle: 'Utilisateurs' },
   { cle: 'createdAt', libelle: 'Créé le' },
 ];
+
+const PLANS: string[] = ['STARTER', 'PRO', 'BUSINESS'];
 
 function valeurTri(tenant: TenantListe, colonne: Colonne): string {
   switch (colonne) {
     case 'tenant':
       return tenant.nomPressing.toLocaleLowerCase('fr-FR');
+    case 'proprietaire':
+      return tenant.proprietaire ?? '';
     case 'plan':
       return tenant.plan;
     case 'statut':
       return tenant.licence?.statut ?? '';
+    case 'utilisateurs':
+      return String(tenant.nombreUtilisateurs).padStart(10, '0');
     case 'createdAt':
       return tenant.createdAt;
   }
@@ -54,6 +62,8 @@ export function SuperAdminTenantsPage() {
   const { session } = useAuth();
   const token = session?.accessToken;
   const [recherche, setRecherche] = useState('');
+  const [filtrePlan, setFiltrePlan] = useState('');
+  const [filtreStatut, setFiltreStatut] = useState('');
   const [tri, setTri] = useState<{ colonne: Colonne; sens: 'asc' | 'desc' }>({
     colonne: 'createdAt',
     sens: 'desc',
@@ -66,17 +76,21 @@ export function SuperAdminTenantsPage() {
 
   const tenantsAffiches = useMemo(() => {
     const rechercheNormalisee = recherche.trim().toLocaleLowerCase('fr-FR');
-    const filtres = (tenants.data ?? []).filter(
-      (tenant) =>
+    const filtres = (tenants.data ?? []).filter((tenant) => {
+      const correspondRecherche =
         rechercheNormalisee === '' ||
         tenant.nomPressing.toLocaleLowerCase('fr-FR').includes(rechercheNormalisee) ||
-        tenant.sousDomaine.toLocaleLowerCase('fr-FR').includes(rechercheNormalisee),
-    );
+        tenant.sousDomaine.toLocaleLowerCase('fr-FR').includes(rechercheNormalisee) ||
+        (tenant.proprietaire?.toLocaleLowerCase('fr-FR').includes(rechercheNormalisee) ?? false);
+      const correspondPlan = filtrePlan === '' || tenant.plan === filtrePlan;
+      const correspondStatut = filtreStatut === '' || tenant.licence?.statut === filtreStatut;
+      return correspondRecherche && correspondPlan && correspondStatut;
+    });
     const facteur = tri.sens === 'asc' ? 1 : -1;
     return [...filtres].sort(
       (a, b) => facteur * valeurTri(a, tri.colonne).localeCompare(valeurTri(b, tri.colonne)),
     );
-  }, [tenants.data, recherche, tri]);
+  }, [tenants.data, recherche, filtrePlan, filtreStatut, tri]);
 
   function basculerTri(colonne: Colonne) {
     setTri((actuel) =>
@@ -95,21 +109,53 @@ export function SuperAdminTenantsPage() {
         </p>
       </div>
 
-      <label className="relative w-full max-w-sm">
-        <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">
-          search
-        </span>
-        <input
-          type="search"
-          aria-label="Rechercher un tenant"
-          placeholder="Rechercher un tenant (nom, sous-domaine)…"
-          value={recherche}
-          onChange={(event) => setRecherche(event.target.value)}
-          className="w-full border border-outline-variant rounded-lg pl-10 pr-3 py-2 text-sm"
-        />
-      </label>
+      <div className="flex flex-wrap items-end gap-3">
+        <label className="relative w-full max-w-sm">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">
+            search
+          </span>
+          <input
+            type="search"
+            aria-label="Rechercher un tenant"
+            placeholder="Rechercher un tenant (nom, sous-domaine, propriétaire)…"
+            value={recherche}
+            onChange={(event) => setRecherche(event.target.value)}
+            className="w-full border border-outline-variant rounded-lg pl-10 pr-3 py-2 text-sm"
+          />
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          Plan
+          <select
+            value={filtrePlan}
+            onChange={(event) => setFiltrePlan(event.target.value)}
+            className="border border-outline-variant rounded-lg px-3 py-2"
+          >
+            <option value="">Tous</option>
+            {PLANS.map((plan) => (
+              <option key={plan} value={plan}>
+                {plan}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex flex-col gap-1 text-sm">
+          Statut licence
+          <select
+            value={filtreStatut}
+            onChange={(event) => setFiltreStatut(event.target.value)}
+            className="border border-outline-variant rounded-lg px-3 py-2"
+          >
+            <option value="">Tous</option>
+            {Object.keys(LIBELLES_STATUT).map((statut) => (
+              <option key={statut} value={statut}>
+                {LIBELLES_STATUT[statut]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
-      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden">
+      <div className="bg-surface border border-outline-variant rounded-xl overflow-hidden overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase text-on-surface-variant">
@@ -137,14 +183,14 @@ export function SuperAdminTenantsPage() {
           <tbody>
             {tenants.isPending && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={7}>
                   Chargement…
                 </td>
               </tr>
             )}
             {!tenants.isPending && tenantsAffiches.length === 0 && (
               <tr>
-                <td className="px-4 py-4 text-on-surface-variant" colSpan={5}>
+                <td className="px-4 py-4 text-on-surface-variant" colSpan={7}>
                   Aucun tenant ne correspond à la recherche.
                 </td>
               </tr>
@@ -157,6 +203,7 @@ export function SuperAdminTenantsPage() {
                     {tenant.sousDomaine}
                   </div>
                 </td>
+                <td className="px-4 py-2 text-on-surface-variant">{tenant.proprietaire ?? '—'}</td>
                 <td className="px-4 py-2">{tenant.plan}</td>
                 <td className="px-4 py-2">
                   {tenant.licence && (
@@ -167,6 +214,7 @@ export function SuperAdminTenantsPage() {
                     </span>
                   )}
                 </td>
+                <td className="px-4 py-2 text-on-surface-variant">{tenant.nombreUtilisateurs}</td>
                 <td className="px-4 py-2 text-on-surface-variant">
                   {new Date(tenant.createdAt).toLocaleDateString('fr-FR')}
                 </td>

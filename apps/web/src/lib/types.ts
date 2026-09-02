@@ -126,6 +126,8 @@ export type TenantListe = {
   sousDomaine: string;
   plan: PlanCommercial;
   createdAt: string;
+  proprietaire: string | null;
+  nombreUtilisateurs: number;
   licence: {
     statut: StatutLicence;
     dateFinEssai: string;
@@ -142,6 +144,8 @@ export type TenantDetail = {
   devise: string;
   fuseauHoraire: string;
   createdAt: string;
+  proprietaire: string | null;
+  nombreUtilisateurs: number;
   licence: {
     statut: StatutLicence;
     dateDebutEssai: string;
@@ -149,6 +153,69 @@ export type TenantDetail = {
     dateActivation?: string;
     dateExpirationCourante?: string;
   } | null;
+};
+
+export type StatutTicketSupport = 'OUVERT' | 'EN_COURS' | 'RESOLU';
+export type PrioriteTicketSupport = 'BASSE' | 'NORMALE' | 'HAUTE' | 'URGENTE';
+
+export type MessageTicketSupport = {
+  id: string;
+  ticketId: string;
+  auteurId: string;
+  auteurType: 'TENANT' | 'SUPER_ADMIN';
+  corps: string;
+  createdAt: string;
+};
+
+export type TicketSupport = {
+  id: string;
+  tenantId: string;
+  auteurId: string;
+  sujet: string;
+  description: string;
+  statut: StatutTicketSupport;
+  priorite: PrioriteTicketSupport;
+  createdAt: string;
+  updatedAt: string;
+  resoluAt?: string | null;
+};
+
+export type TicketSupportDetail = TicketSupport & { messages: MessageTicketSupport[] };
+
+export type TicketSupportGlobal = TicketSupport & { tenant: { nomPressing: string } };
+
+export type TicketSupportGlobalDetail = TicketSupportGlobal & { messages: MessageTicketSupport[] };
+
+export type DefinitionPlan = {
+  id: string;
+  plan: PlanCommercial;
+  prixMensuel: number | null;
+  devise: string;
+  limiteUtilisateurs: number | null;
+  limitePointsDeService: number | null;
+  fonctionnalites: string[];
+  nombreTenants: number;
+  updatedAt: string;
+};
+
+export type EvenementPlateforme = {
+  id: string;
+  type: 'LICENCE' | 'SUPPORT';
+  tenantId: string;
+  nomPressing: string;
+  action: string;
+  effectuePar: string | null;
+  motif: string | null;
+  createdAt: string;
+};
+
+export type UtilisateurGlobal = {
+  id: string;
+  email: string;
+  role: Role;
+  actif: boolean;
+  createdAt: string;
+  tenant: { id: string; nomPressing: string };
 };
 
 export type EntreeAudit = {
