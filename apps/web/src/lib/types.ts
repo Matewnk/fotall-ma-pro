@@ -381,3 +381,27 @@ export type Dashboard = {
     licenceProcheExpiration: { active: boolean; joursRestants: number | null };
   };
 };
+
+export type ActiviteBusiness =
+  'PRESSING_BLANCHISSERIE' | 'LAVAGE_AUTO' | 'PRESSING_LAVAGE_AUTO' | 'AUTRE';
+export type TypeDemandeBusiness =
+  'DEVIS' | 'INFORMATIONS' | 'DEMONSTRATION' | 'ACCOMPAGNEMENT' | 'AUTRE';
+export type StatutDemandeBusiness = 'NOUVEAU' | 'EN_COURS' | 'TRAITE' | 'REJETE';
+
+export type DemandeBusiness = {
+  id: string;
+  nomComplet: string;
+  entreprise: string;
+  email: string;
+  telephone: string;
+  typeActivite: ActiviteBusiness;
+  nombrePointsDeService?: number | null;
+  typeDemande: TypeDemandeBusiness;
+  message: string;
+  statut: StatutDemandeBusiness;
+  tenantId?: string | null;
+  traiteParSuperAdminId?: string | null;
+  traiteAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};

@@ -493,3 +493,56 @@ model SupportTicketMessage {
 
   @@map("support_ticket_messages")
 }
+
+enum ActiviteBusiness {
+  PRESSING_BLANCHISSERIE
+  LAVAGE_AUTO
+  PRESSING_LAVAGE_AUTO
+  AUTRE
+}
+
+enum TypeDemandeBusiness {
+  DEVIS
+  INFORMATIONS
+  DEMONSTRATION
+  ACCOMPAGNEMENT
+  AUTRE
+}
+
+enum StatutDemandeBusiness {
+  NOUVEAU
+  EN_COURS
+  TRAITE
+  REJETE
+}
+
+// Formulaire "Nous contacter" de la carte plan Business (Abonnement &
+// facturation). Control-plane, comme PlanDefinition : jamais de tenantId
+// obligatoire ni de relation Tenant — un visiteur anonyme (page publique
+// future) n'a pas de tenant, et un visiteur connecté ne doit jamais
+// pouvoir associer sa demande à un AUTRE tenant que le sien (aucune
+// requête tenant-scoped ne lit jamais ce champ, il est purement informatif
+// pour le SUPER_ADMIN). Pas d'AuditLog : AuditService écrit uniquement
+// dans le schema dédié d'un tenant (TenantPrismaFactory.forTenant), donc
+// une demande anonyme ne peut jamais être auditée — traçabilité minimale
+// via traiteParSuperAdminId/traiteAt sur la ligne elle-même, comme
+// PlanDefinition.updatedBy/updatedAt.
+model BusinessContactRequest {
+  id                    String                 @id @default(uuid())
+  nomComplet            String                 @map("nom_complet")
+  entreprise            String
+  email                 String
+  telephone             String
+  typeActivite          ActiviteBusiness       @map("type_activite")
+  nombrePointsDeService Int?                   @map("nombre_points_de_service")
+  typeDemande           TypeDemandeBusiness    @map("type_demande")
+  message               String
+  statut                StatutDemandeBusiness  @default(NOUVEAU)
+  tenantId              String?                @map("tenant_id")
+  traiteParSuperAdminId String?                @map("traite_par_super_admin_id")
+  traiteAt              DateTime?              @map("traite_at")
+  createdAt             DateTime               @default(now()) @map("created_at")
+  updatedAt             DateTime               @updatedAt @map("updated_at")
+
+  @@map("business_contact_requests")
+}

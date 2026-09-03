@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { to: '/super-admin/plans', label: 'Plans', icon: 'sell' },
   { to: '/super-admin/utilisateurs', label: 'Utilisateurs', icon: 'group' },
   { to: '/super-admin/support-tickets', label: 'Support', icon: 'support_agent' },
+  { to: '/super-admin/business-requests', label: 'Demandes Business', icon: 'handshake' },
   { to: '/super-admin/audit', label: 'Audit & Sécurité', icon: 'fact_check' },
   { to: '/super-admin/facturation', label: 'Facturation', icon: 'receipt_long' },
   { to: '/super-admin/factures', label: 'Factures', icon: 'request_quote' },

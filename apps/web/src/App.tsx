@@ -19,6 +19,8 @@ import { ServicesPage } from './pages/ServicesPage';
 import { StocksPage } from './pages/StocksPage';
 import { SuperAdminAuditPage } from './pages/SuperAdminAuditPage';
 import { SuperAdminBillingPage } from './pages/SuperAdminBillingPage';
+import { SuperAdminBusinessRequestDetailPage } from './pages/SuperAdminBusinessRequestDetailPage';
+import { SuperAdminBusinessRequestsPage } from './pages/SuperAdminBusinessRequestsPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
 import { SuperAdminInvoicesPage } from './pages/SuperAdminInvoicesPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
@@ -263,6 +265,26 @@ export function App() {
           <SuperAdminRoute>
             <SuperAdminShell>
               <SuperAdminSupportTicketDetailPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/business-requests"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminBusinessRequestsPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/business-requests/:id"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminBusinessRequestDetailPage />
             </SuperAdminShell>
           </SuperAdminRoute>
         }
