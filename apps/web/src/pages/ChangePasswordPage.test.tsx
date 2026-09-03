@@ -93,6 +93,30 @@ describe('ChangePasswordPage', () => {
     });
   });
 
+  it('affiche un message de confirmation après un changement réussi', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(() =>
+        Promise.resolve(
+          reponseJson({
+            accessToken: 'token-final-456',
+            tenant: SESSION.tenant,
+            user: { ...SESSION.user, mustChangePassword: false },
+          }),
+        ),
+      ),
+    );
+    monter();
+
+    remplirEtSoumettre('temp-1', 'nouveau-secret-1', 'nouveau-secret-1');
+
+    await waitFor(() => {
+      expect(screen.getByText('Mot de passe changé avec succès')).toBeDefined();
+      expect(screen.getByText('Continuer')).toBeDefined();
+    });
+    expect(screen.queryByLabelText('Mot de passe temporaire')).toBeNull();
+  });
+
   it('affiche un état de chargement pendant la soumission', async () => {
     vi.stubGlobal(
       'fetch',

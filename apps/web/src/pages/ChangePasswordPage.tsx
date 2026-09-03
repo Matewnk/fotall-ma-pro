@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ApiError, apiFetch } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import type { Session } from '../lib/types';
@@ -11,11 +12,13 @@ import type { Session } from '../lib/types';
 // lui-même son mot de passe actuel (voir AuthService#changerMotDePasse).
 export function ChangePasswordPage() {
   const { session, updateSession, logout } = useAuth();
+  const navigate = useNavigate();
   const [motDePasseActuel, setMotDePasseActuel] = useState('');
   const [motDePasseNouveau, setMotDePasseNouveau] = useState('');
   const [confirmation, setConfirmation] = useState('');
   const [erreur, setErreur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState(false);
+  const [succes, setSucces] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -34,11 +37,39 @@ export function ChangePasswordPage() {
         body: { motDePasseActuel, motDePasseNouveau },
       });
       updateSession(resultat);
+      setSucces(true);
     } catch (error) {
       setErreur(error instanceof ApiError ? error.message : 'Le changement a échoué.');
     } finally {
       setEnCours(false);
     }
+  }
+
+  if (succes) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-surface-container-low px-4">
+        <div className="w-full max-w-sm bg-surface border border-outline-variant rounded-xl p-8 shadow-sm text-center">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-status-ready/10">
+            <span className="material-symbols-outlined text-status-ready text-3xl">
+              check_circle
+            </span>
+          </div>
+          <h1 className="text-xl font-bold text-on-background mb-1">
+            Mot de passe changé avec succès
+          </h1>
+          <p className="text-sm text-on-surface-variant mb-6">
+            Votre nouveau mot de passe est actif. Vous pouvez continuer.
+          </p>
+          <button
+            type="button"
+            onClick={() => navigate('/', { replace: true })}
+            className="w-full bg-primary text-on-primary rounded-lg py-2 font-medium"
+          >
+            Continuer
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
