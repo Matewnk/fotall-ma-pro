@@ -7,12 +7,24 @@ const STORAGE_KEY = 'fotall.session';
 type AuthContextValue = {
   session: Session | null;
   login: (sousDomaine: string, email: string, motDePasse: string) => Promise<void>;
-  register: (
-    nomPressing: string,
-    sousDomaine: string,
-    email: string,
-    motDePasse: string,
-  ) => Promise<void>;
+  register: (data: {
+    nomPressing: string;
+    sousDomaine: string;
+    email: string;
+    motDePasse: string;
+    prenom?: string;
+    nom?: string;
+    pays?: string;
+  }) => Promise<void>;
+  // Finalise une inscription démarrée via Google (ticket signé obtenu par
+  // GET /auth/google/callback puis POST /auth/google/exchange) — email/
+  // prenom/nom viennent du ticket côté serveur, jamais du formulaire.
+  registerGoogle: (data: {
+    ticket: string;
+    nomPressing: string;
+    sousDomaine: string;
+    pays?: string;
+  }) => Promise<void>;
   loginSuperAdmin: (email: string, motDePasse: string) => Promise<void>;
   // Remplace la session en place (accessToken + user à jour) sans passer
   // par un login — utilisé après le changement de mot de passe self-service
@@ -55,10 +67,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
         setSession(resultat);
       },
-      async register(nomPressing, sousDomaine, email, motDePasse) {
+      async register(data) {
         const resultat = await apiFetch<Session>('/auth/register', {
           method: 'POST',
-          body: { nomPressing, sousDomaine, email, motDePasse },
+          body: data,
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
+        setSession(resultat);
+      },
+      async registerGoogle(data) {
+        const resultat = await apiFetch<Session>('/auth/register-google', {
+          method: 'POST',
+          body: data,
         });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(resultat));
         setSession(resultat);

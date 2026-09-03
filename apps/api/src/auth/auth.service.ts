@@ -8,9 +8,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { TenantSchemaProvisioner } from '../tenancy/tenant-schema.provisioner';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { LoginDto } from './dto/login.dto';
+import { RegisterGoogleDto } from './dto/register-google.dto';
 import { RegisterDto } from './dto/register.dto';
 import { SuperAdminLoginDto } from './dto/super-admin-login.dto';
-import { JwtPayload } from './types';
+import { GoogleProfile, GoogleTicketPayload, JwtPayload } from './types';
 
 const BCRYPT_ROUNDS = 12;
 
@@ -37,7 +38,34 @@ export class AuthService {
 
   async register(dto: RegisterDto): Promise<SessionResult> {
     const motDePasseHash = await bcrypt.hash(dto.motDePasse, BCRYPT_ROUNDS);
+    return this.creerTenantEtAdmin({
+      nomPressing: dto.nomPressing,
+      sousDomaine: dto.sousDomaine,
+      email: dto.email,
+      motDePasseHash,
+      prenom: dto.prenom,
+      nom: dto.nom,
+      pays: dto.pays,
+    });
+  }
 
+  // Partagee entre l'inscription classique (register) et la finalisation
+  // d'inscription Google (finaliserInscriptionGoogle) : les deux creent le
+  // meme couple Tenant+ADMIN avec le meme essai/onboarding/provisioning de
+  // schema — jamais une deuxieme logique de creation de tenant. Seule
+  // difference entre les deux appelants : motDePasseHash est null et
+  // googleId est fourni pour un compte cree via Google (jamais de mot de
+  // passe Google stocke, meme hashe).
+  private async creerTenantEtAdmin(data: {
+    nomPressing: string;
+    sousDomaine: string;
+    email: string;
+    motDePasseHash: string | null;
+    prenom?: string | undefined;
+    nom?: string | undefined;
+    pays?: string | undefined;
+    googleId?: string | undefined;
+  }): Promise<SessionResult> {
     let tenant: { id: string; nomPressing: string; sousDomaine: string };
     let user: User;
 
@@ -45,8 +73,9 @@ export class AuthService {
       ({ tenant, user } = await this.prisma.$transaction(async (tx) => {
         const tenant = await tx.tenant.create({
           data: {
-            nomPressing: dto.nomPressing,
-            sousDomaine: dto.sousDomaine,
+            nomPressing: data.nomPressing,
+            sousDomaine: data.sousDomaine,
+            ...(data.pays ? { pays: data.pays } : {}),
           },
         });
 
@@ -54,8 +83,11 @@ export class AuthService {
           data: {
             tenantId: tenant.id,
             role: Role.ADMIN,
-            email: dto.email,
-            motDePasseHash,
+            email: data.email,
+            motDePasseHash: data.motDePasseHash,
+            ...(data.prenom ? { prenom: data.prenom } : {}),
+            ...(data.nom ? { nom: data.nom } : {}),
+            ...(data.googleId ? { googleId: data.googleId } : {}),
           },
         });
 
@@ -66,7 +98,16 @@ export class AuthService {
       }));
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-        throw new ConflictException('Ce sous-domaine ou cet email est déjà utilisé.');
+        // La cible du conflit distingue les deux causes possibles : email
+        // n'entre en collision que dans de rares cas de concurrence (le
+        // tenant venant d'être créé, [tenantId, email] ne peut pas déjà
+        // contenir cet email) — sousDomaine (global, choisi par le
+        // visiteur) est la cause pratiquement systématique.
+        const cible = Array.isArray(error.meta?.target) ? (error.meta.target as string[]) : [];
+        if (cible.some((champ) => champ.toLowerCase().includes('email'))) {
+          throw new ConflictException('Cette adresse e-mail est déjà utilisée.');
+        }
+        throw new ConflictException('Ce sous-domaine est déjà utilisé.');
       }
       throw error;
     }
@@ -99,7 +140,10 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { tenantId_email: { tenantId: tenant.id, email: dto.email } },
     });
-    if (!user || !user.actif) {
+    // motDePasseHash absent = compte cree via Google (jamais de mot de
+    // passe local) — meme message generique que "mot de passe incorrect",
+    // jamais une confirmation que le compte existe sous une autre forme.
+    if (!user || !user.actif || !user.motDePasseHash) {
       throw new UnauthorizedException('Identifiants invalides.');
     }
 
@@ -121,7 +165,7 @@ export class AuthService {
     const user = await this.prisma.user.findFirst({
       where: { tenantId: null, email: dto.email, role: Role.SUPER_ADMIN },
     });
-    if (!user || !user.actif) {
+    if (!user || !user.actif || !user.motDePasseHash) {
       throw new UnauthorizedException('Identifiants invalides.');
     }
 
@@ -160,6 +204,13 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Session invalide.');
     }
+    // Un compte cree via Google n'a jamais de mot de passe local a
+    // prouver — ce flux (preuve du mot de passe actuel) ne s'applique pas.
+    if (!user.motDePasseHash) {
+      throw new UnauthorizedException(
+        'Ce compte utilise la connexion Google, aucun mot de passe local à changer.',
+      );
+    }
 
     const passwordValide = await bcrypt.compare(dto.motDePasseActuel, user.motDePasseHash);
     if (!passwordValide) {
@@ -196,6 +247,100 @@ export class AuthService {
 
     const tenant = await this.prisma.tenant.findUniqueOrThrow({ where: { id: updated.tenantId } });
     return this.issueSession(tenant.id, tenant.nomPressing, tenant.sousDomaine, updated);
+  }
+
+  // Appele juste apres l'echange OAuth (google.strategy.ts) avec un profil
+  // deja verifie par Google. googleId est la seule cle d'appartenance
+  // fiable (voir schema.prisma#User.googleId) : si un compte Google
+  // existant est retrouve, connexion directe. Sinon, ticket a finaliser
+  // (nomPressing/sousDomaine restent a fournir, Google ne les connait pas).
+  //
+  // Choix deliberement documente : aucun rattachement automatique par
+  // email a un compte classique existant. L'email n'est jamais une
+  // identite globale dans ce systeme (@@unique([tenantId, email]),
+  // plusieurs tenants peuvent deja legitimement partager un email) — un
+  // rattachement par email creerait une exception a cette regle plutot
+  // que de la respecter. Une nouvelle tentative "S'inscrire avec Google"
+  // avec un email deja utilise par un tenant classique cree donc un
+  // nouveau tenant distinct, exactement comme le ferait un deuxieme
+  // register() classique avec le meme email.
+  async traiterProfilGoogle(
+    profile: GoogleProfile,
+  ): Promise<{ type: 'session'; session: SessionResult } | { type: 'ticket'; ticket: string }> {
+    const existant = await this.prisma.user.findUnique({ where: { googleId: profile.googleId } });
+
+    if (existant) {
+      if (!existant.actif) {
+        throw new UnauthorizedException('Compte désactivé.');
+      }
+      if (!existant.tenantId) {
+        // Aucun flux Google prevu pour un SUPER_ADMIN (perimetre
+        // plateforme, hors tenant) — jamais atteint en pratique puisque
+        // seuls creerTenantEtAdmin (role ADMIN) ecrit googleId.
+        throw new UnauthorizedException('Connexion Google indisponible pour ce compte.');
+      }
+      const tenant = await this.prisma.tenant.findUniqueOrThrow({
+        where: { id: existant.tenantId },
+      });
+      return {
+        type: 'session',
+        session: this.issueSession(tenant.id, tenant.nomPressing, tenant.sousDomaine, existant),
+      };
+    }
+
+    const payload: GoogleTicketPayload = {
+      purpose: 'google-signup',
+      googleId: profile.googleId,
+      email: profile.email,
+      ...(profile.prenom ? { prenom: profile.prenom } : {}),
+      ...(profile.nom ? { nom: profile.nom } : {}),
+    };
+    return { type: 'ticket', ticket: this.jwt.sign(payload, { expiresIn: '15m' }) };
+  }
+
+  private verifierTicketGoogle(ticket: string): GoogleTicketPayload {
+    let decoded: unknown;
+    try {
+      decoded = this.jwt.verify(ticket);
+    } catch {
+      throw new UnauthorizedException('Session Google expirée, veuillez recommencer.');
+    }
+    if (
+      !decoded ||
+      typeof decoded !== 'object' ||
+      (decoded as { purpose?: unknown }).purpose !== 'google-signup'
+    ) {
+      throw new UnauthorizedException('Session Google invalide.');
+    }
+    return decoded as GoogleTicketPayload;
+  }
+
+  async finaliserInscriptionGoogle(
+    ticket: string,
+    dto: RegisterGoogleDto,
+  ): Promise<SessionResult> {
+    const payload = this.verifierTicketGoogle(ticket);
+
+    // Le compte a pu etre cree entre l'obtention du ticket et cette
+    // finalisation (deux onglets, nouvelle tentative) — jamais un
+    // doublon silencieux de tenant pour le meme compte Google.
+    const existant = await this.prisma.user.findUnique({
+      where: { googleId: payload.googleId },
+    });
+    if (existant) {
+      throw new ConflictException('Ce compte Google est déjà associé à un pressing.');
+    }
+
+    return this.creerTenantEtAdmin({
+      nomPressing: dto.nomPressing,
+      sousDomaine: dto.sousDomaine,
+      email: payload.email,
+      motDePasseHash: null,
+      prenom: payload.prenom,
+      nom: payload.nom,
+      pays: dto.pays,
+      googleId: payload.googleId,
+    });
   }
 
   private issueSession(

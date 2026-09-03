@@ -299,6 +299,148 @@ describe('AuthService', () => {
     });
   });
 
+  describe('traiterProfilGoogle', () => {
+    it('renvoie une session directe pour un compte Google déjà existant', async () => {
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        tenantId: 'tenant-1',
+        actif: true,
+        role: Role.ADMIN,
+        email: 'admin@test.dev',
+      });
+      prisma.tenant.findUniqueOrThrow.mockResolvedValue({
+        id: 'tenant-1',
+        nomPressing: 'Pressing Test',
+        sousDomaine: 'pressing-test',
+      });
+
+      const resultat = await service.traiterProfilGoogle({
+        googleId: 'google-1',
+        email: 'admin@test.dev',
+      });
+
+      expect(resultat.type).toBe('session');
+      expect(prisma.user.findUnique).toHaveBeenCalledWith({ where: { googleId: 'google-1' } });
+    });
+
+    it('rejette un compte Google désactivé', async () => {
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        tenantId: 'tenant-1',
+        actif: false,
+        role: Role.ADMIN,
+      });
+
+      await expect(
+        service.traiterProfilGoogle({ googleId: 'google-1', email: 'admin@test.dev' }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('renvoie un ticket signé pour un nouveau profil Google', async () => {
+      prisma.user.findUnique.mockResolvedValue(null);
+
+      const resultat = await service.traiterProfilGoogle({
+        googleId: 'google-1',
+        email: 'nouveau@test.dev',
+        prenom: 'Awa',
+        nom: 'Diop',
+      });
+
+      expect(resultat.type).toBe('ticket');
+      if (resultat.type !== 'ticket') throw new Error('unreachable');
+      const decoded = jwt.verify(resultat.ticket) as Record<string, unknown>;
+      expect(decoded).toMatchObject({
+        purpose: 'google-signup',
+        googleId: 'google-1',
+        email: 'nouveau@test.dev',
+        prenom: 'Awa',
+        nom: 'Diop',
+      });
+    });
+  });
+
+  describe('finaliserInscriptionGoogle', () => {
+    it('crée le tenant et l’ADMIN sans mot de passe local à partir du ticket', async () => {
+      const ticket = jwt.sign(
+        { purpose: 'google-signup', googleId: 'google-1', email: 'nouveau@test.dev' },
+        { expiresIn: '15m' },
+      );
+      prisma.user.findUnique.mockResolvedValue(null);
+      prisma.tenant.create.mockResolvedValue({
+        id: 'tenant-1',
+        nomPressing: 'Pressing Google',
+        sousDomaine: 'pressing-google',
+      });
+      prisma.user.create.mockResolvedValue({
+        id: 'user-1',
+        email: 'nouveau@test.dev',
+        role: Role.ADMIN,
+      });
+
+      await service.finaliserInscriptionGoogle(ticket, {
+        ticket,
+        nomPressing: 'Pressing Google',
+        sousDomaine: 'pressing-google',
+      });
+
+      expect(prisma.user.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({
+            email: 'nouveau@test.dev',
+            motDePasseHash: null,
+            googleId: 'google-1',
+          }),
+        }),
+      );
+    });
+
+    it('rejette un ticket invalide ou expiré', async () => {
+      await expect(
+        service.finaliserInscriptionGoogle('ticket-invalide', {
+          ticket: 'ticket-invalide',
+          nomPressing: 'Pressing Google',
+          sousDomaine: 'pressing-google',
+        }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+
+    it('rejette si le compte Google a déjà été créé entre-temps (course)', async () => {
+      const ticket = jwt.sign(
+        { purpose: 'google-signup', googleId: 'google-1', email: 'nouveau@test.dev' },
+        { expiresIn: '15m' },
+      );
+      prisma.user.findUnique.mockResolvedValue({ id: 'user-1' });
+
+      await expect(
+        service.finaliserInscriptionGoogle(ticket, {
+          ticket,
+          nomPressing: 'Pressing Google',
+          sousDomaine: 'pressing-google',
+        }),
+      ).rejects.toBeInstanceOf(ConflictException);
+    });
+  });
+
+  describe('login avec compte Google (sans mot de passe local)', () => {
+    it('rejette la connexion classique avec le même message générique', async () => {
+      prisma.tenant.findUnique.mockResolvedValue({ id: 'tenant-1', sousDomaine: 'pressing-test' });
+      prisma.user.findUnique.mockResolvedValue({
+        id: 'user-1',
+        actif: true,
+        motDePasseHash: null,
+        role: Role.ADMIN,
+      });
+
+      await expect(
+        service.login({
+          sousDomaine: 'pressing-test',
+          email: 'admin@test.dev',
+          motDePasse: 'peu-importe-1',
+        }),
+      ).rejects.toBeInstanceOf(UnauthorizedException);
+    });
+  });
+
   describe('changerMotDePasse', () => {
     it('rejette un mot de passe actuel incorrect', async () => {
       prisma.user.findUnique.mockResolvedValue({
