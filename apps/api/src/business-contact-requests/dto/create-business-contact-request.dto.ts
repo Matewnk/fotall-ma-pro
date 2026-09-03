@@ -16,10 +16,14 @@ export class CreateBusinessContactRequestDto {
   @MaxLength(120)
   nomComplet!: string;
 
+  // Optionnel : obligatoire dans le formulaire Business (tenant connecté,
+  // on connaît déjà le pressing), mais un visiteur public du formulaire de
+  // contact du landing page peut ne pas encore en avoir un.
+  @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(120)
-  entreprise!: string;
+  entreprise?: string;
 
   @IsEmail()
   @MaxLength(180)

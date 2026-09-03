@@ -26,12 +26,12 @@ export class BusinessContactRequestsService {
     return this.prisma.businessContactRequest.create({
       data: {
         nomComplet: dto.nomComplet.trim(),
-        entreprise: dto.entreprise.trim(),
         email: dto.email.trim().toLowerCase(),
         telephone: dto.telephone.trim(),
         typeActivite: dto.typeActivite,
         typeDemande: dto.typeDemande,
         message: dto.message.trim(),
+        ...(dto.entreprise ? { entreprise: dto.entreprise.trim() } : {}),
         ...(dto.nombrePointsDeService !== undefined
           ? { nombrePointsDeService: dto.nombrePointsDeService }
           : {}),

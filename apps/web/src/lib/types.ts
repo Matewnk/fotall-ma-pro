@@ -391,7 +391,10 @@ export type StatutDemandeBusiness = 'NOUVEAU' | 'EN_COURS' | 'TRAITE' | 'REJETE'
 export type DemandeBusiness = {
   id: string;
   nomComplet: string;
-  entreprise: string;
+  // Optionnel : obligatoire pour la demande faite depuis la carte plan
+  // Business (tenant connecté), mais pas depuis le formulaire de contact
+  // public du landing page.
+  entreprise?: string | null;
   email: string;
   telephone: string;
   typeActivite: ActiviteBusiness;

@@ -516,21 +516,25 @@ enum StatutDemandeBusiness {
   REJETE
 }
 
-// Formulaire "Nous contacter" de la carte plan Business (Abonnement &
-// facturation). Control-plane, comme PlanDefinition : jamais de tenantId
-// obligatoire ni de relation Tenant — un visiteur anonyme (page publique
-// future) n'a pas de tenant, et un visiteur connecté ne doit jamais
-// pouvoir associer sa demande à un AUTRE tenant que le sien (aucune
-// requête tenant-scoped ne lit jamais ce champ, il est purement informatif
-// pour le SUPER_ADMIN). Pas d'AuditLog : AuditService écrit uniquement
-// dans le schema dédié d'un tenant (TenantPrismaFactory.forTenant), donc
-// une demande anonyme ne peut jamais être auditée — traçabilité minimale
-// via traiteParSuperAdminId/traiteAt sur la ligne elle-même, comme
-// PlanDefinition.updatedBy/updatedAt.
+// Formulaire "Nous contacter" — deux points d'entree : la carte plan
+// Business (Abonnement & facturation, tenant connecte) et le formulaire de
+// contact public du landing page (visiteur anonyme, feature/public-contact-
+// form). Control-plane, comme PlanDefinition : jamais de tenantId
+// obligatoire ni de relation Tenant — un visiteur anonyme n'a pas de
+// tenant, et un visiteur connecte ne doit jamais pouvoir associer sa
+// demande a un AUTRE tenant que le sien (aucune requete tenant-scoped ne
+// lit jamais ce champ, il est purement informatif pour le SUPER_ADMIN).
+// entreprise est optionnel : obligatoire dans le formulaire Business (on
+// connait deja le pressing), mais un visiteur public peut ne pas encore en
+// avoir un (simple demande d'information). Pas d'AuditLog : AuditService
+// ecrit uniquement dans le schema dedie d'un tenant (TenantPrismaFactory.
+// forTenant), donc une demande anonyme ne peut jamais etre auditee —
+// tracabilite minimale via traiteParSuperAdminId/traiteAt sur la ligne
+// elle-meme, comme PlanDefinition.updatedBy/updatedAt.
 model BusinessContactRequest {
   id                    String                 @id @default(uuid())
   nomComplet            String                 @map("nom_complet")
-  entreprise            String
+  entreprise            String?
   email                 String
   telephone             String
   typeActivite          ActiviteBusiness       @map("type_activite")

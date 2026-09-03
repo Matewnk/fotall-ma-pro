@@ -138,7 +138,7 @@ export function SuperAdminBusinessRequestDetailPage() {
           </div>
           <div>
             <dt className="text-on-surface-variant">Entreprise</dt>
-            <dd className="font-medium text-on-background">{demande.data.entreprise}</dd>
+            <dd className="font-medium text-on-background">{demande.data.entreprise ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-on-surface-variant">Email</dt>

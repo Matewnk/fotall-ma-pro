@@ -126,7 +126,7 @@ export function SuperAdminBusinessRequestsPage() {
             {demandesAffichees.map((demande) => (
               <tr key={demande.id} className="border-t border-outline-variant">
                 <td className="px-4 py-2 font-medium text-on-surface">{demande.nomComplet}</td>
-                <td className="px-4 py-2 text-on-surface-variant">{demande.entreprise}</td>
+                <td className="px-4 py-2 text-on-surface-variant">{demande.entreprise ?? '—'}</td>
                 <td className="px-4 py-2 text-on-surface-variant">{demande.email}</td>
                 <td className="px-4 py-2 text-on-surface-variant">{demande.telephone}</td>
                 <td className="px-4 py-2 text-on-surface-variant">

@@ -69,6 +69,17 @@ describe('BusinessContactRequestsService', () => {
     expect(data).not.toHaveProperty('nombrePointsDeService');
   });
 
+  it('create n’inclut pas entreprise quand absente (formulaire de contact public)', async () => {
+    prisma.businessContactRequest.create.mockResolvedValue(DEMANDE);
+    const dtoSansEntreprise: Record<string, unknown> = { ...DEMANDE_DTO };
+    delete dtoSansEntreprise.entreprise;
+
+    await service.create(dtoSansEntreprise as typeof DEMANDE_DTO);
+
+    const data = prisma.businessContactRequest.create.mock.calls[0][0].data;
+    expect(data).not.toHaveProperty('entreprise');
+  });
+
   it('create inclut tenantId et nombrePointsDeService quand fournis', async () => {
     prisma.businessContactRequest.create.mockResolvedValue(DEMANDE);
 

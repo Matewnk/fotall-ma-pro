@@ -136,6 +136,16 @@ describe('Business contact requests (PostgreSQL réel)', () => {
       expect(res.body.tenantId).toBe('tenant-informatif-1');
       expect(res.body.nombrePointsDeService).toBe(3);
     });
+
+    it('accepte une demande du formulaire public sans entreprise (champ optionnel)', async () => {
+      const sansEntreprise: Record<string, unknown> = { ...DTO_VALIDE };
+      delete sansEntreprise.entreprise;
+      const res = await request(app.getHttpServer())
+        .post('/demandes-business')
+        .send(sansEntreprise);
+      expect(res.status).toBe(201);
+      expect(res.body.entreprise).toBeNull();
+    });
   });
 
   describe('Super-Admin — gestion des demandes', () => {
