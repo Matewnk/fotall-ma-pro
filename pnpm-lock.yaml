@@ -93,6 +93,9 @@ importers:
       helmet:
         specifier: ^8.3.0
         version: 8.3.0
+      multer:
+        specifier: ^2.1.0
+        version: 2.2.0
       passport:
         specifier: ^0.7.0
         version: 0.7.0
