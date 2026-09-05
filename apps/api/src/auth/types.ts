@@ -17,3 +17,26 @@ export type AuthenticatedContext = {
   tenantId: string | null;
   role: Role;
 };
+
+// Profil verifie par Google (google.strategy.ts) — jamais les donnees
+// brutes du client, toujours le resultat de l'echange OAuth cote serveur.
+export type GoogleProfile = {
+  googleId: string;
+  email: string;
+  prenom?: string;
+  nom?: string;
+};
+
+// Ticket signe (courte duree, voir AuthService#traiterProfilGoogle) qui
+// transporte un profil Google verifie entre le callback OAuth et
+// POST /auth/register-google. Deliberement sans `sub` exploitable : un
+// visiteur qui tenterait de l'utiliser comme Bearer token sur une route
+// normale est rejete par session-validation.util.ts avant meme une
+// requete Prisma.
+export type GoogleTicketPayload = {
+  purpose: 'google-signup';
+  googleId: string;
+  email: string;
+  prenom?: string;
+  nom?: string;
+};

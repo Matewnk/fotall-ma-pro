@@ -12,6 +12,15 @@ export async function validateSession(
   prisma: PrismaService,
   payload: JwtPayload,
 ): Promise<AuthenticatedContext & { user: User }> {
+  // Rejette explicitement tout payload sans sub exploitable (ex. un ticket
+  // d'inscription Google signe avec le meme JwtService mais sans sub —
+  // voir AuthService#traiterProfilGoogle) avant meme d'interroger Prisma :
+  // jamais un findUnique({ id: undefined }) qui remonterait une erreur
+  // Prisma plutot qu'un 401 propre.
+  if (typeof payload.sub !== 'string' || payload.sub.length === 0) {
+    throw new UnauthorizedException('Session invalide.');
+  }
+
   const user = await prisma.user.findUnique({ where: { id: payload.sub } });
 
   if (!user || !user.actif) {

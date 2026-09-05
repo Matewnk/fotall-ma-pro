@@ -114,14 +114,14 @@ export function ReportsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between flex-wrap gap-4">
+      <div className="flex items-center justify-between gap-4 flex-wrap">
         <h1 className="text-2xl font-bold text-on-background">Rapports</h1>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <button
             type="button"
             disabled={exportEnCours !== null}
             onClick={() => exporter('csv')}
-            className="rounded-lg px-4 py-2 text-sm font-medium border border-outline-variant text-on-surface-variant disabled:opacity-60"
+            className="rounded-lg px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm font-medium border border-outline-variant text-on-surface-variant disabled:opacity-60"
           >
             {exportEnCours === 'csv' ? 'Export…' : 'Exporter CSV'}
           </button>
@@ -129,7 +129,7 @@ export function ReportsPage() {
             type="button"
             disabled={exportEnCours !== null}
             onClick={() => exporter('pdf')}
-            className="rounded-lg px-4 py-2 text-sm font-medium border border-outline-variant text-on-surface-variant disabled:opacity-60"
+            className="rounded-lg px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm font-medium border border-outline-variant text-on-surface-variant disabled:opacity-60"
           >
             {exportEnCours === 'pdf' ? 'Export…' : 'Exporter PDF'}
           </button>

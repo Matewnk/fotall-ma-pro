@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/.turbo
+**/coverage
+.git
+.github
+docs
+!docs/design/screens/landing_page/code.html
+*.md
+apps/api/.env
+apps/web/.env
+**/.DS_Store

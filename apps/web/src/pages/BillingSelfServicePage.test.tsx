@@ -144,6 +144,7 @@ type StubOptions = {
   factures?: { status: number; corps: unknown };
   renouvellement?: { status: number; corps: unknown };
   confirmation?: { status: number; corps: unknown };
+  demandeBusiness?: { status: number; corps: unknown };
 };
 
 function stubFetch(options: StubOptions = {}) {
@@ -154,6 +155,13 @@ function stubFetch(options: StubOptions = {}) {
     const url = String(input);
     const method = init?.method ?? 'GET';
 
+    if (url.includes('/demandes-business') && method === 'POST') {
+      const reponse = options.demandeBusiness ?? {
+        status: 201,
+        corps: { id: 'demande-1', statut: 'NOUVEAU' },
+      };
+      return Promise.resolve(reponseJson(reponse.corps, reponse.status));
+    }
     if (url.includes('/confirmer-dry-run')) {
       const reponse = options.confirmation ?? {
         status: 201,
@@ -438,6 +446,231 @@ describe('BillingSelfServicePage', () => {
       const tbody = section?.querySelector('tbody');
       expect(tbody?.textContent).toContain('Payé');
       expect(tbody?.textContent).not.toContain('Impayé');
+    });
+  });
+
+  describe('carte Business — formulaire "Nous contacter"', () => {
+    async function ouvrirModalContact() {
+      stubFetch();
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => {
+        expect(screen.getByText('Business')).toBeDefined();
+      });
+      fireEvent.click(screen.getByText('Nous contacter'));
+      await waitFor(() => {
+        expect(screen.getByRole('dialog')).toBeDefined();
+      });
+    }
+
+    function remplirChamps(surcharge: Partial<Record<string, string>> = {}) {
+      const valeurs = {
+        nomComplet: 'Jean Dupont',
+        entreprise: 'Pressing Lumière',
+        email: 'jean.dupont@example.dev',
+        telephone: '+221 77 000 00 00',
+        message: 'Nous avons plusieurs sites à équiper de votre solution.',
+        ...surcharge,
+      };
+      fireEvent.change(screen.getByLabelText(/Nom complet/), {
+        target: { value: valeurs.nomComplet },
+      });
+      fireEvent.change(screen.getByLabelText(/entreprise \/ pressing/), {
+        target: { value: valeurs.entreprise },
+      });
+      fireEvent.change(screen.getByLabelText(/Adresse email/), {
+        target: { value: valeurs.email },
+      });
+      fireEvent.change(screen.getByLabelText(/Téléphone \/ WhatsApp/), {
+        target: { value: valeurs.telephone },
+      });
+      fireEvent.change(screen.getByLabelText(/Type d'activité/), {
+        target: { value: 'PRESSING_BLANCHISSERIE' },
+      });
+      fireEvent.change(screen.getByLabelText(/Comment pouvons-nous vous aider/), {
+        target: { value: 'DEVIS' },
+      });
+      fireEvent.change(screen.getByLabelText(/Décrivez votre besoin/), {
+        target: { value: valeurs.message },
+      });
+    }
+
+    it('la carte Business est affichée avec son contenu et son bouton', async () => {
+      stubFetch();
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => {
+        expect(screen.getByText('Business')).toBeDefined();
+        expect(screen.getByText('Pour les grands réseaux.')).toBeDefined();
+        expect(screen.getByText('Sur mesure')).toBeDefined();
+        expect(screen.getByText('Nous contacter')).toBeDefined();
+      });
+    });
+
+    it('un clic sur "Nous contacter" ouvre la modale avec le formulaire', async () => {
+      await ouvrirModalContact();
+      expect(screen.getByText('Parlons de votre projet')).toBeDefined();
+      expect(screen.getByLabelText(/Nom complet/)).toBeDefined();
+    });
+
+    it('affiche les erreurs de validation quand les champs obligatoires sont vides', async () => {
+      await ouvrirModalContact();
+      fireEvent.click(screen.getByText('Envoyer ma demande'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Le nom est obligatoire.')).toBeDefined();
+        expect(screen.getByText("L'adresse email est obligatoire.")).toBeDefined();
+        expect(screen.getByText('Le numéro de téléphone est obligatoire.')).toBeDefined();
+        expect(screen.getByText('Veuillez sélectionner votre activité.')).toBeDefined();
+        expect(screen.getByText('Veuillez préciser votre demande.')).toBeDefined();
+        expect(screen.getByText('Veuillez décrire votre besoin.')).toBeDefined();
+      });
+      expect(vi.mocked(fetch)).not.toHaveBeenCalledWith(
+        expect.stringContaining('/demandes-business'),
+        expect.anything(),
+      );
+    });
+
+    it('rejette un email invalide', async () => {
+      await ouvrirModalContact();
+      remplirChamps({ email: 'pas-un-email' });
+      fireEvent.click(screen.getByText('Envoyer ma demande'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Veuillez saisir une adresse email valide.')).toBeDefined();
+      });
+    });
+
+    it('soumission valide → appelle POST /demandes-business puis affiche la confirmation', async () => {
+      const fetchMock = stubFetch();
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => expect(screen.getByText('Business')).toBeDefined());
+      fireEvent.click(screen.getByText('Nous contacter'));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      remplirChamps();
+      fireEvent.click(screen.getByText('Envoyer ma demande'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Demande envoyée !')).toBeDefined();
+        expect(
+          screen.getByText(/Merci pour votre demande\. Notre équipe vous contactera/),
+        ).toBeDefined();
+      });
+
+      const appelEnvoi = fetchMock.mock.calls.find(
+        ([input, init]) =>
+          String(input).includes('/demandes-business') &&
+          (init as RequestInit | undefined)?.method === 'POST',
+      );
+      expect(appelEnvoi).toBeDefined();
+      const corps = JSON.parse((appelEnvoi?.[1] as RequestInit).body as string);
+      expect(corps).toMatchObject({
+        nomComplet: 'Jean Dupont',
+        entreprise: 'Pressing Lumière',
+        typeActivite: 'PRESSING_BLANCHISSERIE',
+        typeDemande: 'DEVIS',
+        tenantId: 'tenant-1',
+      });
+    });
+
+    it('affiche un état de chargement pendant l’envoi', async () => {
+      stubFetch({
+        demandeBusiness: { status: 201, corps: { id: 'd1', statut: 'NOUVEAU' } },
+      });
+      vi.stubGlobal(
+        'fetch',
+        vi.fn((input: RequestInfo | URL, init?: RequestInit) => {
+          const url = String(input);
+          if (url.includes('/demandes-business') && (init?.method ?? 'GET') === 'POST') {
+            return new Promise((resolve) => {
+              setTimeout(() => resolve(reponseJson({ id: 'd1', statut: 'NOUVEAU' }, 201)), 50);
+            });
+          }
+          if (url.includes('/abonnement')) return Promise.resolve(reponseJson(ABONNEMENT_ACTIF));
+          if (url.includes('/factures')) return Promise.resolve(reponseJson(FACTURES));
+          if (url.includes('/plans')) return Promise.resolve(reponseJson(PLANS));
+          return Promise.resolve(reponseJson({}));
+        }),
+      );
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => expect(screen.getByText('Business')).toBeDefined());
+      fireEvent.click(screen.getByText('Nous contacter'));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+      remplirChamps();
+      fireEvent.click(screen.getByText('Envoyer ma demande'));
+
+      await waitFor(() => {
+        expect(screen.getByText('Envoi en cours…')).toBeDefined();
+      });
+    });
+
+    it('affiche un message générique en cas d’échec réseau/API', async () => {
+      stubFetch({
+        demandeBusiness: { status: 500, corps: { statusCode: 500, message: 'Erreur interne' } },
+      });
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => expect(screen.getByText('Business')).toBeDefined());
+      fireEvent.click(screen.getByText('Nous contacter'));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+      remplirChamps();
+      fireEvent.click(screen.getByText('Envoyer ma demande'));
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            'Impossible d’envoyer votre demande pour le moment. Vérifiez votre connexion et réessayez.',
+          ),
+        ).toBeDefined();
+      });
+    });
+
+    it('ferme la modale avec le bouton X', async () => {
+      await ouvrirModalContact();
+      fireEvent.click(screen.getByLabelText('Fermer'));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).toBeNull();
+      });
+    });
+
+    it('ferme la modale avec la touche Escape', async () => {
+      await ouvrirModalContact();
+      fireEvent.keyDown(window, { key: 'Escape' });
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).toBeNull();
+      });
+    });
+
+    it('ferme la modale sur Annuler sans appeler l’API', async () => {
+      const fetchMock = stubFetch();
+      const { element } = renderAvecProviders(<BillingSelfServicePage />);
+      render(element);
+
+      await waitFor(() => expect(screen.getByText('Business')).toBeDefined());
+      fireEvent.click(screen.getByText('Nous contacter'));
+      await waitFor(() => expect(screen.getByRole('dialog')).toBeDefined());
+
+      fireEvent.click(screen.getByText('Annuler'));
+
+      await waitFor(() => {
+        expect(screen.queryByRole('dialog')).toBeNull();
+      });
+      const appelEnvoi = fetchMock.mock.calls.some(
+        ([input, init]) =>
+          String(input).includes('/demandes-business') &&
+          (init as RequestInit | undefined)?.method === 'POST',
+      );
+      expect(appelEnvoi).toBe(false);
     });
   });
 });

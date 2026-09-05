@@ -145,7 +145,7 @@ export function StocksPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
           <h1 className="text-2xl font-bold text-on-background">Stocks &amp; Consommables</h1>
           <p className="text-sm text-on-surface-variant">Gérez votre inventaire quotidien.</p>
@@ -154,7 +154,7 @@ export function StocksPage() {
           <button
             type="button"
             onClick={() => setFormulaireOuvert((ouvert) => !ouvert)}
-            className="flex items-center gap-2 bg-primary text-on-primary rounded-lg px-4 py-2 text-sm font-medium"
+            className="flex items-center gap-2 bg-primary text-on-primary rounded-lg px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm font-medium"
           >
             <span className="material-symbols-outlined">add</span>
             Nouvel article

@@ -13,6 +13,8 @@ apps/api/uploads/
 .env
 .env.*
 !.env.example
+!infra/docker/.env.prod.example
+!infra/docker/.env.dokploy.example
 *.pem
 *.key
 *.p12

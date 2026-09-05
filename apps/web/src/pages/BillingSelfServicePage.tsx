@@ -1,17 +1,59 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { apiFetch, apiFetchBlob, ApiError } from '../lib/api-client';
 import { useAuth } from '../lib/auth-context';
 import { declencherTelechargement, ouvrirBlobDansNouvelOnglet } from '../lib/download';
 import {
   DUREES_RENOUVELLEMENT_MOIS,
   type Abonnement,
+  type ActiviteBusiness,
   type CataloguePlan,
   type ConfirmationRenouvellement,
+  type DemandeBusiness,
   type DureeRenouvellementMois,
   type Facture,
   type InitiationRenouvellement,
+  type TypeDemandeBusiness,
 } from '../lib/types';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const LIBELLES_ACTIVITE_BUSINESS: Record<ActiviteBusiness, string> = {
+  PRESSING_BLANCHISSERIE: 'Pressing / Blanchisserie',
+  LAVAGE_AUTO: 'Lavage auto',
+  PRESSING_LAVAGE_AUTO: 'Pressing + Lavage auto',
+  AUTRE: 'Autre',
+};
+
+const LIBELLES_TYPE_DEMANDE_BUSINESS: Record<TypeDemandeBusiness, string> = {
+  DEVIS: 'Demander un devis',
+  INFORMATIONS: 'Demander des informations',
+  DEMONSTRATION: 'Demander une démonstration',
+  ACCOMPAGNEMENT: 'Demander un accompagnement',
+  AUTRE: 'Autre',
+};
+
+type FormulaireContactBusiness = {
+  nomComplet: string;
+  entreprise: string;
+  email: string;
+  telephone: string;
+  typeActivite: ActiviteBusiness | '';
+  nombrePointsDeService: string;
+  typeDemande: TypeDemandeBusiness | '';
+  message: string;
+};
+
+const FORMULAIRE_CONTACT_VIDE: FormulaireContactBusiness = {
+  nomComplet: '',
+  entreprise: '',
+  email: '',
+  telephone: '',
+  typeActivite: '',
+  nombrePointsDeService: '',
+  typeDemande: '',
+  message: '',
+};
 
 const LIBELLES_PLAN: Record<string, string> = {
   STARTER: 'Starter',
@@ -161,6 +203,13 @@ export function BillingSelfServicePage() {
   const [erreurModal, setErreurModal] = useState<string | null>(null);
   const [confirmation, setConfirmation] = useState<ConfirmationRenouvellement | null>(null);
 
+  const [modalContactOuverte, setModalContactOuverte] = useState(false);
+  const [etapeContact, setEtapeContact] = useState<'FORMULAIRE' | 'SUCCES'>('FORMULAIRE');
+  const [formContact, setFormContact] =
+    useState<FormulaireContactBusiness>(FORMULAIRE_CONTACT_VIDE);
+  const [erreursContact, setErreursContact] = useState<Record<string, string>>({});
+  const [erreurEnvoiContact, setErreurEnvoiContact] = useState<string | null>(null);
+
   const abonnement = useQuery({
     queryKey: ['mon-abonnement'],
     queryFn: () => apiFetch<Abonnement>('/abonnement', { token }),
@@ -236,6 +285,97 @@ export function BillingSelfServicePage() {
     setErreurModal(null);
     initier.mutate(dureeChoisie);
   }
+
+  // Public (aucun guard côté API — voir business-contact-requests.controller.ts) :
+  // fonctionne pour un visiteur anonyme comme pour un tenant connecté.
+  // tenantId n'est envoyé que s'il existe déjà côté session — purement
+  // informatif pour le SUPER_ADMIN, jamais une preuve d'appartenance.
+  const envoyerContact = useMutation({
+    mutationFn: () =>
+      apiFetch<DemandeBusiness>('/demandes-business', {
+        method: 'POST',
+        ...(token ? { token } : {}),
+        body: {
+          nomComplet: formContact.nomComplet.trim(),
+          entreprise: formContact.entreprise.trim(),
+          email: formContact.email.trim(),
+          telephone: formContact.telephone.trim(),
+          typeActivite: formContact.typeActivite,
+          typeDemande: formContact.typeDemande,
+          message: formContact.message.trim(),
+          ...(formContact.nombrePointsDeService
+            ? { nombrePointsDeService: Number(formContact.nombrePointsDeService) }
+            : {}),
+          ...(session?.tenant?.id ? { tenantId: session.tenant.id } : {}),
+        },
+      }),
+    onSuccess: () => setEtapeContact('SUCCES'),
+    onError: () => {
+      // Jamais de détail technique affiché (§11/§12 de la demande) : un
+      // seul message générique, que l'échec vienne du réseau ou de l'API.
+      setErreurEnvoiContact(
+        'Impossible d’envoyer votre demande pour le moment. Vérifiez votre connexion et réessayez.',
+      );
+    },
+  });
+
+  function ouvrirModalContact() {
+    setFormContact(FORMULAIRE_CONTACT_VIDE);
+    setErreursContact({});
+    setErreurEnvoiContact(null);
+    setEtapeContact('FORMULAIRE');
+    setModalContactOuverte(true);
+  }
+
+  function fermerModalContact() {
+    setModalContactOuverte(false);
+  }
+
+  function validerFormulaireContact(): Record<string, string> {
+    const erreurs: Record<string, string> = {};
+    if (!formContact.nomComplet.trim()) erreurs.nomComplet = 'Le nom est obligatoire.';
+    if (!formContact.entreprise.trim()) {
+      erreurs.entreprise = "Le nom de l'entreprise est obligatoire.";
+    }
+    if (!formContact.email.trim()) {
+      erreurs.email = "L'adresse email est obligatoire.";
+    } else if (!EMAIL_REGEX.test(formContact.email.trim())) {
+      erreurs.email = 'Veuillez saisir une adresse email valide.';
+    }
+    if (!formContact.telephone.trim()) {
+      erreurs.telephone = 'Le numéro de téléphone est obligatoire.';
+    }
+    if (!formContact.typeActivite) erreurs.typeActivite = 'Veuillez sélectionner votre activité.';
+    if (!formContact.typeDemande) erreurs.typeDemande = 'Veuillez préciser votre demande.';
+    if (!formContact.message.trim()) erreurs.message = 'Veuillez décrire votre besoin.';
+    if (formContact.nombrePointsDeService && Number(formContact.nombrePointsDeService) < 1) {
+      erreurs.nombrePointsDeService = 'Le nombre de points de service doit être au moins 1.';
+    }
+    return erreurs;
+  }
+
+  function handleSubmitContact(event: FormEvent) {
+    event.preventDefault();
+    const erreurs = validerFormulaireContact();
+    setErreursContact(erreurs);
+    if (Object.keys(erreurs).length > 0) {
+      return;
+    }
+    setErreurEnvoiContact(null);
+    envoyerContact.mutate();
+  }
+
+  // Escape ferme la modale (§1 de la demande) — seule modale du fichier
+  // à l'exiger explicitement, donc pas de hook partagé avec le modal de
+  // renouvellement existant.
+  useEffect(() => {
+    if (!modalContactOuverte) return;
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') fermerModalContact();
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [modalContactOuverte]);
 
   const paiementsAffiches = useMemo(() => {
     const journal = abonnement.data?.journal ?? [];
@@ -777,43 +917,285 @@ export function BillingSelfServicePage() {
         <h2 className="font-semibold text-on-background mb-4">Plans disponibles</h2>
         {plans.isPending && <p className="text-sm text-on-surface-variant">Chargement…</p>}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {plans.data?.map((plan) => (
-            <div
-              key={plan.plan}
-              className={`border rounded-xl p-4 flex flex-col gap-2 ${
-                abonnement.data?.plan === plan.plan
-                  ? 'border-primary bg-primary-container/10'
-                  : 'border-outline-variant'
-              }`}
-            >
-              <h3 className="font-bold text-on-background">
-                {LIBELLES_PLAN[plan.plan] ?? plan.plan}
-              </h3>
-              <p className="text-lg font-bold text-on-background">
-                {plan.prixMensuel !== null
-                  ? `${formaterMontant(plan.prixMensuel, plan.devise)} / mois`
-                  : 'Non configuré'}
-              </p>
-              <p className="text-xs text-on-surface-variant">
-                Utilisateurs max : {plan.limiteUtilisateurs ?? '—'}
-              </p>
-              <p className="text-xs text-on-surface-variant">
-                Points de service max : {plan.limitePointsDeService ?? '—'}
-              </p>
-              {plan.fonctionnalites.length > 0 && (
+          {plans.data?.map((plan) =>
+            plan.plan === 'BUSINESS' ? (
+              <div
+                key={plan.plan}
+                className="border border-outline-variant rounded-xl p-4 flex flex-col gap-2"
+              >
+                <h3 className="font-bold text-on-background">Business</h3>
+                <p className="text-xs text-on-surface-variant">Pour les grands réseaux.</p>
+                <p className="text-lg font-bold text-on-background">Sur mesure</p>
                 <ul className="text-xs text-on-surface-variant flex flex-col gap-0.5 mt-1">
-                  {plan.fonctionnalites.map((f) => (
-                    <li key={f}>✓ {f}</li>
-                  ))}
+                  <li>✓ Agences illimitées</li>
+                  <li>✓ API &amp; intégrations</li>
+                  <li>✓ Support prioritaire</li>
                 </ul>
-              )}
-            </div>
-          ))}
+                <button
+                  type="button"
+                  onClick={ouvrirModalContact}
+                  className="mt-2 rounded-lg px-4 py-2 text-sm font-medium bg-primary text-on-primary"
+                >
+                  Nous contacter
+                </button>
+              </div>
+            ) : (
+              <div
+                key={plan.plan}
+                className={`border rounded-xl p-4 flex flex-col gap-2 ${
+                  abonnement.data?.plan === plan.plan
+                    ? 'border-primary bg-primary-container/10'
+                    : 'border-outline-variant'
+                }`}
+              >
+                <h3 className="font-bold text-on-background">
+                  {LIBELLES_PLAN[plan.plan] ?? plan.plan}
+                </h3>
+                <p className="text-lg font-bold text-on-background">
+                  {plan.prixMensuel !== null
+                    ? `${formaterMontant(plan.prixMensuel, plan.devise)} / mois`
+                    : 'Non configuré'}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  Utilisateurs max : {plan.limiteUtilisateurs ?? '—'}
+                </p>
+                <p className="text-xs text-on-surface-variant">
+                  Points de service max : {plan.limitePointsDeService ?? '—'}
+                </p>
+                {plan.fonctionnalites.length > 0 && (
+                  <ul className="text-xs text-on-surface-variant flex flex-col gap-0.5 mt-1">
+                    {plan.fonctionnalites.map((f) => (
+                      <li key={f}>✓ {f}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ),
+          )}
         </div>
         <p className="text-xs text-on-surface-variant mt-4">
           Pour changer de plan, contactez le support.
         </p>
       </section>
+
+      {modalContactOuverte && (
+        <div
+          role="presentation"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-8 overflow-y-auto"
+          onClick={fermerModalContact}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="titre-modal-contact-business"
+            className="w-full max-w-xl rounded-xl border border-outline-variant bg-surface p-6 shadow-xl flex flex-col gap-4 my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {etapeContact === 'FORMULAIRE' && (
+              <>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2
+                      id="titre-modal-contact-business"
+                      className="text-lg font-bold text-on-background"
+                    >
+                      Parlons de votre projet
+                    </h2>
+                    <p className="text-sm text-on-surface-variant mt-1">
+                      Décrivez-nous vos besoins et notre équipe vous contactera pour vous proposer
+                      une solution adaptée.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={fermerModalContact}
+                    aria-label="Fermer"
+                    className="shrink-0 rounded-lg p-1 text-on-surface-variant hover:bg-surface-container-high"
+                  >
+                    <span className="material-symbols-outlined">close</span>
+                  </button>
+                </div>
+
+                <form onSubmit={handleSubmitContact} className="flex flex-col gap-4" noValidate>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <label className="flex flex-col gap-1 text-sm">
+                      Nom complet *
+                      <input
+                        className="border border-outline-variant rounded-lg px-3 py-2"
+                        value={formContact.nomComplet}
+                        onChange={(e) =>
+                          setFormContact({ ...formContact, nomComplet: e.target.value })
+                        }
+                      />
+                      {erreursContact.nomComplet && (
+                        <span className="text-xs text-error">{erreursContact.nomComplet}</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm">
+                      Nom de l'entreprise / pressing *
+                      <input
+                        className="border border-outline-variant rounded-lg px-3 py-2"
+                        placeholder="Exemple : Pressing Lumière"
+                        value={formContact.entreprise}
+                        onChange={(e) =>
+                          setFormContact({ ...formContact, entreprise: e.target.value })
+                        }
+                      />
+                      {erreursContact.entreprise && (
+                        <span className="text-xs text-error">{erreursContact.entreprise}</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm">
+                      Adresse email *
+                      <input
+                        type="email"
+                        className="border border-outline-variant rounded-lg px-3 py-2"
+                        value={formContact.email}
+                        onChange={(e) => setFormContact({ ...formContact, email: e.target.value })}
+                      />
+                      {erreursContact.email && (
+                        <span className="text-xs text-error">{erreursContact.email}</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm">
+                      Téléphone / WhatsApp *
+                      <input
+                        className="border border-outline-variant rounded-lg px-3 py-2"
+                        value={formContact.telephone}
+                        onChange={(e) =>
+                          setFormContact({ ...formContact, telephone: e.target.value })
+                        }
+                      />
+                      {erreursContact.telephone && (
+                        <span className="text-xs text-error">{erreursContact.telephone}</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm">
+                      Type d'activité *
+                      <select
+                        className="border border-outline-variant rounded-lg px-3 py-2 bg-surface"
+                        value={formContact.typeActivite}
+                        onChange={(e) =>
+                          setFormContact({
+                            ...formContact,
+                            typeActivite: e.target.value as ActiviteBusiness,
+                          })
+                        }
+                      >
+                        <option value="">Sélectionner…</option>
+                        {Object.entries(LIBELLES_ACTIVITE_BUSINESS).map(([valeur, libelle]) => (
+                          <option key={valeur} value={valeur}>
+                            {libelle}
+                          </option>
+                        ))}
+                      </select>
+                      {erreursContact.typeActivite && (
+                        <span className="text-xs text-error">{erreursContact.typeActivite}</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-1 text-sm">
+                      Nombre de points de service
+                      <input
+                        type="number"
+                        min={1}
+                        className="border border-outline-variant rounded-lg px-3 py-2"
+                        value={formContact.nombrePointsDeService}
+                        onChange={(e) =>
+                          setFormContact({
+                            ...formContact,
+                            nombrePointsDeService: e.target.value,
+                          })
+                        }
+                      />
+                      {erreursContact.nombrePointsDeService && (
+                        <span className="text-xs text-error">
+                          {erreursContact.nombrePointsDeService}
+                        </span>
+                      )}
+                    </label>
+                  </div>
+
+                  <label className="flex flex-col gap-1 text-sm">
+                    Comment pouvons-nous vous aider ? *
+                    <select
+                      className="border border-outline-variant rounded-lg px-3 py-2 bg-surface"
+                      value={formContact.typeDemande}
+                      onChange={(e) =>
+                        setFormContact({
+                          ...formContact,
+                          typeDemande: e.target.value as TypeDemandeBusiness,
+                        })
+                      }
+                    >
+                      <option value="">Sélectionner…</option>
+                      {Object.entries(LIBELLES_TYPE_DEMANDE_BUSINESS).map(([valeur, libelle]) => (
+                        <option key={valeur} value={valeur}>
+                          {libelle}
+                        </option>
+                      ))}
+                    </select>
+                    {erreursContact.typeDemande && (
+                      <span className="text-xs text-error">{erreursContact.typeDemande}</span>
+                    )}
+                  </label>
+
+                  <label className="flex flex-col gap-1 text-sm">
+                    Décrivez votre besoin *
+                    <textarea
+                      rows={4}
+                      className="border border-outline-variant rounded-lg px-3 py-2 resize-none"
+                      placeholder="Expliquez-nous votre activité, le nombre de sites, vos besoins particuliers, vos intégrations éventuelles, etc."
+                      value={formContact.message}
+                      onChange={(e) => setFormContact({ ...formContact, message: e.target.value })}
+                    />
+                    {erreursContact.message && (
+                      <span className="text-xs text-error">{erreursContact.message}</span>
+                    )}
+                  </label>
+
+                  {erreurEnvoiContact && <p className="text-sm text-error">{erreurEnvoiContact}</p>}
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={fermerModalContact}
+                      className="rounded-lg px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high"
+                    >
+                      Annuler
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={envoyerContact.isPending}
+                      className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-on-primary disabled:opacity-60"
+                    >
+                      {envoyerContact.isPending ? 'Envoi en cours…' : 'Envoyer ma demande'}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {etapeContact === 'SUCCES' && (
+              <>
+                <h2 className="text-lg font-bold text-on-background">Demande envoyée !</h2>
+                <p className="text-sm text-on-surface-variant">
+                  Merci pour votre demande. Notre équipe vous contactera prochainement pour discuter
+                  de votre projet et vous proposer une offre adaptée.
+                </p>
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    onClick={fermerModalContact}
+                    className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-on-primary"
+                  >
+                    Fermer
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

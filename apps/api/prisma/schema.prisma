@@ -87,6 +87,7 @@ model Tenant {
   fuseauHoraire String         @default("Africa/Dakar") @map("fuseau_horaire")
   adresse       String?
   telephone     String?
+  pays          String?
   logoUrl       String?        @map("logo_url")
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
@@ -110,13 +111,25 @@ model Tenant {
 // hors tenant). Tous les autres roles exigent un tenantId (impose en
 // application, cf. auth.service.ts).
 model User {
-  id                 String   @id @default(uuid())
-  tenantId           String?  @map("tenant_id")
-  role               Role
-  email              String
-  motDePasseHash     String   @map("mot_de_passe_hash")
-  pinHash            String?  @map("pin_hash")
-  actif              Boolean  @default(true)
+  id       String  @id @default(uuid())
+  tenantId String? @map("tenant_id")
+  role     Role
+  email    String
+  prenom   String?
+  nom      String?
+  // Nullable : un compte cree via Google OAuth n'a jamais de mot de passe
+  // local (voir AuthService#finaliserInscriptionGoogle) — login() refuse
+  // explicitement la connexion classique quand ce champ est absent, jamais
+  // une comparaison bcrypt contre null.
+  motDePasseHash String? @map("mot_de_passe_hash")
+  // Identifiant Google (sub OAuth), unique tous tenants confondus — c'est
+  // la seule cle d'appartenance fiable pour "utilisateur Google existant"
+  // (l'email n'est jamais une identite globale dans ce systeme, voir
+  // le commentaire sur @@unique([tenantId, email]) plus bas : deux
+  // tenants distincts peuvent legitimement partager le meme email).
+  googleId String? @unique @map("google_id")
+  pinHash  String? @map("pin_hash")
+  actif    Boolean @default(true)
   // Force l'ecran de changement de mot de passe a la prochaine connexion —
   // active uniquement par un reset SUPER_ADMIN (jamais par le reset ADMIN
   // tenant-scope existant, qui garde son comportement historique).
@@ -492,4 +505,61 @@ model SupportTicketMessage {
   ticket SupportTicket @relation(fields: [ticketId], references: [id])
 
   @@map("support_ticket_messages")
+}
+
+enum ActiviteBusiness {
+  PRESSING_BLANCHISSERIE
+  LAVAGE_AUTO
+  PRESSING_LAVAGE_AUTO
+  AUTRE
+}
+
+enum TypeDemandeBusiness {
+  DEVIS
+  INFORMATIONS
+  DEMONSTRATION
+  ACCOMPAGNEMENT
+  AUTRE
+}
+
+enum StatutDemandeBusiness {
+  NOUVEAU
+  EN_COURS
+  TRAITE
+  REJETE
+}
+
+// Formulaire "Nous contacter" — deux points d'entree : la carte plan
+// Business (Abonnement & facturation, tenant connecte) et le formulaire de
+// contact public du landing page (visiteur anonyme, feature/public-contact-
+// form). Control-plane, comme PlanDefinition : jamais de tenantId
+// obligatoire ni de relation Tenant — un visiteur anonyme n'a pas de
+// tenant, et un visiteur connecte ne doit jamais pouvoir associer sa
+// demande a un AUTRE tenant que le sien (aucune requete tenant-scoped ne
+// lit jamais ce champ, il est purement informatif pour le SUPER_ADMIN).
+// entreprise est optionnel : obligatoire dans le formulaire Business (on
+// connait deja le pressing), mais un visiteur public peut ne pas encore en
+// avoir un (simple demande d'information). Pas d'AuditLog : AuditService
+// ecrit uniquement dans le schema dedie d'un tenant (TenantPrismaFactory.
+// forTenant), donc une demande anonyme ne peut jamais etre auditee —
+// tracabilite minimale via traiteParSuperAdminId/traiteAt sur la ligne
+// elle-meme, comme PlanDefinition.updatedBy/updatedAt.
+model BusinessContactRequest {
+  id                    String                 @id @default(uuid())
+  nomComplet            String                 @map("nom_complet")
+  entreprise            String?
+  email                 String
+  telephone             String
+  typeActivite          ActiviteBusiness       @map("type_activite")
+  nombrePointsDeService Int?                   @map("nombre_points_de_service")
+  typeDemande           TypeDemandeBusiness    @map("type_demande")
+  message               String
+  statut                StatutDemandeBusiness  @default(NOUVEAU)
+  tenantId              String?                @map("tenant_id")
+  traiteParSuperAdminId String?                @map("traite_par_super_admin_id")
+  traiteAt              DateTime?              @map("traite_at")
+  createdAt             DateTime               @default(now()) @map("created_at")
+  updatedAt             DateTime               @updatedAt @map("updated_at")
+
+  @@map("business_contact_requests")
 }

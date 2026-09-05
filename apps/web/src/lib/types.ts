@@ -381,3 +381,30 @@ export type Dashboard = {
     licenceProcheExpiration: { active: boolean; joursRestants: number | null };
   };
 };
+
+export type ActiviteBusiness =
+  'PRESSING_BLANCHISSERIE' | 'LAVAGE_AUTO' | 'PRESSING_LAVAGE_AUTO' | 'AUTRE';
+export type TypeDemandeBusiness =
+  'DEVIS' | 'INFORMATIONS' | 'DEMONSTRATION' | 'ACCOMPAGNEMENT' | 'AUTRE';
+export type StatutDemandeBusiness = 'NOUVEAU' | 'EN_COURS' | 'TRAITE' | 'REJETE';
+
+export type DemandeBusiness = {
+  id: string;
+  nomComplet: string;
+  // Optionnel : obligatoire pour la demande faite depuis la carte plan
+  // Business (tenant connecté), mais pas depuis le formulaire de contact
+  // public du landing page.
+  entreprise?: string | null;
+  email: string;
+  telephone: string;
+  typeActivite: ActiviteBusiness;
+  nombrePointsDeService?: number | null;
+  typeDemande: TypeDemandeBusiness;
+  message: string;
+  statut: StatutDemandeBusiness;
+  tenantId?: string | null;
+  traiteParSuperAdminId?: string | null;
+  traiteAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+};

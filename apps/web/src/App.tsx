@@ -10,15 +10,19 @@ import { CashPage } from './pages/CashPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { ClientsPage } from './pages/ClientsPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { GoogleCallbackPage } from './pages/GoogleCallbackPage';
 import { LoginPage } from './pages/LoginPage';
 import { OrderCheckoutPage } from './pages/OrderCheckoutPage';
 import { OrdersPage } from './pages/OrdersPage';
+import { PrivacyPage } from './pages/PrivacyPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ReportsPage } from './pages/ReportsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { StocksPage } from './pages/StocksPage';
 import { SuperAdminAuditPage } from './pages/SuperAdminAuditPage';
 import { SuperAdminBillingPage } from './pages/SuperAdminBillingPage';
+import { SuperAdminBusinessRequestDetailPage } from './pages/SuperAdminBusinessRequestDetailPage';
+import { SuperAdminBusinessRequestsPage } from './pages/SuperAdminBusinessRequestsPage';
 import { SuperAdminDashboardPage } from './pages/SuperAdminDashboardPage';
 import { SuperAdminInvoicesPage } from './pages/SuperAdminInvoicesPage';
 import { SuperAdminLoginPage } from './pages/SuperAdminLoginPage';
@@ -30,6 +34,7 @@ import { SuperAdminTenantsPage } from './pages/SuperAdminTenantsPage';
 import { SuperAdminUsersPage } from './pages/SuperAdminUsersPage';
 import { SupportPage } from './pages/SupportPage';
 import { SupportTicketDetailPage } from './pages/SupportTicketDetailPage';
+import { TermsPage } from './pages/TermsPage';
 import { TicketsPage } from './pages/TicketsPage';
 import { UsersPage } from './pages/UsersPage';
 
@@ -46,6 +51,9 @@ export function App() {
         }
       />
       <Route path="/inscription" element={<RegisterPage />} />
+      <Route path="/inscription/google" element={<GoogleCallbackPage />} />
+      <Route path="/cgu" element={<TermsPage />} />
+      <Route path="/confidentialite" element={<PrivacyPage />} />
       <Route
         path="/"
         element={
@@ -263,6 +271,26 @@ export function App() {
           <SuperAdminRoute>
             <SuperAdminShell>
               <SuperAdminSupportTicketDetailPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/business-requests"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminBusinessRequestsPage />
+            </SuperAdminShell>
+          </SuperAdminRoute>
+        }
+      />
+      <Route
+        path="/super-admin/business-requests/:id"
+        element={
+          <SuperAdminRoute>
+            <SuperAdminShell>
+              <SuperAdminBusinessRequestDetailPage />
             </SuperAdminShell>
           </SuperAdminRoute>
         }
