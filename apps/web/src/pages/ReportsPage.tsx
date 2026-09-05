@@ -114,9 +114,9 @@ export function ReportsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between flex-wrap gap-4">
-        <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Rapports</h1>
-        <div className="flex gap-2">
+      <div className="flex flex-row flex-wrap items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold text-on-background text-center">Rapports</h1>
+        <div className="flex flex-row flex-wrap items-center justify-center gap-2">
           <button
             type="button"
             disabled={exportEnCours !== null}

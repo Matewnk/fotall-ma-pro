@@ -216,8 +216,8 @@ export function OrdersPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Commandes</h1>
+      <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+        <h1 className="text-2xl font-bold text-on-background text-center">Commandes</h1>
         <button
           type="button"
           onClick={() => {

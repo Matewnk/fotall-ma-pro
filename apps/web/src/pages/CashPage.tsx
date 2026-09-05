@@ -147,9 +147,9 @@ export function CashPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Journal de caisse</h1>
-        <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+        <h1 className="text-2xl font-bold text-on-background text-center">Journal de caisse</h1>
+        <div className="flex flex-row flex-wrap items-center justify-center gap-2">
           <button
             type="button"
             onClick={() => setClotureOuverte((ouvert) => !ouvert)}

@@ -110,9 +110,9 @@ export function ClientsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-row flex-wrap items-center justify-center gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Clients</h1>
+          <h1 className="text-2xl font-bold text-on-background text-center">Clients</h1>
           <p className="text-sm text-on-surface-variant">
             {clients.data?.length ?? 0} client(s) enregistré(s)
           </p>
