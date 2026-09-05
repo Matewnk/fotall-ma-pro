@@ -114,12 +114,12 @@ export function ServicesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-row flex-wrap items-center justify-center gap-3">
-        <h1 className="text-2xl font-bold text-on-background text-center">Tarifs &amp; services</h1>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <h1 className="text-2xl font-bold text-on-background">Tarifs &amp; services</h1>
         <button
           type="button"
           onClick={ouvrirCreation}
-          className="flex items-center gap-2 bg-primary text-on-primary rounded-lg px-4 py-2 text-sm font-medium"
+          className="flex items-center gap-2 bg-primary text-on-primary rounded-lg px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm font-medium"
         >
           <span className="material-symbols-outlined">add</span>
           Ajouter un service
