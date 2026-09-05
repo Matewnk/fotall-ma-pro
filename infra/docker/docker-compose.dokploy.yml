@@ -47,6 +47,15 @@ services:
       - '80'
     networks: [internal]
 
+  landing:
+    build:
+      context: ../..
+      dockerfile: infra/docker/landing.Dockerfile
+    restart: unless-stopped
+    expose:
+      - '80'
+    networks: [internal]
+
 networks:
   internal:
 
