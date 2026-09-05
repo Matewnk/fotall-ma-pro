@@ -71,9 +71,9 @@ export function SupportPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-on-background">Support</h1>
+          <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Support</h1>
           <p className="text-sm text-on-surface-variant">
             Une question, un problème ? Contactez l'équipe Fotall-Ma Pro.
           </p>

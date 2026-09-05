@@ -145,9 +145,9 @@ export function StocksPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-on-background">Stocks &amp; Consommables</h1>
+          <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Stocks &amp; Consommables</h1>
           <p className="text-sm text-on-surface-variant">Gérez votre inventaire quotidien.</p>
         </div>
         {peutGererCatalogue && (

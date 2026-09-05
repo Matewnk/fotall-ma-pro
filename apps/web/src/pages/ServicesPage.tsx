@@ -114,8 +114,8 @@ export function ServicesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-bold text-on-background">Tarifs &amp; services</h1>
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-bold text-on-background text-center sm:text-left">Tarifs &amp; services</h1>
         <button
           type="button"
           onClick={ouvrirCreation}
