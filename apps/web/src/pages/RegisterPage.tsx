@@ -189,11 +189,11 @@ export function RegisterPage() {
 
             <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
               <div className="flex flex-col gap-4 sm:flex-row">
-                <label className="flex flex-1 flex-col gap-1 text-sm" htmlFor="prenom">
+                <label className="flex min-w-0 flex-1 flex-col gap-1 text-sm" htmlFor="prenom">
                   Prénom
                   <input
                     id="prenom"
-                    className="rounded-lg border border-outline-variant px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+                    className="w-full rounded-lg border border-outline-variant px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                     value={prenom}
                     onChange={(event) => setPrenom(event.target.value)}
                     onBlur={() => handleBlur('prenom')}
@@ -206,11 +206,11 @@ export function RegisterPage() {
                     </span>
                   )}
                 </label>
-                <label className="flex flex-1 flex-col gap-1 text-sm" htmlFor="nom">
+                <label className="flex min-w-0 flex-1 flex-col gap-1 text-sm" htmlFor="nom">
                   Nom
                   <input
                     id="nom"
-                    className="rounded-lg border border-outline-variant px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+                    className="w-full rounded-lg border border-outline-variant px-3 py-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                     value={nom}
                     onChange={(event) => setNom(event.target.value)}
                     onBlur={() => handleBlur('nom')}
