@@ -261,9 +261,7 @@ export function RegisterPage() {
                     type="button"
                     onClick={() => setAfficherMotDePasse((valeur) => !valeur)}
                     aria-label={
-                      afficherMotDePasse
-                        ? 'Masquer le mot de passe'
-                        : 'Afficher le mot de passe'
+                      afficherMotDePasse ? 'Masquer le mot de passe' : 'Afficher le mot de passe'
                     }
                     className="material-symbols-outlined absolute right-2 text-on-surface-variant"
                   >

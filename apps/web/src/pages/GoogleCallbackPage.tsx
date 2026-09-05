@@ -8,9 +8,7 @@ const ERREUR_GOOGLE = 'Impossible de créer votre compte avec Google. Veuillez r
 const REGEX_SOUS_DOMAINE = /^[a-z0-9-]{3,63}$/;
 const CHAMP_OBLIGATOIRE = 'Ce champ est obligatoire.';
 
-type ResultatEchange =
-  | { type: 'session'; session: Session }
-  | { type: 'ticket'; ticket: string };
+type ResultatEchange = { type: 'session'; session: Session } | { type: 'ticket'; ticket: string };
 
 // Atterrissage après GET /auth/google/callback : le backend n'a jamais
 // exposé de JWT/ticket dans cette URL, seulement un code d'échange à usage
@@ -117,7 +115,10 @@ export function GoogleCallbackPage() {
                 <p role="alert" className="mt-2 text-sm text-error">
                   {ERREUR_GOOGLE}
                 </p>
-                <Link className="mt-6 inline-block text-sm text-primary underline" to="/inscription">
+                <Link
+                  className="mt-6 inline-block text-sm text-primary underline"
+                  to="/inscription"
+                >
                   Retour à l'inscription
                 </Link>
               </>

@@ -15,7 +15,10 @@ export class GoogleAuthGuard extends AuthGuard('google') {
   }
 
   override canActivate(context: ExecutionContext) {
-    if (!this.config.get<string>('GOOGLE_CLIENT_ID') || !this.config.get<string>('GOOGLE_CLIENT_SECRET')) {
+    if (
+      !this.config.get<string>('GOOGLE_CLIENT_ID') ||
+      !this.config.get<string>('GOOGLE_CLIENT_SECRET')
+    ) {
       throw new ServiceUnavailableException('Google OAuth non configuré.');
     }
     return super.canActivate(context);

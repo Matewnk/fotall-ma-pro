@@ -6,7 +6,12 @@ import { RegisterPage } from './RegisterPage';
 const SESSION = {
   accessToken: 'token-123',
   tenant: { id: 'tenant-1', nomPressing: 'Pressing Test', sousDomaine: 'pressing-test' },
-  user: { id: 'user-1', email: 'admin@test.dev', role: 'ADMIN' as const, mustChangePassword: false },
+  user: {
+    id: 'user-1',
+    email: 'admin@test.dev',
+    role: 'ADMIN' as const,
+    mustChangePassword: false,
+  },
 };
 
 function remplirFormulaireValide() {
@@ -35,9 +40,7 @@ describe('RegisterPage', () => {
     render(element);
 
     expect(screen.getByText('Créez votre compte')).toBeDefined();
-    expect(
-      screen.getByText(/Gestion professionnelle de votre pressing/),
-    ).toBeDefined();
+    expect(screen.getByText(/Gestion professionnelle de votre pressing/)).toBeDefined();
   });
 
   it('affiche le bouton Google', () => {
@@ -88,9 +91,7 @@ describe('RegisterPage', () => {
     fireEvent.change(screen.getByLabelText('Mot de passe'), { target: { value: 'court1' } });
     fireEvent.blur(screen.getByLabelText('Mot de passe'));
 
-    expect(
-      screen.getByText('Le mot de passe doit contenir au moins 10 caractères.'),
-    ).toBeDefined();
+    expect(screen.getByText('Le mot de passe doit contenir au moins 10 caractères.')).toBeDefined();
   });
 
   it("exige l'acceptation des conditions", () => {

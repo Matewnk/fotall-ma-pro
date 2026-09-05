@@ -6,7 +6,12 @@ import { GoogleCallbackPage } from './GoogleCallbackPage';
 const SESSION = {
   accessToken: 'token-123',
   tenant: { id: 'tenant-1', nomPressing: 'Pressing Test', sousDomaine: 'pressing-test' },
-  user: { id: 'user-1', email: 'admin@test.dev', role: 'ADMIN' as const, mustChangePassword: false },
+  user: {
+    id: 'user-1',
+    email: 'admin@test.dev',
+    role: 'ADMIN' as const,
+    mustChangePassword: false,
+  },
 };
 
 describe('GoogleCallbackPage', () => {
@@ -15,10 +20,9 @@ describe('GoogleCallbackPage', () => {
   });
 
   it('affiche le message d’erreur exact quand Google redirige avec ?erreur=google', async () => {
-    const { element } = renderAvecProviders(
-      <GoogleCallbackPage />,
-      ['/inscription/google?erreur=google'],
-    );
+    const { element } = renderAvecProviders(<GoogleCallbackPage />, [
+      '/inscription/google?erreur=google',
+    ]);
     render(element);
 
     await waitFor(() => {
@@ -37,10 +41,9 @@ describe('GoogleCallbackPage', () => {
       }),
     );
 
-    const { element } = renderAvecProviders(
-      <GoogleCallbackPage />,
-      ['/inscription/google?code=abc123'],
-    );
+    const { element } = renderAvecProviders(<GoogleCallbackPage />, [
+      '/inscription/google?code=abc123',
+    ]);
     render(element);
 
     await waitFor(() => {
@@ -51,15 +54,12 @@ describe('GoogleCallbackPage', () => {
   it('affiche le mini-formulaire de finalisation pour un nouveau compte Google', async () => {
     vi.stubGlobal(
       'fetch',
-      vi.fn(() =>
-        Promise.resolve(reponseJson({ type: 'ticket', ticket: 'ticket-signe' })),
-      ),
+      vi.fn(() => Promise.resolve(reponseJson({ type: 'ticket', ticket: 'ticket-signe' }))),
     );
 
-    const { element } = renderAvecProviders(
-      <GoogleCallbackPage />,
-      ['/inscription/google?code=abc123'],
-    );
+    const { element } = renderAvecProviders(<GoogleCallbackPage />, [
+      '/inscription/google?code=abc123',
+    ]);
     render(element);
 
     await waitFor(() => {
@@ -81,10 +81,9 @@ describe('GoogleCallbackPage', () => {
       }),
     );
 
-    const { element } = renderAvecProviders(
-      <GoogleCallbackPage />,
-      ['/inscription/google?code=abc123'],
-    );
+    const { element } = renderAvecProviders(<GoogleCallbackPage />, [
+      '/inscription/google?code=abc123',
+    ]);
     render(element);
 
     await waitFor(() => {
@@ -110,10 +109,9 @@ describe('GoogleCallbackPage', () => {
       vi.fn(() => Promise.resolve(reponseJson({ statusCode: 400, message: 'Code invalide' }, 400))),
     );
 
-    const { element } = renderAvecProviders(
-      <GoogleCallbackPage />,
-      ['/inscription/google?code=code-expire'],
-    );
+    const { element } = renderAvecProviders(<GoogleCallbackPage />, [
+      '/inscription/google?code=code-expire',
+    ]);
     render(element);
 
     await waitFor(() => {

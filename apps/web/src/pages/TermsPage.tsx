@@ -15,8 +15,8 @@ export function TermsPage() {
         <p className="mt-4 text-sm text-on-surface-variant">
           Ce contenu est en cours de rédaction. Fotall-Ma Pro est un logiciel de gestion
           professionnelle destiné aux pressings, laveries et activités de nettoyage. En créant un
-          compte, vous acceptez d'utiliser le service conformément à sa destination, dans le
-          respect des lois applicables et des droits des autres tenants de la plateforme.
+          compte, vous acceptez d'utiliser le service conformément à sa destination, dans le respect
+          des lois applicables et des droits des autres tenants de la plateforme.
         </p>
       </div>
     </div>

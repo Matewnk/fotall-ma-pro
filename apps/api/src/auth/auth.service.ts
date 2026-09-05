@@ -315,10 +315,7 @@ export class AuthService {
     return decoded as GoogleTicketPayload;
   }
 
-  async finaliserInscriptionGoogle(
-    ticket: string,
-    dto: RegisterGoogleDto,
-  ): Promise<SessionResult> {
+  async finaliserInscriptionGoogle(ticket: string, dto: RegisterGoogleDto): Promise<SessionResult> {
     const payload = this.verifierTicketGoogle(ticket);
 
     // Le compte a pu etre cree entre l'obtention du ticket et cette
